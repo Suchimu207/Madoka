@@ -12,8 +12,24 @@ import java.nio.file.Paths;
 import java.io.IOException;
 
 public class Terminal implements KeyListener {
+	private enum EstadosJogo{
+		TITULO("Título"),
+		MAPA("Mapa");
+		
+		private String nome;
+		
+		EstadosJogo(String nome){
+			this.nome = nome;
+		}
+		
+		public String getEstadoNome(){
+			return nome;
+		}
+	}
+	
     private final JFrame frame;
 	private final Grapchics gráfico;
+	private EstadosJogo estadoAtual;
 	
 	private int cursorX, cursorY = 0;
 	private int lastX, lastY = 0;
@@ -30,6 +46,8 @@ public class Terminal implements KeyListener {
 	}
 	
 	public void setarJanela(){
+		estadoAtual = EstadosJogo.MAPA;
+		
 		frame.add(gráfico.getTela());
         frame.setResizable(false);  
         frame.pack();
@@ -67,6 +85,22 @@ public class Terminal implements KeyListener {
 		}
 	}
 	
+	public void desenhaEstado(){
+		switch (estadoAtual){
+			case TITULO:
+				desenhaTítulo();
+				break;
+			case MAPA:
+				desenhaMapa();
+				break;
+		}
+	}
+	
+	private void desenhaTítulo(){
+		gráfico.desenhaCentro(TITLE, 1, AsciiPanel.brightWhite);
+		gráfico.atualizarTela();
+	}
+	
 	public void carregarMapa(String mapaNome){
 		try {
 			mapaAtual = Files.readString(Paths.get("data", "maps", mapaNome + ".txt"));
@@ -75,21 +109,7 @@ public class Terminal implements KeyListener {
 		}
 	}
 	
-	public void desenhaMapa(){
-			
-			/*
-			gráfico.desenhaCentro("============================================", 1, 
-			AsciiPanel.brightBlack);
-			mapaNomeFormatado = mapaNome.toUpperCase().replaceAll("[_0-9]", "");
-			gráfico.desenhaCentro
-			
-			gráfico.desenhaCentro("============================================", 3, 
-			AsciiPanel.brightBlack);
-			
-			System.out.println(AMARELO+">>"+mapaNomeFormatado+RESETA);
-			System.out.println("");
-			*/
-			
+	private void desenhaMapa(){
 		String[] linhas = mapaAtual.split("\\R");
 		
 		for (iLinha = 0; iLinha < linhas.length; iLinha++){
@@ -106,32 +126,8 @@ public class Terminal implements KeyListener {
 					case '.':
 					gráfico.desenhaTela('.', jColuna, iLinha, AsciiPanel.brightWhite);
 					break;
-					case '~':
-					gráfico.desenhaTela('~', jColuna, iLinha, AsciiPanel.blue);
-					break;
-					case '&':
-					gráfico.desenhaTela('&', jColuna, iLinha, AsciiPanel.brightRed);
-					break;
-					case '$':
-					gráfico.desenhaTela('$', jColuna, iLinha, AsciiPanel.brightYellow);
-					break;
-					case 'H':
-					gráfico.desenhaTela('H', jColuna, iLinha, AsciiPanel.brightYellow);
-					break;
 					case '_':
 					gráfico.desenhaTela('_', jColuna, iLinha, AsciiPanel.brightWhite);
-					break;
-					case '*':
-					gráfico.desenhaTela('*', jColuna, iLinha, AsciiPanel.brightYellow);
-					break;
-					case '¨':
-					gráfico.desenhaTela('^', jColuna, iLinha, AsciiPanel.brightGreen);
-					break;
-					case '[':
-					gráfico.desenhaTela('[', jColuna, iLinha, AsciiPanel.brightWhite);
-					break;
-					case ']':
-					gráfico.desenhaTela(']', jColuna, iLinha, AsciiPanel.brightWhite);
 					break;
 					}
 				}
@@ -148,19 +144,19 @@ public class Terminal implements KeyListener {
 		switch (e.getKeyCode()){
 			case KeyEvent.VK_A:
 			case KeyEvent.VK_LEFT:
-				cursorX--;
+				if (estadoAtual == EstadosJogo.MAPA) cursorX--;
 				break;
 			case KeyEvent.VK_D:
 			case KeyEvent.VK_RIGHT:
-				cursorX++;
+				if (estadoAtual == EstadosJogo.MAPA) cursorX++;
 				break;
 			case KeyEvent.VK_W:
 			case KeyEvent.VK_UP:
-				cursorY--;
+				if (estadoAtual == EstadosJogo.MAPA) cursorY--;
 				break;
 			case KeyEvent.VK_S:
 			case KeyEvent.VK_DOWN:
-				cursorY++;
+				if (estadoAtual == EstadosJogo.MAPA) cursorY++;
 				break;
 			case KeyEvent.VK_F3:
 			case KeyEvent.VK_ALT:
@@ -168,6 +164,10 @@ public class Terminal implements KeyListener {
 					ativaDebug = false;
 					limpaPrompt();
 				}else ativaDebug = true;
+				break;
+			case KeyEvent.VK_ESCAPE:
+				gráfico.limpaTela();
+				if (estadoAtual == EstadosJogo.TITULO) estadoAtual = EstadosJogo.MAPA; else estadoAtual = EstadosJogo.TITULO;
 				break;
 		}
 		

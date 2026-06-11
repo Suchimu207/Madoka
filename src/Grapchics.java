@@ -3,7 +3,7 @@ import asciiPanel.AsciiPanel;
 
 import java.awt.Color;
 
-public class Grapchics{
+public class Grapchics {
 	private AsciiPanel tela;
 	private int tileSizeX, tileSizeY;
 	
@@ -31,6 +31,10 @@ public class Grapchics{
 	
 	public void desenhaCentro(String desenho, int linha, Color corFonte, Color corFundo){
 		tela.writeCenter(desenho, linha, corFonte, corFundo);
+	}
+	
+	public void limpaTela(){
+		tela.clear();
 	}
 	
 	public void atualizarTela(){

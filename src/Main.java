@@ -11,12 +11,12 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
 		boolean rodandoJogo = true;
-		String VERSION = "0.0.2";
+		String VERSION = "0.0.3";
 		String TITLE = "Madoka - "+VERSION;
 		
         Terminal terminal = new Terminal(TITLE);
 		terminal.setarJanela();
-		terminal.carregarMapa("Bosqueverde_1");
+		terminal.carregarMapa("Template");
 		
 		Thread jogo = new Thread(new Runnable(){
 			public void run(){
@@ -31,7 +31,7 @@ public class Main {
 					while(rodandoJogo == true){
 						tempoInicioFrame = System.nanoTime();
 						
-						terminal.desenhaMapa();
+						terminal.desenhaEstado();
 
 						//Contador de FPS.
 						contadorFrames++;
