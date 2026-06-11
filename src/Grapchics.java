@@ -24,14 +24,18 @@ public class Grapchics{
 	public void desenhaTela(char desenho, int posX, int posY, Color corFonte, Color corFundo){
 		tela.write(desenho, posX, posY, corFonte, corFundo);
 	}
+		
+	public void desenhaCentro(String desenho, int linha, Color corAtual){
+		tela.writeCenter(desenho, linha, corAtual);
+	}
+	
+	public void desenhaCentro(String desenho, int linha, Color corFonte, Color corFundo){
+		tela.writeCenter(desenho, linha, corFonte, corFundo);
+	}
 	
 	public void atualizarTela(){
 		tela.repaint();
 	}
-	
-	/*
-	terminal.writeCenter(TITLE, 1, AsciiPanel.brightWhite);	
-	*/
 	
 	public int getTileSizeX(){
 		return tileSizeX;
