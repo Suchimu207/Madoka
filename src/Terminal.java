@@ -170,6 +170,47 @@ public class Terminal implements KeyListener {
 		gráfico.atualizarTela();
     }
 	
+	private void teclaEsquerda(){
+		if (estadoAtual == EstadosJogo.MAPA) jogadorX--;
+	}
+	
+	private void teclaDireita(){
+		if (estadoAtual == EstadosJogo.MAPA) jogadorX++;
+	}
+	
+	private void teclaCima(){
+		if (estadoAtual == EstadosJogo.TITULO){
+			gráfico.limpaTela();
+			cursorY--;
+		}					
+		if (estadoAtual == EstadosJogo.MAPA) jogadorY--;
+	}
+	
+	private void teclaBaixo(){
+		if (estadoAtual == EstadosJogo.TITULO){
+			gráfico.limpaTela();
+			cursorY++;
+		}					
+		if (estadoAtual == EstadosJogo.MAPA) jogadorY++;
+	}
+	
+	private void teclaDebug(){
+		if (ativaDebug){
+			ativaDebug = false;
+			limpaPrompt();
+		}else ativaDebug = true;
+	}
+	
+	private void teclaEnter(){
+		if (estadoAtual == EstadosJogo.TITULO){
+			if (cursorY == 1 || cursorY == 2){
+				gráfico.limpaTela();
+				estadoAtual = EstadosJogo.MAPA;
+			}
+		if (cursorY == 3) System.exit(0); // Provisório.
+		}
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent e){
 		lastJogador_X = jogadorX; 
@@ -178,43 +219,26 @@ public class Terminal implements KeyListener {
 		switch (e.getKeyCode()){
 			case KeyEvent.VK_A:
 			case KeyEvent.VK_LEFT:
-				if (estadoAtual == EstadosJogo.MAPA) jogadorX--;
+				teclaEsquerda();
 				break;
 			case KeyEvent.VK_D:
 			case KeyEvent.VK_RIGHT:
-				if (estadoAtual == EstadosJogo.MAPA) jogadorX++;
+				teclaDireita();
 				break;
 			case KeyEvent.VK_W:
 			case KeyEvent.VK_UP:
-				if (estadoAtual == EstadosJogo.TITULO){
-					gráfico.limpaTela();
-					cursorY--;
-				}					
-				if (estadoAtual == EstadosJogo.MAPA) jogadorY--;
+				teclaCima();
 				break;
 			case KeyEvent.VK_S:
 			case KeyEvent.VK_DOWN:
-				if (estadoAtual == EstadosJogo.TITULO){
-					gráfico.limpaTela();
-					cursorY++;
-				}					
-				if (estadoAtual == EstadosJogo.MAPA) jogadorY++;
+				teclaBaixo();
 				break;
 			case KeyEvent.VK_F3:
 			case KeyEvent.VK_ALT:
-				if (ativaDebug){
-					ativaDebug = false;
-					limpaPrompt();
-				}else ativaDebug = true;
+				teclaDebug();
 				break;
 			case KeyEvent.VK_ENTER:
-				if (estadoAtual == EstadosJogo.TITULO){
-					if (cursorY == 1 || cursorY == 2){
-						gráfico.limpaTela();
-						estadoAtual = EstadosJogo.MAPA;
-					}
-					if (cursorY == 3) System.exit(0); // Provisório.
-				}
+				teclaEnter();
 				break;
 			case KeyEvent.VK_ESCAPE:
 				gráfico.limpaTela();
