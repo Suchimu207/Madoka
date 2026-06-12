@@ -31,8 +31,9 @@ public class Terminal implements KeyListener {
 	private final Grapchics gráfico;
 	private EstadosJogo estadoAtual;
 	
-	private int cursorX, cursorY = 0;
-	private int lastX, lastY = 0;
+	private int jogadorX, jogadorY = 0;
+	private int lastJogador_X, lastJogador_Y = 0;
+	private int cursorX, cursorY;
 	private int iLinha, jColuna = 0;
 	private String os, mapaAtual, TITLE, mapaNomeFormatado;
 	private boolean ativaDebug;
@@ -45,8 +46,15 @@ public class Terminal implements KeyListener {
 		gráfico = new Grapchics();
 	}
 	
-	public void setarJanela(){
-		estadoAtual = EstadosJogo.MAPA;
+	public void setarJogo(){
+		setarJanela();
+		
+		estadoAtual = EstadosJogo.TITULO;
+		cursorY = 1; // A posição inicial é "Novo jogo".
+	}
+	
+	private void setarJanela(){
+		limpaPrompt(); 
 		
 		frame.add(gráfico.getTela());
         frame.setResizable(false);  
@@ -80,8 +88,8 @@ public class Terminal implements KeyListener {
 		if (ativaDebug){
 			limpaPrompt();
 			System.out.println("FPS Atual: " + contadorFrames);
-			System.out.println("Jogador_X: "+cursorX);
-			System.out.println("Jogador_Y: "+cursorY);
+			System.out.println("Jogador_X: "+jogadorX);
+			System.out.println("Jogador_Y: "+jogadorY);
 		}
 	}
 	
@@ -97,7 +105,33 @@ public class Terminal implements KeyListener {
 	}
 	
 	private void desenhaTítulo(){
-		gráfico.desenhaCentro(TITLE, 1, AsciiPanel.brightWhite);
+		gráfico.desenhaCentro(TITLE, 14, AsciiPanel.brightWhite);
+		
+		if (cursorY >= 4){
+			cursorY = 1;
+		} else if (cursorY <= 0) cursorY = 3;
+		
+		if (cursorY == 1){
+			gráfico.desenhaCentro("Novo jogo", 18, AsciiPanel.brightYellow, 
+			AsciiPanel.brightBlack);
+		}else{
+			gráfico.desenhaCentro("Novo jogo", 18, AsciiPanel.brightWhite);
+		}
+		
+		if (cursorY == 2){
+			gráfico.desenhaCentro("Continuar", 20, AsciiPanel.brightYellow, 
+			AsciiPanel.brightBlack);
+		}else{
+			gráfico.desenhaCentro("Continuar", 20, AsciiPanel.brightWhite);
+		}
+		
+		if (cursorY == 3){
+			gráfico.desenhaCentro("Sair     ", 22, AsciiPanel.brightYellow,
+			AsciiPanel.brightBlack);
+		}else{
+			gráfico.desenhaCentro("Sair     ", 22, AsciiPanel.brightWhite);
+		}
+		
 		gráfico.atualizarTela();
 	}
 	
@@ -116,8 +150,8 @@ public class Terminal implements KeyListener {
 			char[] caracteres = linhas[iLinha].toCharArray();
 			for (jColuna = 0; jColuna < caracteres.length; jColuna++){
 				char tile = linhas[iLinha].charAt(jColuna);
-				if (jColuna == cursorX && iLinha == cursorY){
-					gráfico.desenhaTela('@', cursorX, cursorY, AsciiPanel.brightWhite);
+				if (jColuna == jogadorX && iLinha == jogadorY){
+					gráfico.desenhaTela('@', jogadorX, jogadorY, AsciiPanel.brightWhite);
 				}else{
 					switch(tile){
 					case '#':
@@ -138,25 +172,33 @@ public class Terminal implements KeyListener {
 	
 	@Override
 	public void keyPressed(KeyEvent e){
-		lastX = cursorX; 
-		lastY = cursorY;
+		lastJogador_X = jogadorX; 
+		lastJogador_Y = jogadorY;
 		
 		switch (e.getKeyCode()){
 			case KeyEvent.VK_A:
 			case KeyEvent.VK_LEFT:
-				if (estadoAtual == EstadosJogo.MAPA) cursorX--;
+				if (estadoAtual == EstadosJogo.MAPA) jogadorX--;
 				break;
 			case KeyEvent.VK_D:
 			case KeyEvent.VK_RIGHT:
-				if (estadoAtual == EstadosJogo.MAPA) cursorX++;
+				if (estadoAtual == EstadosJogo.MAPA) jogadorX++;
 				break;
 			case KeyEvent.VK_W:
 			case KeyEvent.VK_UP:
-				if (estadoAtual == EstadosJogo.MAPA) cursorY--;
+				if (estadoAtual == EstadosJogo.TITULO){
+					gráfico.limpaTela();
+					cursorY--;
+				}					
+				if (estadoAtual == EstadosJogo.MAPA) jogadorY--;
 				break;
 			case KeyEvent.VK_S:
 			case KeyEvent.VK_DOWN:
-				if (estadoAtual == EstadosJogo.MAPA) cursorY++;
+				if (estadoAtual == EstadosJogo.TITULO){
+					gráfico.limpaTela();
+					cursorY++;
+				}					
+				if (estadoAtual == EstadosJogo.MAPA) jogadorY++;
 				break;
 			case KeyEvent.VK_F3:
 			case KeyEvent.VK_ALT:
@@ -165,17 +207,26 @@ public class Terminal implements KeyListener {
 					limpaPrompt();
 				}else ativaDebug = true;
 				break;
+			case KeyEvent.VK_ENTER:
+				if (estadoAtual == EstadosJogo.TITULO){
+					if (cursorY == 1 || cursorY == 2){
+						gráfico.limpaTela();
+						estadoAtual = EstadosJogo.MAPA;
+					}
+					if (cursorY == 3) System.exit(0); // Provisório.
+				}
+				break;
 			case KeyEvent.VK_ESCAPE:
 				gráfico.limpaTela();
-				if (estadoAtual == EstadosJogo.TITULO) estadoAtual = EstadosJogo.MAPA; else estadoAtual = EstadosJogo.TITULO;
+				if (estadoAtual == EstadosJogo.MAPA) estadoAtual = EstadosJogo.TITULO;
 				break;
 		}
 		
-		if (cursorX >= 0 && cursorX <= gráfico.getTileSizeX()-1 && 
-			cursorY >= 0 && cursorY <= gráfico.getTileSizeY()-1){
+		if (jogadorX >= 0 && jogadorX <= gráfico.getTileSizeX()-1 && 
+			jogadorY >= 0 && jogadorY <= gráfico.getTileSizeY()-1){
 		}else{
-			cursorX = lastX;
-			cursorY = lastY;
+			jogadorX = lastJogador_X;
+			jogadorY = lastJogador_Y;
 		}
 	}
 	
