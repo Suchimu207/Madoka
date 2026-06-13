@@ -1,7 +1,11 @@
 package bestiary;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Monsters {
-	private enum Classes{
+	protected enum Classes{
 		ATACANTE("Atacante"),
 		SUPORTE("Suporte"),
 		GENERALISTA("Generalista"),
@@ -42,17 +46,28 @@ public class Monsters {
 		}
 	}
 	
+	private String nomeMonstro;
 	private int forçaBase, forçaAtual, forçaAtualCombate;
 	private int vidaBase, vidaAtual, vidaAtualCombate;
 	private int speedBase, speedAtual, speedAtualCombate;
 	private int estaminaBase, estaminaAtual, estaminaAtualCombate;
 	private int nivelBase, nivelAtual;
 	private int expAtual;
+	
 	private Classes classeAtual;
 	private Elementos elementosAtuais;
-	// private traçosAtuais.
+	private Map<Integer, Traits> traçosExistentes; 
 	
-	public Monsters(){
+	public Monsters(String nomeMonstro, Classes classeAtual, Elementos elementosAtuais,
+	int forçaBase, int vidaBase, int speedBase, int estaminaBase){
+		this.nomeMonstro = nomeMonstro;
+		this.classeAtual = classeAtual;
+		this.elementosAtuais = elementosAtuais;
+		this.forçaBase = forçaBase;
+		this.vidaBase = vidaBase;
+		this.speedBase = speedBase;
+		this.estaminaBase = estaminaBase;
+		//this.tracosAtuais.add(traço);
 	}
 	
 	//===

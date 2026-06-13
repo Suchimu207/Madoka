@@ -11,12 +11,15 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
 		boolean rodandoJogo = true;
-		String VERSION = "0.0.5";
+		String VERSION = "0.0.6";
 		String TITLE = "Madoka - "+VERSION;
 		
         Terminal terminal = new Terminal(TITLE);
+		Battle battle = new Battle();
+		
 		terminal.setarJogo();
 		terminal.carregarMapa("Template");
+		Battle.carregarDadosBatalha();
 		
 		Thread jogo = new Thread(new Runnable(){
 			public void run(){

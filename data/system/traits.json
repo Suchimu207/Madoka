@@ -1,0 +1,56 @@
+[ 
+ {
+    "id": 1,
+    "nome": "Imunidade a Veneno",
+    "descricao": "Imune a todo tipo de veneno.",
+	"habilitado": true
+  },
+  {
+    "id": 2,
+	"nome": "Imunidade a Combustão",
+    "descricao": "Imune a todo tipo de combustão.",
+	"habilitado": true
+  },
+  {
+    "id": 3,
+	"nome": "Imunidade a Tontura",
+    "descricao": "Imune a todo tipo de tontura.",
+	"habilitado": true
+  },
+  {
+    "id": 4,
+	"nome": "Imunidade a Atordoamento",
+    "descricao": "Imune a todo tipo de atordoamento.",
+	"habilitado": true
+  },
+  {
+    "id": 5,
+	"nome": "Imunidade a Cegueira",
+    "descricao": "Imune a todo tipo de cegueira.",
+	"habilitado": true
+  },
+  {
+    "id": 6,
+	"nome": "Imunidade a Pesadelos",
+    "descricao": "Imune a todo tipo de pesadelos.",
+	"habilitado": true
+  },
+  {
+    "id": 7,
+	"nome": "Harmonizado",
+    "descricao": "Regenera 10% da estamina ao ser acertado por tipos fracos.",
+	"habilitado": true
+  },
+  {
+    "id": 8,
+	"nome": "Energizado",
+    "descricao": "20% de estamina extra.",
+	"habilitado": true
+  },
+  {
+    "id": 9,
+	"nome": "Reforçado",
+    "descricao": "Status tem 20% a menos de precisão contra o usuário.",
+	"habilitado": true
+  }
+]
