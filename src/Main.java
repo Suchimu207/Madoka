@@ -11,7 +11,7 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
 		boolean rodandoJogo = true;
-		String VERSION = "0.0.6";
+		String VERSION = "0.0.7";
 		String TITLE = "Madoka - "+VERSION;
 		
         Terminal terminal = new Terminal(TITLE);

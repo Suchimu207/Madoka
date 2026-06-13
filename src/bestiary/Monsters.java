@@ -1,5 +1,6 @@
 package bestiary;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,28 +47,69 @@ public class Monsters {
 		}
 	}
 	
+	private int idMonstro;
 	private String nomeMonstro;
+	private int nivelBase, nivelAtual;
+	private int expAtual;
+	
 	private int forçaBase, forçaAtual, forçaAtualCombate;
 	private int vidaBase, vidaAtual, vidaAtualCombate;
 	private int speedBase, speedAtual, speedAtualCombate;
 	private int estaminaBase, estaminaAtual, estaminaAtualCombate;
-	private int nivelBase, nivelAtual;
-	private int expAtual;
+	private int[] traçosIds;
 	
 	private Classes classeAtual;
-	private Elementos elementosAtuais;
+	private Elementos[] elementosAtuais;
+	
 	private Map<Integer, Traits> traçosExistentes; 
 	
-	public Monsters(String nomeMonstro, Classes classeAtual, Elementos elementosAtuais,
-	int forçaBase, int vidaBase, int speedBase, int estaminaBase){
+	public Monsters(int idMonstro, String nomeMonstro, Classes classeAtual, Elementos[] elementosAtuais,
+	int forçaBase, int vidaBase, int speedBase, int estaminaBase, int[] traçosIds){
+		this.idMonstro = idMonstro;
 		this.nomeMonstro = nomeMonstro;
 		this.classeAtual = classeAtual;
-		this.elementosAtuais = elementosAtuais;
+		this.elementosAtuais = elementosAtuais;		
 		this.forçaBase = forçaBase;
 		this.vidaBase = vidaBase;
 		this.speedBase = speedBase;
 		this.estaminaBase = estaminaBase;
-		//this.tracosAtuais.add(traço);
+		this.traçosIds = traçosIds;
+	}
+	
+	public int getIdMonstro(){
+		return idMonstro;
+	}
+
+	public String getNomeMonstro(){
+		return nomeMonstro;
+	}
+
+	public Classes getClasseAtual(){
+		return classeAtual;
+	}
+	
+	public String getElementosAtuais(){
+		return Arrays.toString(elementosAtuais);
+	}
+	
+	public int getForcaBase(){
+		return forçaBase;
+	}
+
+	public int getVidaBase(){
+		return vidaBase;
+	}
+
+	public int getSpeedBase(){
+		return speedBase;
+	}
+
+	public int getEstaminaBase(){
+		return estaminaBase;
+	}
+
+	public int[] getTracosIds(){
+		return traçosIds;
 	}
 	
 	//===

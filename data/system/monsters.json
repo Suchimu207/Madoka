@@ -1,0 +1,15 @@
+[ 
+ {
+    "id": 1,
+    "nome": "Treezard",
+	"classe": "SUPORTE",
+	"elementos": ["NATUREZA"],
+	"nivelBase": 1,
+	"expAtual": 0,
+	"forcaBase": 12,
+	"vidaBase": 28,
+	"velocidadeBase": 10,
+	"estaminaBase": 100,
+	"tracos": [1]
+  }
+]

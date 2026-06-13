@@ -8,6 +8,7 @@ public class Battle {
 	
 	public static void carregarDadosBatalha(){
 		TraitsManager.carregarTraços();
+		MonstersManager.carregarMonstros();
 	}
 	
 	//===

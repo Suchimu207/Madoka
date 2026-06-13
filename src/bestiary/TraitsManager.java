@@ -11,7 +11,7 @@ import java.nio.file.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class TraitsManager {
+public final class TraitsManager {
 	private static String conteudoJson;
 	private static Path caminho;
 	
@@ -50,6 +50,7 @@ public class TraitsManager {
         
 		System.out.println("");
         System.out.println("Traços carregados: " +traçosExistentes.size());
+		System.out.println("");
 		}catch (IOException e){ 
 			System.out.println("Erro ao carregar traços: "+e.getMessage());
 		}
