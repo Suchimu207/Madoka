@@ -6,12 +6,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import java.nio.file.Files;   
-import java.nio.file.Paths;
-
-import java.io.IOException;
-
-public class Terminal implements KeyListener {
+public final class Terminal implements KeyListener {
 	private enum EstadosJogo{
 		TITULO("Título"),
 		MAPA("Mapa");
@@ -28,31 +23,31 @@ public class Terminal implements KeyListener {
 	}
 	
     private final JFrame frame;
-	private final Grapchics gráfico;
 	private EstadosJogo estadoAtual;
 	
-	private int jogadorX, jogadorY = 0;
-	private int lastJogador_X, lastJogador_Y = 0;
+	private int jogadorX, jogadorY;
+	private int lastJogador_X, lastJogador_Y;
 	private int cursorX, cursorY;
-	private int iLinha, jColuna = 0;
-	private String os, mapaAtual, TITLE, mapaNomeFormatado;
+	private String os, mapaAtual, TITLE;
 	private boolean ativaDebug;
 	
-	public Terminal(String TITLE){
+	protected Terminal(String TITLE){
 		this.TITLE = TITLE;
 		os = System.getProperty("os.name").toLowerCase();
-		
 		frame = new JFrame(this.TITLE);
-		gráfico = new Grapchics();
 	}
 	
-	public void setarJogo(){
+	protected void setarJogo(){
 		estadoAtual = EstadosJogo.TITULO;
+		lastJogador_X = 0;
+		lastJogador_Y = 0;
+		jogadorX = 19;
+		jogadorY = 19;
 		cursorY = 1; // A posição inicial é "Novo jogo".
 	}
 	
-	public void setarJanela(){
-		frame.add(gráfico.getTela());
+	protected void setarJanela(){
+		frame.add(Grapchics.getTela());
         frame.setResizable(false);  
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
@@ -80,7 +75,7 @@ public class Terminal implements KeyListener {
       //===
     }
 	
-	public void mostrarDebug(int contadorFrames){
+	protected void mostrarDebug(int contadorFrames){
 		if (ativaDebug){
 			limpaPrompt();
 			System.out.println("FPS Atual: " + contadorFrames);
@@ -89,82 +84,47 @@ public class Terminal implements KeyListener {
 		}
 	}
 	
-	public void desenhaEstado(){
+	protected void desenhaEstado(){
 		switch (estadoAtual){
 			case TITULO:
 				desenhaTítulo();
 				break;
 			case MAPA:
-				desenhaMapa();
+				Maps.desenhaMapa(jogadorX, jogadorY);
 				break;
 		}
 	}
 	
 	private void desenhaTítulo(){
-		gráfico.desenhaCentro(TITLE, 14, AsciiPanel.brightWhite);
+		Grapchics.desenhaCentro(TITLE, 14, AsciiPanel.brightWhite);
 		
 		if (cursorY >= 4){
 			cursorY = 1;
 		} else if (cursorY <= 0) cursorY = 3;
 		
 		if (cursorY == 1){
-			gráfico.desenhaCentro("Novo jogo", 18, AsciiPanel.brightYellow, 
+			Grapchics.desenhaCentro("Novo jogo", 18, AsciiPanel.brightYellow, 
 			AsciiPanel.brightBlack);
 		}else{
-			gráfico.desenhaCentro("Novo jogo", 18, AsciiPanel.brightWhite);
+			Grapchics.desenhaCentro("Novo jogo", 18, AsciiPanel.brightWhite);
 		}
 		
 		if (cursorY == 2){
-			gráfico.desenhaCentro("Continuar", 20, AsciiPanel.brightYellow, 
+			Grapchics.desenhaCentro("Continuar", 20, AsciiPanel.brightYellow, 
 			AsciiPanel.brightBlack);
 		}else{
-			gráfico.desenhaCentro("Continuar", 20, AsciiPanel.brightWhite);
+			Grapchics.desenhaCentro("Continuar", 20, AsciiPanel.brightWhite);
 		}
 		
 		if (cursorY == 3){
-			gráfico.desenhaCentro("Sair     ", 22, AsciiPanel.brightYellow,
+			Grapchics.desenhaCentro("Sair     ", 22, AsciiPanel.brightYellow,
 			AsciiPanel.brightBlack);
 		}else{
-			gráfico.desenhaCentro("Sair     ", 22, AsciiPanel.brightWhite);
+			Grapchics.desenhaCentro("Sair     ", 22, AsciiPanel.brightWhite);
 		}
 		
-		gráfico.atualizarTela();
+		Grapchics.atualizarTela();
 	}
-	
-	public void carregarMapa(String mapaNome){
-		try {
-			mapaAtual = Files.readString(Paths.get("data", "maps", mapaNome + ".txt"));
-		} catch(IOException e) {
-			System.out.println("Erro ao carregar mapa: "+e.getMessage());
-		}
-	}
-	
-	private void desenhaMapa(){
-		String[] linhas = mapaAtual.split("\\R");
-		
-		for (iLinha = 0; iLinha < linhas.length; iLinha++){
-			char[] caracteres = linhas[iLinha].toCharArray();
-			for (jColuna = 0; jColuna < caracteres.length; jColuna++){
-				char tile = linhas[iLinha].charAt(jColuna);
-				if (jColuna == jogadorX && iLinha == jogadorY){
-					gráfico.desenhaTela('@', jogadorX, jogadorY, AsciiPanel.brightWhite);
-				}else{
-					switch(tile){
-					case '#':
-					gráfico.desenhaTela('#', jColuna, iLinha, AsciiPanel.brightBlack);
-					break;
-					case '.':
-					gráfico.desenhaTela('.', jColuna, iLinha, AsciiPanel.brightWhite);
-					break;
-					case '_':
-					gráfico.desenhaTela('_', jColuna, iLinha, AsciiPanel.brightWhite);
-					break;
-					}
-				}
-			}
-		}
-		gráfico.atualizarTela();
-    }
 	
 	private void teclaEsquerda(){
 		if (estadoAtual == EstadosJogo.MAPA) jogadorX--;
@@ -176,7 +136,7 @@ public class Terminal implements KeyListener {
 	
 	private void teclaCima(){
 		if (estadoAtual == EstadosJogo.TITULO){
-			gráfico.limpaTela();
+			Grapchics.limpaTela();
 			cursorY--;
 		}					
 		if (estadoAtual == EstadosJogo.MAPA) jogadorY--;
@@ -184,7 +144,7 @@ public class Terminal implements KeyListener {
 	
 	private void teclaBaixo(){
 		if (estadoAtual == EstadosJogo.TITULO){
-			gráfico.limpaTela();
+			Grapchics.limpaTela();
 			cursorY++;
 		}					
 		if (estadoAtual == EstadosJogo.MAPA) jogadorY++;
@@ -200,7 +160,7 @@ public class Terminal implements KeyListener {
 	private void teclaEnter(){
 		if (estadoAtual == EstadosJogo.TITULO){
 			if (cursorY == 1 || cursorY == 2){
-				gráfico.limpaTela();
+				Grapchics.limpaTela();
 				estadoAtual = EstadosJogo.MAPA;
 			}
 		if (cursorY == 3) System.exit(0); // Provisório.
@@ -237,13 +197,13 @@ public class Terminal implements KeyListener {
 				teclaEnter();
 				break;
 			case KeyEvent.VK_ESCAPE:
-				gráfico.limpaTela();
+				Grapchics.limpaTela();
 				if (estadoAtual == EstadosJogo.MAPA) estadoAtual = EstadosJogo.TITULO;
 				break;
 		}
 		
-		if (jogadorX >= 0 && jogadorX <= gráfico.getTileSizeX()-1 && 
-			jogadorY >= 0 && jogadorY <= gráfico.getTileSizeY()-1){
+		if (jogadorX >= 0 && jogadorX <= Grapchics.getTileSizeX()-1 && 
+			jogadorY >= 0 && jogadorY <= Grapchics.getTileSizeY()-1){
 		}else{
 			jogadorX = lastJogador_X;
 			jogadorY = lastJogador_Y;

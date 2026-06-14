@@ -1,10 +1,10 @@
 import bestiary.*;
 
-public class Battle {
-	public Battle(){
+public final class Battle {
+	protected Battle(){
 	}
 	
-	public static void carregarDadosBatalha(){
+	protected static void carregarDadosBatalha(){
 		TraitsManager.carregarTraços();
 		MonstersManager.carregarMonstros();
 		SkillsManager.carregarHabilidades();

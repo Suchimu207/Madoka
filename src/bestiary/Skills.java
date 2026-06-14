@@ -58,15 +58,29 @@ public class Skills {
 	public Skills(int idHabilidade, String nomeHabilidade, Monsters.Elementos elementoHabilidade,
 	TipoHabilidade tipoHabilidade, TipoAlvo alvoHabilidade, int poderHabilidade, int precisãoBase,
 	int energiaHabilidade, int recargaHabilidade){
+		try{
+			if (idHabilidade <= 0){
+				throw new IllegalArgumentException("ID deve ser maior do que 0.");
+			}
 		this.idHabilidade = idHabilidade;
+		
 		this.nomeHabilidade = nomeHabilidade;
 		this.elementoHabilidade = elementoHabilidade;
 		this.tipoHabilidade = tipoHabilidade;
 		this.alvoHabilidade = alvoHabilidade;
+		
+			if (poderHabilidade < 0 || precisãoBase < 0 || energiaHabilidade < 0 || recargaHabilidade < 0){
+				throw new IllegalArgumentException("Valores precisam ser iguais ou maiores do que zero.");
+			}
 		this.poderHabilidade = poderHabilidade;
 		this.precisãoBase = precisãoBase;
 		this.energiaHabilidade = energiaHabilidade;
 		this.recargaHabilidade = recargaHabilidade;
+		
+		}catch(IllegalArgumentException e){
+			System.out.println("Erro ao criar habilidade ID_"+idHabilidade+": "+e.getMessage());
+			System.exit(1);
+		}
 	}
 	
 	public int getIdHabilidade(){

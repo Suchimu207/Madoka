@@ -8,16 +8,16 @@ import java.awt.*;
 * @author Carlos S. Rehem
 */
 
-public class Main {
+public final class Main {
     public static void main(String[] args) {
 		boolean rodandoJogo = true;
-		String VERSION = "0.0.8";
+		String VERSION = "0.0.9";
 		String TITLE = "Madoka - "+VERSION;
 		
         Terminal terminal = new Terminal(TITLE);
 		Battle battle = new Battle();
 		
-		terminal.carregarMapa("Template");
+		Maps.carregarMapas();
 		Battle.carregarDadosBatalha();
 		terminal.setarJogo();
 		terminal.setarJanela();

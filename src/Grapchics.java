@@ -3,53 +3,51 @@ import asciiPanel.AsciiPanel;
 
 import java.awt.Color;
 
-public class Grapchics {
-	private AsciiPanel tela;
-	private int tileSizeX, tileSizeY;
+public final class Grapchics {
+	private static int tileSizeX = 40;
+	private static int tileSizeY = 40;
+	private static AsciiPanel tela = new AsciiPanel(tileSizeX, tileSizeY, AsciiFont.CP437_16x16);
 	
-	public Grapchics(){
-		tela = new AsciiPanel(40, 40, AsciiFont.CP437_16x16);
-		tileSizeX = 40;
-		tileSizeY = 40;
+	private Grapchics(){
 	}
 	
-	public void desenhaTela(char desenho, int posX, int posY){
+	protected static void desenhaTela(char desenho, int posX, int posY){
 		tela.write(desenho, posX, posY);
 	}
 	
-	public void desenhaTela(char desenho, int posX, int posY, Color corAtual){
+	protected static void desenhaTela(char desenho, int posX, int posY, Color corAtual){
 		tela.write(desenho, posX, posY, corAtual);
 	}
 	
-	public void desenhaTela(char desenho, int posX, int posY, Color corFonte, Color corFundo){
+	protected static void desenhaTela(char desenho, int posX, int posY, Color corFonte, Color corFundo){
 		tela.write(desenho, posX, posY, corFonte, corFundo);
 	}
 		
-	public void desenhaCentro(String desenho, int linha, Color corAtual){
+	protected static void desenhaCentro(String desenho, int linha, Color corAtual){
 		tela.writeCenter(desenho, linha, corAtual);
 	}
 	
-	public void desenhaCentro(String desenho, int linha, Color corFonte, Color corFundo){
+	protected static void desenhaCentro(String desenho, int linha, Color corFonte, Color corFundo){
 		tela.writeCenter(desenho, linha, corFonte, corFundo);
 	}
 	
-	public void limpaTela(){
+	protected static void limpaTela(){
 		tela.clear();
 	}
 	
-	public void atualizarTela(){
+	protected static void atualizarTela(){
 		tela.repaint();
 	}
 	
-	public int getTileSizeX(){
+	protected static int getTileSizeX(){
 		return tileSizeX;
 	}
 		
-	public int getTileSizeY(){
+	protected static int getTileSizeY(){
 		return tileSizeY;
 	}
-		
-	public AsciiPanel getTela(){
+
+	protected static AsciiPanel getTela(){
 		return tela;
     }
 	
