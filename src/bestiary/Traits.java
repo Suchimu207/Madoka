@@ -13,10 +13,19 @@ public class Traits {
 	private static Traits traçoAtual;
 	
 	public Traits(int idTraço, String nomeTraço, String descriçãoTraço, boolean traçoHabilitado){
-		this.idTraço = idTraço;
-		this.nomeTraço = nomeTraço;
-		this.descriçãoTraço = descriçãoTraço;
-		this.traçoHabilitado = traçoHabilitado;
+		try{
+			if (idTraço <= 0){
+				throw new IllegalArgumentException("ID deve ser maior do que 0.");
+			}
+			this.idTraço = idTraço;
+			
+			this.nomeTraço = nomeTraço;
+			this.descriçãoTraço = descriçãoTraço;
+			this.traçoHabilitado = traçoHabilitado;
+		}catch(IllegalArgumentException e){
+			System.out.println("Erro ao criar traço ID_"+idTraço+": "+e.getMessage());
+			System.exit(1);
+		}
 	}
 	
 	public int getIdTraço(){ 

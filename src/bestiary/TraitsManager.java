@@ -49,7 +49,7 @@ public final class TraitsManager {
 			}
         
 		System.out.println("");
-        System.out.println("Traços carregados: " +traçosExistentes.size());
+        System.out.println(">>Traços carregados: " +traçosExistentes.size());
 		System.out.println("");
 		}catch (IOException e){ 
 			System.out.println("Erro ao carregar traços: "+e.getMessage());

@@ -1,7 +1,9 @@
 package bestiary;
 
+import java.util.Arrays;
+
 public class Skills {
-	private enum TipoHabilidade{
+	protected enum TipoHabilidade{
 		ESPECIAL("Especial"),
 		OFENSIVA("Ofensiva"),
 		DEFENSIVA("Defensiva"),
@@ -18,7 +20,7 @@ public class Skills {
 		}
 	}
 	
-	private enum TipoAlvo{
+	protected enum TipoAlvo{
 		USUARIO("Usuário"),
 		ALIADO_UNICO("Um aliado"),
 		ALIADO_AREA("Múltiplos aliados"),
@@ -37,22 +39,70 @@ public class Skills {
 		}
 	}
 	
-	private final String nomeHabilidade = "";
+	private int idHabilidade;
+	private String nomeHabilidade;
 	private String descriçãoHabilidade;
 	
-	private final int precisãoBase = 0;
+	private int poderHabilidade;
+	private int precisãoBase;
 	private int precisãoAtual;
+	private int energiaHabilidade;
 	
-	private final int energiaHabilidade = 0;
+	private TipoHabilidade tipoHabilidade;
+	private TipoAlvo alvoHabilidade;
+	private Monsters.Elementos elementoHabilidade;
 	
-	private final TipoHabilidade tipoHabilidade = TipoHabilidade.NEUTRO;
-	private final TipoAlvo alvoHabilidade = TipoAlvo.ALIADO_UNICO;
-	private final Monsters.Elementos elementoHabilidade = Monsters.Elementos.FOGO;
-	
-	private final int recargaHabilidade = 0;
+	private int recargaHabilidade;
 	private int recargaAtual;
 	
-	public Skills(){
+	public Skills(int idHabilidade, String nomeHabilidade, Monsters.Elementos elementoHabilidade,
+	TipoHabilidade tipoHabilidade, TipoAlvo alvoHabilidade, int poderHabilidade, int precisãoBase,
+	int energiaHabilidade, int recargaHabilidade){
+		this.idHabilidade = idHabilidade;
+		this.nomeHabilidade = nomeHabilidade;
+		this.elementoHabilidade = elementoHabilidade;
+		this.tipoHabilidade = tipoHabilidade;
+		this.alvoHabilidade = alvoHabilidade;
+		this.poderHabilidade = poderHabilidade;
+		this.precisãoBase = precisãoBase;
+		this.energiaHabilidade = energiaHabilidade;
+		this.recargaHabilidade = recargaHabilidade;
+	}
+	
+	public int getIdHabilidade(){
+		return idHabilidade;
+	}
+
+	public String getNomeHabilidade(){
+		return nomeHabilidade;
+	}
+
+	public String getElementoHabilidade(){
+		return elementoHabilidade.toString();
+	}
+
+	public String getTipoHabilidade(){
+		return tipoHabilidade.toString();
+	}
+
+	public String getAlvoHabilidade(){
+		return alvoHabilidade.toString();
+	}
+	
+	public int getPoderHabilidade(){
+		return poderHabilidade;
+	}
+
+	public int getPrecisaoBase(){
+		return precisãoBase;
+	}
+
+	public int getEnergiaHabilidade(){
+		return energiaHabilidade;
+	}
+
+	public int getRecargaHabilidade(){
+		return recargaHabilidade;
 	}
 	
 	//===

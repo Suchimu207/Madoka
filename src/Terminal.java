@@ -47,15 +47,11 @@ public class Terminal implements KeyListener {
 	}
 	
 	public void setarJogo(){
-		setarJanela();
-		
 		estadoAtual = EstadosJogo.TITULO;
 		cursorY = 1; // A posição inicial é "Novo jogo".
 	}
 	
-	private void setarJanela(){
-		limpaPrompt(); 
-		
+	public void setarJanela(){
 		frame.add(gráfico.getTela());
         frame.setResizable(false);  
         frame.pack();

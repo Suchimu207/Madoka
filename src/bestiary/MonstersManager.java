@@ -55,6 +55,8 @@ public final class MonstersManager {
 					monstros.getString("nome"),
 					classeConvertida,
 					elementosConvertidos,
+					monstros.getInt("nivelBase"),
+					monstros.getInt("expAtual"),
 					monstros.getInt("forcaBase"),
 					monstros.getInt("vidaBase"),
 					monstros.getInt("velocidadeBase"),
@@ -63,19 +65,24 @@ public final class MonstersManager {
 				);
 				monstrosExistentes.put(monstroCarregado.getIdMonstro(), monstroCarregado);
 				
+				System.out.println("-------------------");
 				System.out.println("ID: " + monstroCarregado.getIdMonstro());
 				System.out.println("Nome: " + monstroCarregado.getNomeMonstro());
 				System.out.println("Classe: " + monstroCarregado.getClasseAtual());
 				System.out.println("Elementos: " + monstroCarregado.getElementosAtuais());
+				System.out.println("Nivel base: " + monstroCarregado.getNivelBase());
+				System.out.println("ExpAtual: " + monstroCarregado.getExpAtual());
+				System.out.println("-----");
 				System.out.println("Força base: " + monstroCarregado.getForcaBase());
 				System.out.println("Vida base: " + monstroCarregado.getVidaBase());
 				System.out.println("Velocidade base: " + monstroCarregado.getSpeedBase());
 				System.out.println("Estamina base: " + monstroCarregado.getEstaminaBase());
 				System.out.println("Traços: " + Arrays.toString(monstroCarregado.getTracosIds()));
+				System.out.println("-------------------");
+				System.out.println("");
 			}
         
-		System.out.println("");
-        System.out.println("Monstros carregados: " +monstrosExistentes.size());
+        System.out.println(">>Monstros carregados: " +monstrosExistentes.size());
 		System.out.println("");
 		}catch (IOException | IllegalArgumentException e){ 
 			System.out.println("Erro ao carregar monstros: "+e.getMessage());
