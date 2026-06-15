@@ -1,6 +1,7 @@
 import asciiPanel.AsciiPanel;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import java.nio.file.Files;   
@@ -10,7 +11,7 @@ import java.nio.file.Paths;
 import java.io.IOException;
 
 public final class Maps {
-	private static ArrayList<String> mapasExistentes = new ArrayList<String>();
+	private static Map<String, String> mapasExistentes = new HashMap<>();
 	private static String mapaAtual;
 	private static int iLinha, jColuna = 0;
 	
@@ -27,8 +28,9 @@ public final class Maps {
 				.forEach(arquivo -> {
 					try{
 					String conteudo = Files.readString(arquivo);
-					mapasExistentes.add(conteudo);
+					mapasExistentes.put(arquivo.getFileName().toString(), conteudo);
 					System.out.println("Mapa carregado: " + arquivo.getFileName());
+					System.out.println("");
 					}catch (IOException e){
 						System.out.println("Erro ao ler o arquivo " + arquivo.getFileName() + ": " + e.getMessage());
 					}
@@ -40,12 +42,12 @@ public final class Maps {
 		}else{
 			System.out.println("Diretório de mapas não encontrado.");
 		}
-		
-		if (!mapasExistentes.isEmpty()) mapaAtual = mapasExistentes.get(0);
 	}
 	
-	protected static void desenhaMapa(int jogadorX, int jogadorY){
-		if (mapaAtual == null) {
+	protected static void desenhaMapa(String mapaNome, int jogadorX, int jogadorY){
+		mapaAtual = mapasExistentes.get(mapaNome+".txt");
+		
+		if (mapaAtual == null){
 			System.out.println("Nenhum mapa para desenhar.");
 			return;
 		}

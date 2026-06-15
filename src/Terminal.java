@@ -28,21 +28,24 @@ public final class Terminal implements KeyListener {
 	private int jogadorX, jogadorY;
 	private int lastJogador_X, lastJogador_Y;
 	private int cursorX, cursorY;
-	private String os, mapaAtual, TITLE;
+	private final String TITLE;
+	private String os, mapaAtual, mapaInicial;
 	private boolean ativaDebug;
 	
-	protected Terminal(String TITLE){
+	protected Terminal(String TITLE, String mapaInicial){
 		this.TITLE = TITLE;
+		this.mapaInicial = mapaInicial;
 		os = System.getProperty("os.name").toLowerCase();
-		frame = new JFrame(this.TITLE);
+		frame = new JFrame(TITLE);
 	}
 	
 	protected void setarJogo(){
 		estadoAtual = EstadosJogo.TITULO;
+		mapaAtual = mapaInicial;
 		lastJogador_X = 0;
 		lastJogador_Y = 0;
 		jogadorX = 19;
-		jogadorY = 19;
+		jogadorY = 9;
 		cursorY = 1; // A posição inicial é "Novo jogo".
 	}
 	
@@ -90,7 +93,7 @@ public final class Terminal implements KeyListener {
 				desenhaTítulo();
 				break;
 			case MAPA:
-				Maps.desenhaMapa(jogadorX, jogadorY);
+				Maps.desenhaMapa(mapaAtual, jogadorX, jogadorY);
 				break;
 		}
 	}

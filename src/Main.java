@@ -1,24 +1,49 @@
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
 
+import java.io.FileReader;
+import java.io.IOException;
+
+import java.nio.file.*; 
+
 import javax.swing.*;
 import java.awt.*;
+
+import org.json.JSONObject;
 
 /*
 * @author Carlos S. Rehem
 */
 
 public final class Main {
+	private final static class Game {
+		private static Path caminho;
+		private static String conteudoJson;
+		private static JSONObject gameJson;
+		
+		private static void carregarGameJson(){
+			try{
+				Path caminho = Paths.get("data", "system", "game.json");
+				conteudoJson = Files.readString(caminho);
+				gameJson = new JSONObject(conteudoJson);
+			}catch(IOException e){
+				System.out.println("Erro ao carregar game.json: "+e.getMessage());
+				System.exit(1);
+			}
+		}
+	}
     public static void main(String[] args) {
-		boolean rodandoJogo = true;
-		String VERSION = "0.0.9";
-		String TITLE = "Madoka - "+VERSION;
-		
-        Terminal terminal = new Terminal(TITLE);
-		Battle battle = new Battle();
-		
+		Game.carregarGameJson();
 		Maps.carregarMapas();
 		Battle.carregarDadosBatalha();
+		
+		String mapaInicial = "Lobby";
+		boolean rodandoJogo = true;
+		final String VERSION = Game.gameJson.getString("version");
+		final String TITLE = Game.gameJson.getString("title");
+		final String FULL_TITLE = TITLE+" - "+VERSION;
+		
+		Terminal terminal = new Terminal(FULL_TITLE, mapaInicial);
 		terminal.setarJogo();
 		terminal.setarJanela();
 		
