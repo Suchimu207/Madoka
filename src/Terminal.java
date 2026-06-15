@@ -26,7 +26,6 @@ public final class Terminal implements KeyListener {
 	private EstadosJogo estadoAtual;
 	
 	private int jogadorX, jogadorY;
-	private int lastJogador_X, lastJogador_Y;
 	private int cursorX, cursorY;
 	private final String TITLE;
 	private String os, mapaAtual, mapaInicial;
@@ -42,8 +41,6 @@ public final class Terminal implements KeyListener {
 	protected void setarJogo(){
 		estadoAtual = EstadosJogo.TITULO;
 		mapaAtual = mapaInicial;
-		lastJogador_X = 0;
-		lastJogador_Y = 0;
 		jogadorX = 19;
 		jogadorY = 9;
 		cursorY = 1; // A posição inicial é "Novo jogo".
@@ -130,11 +127,19 @@ public final class Terminal implements KeyListener {
 	}
 	
 	private void teclaEsquerda(){
-		if (estadoAtual == EstadosJogo.MAPA) jogadorX--;
+		if (estadoAtual == EstadosJogo.MAPA){
+			if (!Maps.ehParede(mapaAtual, jogadorX-1, jogadorY)){
+				jogadorX--;
+			}
+		}
 	}
 	
 	private void teclaDireita(){
-		if (estadoAtual == EstadosJogo.MAPA) jogadorX++;
+		if (estadoAtual == EstadosJogo.MAPA){
+			if (!Maps.ehParede(mapaAtual, jogadorX+1, jogadorY)){
+				jogadorX++;
+			}
+		}
 	}
 	
 	private void teclaCima(){
@@ -142,7 +147,11 @@ public final class Terminal implements KeyListener {
 			Grapchics.limpaTela();
 			cursorY--;
 		}					
-		if (estadoAtual == EstadosJogo.MAPA) jogadorY--;
+		if (estadoAtual == EstadosJogo.MAPA){
+			if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY-1)){
+				jogadorY--;
+			}
+		}			
 	}
 	
 	private void teclaBaixo(){
@@ -150,7 +159,11 @@ public final class Terminal implements KeyListener {
 			Grapchics.limpaTela();
 			cursorY++;
 		}					
-		if (estadoAtual == EstadosJogo.MAPA) jogadorY++;
+		if (estadoAtual == EstadosJogo.MAPA){
+			if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY+1)){
+				jogadorY++;
+			}
+		}
 	}
 	
 	private void teclaDebug(){
@@ -172,9 +185,6 @@ public final class Terminal implements KeyListener {
 	
 	@Override
 	public void keyPressed(KeyEvent e){
-		lastJogador_X = jogadorX; 
-		lastJogador_Y = jogadorY;
-		
 		switch (e.getKeyCode()){
 			case KeyEvent.VK_A:
 			case KeyEvent.VK_LEFT:
@@ -204,15 +214,8 @@ public final class Terminal implements KeyListener {
 				if (estadoAtual == EstadosJogo.MAPA) estadoAtual = EstadosJogo.TITULO;
 				break;
 		}
-		
-		if (jogadorX >= 0 && jogadorX <= Grapchics.getTileSizeX()-1 && 
-			jogadorY >= 0 && jogadorY <= Grapchics.getTileSizeY()-1){
-		}else{
-			jogadorX = lastJogador_X;
-			jogadorY = lastJogador_Y;
-		}
 	}
-	
+
 	@Override
     public void keyReleased(KeyEvent e) {}
     

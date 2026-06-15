@@ -12,8 +12,9 @@ import java.io.IOException;
 
 public final class Maps {
 	private static Map<String, String> mapasExistentes = new HashMap<>();
-	private static String mapaAtual;
+	private static String mapaAtual, mapaVerificado;
 	private static int iLinha, jColuna = 0;
+	private static boolean bloqueioJogador;
 	
 	private Maps(){
 	}
@@ -44,12 +45,11 @@ public final class Maps {
 		}
 	}
 	
-	protected static void desenhaMapa(String mapaNome, int jogadorX, int jogadorY){
+	protected static void desenhaMapa(String mapaNome, int jogadorX, int jogadorY){	
 		mapaAtual = mapasExistentes.get(mapaNome+".txt");
 		
 		if (mapaAtual == null){
 			System.out.println("Nenhum mapa para desenhar.");
-			return;
 		}
 		
 		String[] linhas = mapaAtual.split("\\R");
@@ -68,15 +68,31 @@ public final class Maps {
 					case '.':
 					Grapchics.desenhaTela('.', jColuna, iLinha, AsciiPanel.brightWhite);
 					break;
-					case '_':
-					Grapchics.desenhaTela('_', jColuna, iLinha, AsciiPanel.brightWhite);
-					break;
 					}
 				}
 			}
 		}
 		Grapchics.atualizarTela();
-    }
+	}
+	
+	protected static boolean ehParede(String mapaNome, int jogadorX, int jogadorY){
+		mapaVerificado = mapasExistentes.get(mapaNome + ".txt");
+		if (mapaVerificado == null){
+			return true;
+		}
+		
+		String[] linhas = mapaVerificado.split("\\R");
+		
+		if (jogadorY < 0 || jogadorY >= linhas.length){
+			return true;
+		}
+		String linhaAlvo = linhas[jogadorY];
+		if (jogadorX < 0 || jogadorX >= linhaAlvo.length()){
+			return true;
+		}
+		
+		return linhaAlvo.charAt(jogadorX) == '#';
+	}
 	
 	//===
 }
