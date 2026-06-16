@@ -9,7 +9,8 @@ import java.awt.event.KeyListener;
 public final class Terminal implements KeyListener {
 	private enum EstadosJogo{
 		TITULO("Título"),
-		MAPA("Mapa");
+		MAPA("Mapa"),
+		INVENTARIO("Inventário");
 		
 		private String nome;
 		
@@ -26,7 +27,7 @@ public final class Terminal implements KeyListener {
 	private EstadosJogo estadoAtual;
 	
 	private int jogadorX, jogadorY;
-	private int cursorX, cursorY;
+	protected static int cursorX, cursorY; // Provisório.
 	private final String TITLE;
 	private String os, mapaAtual, mapaInicial;
 	private boolean ativaDebug;
@@ -81,6 +82,7 @@ public final class Terminal implements KeyListener {
 			System.out.println("FPS Atual: " + contadorFrames);
 			System.out.println("Jogador_X: "+jogadorX);
 			System.out.println("Jogador_Y: "+jogadorY);
+			System.out.println("EstadoAtual:"+estadoAtual);
 		}
 	}
 	
@@ -92,6 +94,9 @@ public final class Terminal implements KeyListener {
 			case MAPA:
 				Maps.desenhaMapa(mapaAtual, jogadorX, jogadorY);
 				Battle.desenhaInfoEquipe();
+				break;
+			case INVENTARIO:
+				Battle.desenhaInventário();
 				break;
 		}
 	}
@@ -145,9 +150,11 @@ public final class Terminal implements KeyListener {
 	
 	private void teclaCima(){
 		if (estadoAtual == EstadosJogo.TITULO){
-			Grapchics.limpaTela();
 			cursorY--;
-		}					
+		}
+		if (estadoAtual == EstadosJogo.INVENTARIO){
+			cursorY--;
+		}
 		if (estadoAtual == EstadosJogo.MAPA){
 			if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY-1)){
 				jogadorY--;
@@ -157,9 +164,11 @@ public final class Terminal implements KeyListener {
 	
 	private void teclaBaixo(){
 		if (estadoAtual == EstadosJogo.TITULO){
-			Grapchics.limpaTela();
 			cursorY++;
-		}					
+		}
+		if (estadoAtual == EstadosJogo.INVENTARIO){
+			cursorY++;
+		}		
 		if (estadoAtual == EstadosJogo.MAPA){
 			if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY+1)){
 				jogadorY++;
@@ -181,6 +190,22 @@ public final class Terminal implements KeyListener {
 				estadoAtual = EstadosJogo.MAPA;
 			}
 		if (cursorY == 3) System.exit(0); // Provisório.
+		}else if (estadoAtual == EstadosJogo.INVENTARIO){
+			Battle.alternarMonstroTabela(cursorY);
+		}
+	}
+	
+	private void teclaInventário(){
+		if (estadoAtual == EstadosJogo.MAPA){
+			Grapchics.limpaTela();
+			cursorX = 1;
+			cursorY = 1;
+			estadoAtual = EstadosJogo.INVENTARIO;
+		}else if (estadoAtual == EstadosJogo.INVENTARIO){
+			Grapchics.limpaTela();
+			cursorX = 1;
+			cursorY = 1;
+			estadoAtual = EstadosJogo.MAPA;
 		}
 	}
 	
@@ -203,12 +228,15 @@ public final class Terminal implements KeyListener {
 			case KeyEvent.VK_DOWN:
 				teclaBaixo();
 				break;
+			case KeyEvent.VK_ENTER:
+				teclaEnter();
+				break;
+			case KeyEvent.VK_E:
+				teclaInventário();
+				break;	
 			case KeyEvent.VK_F3:
 			case KeyEvent.VK_ALT:
 				teclaDebug();
-				break;
-			case KeyEvent.VK_ENTER:
-				teclaEnter();
 				break;
 			case KeyEvent.VK_ESCAPE:
 				Grapchics.limpaTela();
@@ -216,7 +244,7 @@ public final class Terminal implements KeyListener {
 				break;
 		}
 	}
-
+	
 	@Override
     public void keyReleased(KeyEvent e) {}
     
