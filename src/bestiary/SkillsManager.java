@@ -53,6 +53,7 @@ public final class SkillsManager {
 				);
 				skillsExistentes.put(skillCarregada.getIdHabilidade(), skillCarregada);
 				
+				/*
 				System.out.println("-------------------");
 				System.out.println("ID: " + skillCarregada.getIdHabilidade());
 				System.out.println("Nome: " + skillCarregada.getNomeHabilidade());
@@ -65,6 +66,7 @@ public final class SkillsManager {
 				System.out.println("Recarga: " + skillCarregada.getRecargaHabilidade());
 				System.out.println("-------------------");
 				System.out.println("");
+				*/
 			}
         
         System.out.println(">>Habilidades carregadas: " +skillsExistentes.size());

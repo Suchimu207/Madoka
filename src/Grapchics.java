@@ -6,7 +6,7 @@ import java.awt.Color;
 public final class Grapchics {
 	private static int tileSizeX = 40;
 	private static int tileSizeY = 40;
-	private static AsciiPanel tela = new AsciiPanel(tileSizeX, tileSizeY, AsciiFont.CP437_16x16);
+	private final static AsciiPanel tela = new AsciiPanel(tileSizeX, tileSizeY, AsciiFont.CP437_16x16);
 	
 	private Grapchics(){
 	}
@@ -22,7 +22,19 @@ public final class Grapchics {
 	protected static void desenhaTela(char desenho, int posX, int posY, Color corFonte, Color corFundo){
 		tela.write(desenho, posX, posY, corFonte, corFundo);
 	}
-		
+	
+	protected static void desenhaTela(String desenho, int posX, int posY){
+		tela.write(desenho, posX, posY);
+	}
+
+	protected static void desenhaTela(String desenho, int posX, int posY, Color corAtual){
+		tela.write(desenho, posX, posY, corAtual);
+	}
+	
+	protected static void desenhaTela(String desenho, int posX, int posY, Color corFonte, Color corFundo){
+		tela.write(desenho, posX, posY, corFonte, corFundo);
+	}
+
 	protected static void desenhaCentro(String desenho, int linha, Color corAtual){
 		tela.writeCenter(desenho, linha, corAtual);
 	}

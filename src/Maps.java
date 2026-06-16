@@ -20,9 +20,8 @@ public final class Maps {
 	}
 	
 	protected static void carregarMapas(){
-	
 		Path diretorioMapas = Paths.get("data", "maps");
-			
+		
 		if (Files.exists(diretorioMapas) && Files.isDirectory(diretorioMapas)){
 			try (Stream<Path> stream = Files.list(diretorioMapas)){
 				stream.filter(arquivo -> arquivo.toString().endsWith(".txt"))
@@ -30,8 +29,8 @@ public final class Maps {
 					try{
 					String conteudo = Files.readString(arquivo);
 					mapasExistentes.put(arquivo.getFileName().toString(), conteudo);
-					System.out.println("Mapa carregado: " + arquivo.getFileName());
 					System.out.println("");
+					System.out.println(">>Mapa carregado: " + arquivo.getFileName());
 					}catch (IOException e){
 						System.out.println("Erro ao ler o arquivo " + arquivo.getFileName() + ": " + e.getMessage());
 					}
@@ -67,6 +66,27 @@ public final class Maps {
 					break;
 					case '.':
 					Grapchics.desenhaTela('.', jColuna, iLinha, AsciiPanel.brightWhite);
+					break;
+					case '$':
+					Grapchics.desenhaTela('$', jColuna, iLinha, AsciiPanel.brightYellow);
+					break;
+					case ']':
+					Grapchics.desenhaTela(']', jColuna, iLinha, AsciiPanel.brightWhite);
+					break;
+					case '[':
+					Grapchics.desenhaTela('[', jColuna, iLinha, AsciiPanel.brightWhite);
+					break;
+					case '-':
+					Grapchics.desenhaTela('-', jColuna, iLinha, AsciiPanel.brightCyan);
+					break;
+					case 'A':
+					Grapchics.desenhaTela('A', jColuna, iLinha, AsciiPanel.brightYellow);
+					break;
+					case '!':
+					Grapchics.desenhaTela('!', jColuna, iLinha, AsciiPanel.brightYellow);
+					break;
+					case '?':
+					Grapchics.desenhaTela('?', jColuna, iLinha, AsciiPanel.brightYellow);
 					break;
 					}
 				}

@@ -91,6 +91,7 @@ public final class Terminal implements KeyListener {
 				break;
 			case MAPA:
 				Maps.desenhaMapa(mapaAtual, jogadorX, jogadorY);
+				Battle.desenhaInfoEquipe();
 				break;
 		}
 	}

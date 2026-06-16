@@ -23,7 +23,7 @@ public final class MonstersManager {
 	private static JSONArray elementosArray;
 	private static JSONArray traçosArray;
 	
-	public MonstersManager(){
+	private MonstersManager(){
 	}
 	
 	public static void carregarMonstros(){
@@ -65,6 +65,7 @@ public final class MonstersManager {
 				);
 				monstrosExistentes.put(monstroCarregado.getIdMonstro(), monstroCarregado);
 				
+				/*
 				System.out.println("-------------------");
 				System.out.println("ID: " + monstroCarregado.getIdMonstro());
 				System.out.println("Nome: " + monstroCarregado.getNomeMonstro());
@@ -80,6 +81,7 @@ public final class MonstersManager {
 				System.out.println("Traços: " + Arrays.toString(monstroCarregado.getTracosIds()));
 				System.out.println("-------------------");
 				System.out.println("");
+				*/
 			}
         
         System.out.println(">>Monstros carregados: " +monstrosExistentes.size());
@@ -87,6 +89,11 @@ public final class MonstersManager {
 		}catch (IOException | IllegalArgumentException e){ 
 			System.out.println("Erro ao carregar monstros: "+e.getMessage());
 		}
+	}
+	
+	public static Monsters getMonstro(int idMonstro){
+		monstroCarregado = monstrosExistentes.get(idMonstro);
+		return monstroCarregado;
 	}
 	
 	//===

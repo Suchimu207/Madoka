@@ -42,10 +42,12 @@ public final class TraitsManager {
 				);
 				traçosExistentes.put(traçoCarregado.getIdTraço(), traçoCarregado);
 				
+				/*
 				System.out.println("ID: " + traçoCarregado.getIdTraço());
 				System.out.println("Nome: " + traçoCarregado.getNomeTraço());
 				System.out.println("Descrição: " + traçoCarregado.getDescriçãoTraço());
 				System.out.println("Habilitado: " + traçoCarregado.isTraçoHabilitado());
+				*/
 			}
         
 		System.out.println("");

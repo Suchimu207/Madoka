@@ -61,9 +61,7 @@ public class Monsters {
 	
 	private Classes classeAtual;
 	private Elementos[] elementosAtuais;
-	
-	private Map<Integer, Traits> traçosExistentes; 
-	
+		
 	public Monsters(int idMonstro, String nomeMonstro, Classes classeAtual, Elementos[] elementosAtuais,
 	int nivelBase, int expAtual, int forçaBase, int vidaBase, int speedBase, int estaminaBase, int[] traçosIds){
 		try{
