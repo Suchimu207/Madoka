@@ -83,6 +83,7 @@ public class Monsters {
 				throw new IllegalArgumentException("Nivel base deve ser maior do que 0.");
 			}
 			this.nivelBase = nivelBase;
+			this.nivelAtual = nivelBase;
 			
 			if (expAtual != 0){
 				throw new IllegalArgumentException("ExpAtual deve ser igual a 0.");
@@ -105,6 +106,22 @@ public class Monsters {
 		}
 	}
 	
+   public Monsters(Monsters monstroRequerido){
+	   this.idMonstro = monstroRequerido.getIdMonstro();
+	   this.nomeMonstro = monstroRequerido.getNomeMonstro();
+	   this.classeAtual = monstroRequerido.getClasseAtual();
+	   this.elementosAtuais = monstroRequerido.getElementosAtuaisValores();
+	   this.nivelBase = monstroRequerido.getNivelBase();
+	   this.nivelAtual = monstroRequerido.getNivelAtual();
+	   this.expAtual = monstroRequerido.getExpAtual();
+	   this.forçaBase = monstroRequerido.getForcaBase();
+	   this.vidaBase = monstroRequerido.getVidaBase();
+	   this.speedBase = monstroRequerido.getSpeedBase();
+	   this.estaminaBase = monstroRequerido.getEstaminaBase();
+	   this.traçosIds = monstroRequerido.getTracosIds();
+	   this.monstroEquipado = false;
+	} 
+
 	public int getIdMonstro(){
 		return idMonstro;
 	}
@@ -117,12 +134,20 @@ public class Monsters {
 		return classeAtual;
 	}
 	
+	public Elementos[] getElementosAtuaisValores(){
+		return elementosAtuais;
+	}
+	
 	public String getElementosAtuais(){
 		return Arrays.toString(elementosAtuais);
 	}
 	
 	public int getNivelBase(){
 		return nivelBase;
+	}
+	
+	public int getNivelAtual(){
+		return nivelAtual;
 	}
 	
 	public int getExpAtual(){

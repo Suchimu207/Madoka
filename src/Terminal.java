@@ -10,7 +10,8 @@ public final class Terminal implements KeyListener {
 	private enum EstadosJogo{
 		TITULO("Título"),
 		MAPA("Mapa"),
-		INVENTARIO("Inventário");
+		INVENTARIO("Inventário"),
+		MONSTRO_DETALHES("Monstro_Detalhes");
 		
 		private String nome;
 		
@@ -22,7 +23,7 @@ public final class Terminal implements KeyListener {
 			return nome;
 		}
 	}
-	
+
     private final JFrame frame;
 	private EstadosJogo estadoAtual;
 	
@@ -30,7 +31,7 @@ public final class Terminal implements KeyListener {
 	protected static int cursorX, cursorY; // Provisório.
 	private final String TITLE;
 	private String os, mapaAtual, mapaInicial;
-	private boolean ativaDebug;
+	private boolean ativaDebug, mostraEquipe;
 	
 	protected Terminal(String TITLE, String mapaInicial){
 		this.TITLE = TITLE;
@@ -42,6 +43,7 @@ public final class Terminal implements KeyListener {
 	protected void setarJogo(){
 		estadoAtual = EstadosJogo.TITULO;
 		mapaAtual = mapaInicial;
+		mostraEquipe = false;
 		jogadorX = 19;
 		jogadorY = 9;
 		cursorY = 1; // A posição inicial é "Novo jogo".
@@ -82,7 +84,7 @@ public final class Terminal implements KeyListener {
 			System.out.println("FPS Atual: " + contadorFrames);
 			System.out.println("Jogador_X: "+jogadorX);
 			System.out.println("Jogador_Y: "+jogadorY);
-			System.out.println("EstadoAtual:"+estadoAtual);
+			System.out.println("EstadoAtual: "+estadoAtual);
 		}
 	}
 	
@@ -93,11 +95,16 @@ public final class Terminal implements KeyListener {
 				break;
 			case MAPA:
 				Maps.desenhaMapa(mapaAtual, jogadorX, jogadorY);
-				Battle.desenhaInfoEquipe();
+				if (mostraEquipe){
+					Battle.desenhaInfoEquipe();
+				}else desenhaInfo();
 				break;
 			case INVENTARIO:
 				Battle.desenhaInventário();
 				break;
+			case MONSTRO_DETALHES:
+				Battle.desenhaMonstroDetalhes();
+				break;	
 		}
 	}
 	
@@ -129,6 +136,20 @@ public final class Terminal implements KeyListener {
 			Grapchics.desenhaCentro("Sair     ", 22, AsciiPanel.brightWhite);
 		}
 		
+		Grapchics.desenhaTela("Direcionais/WASD: Selecionar",0,37, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Enter: Confirmar",0,38, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Desenvolvido por Carlos S. Rehem.",0,39, AsciiPanel.brightWhite);
+		Grapchics.atualizarTela();
+	}
+	
+	private void desenhaInfo(){		
+		Grapchics.desenhaTela("ESC: Titulo",0,34, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Shift: Mostrar equipe",0,35, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("E: Inventario",0,36, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Direcionais/WASD: Movimentacao",0,37, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Enter: Interagir",0,38, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Ouro: 0",0,39, AsciiPanel.brightWhite);	
+		
 		Grapchics.atualizarTela();
 	}
 	
@@ -138,6 +159,9 @@ public final class Terminal implements KeyListener {
 				jogadorX--;
 			}
 		}
+		if (estadoAtual == EstadosJogo.MONSTRO_DETALHES){
+			cursorY--;
+		}
 	}
 	
 	private void teclaDireita(){
@@ -145,6 +169,9 @@ public final class Terminal implements KeyListener {
 			if (!Maps.ehParede(mapaAtual, jogadorX+1, jogadorY)){
 				jogadorX++;
 			}
+		}
+		if (estadoAtual == EstadosJogo.MONSTRO_DETALHES){
+			cursorY++;
 		}
 	}
 	
@@ -159,7 +186,7 @@ public final class Terminal implements KeyListener {
 			if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY-1)){
 				jogadorY--;
 			}
-		}			
+		}
 	}
 	
 	private void teclaBaixo(){
@@ -195,6 +222,19 @@ public final class Terminal implements KeyListener {
 		}
 	}
 	
+	private void teclaShift(){		
+		if(estadoAtual == EstadosJogo.MAPA){
+			Grapchics.limpaTela();
+			if (mostraEquipe){
+				mostraEquipe = false;
+			}else mostraEquipe = true;
+		}
+		if (estadoAtual == EstadosJogo.INVENTARIO){
+			Grapchics.limpaTela();
+			estadoAtual = EstadosJogo.MONSTRO_DETALHES;
+		}
+	}
+	
 	private void teclaInventário(){
 		if (estadoAtual == EstadosJogo.MAPA){
 			Grapchics.limpaTela();
@@ -206,6 +246,16 @@ public final class Terminal implements KeyListener {
 			cursorX = 1;
 			cursorY = 1;
 			estadoAtual = EstadosJogo.MAPA;
+		}else if (estadoAtual == EstadosJogo.MONSTRO_DETALHES){
+			Grapchics.limpaTela();
+			estadoAtual = EstadosJogo.INVENTARIO;
+		}
+	}
+	
+	private void teclaEsc(){
+		if (estadoAtual == EstadosJogo.MAPA){
+			Grapchics.limpaTela();
+			estadoAtual = EstadosJogo.TITULO;
 		}
 	}
 	
@@ -231,6 +281,9 @@ public final class Terminal implements KeyListener {
 			case KeyEvent.VK_ENTER:
 				teclaEnter();
 				break;
+			case KeyEvent.VK_SHIFT:
+				teclaShift();
+				break;
 			case KeyEvent.VK_E:
 				teclaInventário();
 				break;	
@@ -239,8 +292,7 @@ public final class Terminal implements KeyListener {
 				teclaDebug();
 				break;
 			case KeyEvent.VK_ESCAPE:
-				Grapchics.limpaTela();
-				if (estadoAtual == EstadosJogo.MAPA) estadoAtual = EstadosJogo.TITULO;
+				teclaEsc();
 				break;
 		}
 	}
