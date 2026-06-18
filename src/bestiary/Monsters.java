@@ -52,7 +52,7 @@ public class Monsters {
 	private String nomeMonstro;
 	private int nivelBase, nivelAtual;
 	private int expAtual;
-	private boolean monstroEquipado;
+	private boolean monstroEquipado, monstroFavorito;
 	
 	private int forçaBase, forçaAtual, forçaAtualCombate;
 	private int vidaBase, vidaAtual, vidaAtualCombate;
@@ -100,6 +100,7 @@ public class Monsters {
 			
 			this.traçosIds = traçosIds;
 			this.monstroEquipado = false;
+			this.monstroFavorito = false;
 		}catch(IllegalArgumentException e){
 			System.out.println("Erro ao criar monstro ID_"+idMonstro+": "+e.getMessage());
 			System.exit(1);
@@ -120,6 +121,7 @@ public class Monsters {
 	   this.estaminaBase = monstroRequerido.getEstaminaBase();
 	   this.traçosIds = monstroRequerido.getTracosIds();
 	   this.monstroEquipado = false;
+	   this.monstroFavorito = false;
 	} 
 
 	public int getIdMonstro(){
@@ -178,8 +180,16 @@ public class Monsters {
 		return monstroEquipado;
 	}
 	
+	public boolean isMonstroFavorito(){ 
+		return monstroFavorito;
+	}
+	
 	public void setMonstroEquipado(boolean monstroEquipado){
 		this.monstroEquipado = monstroEquipado;
+	}
+	
+	public void setMonstroFavorito(boolean monstroFavorito){
+		this.monstroFavorito = monstroFavorito;
 	}
 	
 	//===

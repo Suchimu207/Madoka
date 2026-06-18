@@ -3,6 +3,7 @@ import bestiary.*;
 import asciiPanel.AsciiPanel;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.EnumMap;
 import java.util.Map;
@@ -17,12 +18,14 @@ public final class Battle {
 		SLOT_6;
 	}
 	private static Map<Integer, Monsters> monstrosInventário;
+	private static ArrayList<Monsters> monstrosOrdenados;
 	private static EnumMap<SlotEquipe, Monsters> equipeTabela;
 	private static SlotEquipe slotEncontrado;
 
 	private static Monsters monstroCarregado;
 	private static Monsters[] monstroSlotsAtivos;
-	private static int idInventário, posiçãoLinhaInventário, posiçãoLinhaEquipe;
+	private static int idInventário, posiçãoLinhaInventário, posiçãoLinhaEquipe, 
+	tamanhoInventário, totalPaginas, paginaAtual, inicioLista, fimLista;
 	private static String nomeMonstroExibido;
 	
 	private Battle(){
@@ -34,6 +37,7 @@ public final class Battle {
 		SkillsManager.carregarHabilidades();
 		
 		monstrosInventário = new HashMap<Integer, Monsters>();
+		monstrosOrdenados = new ArrayList<Monsters>();
 		equipeTabela =  new EnumMap<>(SlotEquipe.class);
 		monstroSlotsAtivos = new Monsters[3];
 		
@@ -42,10 +46,11 @@ public final class Battle {
 	
 	private static void montarEquipeInicial(){
 		idInventário = 1;
+		paginaAtual = 1;
+		inicioLista = 1;
+		fimLista = 1;
 		
 		adicionarMonstroInventário(1);
-		adicionarMonstroInventário(2);
-		adicionarMonstroInventário(3);
 	}
 	
 	protected static void desenhaInfoEquipe(){
@@ -73,13 +78,15 @@ public final class Battle {
 		monstroCarregado = monstrosInventário.get(Terminal.cursorY);
 		if (monstroCarregado == null) return;
 		
+		String indicadorFavorito = monstroCarregado.isMonstroFavorito() ? " [F]" : "";
+		
 		Grapchics.desenhaCentro("Detalhes",0, AsciiPanel.brightWhite);
 		Grapchics.desenhaTela("E: Voltar", 0, 1, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Direcionais/WASD: Alternar monstro",0,2, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Enter: Marcar/Desmarcar favorito",0,2, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("Shift: Ver habilidades",0,3, AsciiPanel.brightBlack);
-
+		
 		Grapchics.desenhaTela("____________________",0,4, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Nome: "+monstroCarregado.getNomeMonstro(),0,5, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("Nome: "+monstroCarregado.getNomeMonstro() + indicadorFavorito,0,5, AsciiPanel.brightWhite);
 		Grapchics.desenhaTela("Nivel: "+monstroCarregado.getNivelAtual(),0,6, AsciiPanel.brightWhite);
 		Grapchics.desenhaTela("Exp: "+monstroCarregado.getExpAtual(),0,7, AsciiPanel.brightWhite);
 		Grapchics.desenhaTela("Forca: "+monstroCarregado.getForcaBase(),0,8, AsciiPanel.brightWhite);
@@ -107,43 +114,23 @@ public final class Battle {
 	protected static void desenhaInventário(){
 		Grapchics.limpaTela();
 		
-		// O número máximo por página é 24.
+		reordenarListaInventário();
 		if (monstrosInventário.isEmpty()){
 			Grapchics.desenhaCentro("Inventario vazio.", 10, AsciiPanel.brightWhite);
 			Grapchics.atualizarTela();
 			return;
 		}
 		
-		if (Terminal.cursorY > monstrosInventário.size()){
-			Terminal.cursorY = 1;
-		}else if (Terminal.cursorY < 1){
-			Terminal.cursorY = monstrosInventário.size();
-		}
+		tamanhoInventário = monstrosInventário.size();
+		totalPaginas = (int) Math.ceil(tamanhoInventário / 24.0);
 		
-		Grapchics.desenhaCentro("Inventario",0, AsciiPanel.brightWhite);
+		String indicadorPagina = "Pagina "+paginaAtual+"/"+totalPaginas;
+		Grapchics.desenhaCentro("Inventario - "+indicadorPagina,0, AsciiPanel.brightWhite);
 		Grapchics.desenhaTela("E: Voltar", 0, 1, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("Enter: Equipar/Desequipar", 0, 2, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("Shift: Ver detalhes", 0, 3, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("____________________",0,4, AsciiPanel.brightWhite);
-		
-		posiçãoLinhaInventário = 5;
-		for (int i = 1; i <= monstrosInventário.size(); i++){
-			Monsters monstro = monstrosInventário.get(i);
-			if (monstro == null) continue;
-
-			boolean selecionado = (i == Terminal.cursorY);
-			String indicadorEquipado = monstro.isMonstroEquipado() ? " (E)" : "";
-			
-			if (selecionado){
-				nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
-				Grapchics.desenhaTela(nomeMonstroExibido + indicadorEquipado, 0, posiçãoLinhaInventário++, 
-				AsciiPanel.brightYellow, AsciiPanel.brightBlack);
-			}else{
-				nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
-				Grapchics.desenhaTela(nomeMonstroExibido + indicadorEquipado, 0, posiçãoLinhaInventário++, 
-				AsciiPanel.brightWhite);
-			}
-		}
+		desenhaListaInventário();
 		Grapchics.desenhaTela("____________________",0,posiçãoLinhaInventário, AsciiPanel.brightWhite);
 		
 		posiçãoLinhaEquipe = 33;
@@ -162,6 +149,58 @@ public final class Battle {
 		Grapchics.desenhaTela("____________________",0,posiçãoLinhaEquipe, AsciiPanel.brightWhite);
 		
 		Grapchics.atualizarTela();
+	}
+	
+	private static void desenhaListaInventário(){
+		inicioLista = (paginaAtual - 1) * 24;
+		fimLista = Math.min(inicioLista + 24, monstrosOrdenados.size());
+		
+		if (Terminal.cursorY < inicioLista + 1) Terminal.cursorY = fimLista;
+		if (Terminal.cursorY > fimLista) Terminal.cursorY = inicioLista+1;
+		
+		posiçãoLinhaInventário = 5;
+		for (int i = inicioLista+1; i <= fimLista; i++){
+		Monsters monstro = monstrosInventário.get(i);
+		if (monstro == null) continue;
+
+		boolean selecionado = (i == Terminal.cursorY);
+		String indicadorEquipado = monstro.isMonstroEquipado() ? " [E]" : "";
+		String indicadorFavorito = monstro.isMonstroFavorito() ? " [F]" : "";
+		
+			if (selecionado){
+				nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
+				Grapchics.desenhaTela(nomeMonstroExibido + indicadorEquipado + indicadorFavorito, 0, posiçãoLinhaInventário++, 
+				AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+			}else{
+				nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
+				Grapchics.desenhaTela(nomeMonstroExibido + indicadorEquipado + indicadorFavorito, 0, posiçãoLinhaInventário++, 
+				AsciiPanel.brightWhite);
+			}
+		}
+	}
+	
+	private static void reordenarListaInventário(){
+		monstrosOrdenados.clear(); 
+		
+		for (int i = 1; i <= monstrosInventário.size(); i++){
+			monstroCarregado = monstrosInventário.get(i);
+			if (monstroCarregado != null && (monstroCarregado.isMonstroEquipado() || monstroCarregado.isMonstroFavorito())){
+				monstrosOrdenados.add(monstroCarregado);
+			}
+		}
+		
+		for (int i = 1; i <= monstrosInventário.size(); i++){
+			monstroCarregado = monstrosInventário.get(i);
+			if (monstroCarregado != null && !monstroCarregado.isMonstroEquipado() && !monstroCarregado.isMonstroFavorito()){
+				monstrosOrdenados.add(monstroCarregado);
+			}
+		}
+		
+		monstrosInventário.clear();
+		idInventário = 1;
+		for (Monsters m : monstrosOrdenados){
+			monstrosInventário.put(idInventário++, m);
+		}
 	}
 	
 	protected static void alternarMonstroTabela(int id){
@@ -192,6 +231,22 @@ public final class Battle {
 				}
 			}
 		}
+	}
+	
+	protected static void alternarPagina(boolean avançar){
+		if (avançar){
+			paginaAtual++;
+			if (paginaAtual > totalPaginas) paginaAtual = 1;
+		}else paginaAtual--; if (paginaAtual < 1) paginaAtual = totalPaginas;
+	}
+	
+	protected static void alternarMonstroFavorito(int id){
+		Monsters monstro = monstrosInventário.get(id);
+		if (monstro == null) return;
+		
+		if (monstro.isMonstroFavorito()){
+			monstro.setMonstroFavorito(false);
+		}else monstro.setMonstroFavorito(true);
 	}
 	
 	private static void reordenarEquipe(){

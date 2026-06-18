@@ -136,17 +136,14 @@ public final class Terminal implements KeyListener {
 			Grapchics.desenhaCentro("Sair     ", 22, AsciiPanel.brightWhite);
 		}
 		
-		Grapchics.desenhaTela("Direcionais/WASD: Selecionar",0,37, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Enter: Confirmar",0,38, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("Desenvolvido por Carlos S. Rehem.",0,39, AsciiPanel.brightWhite);
 		Grapchics.atualizarTela();
 	}
 	
 	private void desenhaInfo(){		
-		Grapchics.desenhaTela("ESC: Titulo",0,34, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Shift: Mostrar equipe",0,35, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("ESC: Titulo",0,35, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("E: Inventario",0,36, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Direcionais/WASD: Movimentacao",0,37, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Shift: Mostrar equipe",0,37, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("Enter: Interagir",0,38, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("Ouro: 0",0,39, AsciiPanel.brightWhite);	
 		
@@ -162,6 +159,9 @@ public final class Terminal implements KeyListener {
 		if (estadoAtual == EstadosJogo.MONSTRO_DETALHES){
 			cursorY--;
 		}
+		if (estadoAtual == EstadosJogo.INVENTARIO){
+			Battle.alternarPagina(false);
+		}
 	}
 	
 	private void teclaDireita(){
@@ -172,6 +172,9 @@ public final class Terminal implements KeyListener {
 		}
 		if (estadoAtual == EstadosJogo.MONSTRO_DETALHES){
 			cursorY++;
+		}
+		if (estadoAtual == EstadosJogo.INVENTARIO){
+			Battle.alternarPagina(true);
 		}
 	}
 	
@@ -219,6 +222,8 @@ public final class Terminal implements KeyListener {
 		if (cursorY == 3) System.exit(0); // Provisório.
 		}else if (estadoAtual == EstadosJogo.INVENTARIO){
 			Battle.alternarMonstroTabela(cursorY);
+		}else if (estadoAtual == EstadosJogo.MONSTRO_DETALHES){
+			Battle.alternarMonstroFavorito(cursorY);
 		}
 	}
 	
