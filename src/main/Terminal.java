@@ -14,7 +14,8 @@ public final class Terminal implements KeyListener {
 		MAPA("Mapa"),
 		INVENTARIO("Inventário"),
 		MONSTRO_DETALHES("Monstro_Detalhes"),
-		LOJA("Loja");
+		LOJA("Loja"),
+		LOJA_RECIBO("Loja_Recibo");
 		
 		private String nome;
 		
@@ -47,6 +48,8 @@ public final class Terminal implements KeyListener {
 		estadoAtual = EstadosJogo.TITULO;
 		mapaAtual = mapaInicial;
 		mostraEquipe = false;
+		Shop.inicializarLoja();
+		
 		jogadorX = 19;
 		jogadorY = 9;
 		cursorY = 1; // A posição inicial é "Novo jogo".
@@ -87,6 +90,8 @@ public final class Terminal implements KeyListener {
 			System.out.println("FPS Atual: " + contadorFrames);
 			System.out.println("Jogador_X: "+jogadorX);
 			System.out.println("Jogador_Y: "+jogadorY);
+			System.out.println("Cursor_X: "+cursorX);
+			System.out.println("Cursor_Y: "+cursorY);
 			System.out.println("EstadoAtual: "+estadoAtual);
 		}
 	}
@@ -110,6 +115,9 @@ public final class Terminal implements KeyListener {
 				break;
 			case LOJA:
 				Shop.desenhaLoja();
+				break;
+			case LOJA_RECIBO:
+				Shop.desenhaLojaRecibo();
 				break;
 		}
 	}
@@ -157,64 +165,80 @@ public final class Terminal implements KeyListener {
 	}
 	
 	private void teclaEsquerda(){
-		if (estadoAtual == EstadosJogo.MAPA){
-			if (!Maps.ehParede(mapaAtual, jogadorX-1, jogadorY)){
-				jogadorX--;
-			}
-		}
-		if (estadoAtual == EstadosJogo.MONSTRO_DETALHES){
-			cursorY--;
-		}
-		if (estadoAtual == EstadosJogo.INVENTARIO){
-			Battle.alternarPagina(false);
+		switch (estadoAtual){
+        case MAPA:
+            if (!Maps.ehParede(mapaAtual, jogadorX - 1, jogadorY)){
+                jogadorX--;
+            }
+            break;
+        case MONSTRO_DETALHES:
+            cursorY--;
+            break;
+        case INVENTARIO:
+            Battle.alternarPagina(false);
+            break;
+        case LOJA:
+		case LOJA_RECIBO:
+            Shop.alternarPagina(false);
+            break;
 		}
 	}
 	
 	private void teclaDireita(){
-		if (estadoAtual == EstadosJogo.MAPA){
-			if (!Maps.ehParede(mapaAtual, jogadorX+1, jogadorY)){
-				jogadorX++;
-			}
-		}
-		if (estadoAtual == EstadosJogo.MONSTRO_DETALHES){
-			cursorY++;
-		}
-		if (estadoAtual == EstadosJogo.INVENTARIO){
-			Battle.alternarPagina(true);
+		switch (estadoAtual){
+        case MAPA:
+            if (!Maps.ehParede(mapaAtual, jogadorX + 1, jogadorY)){
+                jogadorX++;
+            }
+            break;
+        case MONSTRO_DETALHES:
+            cursorY++;
+            break;
+        case INVENTARIO:
+            Battle.alternarPagina(true);
+            break;
+        case LOJA:
+		case LOJA_RECIBO:
+            Shop.alternarPagina(true);
+            break;
 		}
 	}
 	
 	private void teclaCima(){
-		if (estadoAtual == EstadosJogo.TITULO){
-			cursorY--;
-		}
-		if (estadoAtual == EstadosJogo.INVENTARIO){
-			cursorY--;
-		}
-		if (estadoAtual == EstadosJogo.MAPA){
-			if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY-1)){
-				jogadorY--;
-			}
-		}
-		if (estadoAtual == EstadosJogo.LOJA){
-			cursorY--;
+		switch (estadoAtual){
+        case TITULO:
+            cursorY--;
+            break;
+        case INVENTARIO:
+            cursorY--;
+            break;
+        case MAPA:
+            if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY - 1)){
+                jogadorY--;
+            }
+            break;
+        case LOJA:
+            cursorY--;
+            break;
 		}
 	}
 	
 	private void teclaBaixo(){
-		if (estadoAtual == EstadosJogo.TITULO){
-			cursorY++;
-		}
-		if (estadoAtual == EstadosJogo.INVENTARIO){
-			cursorY++;
-		}		
-		if (estadoAtual == EstadosJogo.MAPA){
-			if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY+1)){
-				jogadorY++;
-			}
-		}
-		if (estadoAtual == EstadosJogo.LOJA){
-			cursorY++;
+		switch (estadoAtual){
+        case TITULO:
+            cursorY++;
+            break;
+        case INVENTARIO:
+            cursorY++;
+            break;
+        case MAPA:
+            if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY + 1)){
+                jogadorY++;
+            }
+            break;
+        case LOJA:
+            cursorY++;
+            break;
 		}
 	}
 	
@@ -226,65 +250,107 @@ public final class Terminal implements KeyListener {
 	}
 	
 	private void teclaEnter(){
-		if (estadoAtual == EstadosJogo.TITULO){
-			if (cursorY == 1 || cursorY == 2){
-				Grapchics.limpaTela();
-				estadoAtual = EstadosJogo.MAPA;
-			}
-		if (cursorY == 3) System.exit(0); // Provisório.
-		}else if (estadoAtual == EstadosJogo.INVENTARIO){
-			Battle.alternarMonstroTabela(cursorY);
-		}else if (estadoAtual == EstadosJogo.MONSTRO_DETALHES){
-			Battle.alternarMonstroFavorito(cursorY);
-		}else if (estadoAtual == EstadosJogo.MAPA){
-			if(Maps.ehEvento(mapaAtual, jogadorX, jogadorY) == '$'){
-				cursorY = 0;
-				cursorX = 0;
-				Shop.inicializarLoja();
-				estadoAtual = EstadosJogo.LOJA;
-			}
-		}else if (estadoAtual == EstadosJogo.LOJA){
-			Shop.comprarMonstro();
+		switch (estadoAtual) {
+        case TITULO:
+            if (cursorY == 1 || cursorY == 2){
+                Grapchics.limpaTela();
+                estadoAtual = EstadosJogo.MAPA;
+            }
+            if (cursorY == 3) System.exit(0); // Provisório.
+            break;
+        case INVENTARIO:
+            Battle.alternarMonstroTabela(cursorY);
+            break;
+        case MONSTRO_DETALHES:
+            Battle.alternarMonstroFavorito(cursorY);
+            break;
+        case MAPA:
+            if (Maps.ehEvento(mapaAtual, jogadorX, jogadorY) == '$'){
+                cursorY = 0;
+                cursorX = 0;
+                Shop.limparCarrinho();
+                estadoAtual = EstadosJogo.LOJA;
+            }
+            break;
+        case LOJA:
+			Shop.alternarItemCarrinho();
+            break;
 		}
 	}
 	
-	private void teclaShift(){		
-		if(estadoAtual == EstadosJogo.MAPA){
-			Grapchics.limpaTela();
-			if (mostraEquipe){
-				mostraEquipe = false;
-			}else mostraEquipe = true;
-		}
-		if (estadoAtual == EstadosJogo.INVENTARIO){
-			Grapchics.limpaTela();
-			estadoAtual = EstadosJogo.MONSTRO_DETALHES;
+	private void teclaShift(){
+		switch (estadoAtual){
+        case MAPA:
+            Grapchics.limpaTela();
+            mostraEquipe = !mostraEquipe;
+            break;
+        case INVENTARIO:
+            Grapchics.limpaTela();
+            estadoAtual = EstadosJogo.MONSTRO_DETALHES;
+            break;
 		}
 	}
 	
 	private void teclaInventário(){
-		if (estadoAtual == EstadosJogo.MAPA){
-			Grapchics.limpaTela();
-			cursorX = 1;
-			cursorY = 1;
-			estadoAtual = EstadosJogo.INVENTARIO;
-		}else if (estadoAtual == EstadosJogo.INVENTARIO){
-			Grapchics.limpaTela();
-			cursorX = 1;
-			cursorY = 1;
-			estadoAtual = EstadosJogo.MAPA;
-		}else if (estadoAtual == EstadosJogo.MONSTRO_DETALHES){
-			Grapchics.limpaTela();
-			estadoAtual = EstadosJogo.INVENTARIO;
-		}else if (estadoAtual == EstadosJogo.LOJA){
-			Grapchics.limpaTela();
-			estadoAtual = EstadosJogo.MAPA;
+		switch (estadoAtual){
+        case MAPA:
+        case LOJA_RECIBO:
+            Grapchics.limpaTela();
+            cursorX = 1;
+            cursorY = 1;
+            estadoAtual = EstadosJogo.INVENTARIO;
+            break;
+        case INVENTARIO:
+            Grapchics.limpaTela();
+            cursorX = 1;
+            cursorY = 1;
+            estadoAtual = EstadosJogo.MAPA;
+            break;
+        case MONSTRO_DETALHES:
+            Grapchics.limpaTela();
+            estadoAtual = EstadosJogo.INVENTARIO;
+            break;
+        case LOJA:
+            Grapchics.limpaTela();
+            estadoAtual = EstadosJogo.MAPA;
+            break;
+		}
+	}
+	
+	private void teclaComprar(){
+		switch (estadoAtual){
+        case LOJA:
+            if (Shop.comprarMonstro()){
+				Grapchics.limpaTela();
+				cursorY = 0;
+				estadoAtual = EstadosJogo.LOJA_RECIBO;
+			}else if (estadoAtual == EstadosJogo.LOJA_RECIBO){
+				Grapchics.limpaTela();
+				Shop.limparCarrinho(); 
+				cursorY = 0;
+				estadoAtual = EstadosJogo.LOJA;
+			}
+            break;
+        case LOJA_RECIBO:
+            Grapchics.limpaTela();
+            Shop.limparCarrinho();
+			cursorY = 0;
+            estadoAtual = EstadosJogo.LOJA;
+            break;
 		}
 	}
 	
 	private void teclaEsc(){
-		if (estadoAtual == EstadosJogo.MAPA){
-			Grapchics.limpaTela();
-			estadoAtual = EstadosJogo.TITULO;
+		switch (estadoAtual){
+        case MAPA:
+            Grapchics.limpaTela();
+            estadoAtual = EstadosJogo.TITULO;
+            break;
+        case LOJA_RECIBO:
+            Grapchics.limpaTela();
+            Shop.limparCarrinho();
+            estadoAtual = EstadosJogo.MAPA;
+            break;
 		}
 	}
 	
@@ -315,6 +381,9 @@ public final class Terminal implements KeyListener {
 				break;
 			case KeyEvent.VK_E:
 				teclaInventário();
+				break;
+			case KeyEvent.VK_Q:
+				teclaComprar();
 				break;	
 			case KeyEvent.VK_F3:
 			case KeyEvent.VK_ALT:

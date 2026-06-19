@@ -51,7 +51,7 @@ public final class Battle {
 		paginaAtual = 1;
 		inicioLista = 1;
 		fimLista = 1;
-		ouro = 250;
+		ouro = 3000;
 		
 		adicionarMonstroInventário(1);
 	}
