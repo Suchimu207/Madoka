@@ -1,3 +1,5 @@
+package main;
+
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
 

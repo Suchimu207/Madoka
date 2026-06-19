@@ -1,3 +1,5 @@
+package main;
+
 import bestiary.*;
 
 import asciiPanel.AsciiPanel;
@@ -25,7 +27,7 @@ public final class Battle {
 	private static Monsters monstroCarregado;
 	private static Monsters[] monstroSlotsAtivos;
 	private static int idInventário, posiçãoLinhaInventário, posiçãoLinhaEquipe, 
-	tamanhoInventário, totalPaginas, paginaAtual, inicioLista, fimLista;
+	tamanhoInventário, totalPaginas, paginaAtual, inicioLista, fimLista, ouro;
 	private static String nomeMonstroExibido;
 	
 	private Battle(){
@@ -49,6 +51,7 @@ public final class Battle {
 		paginaAtual = 1;
 		inicioLista = 1;
 		fimLista = 1;
+		ouro = 250;
 		
 		adicionarMonstroInventário(1);
 	}
@@ -259,7 +262,7 @@ public final class Battle {
 		}
 	}
 	
-	private static void adicionarMonstroInventário(int id){
+	protected static void adicionarMonstroInventário(int id){
 		Monsters monstroRequerido = MonstersManager.getMonstro(id);
 		
 		monstroCarregado = new Monsters(monstroRequerido);
@@ -275,7 +278,7 @@ public final class Battle {
 		}
 	}
 	
-	private static void removerMonstroInventário(int id){
+	protected static void removerMonstroInventário(int id){
 		monstroCarregado = monstrosInventário.get(id);
 		if (monstroCarregado == null) return;
 		
@@ -302,6 +305,14 @@ public final class Battle {
 		for (int i = 0; i < monstrosAtuais.length; i++){
 			monstrosInventário.put(idInventário++, monstrosAtuais[i]);
 		}
+	}
+	
+	public static int getOuro(){
+		return ouro;
+	}
+	
+	public static void setOuro(int ouro){
+		Battle.ouro = ouro;
 	}
 
 	//===

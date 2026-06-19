@@ -1,3 +1,5 @@
+package main;
+
 import asciiPanel.AsciiPanel;
 
 import javax.swing.*;
@@ -11,7 +13,8 @@ public final class Terminal implements KeyListener {
 		TITULO("Título"),
 		MAPA("Mapa"),
 		INVENTARIO("Inventário"),
-		MONSTRO_DETALHES("Monstro_Detalhes");
+		MONSTRO_DETALHES("Monstro_Detalhes"),
+		LOJA("Loja");
 		
 		private String nome;
 		
@@ -104,7 +107,10 @@ public final class Terminal implements KeyListener {
 				break;
 			case MONSTRO_DETALHES:
 				Battle.desenhaMonstroDetalhes();
-				break;	
+				break;
+			case LOJA:
+				Shop.desenhaLoja();
+				break;
 		}
 	}
 	
@@ -145,7 +151,7 @@ public final class Terminal implements KeyListener {
 		Grapchics.desenhaTela("E: Inventario",0,36, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("Shift: Mostrar equipe",0,37, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("Enter: Interagir",0,38, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Ouro: 0",0,39, AsciiPanel.brightWhite);	
+		Grapchics.desenhaTela("Ouro: "+Battle.getOuro(),0,39, AsciiPanel.brightWhite);	
 		
 		Grapchics.atualizarTela();
 	}
@@ -190,6 +196,9 @@ public final class Terminal implements KeyListener {
 				jogadorY--;
 			}
 		}
+		if (estadoAtual == EstadosJogo.LOJA){
+			cursorY--;
+		}
 	}
 	
 	private void teclaBaixo(){
@@ -203,6 +212,9 @@ public final class Terminal implements KeyListener {
 			if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY+1)){
 				jogadorY++;
 			}
+		}
+		if (estadoAtual == EstadosJogo.LOJA){
+			cursorY++;
 		}
 	}
 	
@@ -224,6 +236,15 @@ public final class Terminal implements KeyListener {
 			Battle.alternarMonstroTabela(cursorY);
 		}else if (estadoAtual == EstadosJogo.MONSTRO_DETALHES){
 			Battle.alternarMonstroFavorito(cursorY);
+		}else if (estadoAtual == EstadosJogo.MAPA){
+			if(Maps.ehEvento(mapaAtual, jogadorX, jogadorY) == '$'){
+				cursorY = 0;
+				cursorX = 0;
+				Shop.inicializarLoja();
+				estadoAtual = EstadosJogo.LOJA;
+			}
+		}else if (estadoAtual == EstadosJogo.LOJA){
+			Shop.comprarMonstro();
 		}
 	}
 	
@@ -254,6 +275,9 @@ public final class Terminal implements KeyListener {
 		}else if (estadoAtual == EstadosJogo.MONSTRO_DETALHES){
 			Grapchics.limpaTela();
 			estadoAtual = EstadosJogo.INVENTARIO;
+		}else if (estadoAtual == EstadosJogo.LOJA){
+			Grapchics.limpaTela();
+			estadoAtual = EstadosJogo.MAPA;
 		}
 	}
 	
