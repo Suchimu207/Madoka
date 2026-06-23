@@ -14,6 +14,7 @@ public final class Terminal implements KeyListener {
 		MAPA("Mapa"),
 		INVENTARIO("Inventário"),
 		MONSTRO_DETALHES("Monstro_Detalhes"),
+		MONSTRO_HABILIDADES("Monstro_Habilidades"),
 		LOJA("Loja"),
 		LOJA_RECIBO("Loja_Recibo");
 		
@@ -33,6 +34,7 @@ public final class Terminal implements KeyListener {
 	
 	private int jogadorX, jogadorY;
 	protected static int cursorX, cursorY; // Provisório.
+	private static int cursorY_Anterior;
 	private final String TITLE;
 	private String os, mapaAtual, mapaInicial;
 	private boolean ativaDebug, mostraEquipe;
@@ -113,6 +115,9 @@ public final class Terminal implements KeyListener {
 			case MONSTRO_DETALHES:
 				Battle.desenhaMonstroDetalhes();
 				break;
+			case MONSTRO_HABILIDADES:
+				Battle.desenhaHabilidadeDetalhes();
+				break;
 			case LOJA:
 				Shop.desenhaLoja();
 				break;
@@ -172,7 +177,8 @@ public final class Terminal implements KeyListener {
             }
             break;
         case MONSTRO_DETALHES:
-            cursorY--;
+		case MONSTRO_HABILIDADES:
+            cursorX--;
             break;
         case INVENTARIO:
             Battle.alternarPagina(false);
@@ -192,7 +198,8 @@ public final class Terminal implements KeyListener {
             }
             break;
         case MONSTRO_DETALHES:
-            cursorY++;
+		case MONSTRO_HABILIDADES:
+            cursorX++;
             break;
         case INVENTARIO:
             Battle.alternarPagina(true);
@@ -220,6 +227,9 @@ public final class Terminal implements KeyListener {
         case LOJA:
             cursorY--;
             break;
+		case MONSTRO_HABILIDADES:
+			cursorY--;
+			break;
 		}
 	}
 	
@@ -239,6 +249,9 @@ public final class Terminal implements KeyListener {
         case LOJA:
             cursorY++;
             break;
+		case MONSTRO_HABILIDADES:
+			cursorY++;
+			break;
 		}
 	}
 	
@@ -264,6 +277,9 @@ public final class Terminal implements KeyListener {
         case MONSTRO_DETALHES:
             Battle.alternarMonstroFavorito(cursorY);
             break;
+		case MONSTRO_HABILIDADES:
+			Battle.alternarHabilidadeAtiva();
+			break;
         case MAPA:
             if (Maps.ehEvento(mapaAtual, jogadorX, jogadorY) == '$'){
                 cursorY = 0;
@@ -286,8 +302,14 @@ public final class Terminal implements KeyListener {
             break;
         case INVENTARIO:
             Grapchics.limpaTela();
+			cursorX = cursorY;
             estadoAtual = EstadosJogo.MONSTRO_DETALHES;
             break;
+		case MONSTRO_DETALHES:
+			Grapchics.limpaTela();
+			cursorY_Anterior = cursorY;
+			estadoAtual = EstadosJogo.MONSTRO_HABILIDADES;
+			break;
 		}
 	}
 	
@@ -310,6 +332,11 @@ public final class Terminal implements KeyListener {
             Grapchics.limpaTela();
             estadoAtual = EstadosJogo.INVENTARIO;
             break;
+		case MONSTRO_HABILIDADES:
+			Grapchics.limpaTela();
+			cursorY = cursorY_Anterior;
+			estadoAtual = EstadosJogo.MONSTRO_DETALHES;
+			break;
         case LOJA:
             Grapchics.limpaTela();
             estadoAtual = EstadosJogo.MAPA;

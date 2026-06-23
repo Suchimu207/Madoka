@@ -17,7 +17,7 @@ public final class SkillsManager {
 	private static Path caminho;
 	
 	private static Map<Integer, Skills> skillsExistentes; 
-	private static Monsters skillCarregada;
+	private static Skills skillCarregada;
 	private static JSONObject skills;
 	private static JSONArray skillsArray;
 	private static JSONArray elementosArray;
@@ -40,7 +40,7 @@ public final class SkillsManager {
 				Skills.TipoHabilidade tipoConvertido = Skills.TipoHabilidade.valueOf(skills.getString("tipo"));
 				Skills.TipoAlvo alvoConvertido = Skills.TipoAlvo.valueOf(skills.getString("alvo"));
 				
-				Skills skillCarregada = new Skills(
+				skillCarregada = new Skills(
 					skills.getInt("id"),
 					skills.getString("nome"),
 					elementoConvertido,
@@ -52,21 +52,6 @@ public final class SkillsManager {
 					skills.getInt("recarga")
 				);
 				skillsExistentes.put(skillCarregada.getIdHabilidade(), skillCarregada);
-				
-				/*
-				System.out.println("-------------------");
-				System.out.println("ID: " + skillCarregada.getIdHabilidade());
-				System.out.println("Nome: " + skillCarregada.getNomeHabilidade());
-				System.out.println("Elemento: " + skillCarregada.getElementoHabilidade());
-				System.out.println("Tipo: " + skillCarregada.getTipoHabilidade());
-				System.out.println("Alvo: " + skillCarregada.getAlvoHabilidade());
-				System.out.println("Poder: " + skillCarregada.getPoderHabilidade());
-				System.out.println("Precisão base: " + skillCarregada.getPrecisaoBase());
-				System.out.println("Energia: " + skillCarregada.getEnergiaHabilidade());
-				System.out.println("Recarga: " + skillCarregada.getRecargaHabilidade());
-				System.out.println("-------------------");
-				System.out.println("");
-				*/
 			}
         
         System.out.println(">>Habilidades carregadas: " +skillsExistentes.size());
@@ -75,6 +60,10 @@ public final class SkillsManager {
 			System.out.println("Erro ao carregar habilidades: "+e.getMessage());
 		}
 	}
-
+	
+	public static Map<Integer, Skills> getSkillsExistentes(){
+		return skillsExistentes;
+	}
+	
 	//===
 }

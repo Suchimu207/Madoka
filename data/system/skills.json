@@ -89,7 +89,7 @@
   },
   {
     "id": 9,
-    "nome": "Healing Savia for all",
+    "nome": "Healing Savia",
     "elemento": "NATUREZA",
     "tipo": "DEFENSIVA",
     "alvo": "ALIADO_AREA",

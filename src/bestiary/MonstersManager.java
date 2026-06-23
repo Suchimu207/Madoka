@@ -21,6 +21,7 @@ public final class MonstersManager {
 	private static JSONObject monstros;
 	private static JSONArray monstrosArray;
 	private static JSONArray elementosArray;
+	private static JSONArray habilidadesArray;
 	private static JSONArray traçosArray;
 	
 	private MonstersManager(){
@@ -33,6 +34,7 @@ public final class MonstersManager {
 			
 			monstrosExistentes = new HashMap<Integer, Monsters>();
 			monstrosArray = new JSONArray(conteudoJson);
+			Map<Integer, Skills> skillsExistentes = SkillsManager.getSkillsExistentes();
 			
 			for (int i = 0; i < monstrosArray.length(); i++){
 				monstros = monstrosArray.getJSONObject(i);
@@ -40,9 +42,10 @@ public final class MonstersManager {
 				
 				elementosArray = monstros.getJSONArray("elementos");
 				Monsters.Elementos[] elementosConvertidos = new Monsters.Elementos[elementosArray.length()];
-				for (int e = 0; e < elementosArray.length(); e++) {
+				for (int e = 0; e < elementosArray.length(); e++){
 					elementosConvertidos[e] = Monsters.Elementos.valueOf(elementosArray.getString(e));
 				}
+				Monsters.Raridades raridadeConvertida = Monsters.Raridades.valueOf(monstros.getString("raridade"));
 				
 				traçosArray = monstros.getJSONArray("tracos");
                 int[] traçosIds = new int[traçosArray.length()];
@@ -55,33 +58,33 @@ public final class MonstersManager {
 					monstros.getString("nome"),
 					classeConvertida,
 					elementosConvertidos,
+					raridadeConvertida,
 					monstros.getInt("nivelBase"),
-					monstros.getInt("expAtual"),
 					monstros.getInt("forcaBase"),
 					monstros.getInt("vidaBase"),
 					monstros.getInt("velocidadeBase"),
 					monstros.getInt("estaminaBase"),
 					traçosIds
 				);
-				monstrosExistentes.put(monstroCarregado.getIdMonstro(), monstroCarregado);
 				
-				/*
-				System.out.println("-------------------");
-				System.out.println("ID: " + monstroCarregado.getIdMonstro());
-				System.out.println("Nome: " + monstroCarregado.getNomeMonstro());
-				System.out.println("Classe: " + monstroCarregado.getClasseAtual());
-				System.out.println("Elementos: " + monstroCarregado.getElementosAtuais());
-				System.out.println("Nivel base: " + monstroCarregado.getNivelBase());
-				System.out.println("ExpAtual: " + monstroCarregado.getExpAtual());
-				System.out.println("-----");
-				System.out.println("Força base: " + monstroCarregado.getForcaBase());
-				System.out.println("Vida base: " + monstroCarregado.getVidaBase());
-				System.out.println("Velocidade base: " + monstroCarregado.getSpeedBase());
-				System.out.println("Estamina base: " + monstroCarregado.getEstaminaBase());
-				System.out.println("Traços: " + Arrays.toString(monstroCarregado.getTracosIds()));
-				System.out.println("-------------------");
-				System.out.println("");
-				*/
+				Map<Integer, Skills> skillsTree = new HashMap<Integer, Skills>();
+				habilidadesArray = monstros.getJSONArray("habilidades");
+				Skills skillEncontrada = null;
+				for (int j = 0; j < habilidadesArray.length(); j++){
+					JSONObject habInfo = habilidadesArray.getJSONObject(j);
+					int idHabilidade = habInfo.getInt("id");
+					int nivelAprendivel = habInfo.getInt("nivel");
+					Skills habilidadeEncontrada = SkillsManager.getSkillsExistentes().get(idHabilidade);
+					
+					Skills skillAtual = new Skills(habilidadeEncontrada);
+					
+					if (habilidadeEncontrada != null){
+						skillAtual.setNivelNecessario(nivelAprendivel);
+						monstroCarregado.adicionarHabilidadeArvore(nivelAprendivel, skillAtual);
+					}
+				}
+				
+				monstrosExistentes.put(monstroCarregado.getIdMonstro(), monstroCarregado);
 			}
         
         System.out.println(">>Monstros carregados: " +monstrosExistentes.size());

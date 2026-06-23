@@ -2,7 +2,9 @@ package bestiary;
 
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class Monsters {
@@ -23,7 +25,6 @@ public class Monsters {
 			return nomeClasse;
 		}
 	}
-	
 	protected enum Elementos{
 		FOGO("Fogo"),
 		NATUREZA("Natureza"),
@@ -47,6 +48,29 @@ public class Monsters {
 			return nomeElemento;
 		}
 	}
+	protected enum Raridades{
+		COMUM("Comum"),
+		INCOMUM("Incomum"),
+		RARO("Raro"),
+		EPICO("Épico"),
+		LENDARIO("Lendário");
+		
+		private String nomeRaridade;
+		
+		Raridades(String nomeRaridade){
+			this.nomeRaridade = nomeRaridade;
+		}
+		
+		public String getRaridadeNome(){
+			return nomeRaridade;
+		}
+	}
+	private enum SlotHabilidade{
+		SLOT_1,
+		SLOT_2,
+		SLOT_3,
+		SLOT_4,
+	}
 	
 	private int idMonstro;
 	private String nomeMonstro;
@@ -62,9 +86,16 @@ public class Monsters {
 	
 	private Classes classeAtual;
 	private Elementos[] elementosAtuais;
+	private Raridades raridadeMonstro;
+	
+	private final int NIVEL_MAXIMO = 40;
+	
+	private Map<Integer, List<Skills>> skillsTree = new HashMap<>();
+	private List<Skills> skillsDesbloqueadas = new ArrayList<>();
+	private EnumMap<SlotHabilidade, Skills> skillsAtivas = new EnumMap<>(SlotHabilidade.class);	
 	
 	public Monsters(int idMonstro, String nomeMonstro, Classes classeAtual, Elementos[] elementosAtuais,
-	int nivelBase, int expAtual, int forçaBase, int vidaBase, int speedBase, int estaminaBase, int[] traçosIds){
+	Raridades raridadeMonstro, int nivelBase, int forçaBase, int vidaBase, int speedBase, int estaminaBase, int[] traçosIds){
 		try{
 			if (idMonstro <= 0){
 				throw new IllegalArgumentException("ID deve ser maior do que 0.");
@@ -78,6 +109,7 @@ public class Monsters {
 				throw new IllegalArgumentException("O monstro não pode ter mais de dois elementos.");
 			}
 			this.elementosAtuais = elementosAtuais;
+			this.raridadeMonstro = raridadeMonstro;
 			
 			if (nivelBase <= 0){
 				throw new IllegalArgumentException("Nivel base deve ser maior do que 0.");
@@ -85,10 +117,7 @@ public class Monsters {
 			this.nivelBase = nivelBase;
 			this.nivelAtual = nivelBase;
 			
-			if (expAtual != 0){
-				throw new IllegalArgumentException("ExpAtual deve ser igual a 0.");
-			}
-			this.expAtual = expAtual;
+			this.expAtual = 0;
 			
 			if (forçaBase <= 0 || vidaBase <= 0 || speedBase <= 0 || estaminaBase <= 0){
 				throw new IllegalArgumentException("Atributos base devem ser maiores do que 0.");
@@ -112,6 +141,7 @@ public class Monsters {
 	   this.nomeMonstro = monstroRequerido.getNomeMonstro();
 	   this.classeAtual = monstroRequerido.getClasseAtual();
 	   this.elementosAtuais = monstroRequerido.getElementosAtuaisValores();
+	   this.raridadeMonstro = monstroRequerido.getRaridadeMonstro();
 	   this.nivelBase = monstroRequerido.getNivelBase();
 	   this.nivelAtual = monstroRequerido.getNivelAtual();
 	   this.expAtual = monstroRequerido.getExpAtual();
@@ -122,8 +152,135 @@ public class Monsters {
 	   this.traçosIds = monstroRequerido.getTracosIds();
 	   this.monstroEquipado = false;
 	   this.monstroFavorito = false;
-	} 
-
+	   
+	   this.skillsTree = new HashMap<>();
+	   for (Map.Entry<Integer, List<Skills>> entry : monstroRequerido.skillsTree.entrySet()){
+			List<Skills> listaClonada = new ArrayList<>();
+			for (Skills skillAtual : entry.getValue()){
+				listaClonada.add(new Skills(skillAtual));
+			}
+			this.skillsTree.put(entry.getKey(), listaClonada);
+		}
+		
+	   this.desbloquearHabilidades();
+	}
+	
+	public void adicionarHabilidadeArvore(int nivel, Skills skill){
+		// A função só é executada se a chave "nivel" não existir.
+		this.skillsTree.computeIfAbsent(nivel, k -> new ArrayList<>()).add(skill);
+	}
+	
+	public void desbloquearHabilidades(){
+		for (int nivel = 1; nivel <= this.nivelAtual; nivel++){
+			if (this.skillsTree.containsKey(nivel)){
+				List<Skills> habilidadesDoNivel = this.skillsTree.get(nivel);
+            
+				for (Skills skill : habilidadesDoNivel){
+					if (!this.skillsDesbloqueadas.contains(skill)){
+						this.skillsDesbloqueadas.add(skill);
+						
+						for (SlotHabilidade slot : SlotHabilidade.values()){
+							if (!skillsAtivas.containsKey(slot) && !skill.isTipoEspecial(skill.getTipoHabilidade())){
+								skillsAtivas.put(slot, skill);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public Map<Integer, List<Skills>> getHabilidadesArvore(){
+		return skillsTree;
+	}
+	
+	public Skills getHabilidadeArvoreId(int idHabilidade){
+		for (List<Skills> lista : skillsTree.values()){
+			for (Skills skill : lista){
+				if (skill.getIdHabilidade() == idHabilidade){
+					return skill;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public int getTamanhoSkillsTree(){
+		int total = 0;
+		for (List<Skills> lista : skillsTree.values()){
+			total += lista.size();
+		}
+		return total;
+	}
+	
+	public List<Skills> getHabilidadesDesbloqueadas(){
+        return skillsDesbloqueadas;
+    }
+	
+	protected EnumMap<SlotHabilidade, Skills> getSkillsAtivas(){
+		return skillsAtivas;
+	}
+	
+	public SlotHabilidade getSlotPorIndice(int indice){
+		SlotHabilidade[] slots = SlotHabilidade.values();
+			if (indice >= 0 && indice < slots.length){
+				return slots[indice];
+			}
+			return null;
+	}
+	
+	public int getQuantidadeMaxSlotsHabilidade(){
+		return SlotHabilidade.values().length;
+	}
+	
+	public Skills getHabilidadeAtiva(int indice){
+		SlotHabilidade slot = getSlotPorIndice(indice);
+		return slot != null ? skillsAtivas.get(slot) : null;
+	}
+	
+	public boolean isHabilidadeAtiva(Skills habilidade){
+		if (habilidade == null) return false;
+		
+		for (Map.Entry<SlotHabilidade, Skills> entry : skillsAtivas.entrySet()){
+			if (entry.getValue() == habilidade){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean removerHabilidadeAtiva(Skills skill){
+		for (Map.Entry<SlotHabilidade, Skills> entry : skillsAtivas.entrySet()){
+			if (entry.getValue() == skill){
+				skillsAtivas.remove(entry.getKey());
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void adicionarHabilidadeAtiva(Skills skill){
+		for (SlotHabilidade slot : SlotHabilidade.values()){
+			if (!skillsAtivas.containsKey(slot)){
+				skillsAtivas.put(slot, skill);
+				break;
+			}
+		}
+	}
+	
+	public void reordenarSkillsAtivas(){
+		List<Skills> lista = new ArrayList<>(skillsAtivas.values());
+		skillsAtivas.clear();
+		for (int i = 0; i < lista.size() && i < SlotHabilidade.values().length; i++){
+			skillsAtivas.put(SlotHabilidade.values()[i], lista.get(i));
+		}
+	}
+	
+	public int getQuantidadeSlotsOcupados(){
+		return skillsAtivas.size();
+	}
+	
 	public int getIdMonstro(){
 		return idMonstro;
 	}
@@ -141,7 +298,11 @@ public class Monsters {
 	}
 	
 	public String getElementosAtuais(){
-		return Arrays.toString(elementosAtuais);
+		return Arrays.toString(elementosAtuais).replaceAll("[\\[\\]]", "");
+	}
+	
+	public Raridades getRaridadeMonstro(){
+		return raridadeMonstro;
 	}
 	
 	public int getNivelBase(){

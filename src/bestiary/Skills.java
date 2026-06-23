@@ -55,6 +55,8 @@ public class Skills {
 	private int recargaHabilidade;
 	private int recargaAtual;
 	
+	private int nivelNecessario;
+	
 	public Skills(int idHabilidade, String nomeHabilidade, Monsters.Elementos elementoHabilidade,
 	TipoHabilidade tipoHabilidade, TipoAlvo alvoHabilidade, int poderHabilidade, int precisãoBase,
 	int energiaHabilidade, int recargaHabilidade){
@@ -77,10 +79,27 @@ public class Skills {
 		this.energiaHabilidade = energiaHabilidade;
 		this.recargaHabilidade = recargaHabilidade;
 		
+		this.nivelNecessario = 1;
 		}catch(IllegalArgumentException e){
 			System.out.println("Erro ao criar habilidade ID_"+idHabilidade+": "+e.getMessage());
 			System.exit(1);
 		}
+	}
+	
+	public Skills(Skills skillRequerida){
+		this.idHabilidade = skillRequerida.getIdHabilidade();
+		this.nomeHabilidade = skillRequerida.getNomeHabilidade();
+		this.elementoHabilidade = skillRequerida.getElementoHabilidadeTipo();
+		this.tipoHabilidade = skillRequerida.getTipoHabilidade();
+		this.alvoHabilidade = skillRequerida.getAlvoHabilidadeTipo();
+		this.poderHabilidade = skillRequerida.getPoderHabilidade();
+		this.precisãoBase = skillRequerida.getPrecisaoBase();
+		this.energiaHabilidade = skillRequerida.getEnergiaHabilidade();
+		this.recargaHabilidade = skillRequerida.getRecargaHabilidade();
+		this.nivelNecessario = skillRequerida.getNivelNecessario();
+	}
+	
+	public Skills(){
 	}
 	
 	public int getIdHabilidade(){
@@ -95,10 +114,18 @@ public class Skills {
 		return elementoHabilidade.toString();
 	}
 
-	public String getTipoHabilidade(){
-		return tipoHabilidade.toString();
+	public Monsters.Elementos getElementoHabilidadeTipo(){
+		return elementoHabilidade;
 	}
 
+	public TipoHabilidade getTipoHabilidade(){
+		return tipoHabilidade;
+	}
+	
+	public TipoAlvo getAlvoHabilidadeTipo(){
+		return alvoHabilidade;
+	}
+	
 	public String getAlvoHabilidade(){
 		return alvoHabilidade.toString();
 	}
@@ -117,6 +144,20 @@ public class Skills {
 
 	public int getRecargaHabilidade(){
 		return recargaHabilidade;
+	}
+	
+	public int getNivelNecessario(){
+		return this.nivelNecessario;
+	}
+	
+	public void setNivelNecessario(int nivelNecessario){
+		this.nivelNecessario = nivelNecessario;
+	}
+	
+	public boolean isTipoEspecial(TipoHabilidade tipoHabilidade){
+		if (tipoHabilidade == TipoHabilidade.ESPECIAL){
+			return true;
+		}else return false;
 	}
 	
 	//===
