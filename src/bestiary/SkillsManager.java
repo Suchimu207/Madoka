@@ -21,6 +21,7 @@ public final class SkillsManager {
 	private static JSONObject skills;
 	private static JSONArray skillsArray;
 	private static JSONArray elementosArray;
+	private static JSONArray efeitosArray;
 	
 	public SkillsManager(){
 	}
@@ -51,6 +52,23 @@ public final class SkillsManager {
 					skills.getInt("energia"),
 					skills.getInt("recarga")
 				);
+				
+				efeitosArray = skills.optJSONArray("efeitos");
+				if (efeitosArray != null){
+					for (int e = 0; e < efeitosArray.length(); e++){
+						JSONObject efeitoObj = efeitosArray.getJSONObject(e);
+						
+						String tipoStr = efeitoObj.getString("efeito");
+						Skills.EfeitoHabilidade tipo = Skills.EfeitoHabilidade.valueOf(tipoStr);
+						int alvo = efeitoObj.getInt("alvo");
+						int valor = efeitoObj.getInt("valor");
+						int chance = efeitoObj.getInt("chance");
+						
+						Skills.Efeito efeito = new Skills.Efeito(tipo, alvo, valor, chance);
+						skillCarregada.adicionarEfeito(efeito);
+					}
+				}
+				
 				skillsExistentes.put(skillCarregada.getIdHabilidade(), skillCarregada);
 			}
         

@@ -183,7 +183,8 @@ public final class Shop {
 		Grapchics.desenhaTela("E: Abrir inventario", 0, 2, AsciiPanel.brightBlack);
         Grapchics.desenhaTela("Q: Continuar comprando", 0, 3, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("Ouro atual: " + Battle.getOuro(), 0, 4, AsciiPanel.brightWhite);
-        Grapchics.desenhaTela("Ouro gasto: " + ouroGasto, 0, 5, AsciiPanel.brightWhite);
+        Grapchics.desenhaTela("Ouro gasto:", 0, 5, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela(" " + ouroGasto,11,5, AsciiPanel.brightYellow);
         Grapchics.desenhaTela("____________________", 0, 6, AsciiPanel.brightWhite);
         linhaItem = 7;
         

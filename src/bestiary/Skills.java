@@ -1,8 +1,36 @@
 package bestiary;
 
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Skills {
+	protected static class Efeito{
+		private final EfeitoHabilidade tipo;
+		private final int alvo;
+		private final int valor;
+		private final int chance;
+		
+		public Efeito(EfeitoHabilidade tipo, int alvo, int valor, int chance){
+			this.tipo = tipo;
+			this.alvo = alvo;
+			this.valor = valor;
+			this.chance = chance;
+		}
+		
+		public EfeitoHabilidade getTipo() { return tipo; }
+		public int getAlvo() { return alvo; }
+		public int getValor() { return valor; }
+		public int getChance() { return chance; }
+	}
+	
+	protected enum EfeitoHabilidade{
+		HEALING,
+		APPLY_STATUS,
+		REMOVE_POSITIVE_STATUS,
+		REMOVE_NEGATIVE_STATUS,
+		REMOVE_CONTINUOUS_DAMAGE,
+	}
 	protected enum TipoHabilidade{
 		ESPECIAL("Especial"),
 		OFENSIVA("Ofensiva"),
@@ -19,7 +47,6 @@ public class Skills {
 			return nomeTipo;
 		}
 	}
-	
 	protected enum TipoAlvo{
 		USUARIO("Usuário"),
 		ALIADO_UNICO("Um aliado"),
@@ -50,6 +77,7 @@ public class Skills {
 	
 	private TipoHabilidade tipoHabilidade;
 	private TipoAlvo alvoHabilidade;
+	private List<Efeito> efeitos = new ArrayList<>();
 	private Monsters.Elementos elementoHabilidade;
 	
 	private int recargaHabilidade;
@@ -97,6 +125,12 @@ public class Skills {
 		this.energiaHabilidade = skillRequerida.getEnergiaHabilidade();
 		this.recargaHabilidade = skillRequerida.getRecargaHabilidade();
 		this.nivelNecessario = skillRequerida.getNivelNecessario();
+		
+		this.efeitos = new ArrayList<>();
+		for (Efeito e : skillRequerida.getEfeitos()){
+			this.efeitos.add(new Efeito(e.getTipo(), e.getAlvo(), e.getValor(), e.getChance()));
+		}
+		
 	}
 	
 	public Skills(){
@@ -128,6 +162,16 @@ public class Skills {
 	
 	public String getAlvoHabilidade(){
 		return alvoHabilidade.toString();
+	}
+	
+	public List<Efeito> getEfeitos(){
+		return new ArrayList<>(efeitos);
+	}
+	
+	protected void adicionarEfeito(Efeito efeito){
+		if (efeito != null) {
+			this.efeitos.add(efeito);
+		}
 	}
 	
 	public int getPoderHabilidade(){

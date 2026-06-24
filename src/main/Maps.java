@@ -109,6 +109,8 @@ public final class Maps {
 		
 		if (linhaAlvo.charAt(jogadorX) == '$'){
 			return '$';
+		}else if (linhaAlvo.charAt(jogadorX) == '!'){
+			return '!';
 		}
 		return '.';
 	}

@@ -5,7 +5,7 @@
     "classe": "SUPORTE",
     "elementos": ["NATUREZA"],
     "raridade": "COMUM",
-    "nivelBase": 40,
+    "nivelBase": 1,
     "habilidades": [
     { "id": 1, "nivel": 1 },
     { "id": 2, "nivel": 1 },
@@ -385,41 +385,5 @@
     "velocidadeBase": 9,
     "estaminaBase": 100,
     "tracos": [4]
-  },
-  {
-    "id": 22,
-    "nome": "Muddy Bush",
-    "classe": "GENERALISTA",
-    "elementos": ["NATUREZA", "AGUA"],
-    "raridade": "COMUM",
-    "nivelBase": 1,
-    "habilidades": [
-    { "id": 1, "nivel": 1 },
-    { "id": 2, "nivel": 1 },
-    { "id": 3, "nivel": 1 }
-    ],
-    "forcaBase": 9,
-    "vidaBase": 23,
-    "velocidadeBase": 12,
-    "estaminaBase": 100,
-    "tracos": [9]
-  },
-  {
-    "id": 23,
-    "nome": "Big Muddy Bush",
-    "classe": "TANQUE",
-    "elementos": ["NATUREZA", "AGUA"],
-    "raridade": "COMUM",
-    "nivelBase": 1,
-    "habilidades": [
-    { "id": 1, "nivel": 1 },
-    { "id": 2, "nivel": 1 },
-	{ "id": 3, "nivel": 1 }
-    ],
-    "forcaBase": 7,
-    "vidaBase": 30,
-    "velocidadeBase": 9,
-    "estaminaBase": 100,
-    "tracos": [9]
   }
 ]

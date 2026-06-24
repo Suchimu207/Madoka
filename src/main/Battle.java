@@ -26,11 +26,15 @@ public final class Battle {
 	private static List<Skills> skillsTree, skillsDesbloqueadas;
 	private static SlotEquipe slotEncontrado;
 
-	private static Monsters monstroCarregado;
+	private static Monsters monstroCarregado, monstroMostrado;
 	private static Skills skillCarregada, skillMostrada;
 	private static Monsters[] monstroSlotsAtivos;
-	private static int idInventário, posiçãoLinhaInventário, posiçãoLinhaEquipe, posiçãoLinhaSkillsAtivas,
-	tamanhoInventário, totalPaginas, paginaAtual, inicioLista, fimLista, ouro, linhaAtual;
+	
+	private static int idInventário, tamanhoInventário, totalPaginas, paginaAtual, 
+	inicioLista, fimLista, ouro, linhaAtual, maxSlotsAtivos, linhaInicial, linhaMax;
+	private static int posiçãoLinhaInventário, posiçãoLinhaEquipe, 
+	posiçãoLinhaSkillsAtivas, posiçãoLinhaBatalha;
+	
 	private static String nomeMonstroExibido;
 	
 	private Battle(){
@@ -59,6 +63,84 @@ public final class Battle {
 		ouro = 3000;
 		
 		adicionarMonstroInventário(1);
+	}
+	
+	protected static void desenhaTelaPreparo(){
+		Grapchics.limpaTela();
+		
+		maxSlotsAtivos = monstroSlotsAtivos.length;
+		linhaAtual = 1;
+		
+		Grapchics.desenhaCentro("Batalha",0, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("E: Voltar", 0,linhaAtual++, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Q: Iniciar batalha",0,linhaAtual++, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Enter: Escolher integrante",0,linhaAtual++, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Oponente: ",0,linhaAtual++, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
+		// As informações das tropas: quem é, nível e elementos. Exemplo: Firesaur Nv1 (Fogo).
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
+		linhaAtual += 1;
+		
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
+		linhaInicial = linhaAtual;
+		for (int i = 0; i <= maxSlotsAtivos-1; i++){
+			Monsters monstro = monstroSlotsAtivos[i];
+			if(monstro == null){
+				if (Terminal.cursorY == linhaAtual){
+					Grapchics.desenhaTela("["+(i+1)+"]", 0, linhaAtual++, AsciiPanel.brightYellow, 
+					AsciiPanel.brightBlack);
+					monstroMostrado = null;
+				}else{
+					Grapchics.desenhaTela("["+(i+1)+"]", 0, linhaAtual++, AsciiPanel.brightBlack);
+				}
+			}else{
+				if (Terminal.cursorY == linhaAtual){
+					Grapchics.desenhaTela(monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual(), 0, linhaAtual++, 
+					AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+					monstroMostrado = monstro;
+				}else{
+					Grapchics.desenhaTela(monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual(), 0, linhaAtual++, 
+					AsciiPanel.brightWhite);
+				}
+			}
+		}
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
+		linhaAtual += 1;
+		
+		
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
+		for (SlotEquipe slot : SlotEquipe.values()){
+			Monsters monstroEquipe = equipeTabela.get(slot);
+			
+			if (monstroEquipe != null){
+				if (Terminal.cursorY == linhaAtual){
+					monstroMostrado = null;
+					nomeMonstroExibido = monstroEquipe.getNomeMonstro()+" Nv"+monstroEquipe.getNivelAtual();
+					Grapchics.desenhaTela(nomeMonstroExibido, 0, linhaAtual++, AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+					monstroMostrado = monstroEquipe;
+				}else{
+					nomeMonstroExibido = monstroEquipe.getNomeMonstro()+" Nv"+monstroEquipe.getNivelAtual();
+					Grapchics.desenhaTela(nomeMonstroExibido, 0, linhaAtual++, AsciiPanel.brightWhite);
+				}
+			}else{
+				if (Terminal.cursorY == linhaAtual){
+					Grapchics.desenhaTela("[Vazio]", 0, linhaAtual++, AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+					monstroMostrado = null;
+				}else{
+					Grapchics.desenhaTela("[Vazio]", 0, linhaAtual++, AsciiPanel.brightBlack);
+				}
+			}
+		}
+		linhaMax = linhaAtual;
+		Grapchics.desenhaTela("____________________",0,linhaAtual, AsciiPanel.brightWhite);
+		
+		if (Terminal.cursorY > linhaMax-1){
+			Terminal.cursorY = linhaInicial;
+		}else if (Terminal.cursorY < linhaInicial){
+			Terminal.cursorY = linhaMax-1;
+		}
+		
+		Grapchics.atualizarTela();
 	}
 	
 	protected static void desenhaInfoEquipe(){
@@ -112,7 +194,7 @@ public final class Battle {
 		
 		Grapchics.atualizarTela();
 	}
-		
+	
 	private static void desenhaListaHabilidade(){
 		for (int i = 0; i < monstroCarregado.getQuantidadeMaxSlotsHabilidade(); i++){
 			skillCarregada = monstroCarregado.getHabilidadeAtiva(i);
@@ -197,6 +279,7 @@ public final class Battle {
 			if (Terminal.cursorY == linhaAtual){
 				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,
 				AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+				skillMostrada = skillCarregada;
 			}else{
 				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
 			}
@@ -219,10 +302,16 @@ public final class Battle {
 			if (skillMostrada.getPoderHabilidade() > 0){
 				Grapchics.desenhaTela("Poder: "+skillMostrada.getPoderHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
 			}
+			if (skillMostrada.getPrecisaoBase() > 0){
+				Grapchics.desenhaTela("Precisao: "+skillMostrada.getPrecisaoBase(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+			}
+			if (skillMostrada.getEnergiaHabilidade() > 0){
+				Grapchics.desenhaTela("Energia: "+skillMostrada.getEnergiaHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+			}
+			if (skillMostrada.getRecargaHabilidade() > 0){
+				Grapchics.desenhaTela("Recarga: "+skillMostrada.getRecargaHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+			}
 			
-			Grapchics.desenhaTela("Precisao: "+skillMostrada.getPrecisaoBase(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-			Grapchics.desenhaTela("Energia: "+skillMostrada.getEnergiaHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-			Grapchics.desenhaTela("Recarga: "+skillMostrada.getRecargaHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
 			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
 		}
 	}
@@ -384,6 +473,44 @@ public final class Battle {
 		}
 	}
 	
+	protected static void alternarMonstroSlotsAtivos(){
+		if (monstroMostrado == null) return;
+		
+		int slotExistente = -1;
+		int primeiroVazio = -1;
+
+		for (int i = 0; i <= maxSlotsAtivos-1; i++){
+			if (monstroSlotsAtivos[i] == monstroMostrado){
+				slotExistente = i;
+			}
+			if (monstroSlotsAtivos[i] == null && primeiroVazio == -1){
+				primeiroVazio = i;
+			}
+		}
+		
+		if (slotExistente != -1){
+			monstroSlotsAtivos[slotExistente] = null;
+			reordenarMonstroSlotsAtivos();
+		}else{
+			if (primeiroVazio != -1){
+				monstroSlotsAtivos[primeiroVazio] = monstroMostrado;
+			}
+		}
+		
+	}
+	
+	private static void reordenarMonstroSlotsAtivos(){
+		int writeIndex = 0;
+		for (int i = 0; i <= monstroSlotsAtivos.length-1; i++){
+			if (monstroSlotsAtivos[i] != null){
+				monstroSlotsAtivos[writeIndex++] = monstroSlotsAtivos[i];
+			}
+		}
+		while (writeIndex < monstroSlotsAtivos.length){
+			monstroSlotsAtivos[writeIndex++] = null;
+		}
+	}
+	
 	protected static void alternarHabilidadeAtiva(){
 		if (monstroCarregado == null || skillMostrada == null) return;
 		
@@ -391,6 +518,7 @@ public final class Battle {
 		int slotsOcupados = monstroCarregado.getQuantidadeSlotsOcupados();
 		boolean isEspecial = skillMostrada.isTipoEspecial(skillMostrada.getTipoHabilidade());
 		boolean isAtiva = monstroCarregado.isHabilidadeAtiva(skillMostrada);
+		boolean isDesbloqueada = monstroCarregado.isHabilidadeDesbloqueada(skillMostrada);
 		
 		if (isEspecial){
 			return; 
@@ -400,7 +528,7 @@ public final class Battle {
 			if (monstroCarregado.removerHabilidadeAtiva(skillMostrada)){
 				monstroCarregado.reordenarSkillsAtivas(); 
 			}
-		}else if (!isAtiva){
+		}else if (!isAtiva && isDesbloqueada){
 			monstroCarregado.adicionarHabilidadeAtiva(skillMostrada);
 		}
 	}
@@ -474,6 +602,10 @@ public final class Battle {
 		for (int i = 0; i < monstrosAtuais.length; i++){
 			monstrosInventário.put(idInventário++, monstrosAtuais[i]);
 		}
+	}
+	
+	protected static void resetarSlotsAtivos(){
+		monstroSlotsAtivos = new Monsters[3];
 	}
 	
 	public static int getOuro(){

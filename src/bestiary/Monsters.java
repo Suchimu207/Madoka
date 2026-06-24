@@ -218,6 +218,11 @@ public class Monsters {
         return skillsDesbloqueadas;
     }
 	
+	public boolean isHabilidadeDesbloqueada(Skills habilidade){
+		if (habilidade == null) return false;
+		return skillsDesbloqueadas.contains(habilidade);
+	}
+	
 	protected EnumMap<SlotHabilidade, Skills> getSkillsAtivas(){
 		return skillsAtivas;
 	}

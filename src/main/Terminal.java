@@ -12,6 +12,7 @@ public final class Terminal implements KeyListener {
 	private enum EstadosJogo{
 		TITULO("Título"),
 		MAPA("Mapa"),
+		BATALHA_PREPARO("Batalha_Preparo"),
 		INVENTARIO("Inventário"),
 		MONSTRO_DETALHES("Monstro_Detalhes"),
 		MONSTRO_HABILIDADES("Monstro_Habilidades"),
@@ -108,6 +109,9 @@ public final class Terminal implements KeyListener {
 				if (mostraEquipe){
 					Battle.desenhaInfoEquipe();
 				}else desenhaInfo();
+				break;
+			case BATALHA_PREPARO:
+				Battle.desenhaTelaPreparo();
 				break;
 			case INVENTARIO:
 				Battle.desenhaInventário();
@@ -224,6 +228,7 @@ public final class Terminal implements KeyListener {
                 jogadorY--;
             }
             break;
+		case BATALHA_PREPARO:
         case LOJA:
             cursorY--;
             break;
@@ -246,6 +251,7 @@ public final class Terminal implements KeyListener {
                 jogadorY++;
             }
             break;
+		case BATALHA_PREPARO:
         case LOJA:
             cursorY++;
             break;
@@ -287,7 +293,14 @@ public final class Terminal implements KeyListener {
                 Shop.limparCarrinho();
                 estadoAtual = EstadosJogo.LOJA;
             }
+			if (Maps.ehEvento(mapaAtual, jogadorX, jogadorY) == '!'){
+				
+				estadoAtual = EstadosJogo.BATALHA_PREPARO;
+            }
             break;
+		case BATALHA_PREPARO:
+			Battle.alternarMonstroSlotsAtivos();
+			break;
         case LOJA:
 			Shop.alternarItemCarrinho();
             break;
@@ -322,6 +335,8 @@ public final class Terminal implements KeyListener {
             cursorY = 1;
             estadoAtual = EstadosJogo.INVENTARIO;
             break;
+		case BATALHA_PREPARO:
+			Battle.resetarSlotsAtivos();
         case INVENTARIO:
             Grapchics.limpaTela();
             cursorX = 1;
