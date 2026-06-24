@@ -350,6 +350,14 @@ public class Monsters {
 		return monstroFavorito;
 	}
 	
+	public void setNivelBase(int nivelBase){
+		this.nivelBase = nivelBase;
+	}
+
+	public void setNomeMonstro(String nomeMonstro){
+		this.nomeMonstro = nomeMonstro;
+	}
+	
 	public void setMonstroEquipado(boolean monstroEquipado){
 		this.monstroEquipado = monstroEquipado;
 	}

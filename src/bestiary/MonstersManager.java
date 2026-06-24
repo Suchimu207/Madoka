@@ -96,6 +96,7 @@ public final class MonstersManager {
 	
 	public static Monsters getMonstro(int idMonstro){
 		monstroCarregado = monstrosExistentes.get(idMonstro);
+		
 		return monstroCarregado;
 	}
 	

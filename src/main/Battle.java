@@ -28,6 +28,7 @@ public final class Battle {
 
 	private static Monsters monstroCarregado, monstroMostrado;
 	private static Skills skillCarregada, skillMostrada;
+	private static Troop tropaCarregada;
 	private static Monsters[] monstroSlotsAtivos;
 	
 	private static int idInventário, tamanhoInventário, totalPaginas, paginaAtual, 
@@ -44,6 +45,7 @@ public final class Battle {
 		TraitsManager.carregarTraços();
 		SkillsManager.carregarHabilidades();
 		MonstersManager.carregarMonstros();
+		TroopManager.carregarTropas();
 		
 		monstrosInventário = new HashMap<Integer, Monsters>();
 		monstrosOrdenados = new ArrayList<Monsters>();

@@ -23,7 +23,7 @@ public final class SkillsManager {
 	private static JSONArray elementosArray;
 	private static JSONArray efeitosArray;
 	
-	public SkillsManager(){
+	private SkillsManager(){
 	}
 	
 	public static void carregarHabilidades(){
