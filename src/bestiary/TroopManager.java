@@ -48,13 +48,12 @@ public final class TroopManager {
                     JSONObject inimigoObj = inimigosArray.getJSONObject(j);
                     int idMonstro = inimigoObj.getInt("idMonstro");
                     int nivel = inimigoObj.getInt("nivel");
-                    String apelido = inimigoObj.getString("apelido");
-					
+       			
 					Monsters monstroRequerido = MonstersManager.getMonstro(idMonstro);
 					if (monstroRequerido == null) throw new IllegalArgumentException("Monstro_"+idMonstro+" é nulo.");
 					monstroCarregado = new Monsters(monstroRequerido);
 					
-                    Troop.Inimigo inimigo = new Troop.Inimigo(monstroCarregado, nivel, apelido);
+                    Troop.Inimigo inimigo = new Troop.Inimigo(monstroCarregado, nivel);
                     listaInimigos.add(inimigo);
                 }
 
@@ -69,7 +68,7 @@ public final class TroopManager {
         }
     }
 
-    public static Map<Integer, Troop> getTropasExistentes(){
+    protected static Map<Integer, Troop> getTropasExistentes(){
         return tropasExistentes;
     }
 

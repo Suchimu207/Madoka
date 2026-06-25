@@ -147,7 +147,7 @@ public final class Shop {
                 ouroGasto = total;
                 
                 for (ItemLoja item : carrinho){
-                    Battle.adicionarMonstroInventário(item.idMonstro);
+                    Inventory.adicionarMonstroInventário(item.idMonstro);
                 }
                 paginaAtual = 1;
                 return true;

@@ -13,6 +13,7 @@ public final class Terminal implements KeyListener {
 		TITULO("Título"),
 		MAPA("Mapa"),
 		BATALHA_PREPARO("Batalha_Preparo"),
+		BATALHA("Batalha"),
 		INVENTARIO("Inventário"),
 		MONSTRO_DETALHES("Monstro_Detalhes"),
 		MONSTRO_HABILIDADES("Monstro_Habilidades"),
@@ -113,8 +114,11 @@ public final class Terminal implements KeyListener {
 			case BATALHA_PREPARO:
 				Battle.desenhaTelaPreparo();
 				break;
+			case BATALHA:
+				Battle.desenhaBatalha();
+				break;
 			case INVENTARIO:
-				Battle.desenhaInventário();
+				Inventory.desenhaInventário();
 				break;
 			case MONSTRO_DETALHES:
 				Battle.desenhaMonstroDetalhes();
@@ -180,6 +184,7 @@ public final class Terminal implements KeyListener {
                 jogadorX--;
             }
             break;
+		case BATALHA:
         case MONSTRO_DETALHES:
 		case MONSTRO_HABILIDADES:
             cursorX--;
@@ -201,6 +206,7 @@ public final class Terminal implements KeyListener {
                 jogadorX++;
             }
             break;
+		case BATALHA:
         case MONSTRO_DETALHES:
 		case MONSTRO_HABILIDADES:
             cursorX++;
@@ -228,6 +234,7 @@ public final class Terminal implements KeyListener {
                 jogadorY--;
             }
             break;
+		case BATALHA:
 		case BATALHA_PREPARO:
         case LOJA:
             cursorY--;
@@ -251,6 +258,7 @@ public final class Terminal implements KeyListener {
                 jogadorY++;
             }
             break;
+		case BATALHA:
 		case BATALHA_PREPARO:
         case LOJA:
             cursorY++;
@@ -278,10 +286,10 @@ public final class Terminal implements KeyListener {
             if (cursorY == 3) System.exit(0); // Provisório.
             break;
         case INVENTARIO:
-            Battle.alternarMonstroTabela(cursorY);
+            Inventory.alternarMonstroTabela(cursorY);
             break;
         case MONSTRO_DETALHES:
-            Battle.alternarMonstroFavorito(cursorY);
+            Inventory.alternarMonstroFavorito(cursorY);
             break;
 		case MONSTRO_HABILIDADES:
 			Battle.alternarHabilidadeAtiva();
@@ -300,6 +308,9 @@ public final class Terminal implements KeyListener {
             break;
 		case BATALHA_PREPARO:
 			Battle.alternarMonstroSlotsAtivos();
+			break;
+		case BATALHA:
+			Battle.selecionarComandoBatalha();
 			break;
         case LOJA:
 			Shop.alternarItemCarrinho();
@@ -361,6 +372,13 @@ public final class Terminal implements KeyListener {
 	
 	private void teclaComprar(){
 		switch (estadoAtual){
+		case BATALHA_PREPARO:
+			if (Battle.setarBatalha()){
+				cursorX = 1;
+				cursorY = 1;
+				estadoAtual = EstadosJogo.BATALHA;
+			}
+			break;
         case LOJA:
             if (Shop.comprarMonstro()){
 				Grapchics.limpaTela();

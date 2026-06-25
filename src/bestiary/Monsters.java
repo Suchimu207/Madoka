@@ -47,6 +47,16 @@ public class Monsters {
 		public String getElementoNome(){
 			return nomeElemento;
 		}
+		
+		/*
+		Fogo -> Natureza -> Magia -> Metal -> Vento -> 
+		Luz -> Trevas -> Terra -> Trovão -> Água.
+		public boolean temVantagemContra(Elementos outro){
+			if (this == FOGO && outro == NATUREZA) return true;
+			if (this == AGUA && outro == FOGO) return true;
+			return false;
+		}
+		*/
 	}
 	protected enum Raridades{
 		COMUM("Comum"),
@@ -123,9 +133,16 @@ public class Monsters {
 				throw new IllegalArgumentException("Atributos base devem ser maiores do que 0.");
 			}
 			this.forçaBase = forçaBase;
+			this.forçaAtual = this.forçaBase;
+			
 			this.vidaBase = vidaBase;
+			this.vidaAtual = this.vidaBase;
+			
 			this.speedBase = speedBase;
+			this.speedAtual = this.speedBase;
+			
 			this.estaminaBase = estaminaBase;
+			this.estaminaAtual = this.estaminaBase;
 			
 			this.traçosIds = traçosIds;
 			this.monstroEquipado = false;
@@ -146,9 +163,13 @@ public class Monsters {
 	   this.nivelAtual = monstroRequerido.getNivelAtual();
 	   this.expAtual = monstroRequerido.getExpAtual();
 	   this.forçaBase = monstroRequerido.getForcaBase();
+	   this.forçaAtual = monstroRequerido.getForcaAtual();
 	   this.vidaBase = monstroRequerido.getVidaBase();
+	   this.vidaAtual = monstroRequerido.getVidaAtual();
 	   this.speedBase = monstroRequerido.getSpeedBase();
+	   this.speedAtual = monstroRequerido.getSpeedAtual();
 	   this.estaminaBase = monstroRequerido.getEstaminaBase();
+	   this.estaminaAtual = monstroRequerido.getEstaminaAtual();
 	   this.traçosIds = monstroRequerido.getTracosIds();
 	   this.monstroEquipado = false;
 	   this.monstroFavorito = false;
@@ -293,7 +314,7 @@ public class Monsters {
 	public String getNomeMonstro(){
 		return nomeMonstro;
 	}
-	
+		
 	public Classes getClasseAtual(){
 		return classeAtual;
 	}
@@ -325,17 +346,49 @@ public class Monsters {
 	public int getForcaBase(){
 		return forçaBase;
 	}
+	
+	public int getForcaAtual(){
+		return forçaAtual;
+	}
+	
+	public int getForcaAtualCombate(){
+		return forçaAtualCombate;
+	}
 
 	public int getVidaBase(){
 		return vidaBase;
 	}
 
+	public int getVidaAtual(){
+		return vidaAtual;
+	}
+
+	public int getVidaAtualCombate(){
+		return vidaAtualCombate;
+	}
+
 	public int getSpeedBase(){
 		return speedBase;
+	}
+	
+	public int getSpeedAtual(){
+		return speedAtual;
+	}
+	
+	public int getSpeedAtualCombate(){
+		return speedAtualCombate;
 	}
 
 	public int getEstaminaBase(){
 		return estaminaBase;
+	}
+	
+	public int getEstaminaAtual(){
+		return estaminaAtual;
+	}
+
+	public int getEstaminaAtualCombate(){
+		return estaminaAtualCombate;
 	}
 
 	public int[] getTracosIds(){
@@ -350,14 +403,42 @@ public class Monsters {
 		return monstroFavorito;
 	}
 	
-	public void setNivelBase(int nivelBase){
-		this.nivelBase = nivelBase;
-	}
-
-	public void setNomeMonstro(String nomeMonstro){
-		this.nomeMonstro = nomeMonstro;
+	public void setNivelAtual(int nivelAtual){
+		this.nivelAtual = nivelAtual;
 	}
 	
+	public void setForcaAtual(int forcaAtual){
+		this.forçaAtual = forcaAtual;
+	}
+
+	public void setForcaAtualCombate(int forcaAtualCombate){
+		this.forçaAtualCombate = forcaAtualCombate;
+	}
+
+	public void setVidaAtual(int vidaAtual){
+		this.vidaAtual = vidaAtual;
+	}
+
+	public void setVidaAtualCombate(int vidaAtualCombate){
+		this.vidaAtualCombate = vidaAtualCombate;
+	}
+
+	public void setSpeedAtual(int speedAtual){
+		this.speedAtual = speedAtual;
+	}
+
+	public void setSpeedAtualCombate(int speedAtualCombate){
+		this.speedAtualCombate = speedAtualCombate;
+	}
+
+	public void setEstaminaAtual(int estaminaAtual){
+		this.estaminaAtual = estaminaAtual;
+	}
+
+	public void setEstaminaAtualCombate(int estaminaAtualCombate){
+		this.estaminaAtualCombate = estaminaAtualCombate;
+	}
+
 	public void setMonstroEquipado(boolean monstroEquipado){
 		this.monstroEquipado = monstroEquipado;
 	}

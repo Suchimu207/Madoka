@@ -2,10 +2,9 @@
   {
 	"id": 1,
     "inimigos": [
-      {
-        "idMonstro": 1,
-        "nivel": 1,
-        "apelido": "Inimigo_1"
+	  {
+        "idMonstro": 2,
+        "nivel": 1
       }
     ],
     "exp": 150,

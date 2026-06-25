@@ -7,15 +7,12 @@ public class Troop {
     protected static class Inimigo {
         private final Monsters monstro;
         private final int nivel;
-        private final String apelido;
 
-        protected Inimigo(Monsters monstro, int nivel, String apelido){
+        protected Inimigo(Monsters monstro, int nivel){
             this.monstro = monstro;
             this.nivel = nivel;
-            this.apelido = apelido;
 			
-			this.monstro.setNivelBase(this.nivel);
-			this.monstro.setNomeMonstro(this.apelido);
+			this.monstro.setNivelAtual(this.nivel);
         }
 
         public Monsters getMonstroTropa(){ 
@@ -23,9 +20,6 @@ public class Troop {
 		}
         public int getNivel(){ 
 			return nivel; 
-		}
-        public String getApelido(){ 
-			return apelido; 
 		}
     }
 
@@ -45,7 +39,7 @@ public class Troop {
         this.id = troopRequerida.getId();
         this.inimigos = new ArrayList<>();
         for (Inimigo i : troopRequerida.getInimigos()){
-            this.inimigos.add(new Inimigo(i.getMonstroTropa(), i.getNivel(), i.getApelido()));
+            this.inimigos.add(new Inimigo(i.getMonstroTropa(), i.getNivel()));
         }
         this.exp = troopRequerida.getExp();
         this.ouro = troopRequerida.getOuro();
@@ -54,12 +48,23 @@ public class Troop {
     public int getId(){ 
 		return id; 
 	}
-    public List<Inimigo> getInimigos(){ 
+	
+    protected List<Inimigo> getInimigos(){
 		return new ArrayList<>(inimigos); 
 	}
+	
+	public List<Monsters> getMonstros(){
+		List<Monsters> listaMonstros = new ArrayList<>();
+		for (Inimigo inimigo : inimigos){
+			listaMonstros.add(inimigo.getMonstroTropa());
+		}
+		return listaMonstros;
+	}
+		
     public int getExp(){ 
 		return exp; 
 	}
+	
     public int getOuro(){ 
 		return ouro; 
 	}
