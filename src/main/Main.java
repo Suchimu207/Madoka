@@ -36,8 +36,6 @@ public final class Main {
 	}
     public static void main(String[] args) {
 		Game.carregarGameJson();
-		Maps.carregarMapas();
-		Battle.carregarDadosBatalha();
 		
 		String mapaInicial = "Lobby";
 		boolean rodandoJogo = true;
@@ -46,6 +44,10 @@ public final class Main {
 		final String FULL_TITLE = TITLE+" - "+VERSION;
 		
 		Terminal terminal = new Terminal(FULL_TITLE, mapaInicial);
+		
+		Maps.carregarMapas();
+		Battle.carregarDadosJogatina();
+		
 		terminal.setarJogo();
 		terminal.setarJanela();
 		

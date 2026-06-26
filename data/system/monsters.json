@@ -100,7 +100,7 @@
   },
   {
     "id": 6,
-    "nome": "Stone Idol",
+    "nome": "Sand Golem",
     "classe": "GENERALISTA",
     "elementos": ["TERRA"],
     "raridade": "COMUM",
@@ -118,7 +118,7 @@
   },
   {
     "id": 7,
-    "nome": "Thunder Eagle",
+    "nome": "Pterathunder",
     "classe": "GENERALISTA",
     "elementos": ["TROVAO"],
     "raridade": "COMUM",
@@ -136,7 +136,7 @@
   },
   {
     "id": 8,
-    "nome": "Lightning Spirit",
+    "nome": "Electric Wave",
     "classe": "ATACANTE",
     "elementos": ["TROVAO"],
     "raridade": "COMUM",
@@ -190,7 +190,7 @@
   },
   {
     "id": 11,
-    "nome": "Light Spirit",
+    "nome": "Guardian Angel",
     "classe": "GENERALISTA",
     "elementos": ["LUZ"],
     "raridade": "COMUM",
@@ -226,7 +226,7 @@
   },
   {
     "id": 13,
-    "nome": "Ghost",
+    "nome": "Litte Allay",
     "classe": "SUPORTE",
     "elementos": ["MAGIA"],
     "raridade": "COMUM",
@@ -316,7 +316,7 @@
   },
   {
     "id": 18,
-    "nome": "Metal Idol",
+    "nome": "Copper Golem",
     "classe": "GENERALISTA",
     "elementos": ["METAL"],
     "raridade": "COMUM",

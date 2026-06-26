@@ -50,6 +50,8 @@ public final class Terminal implements KeyListener {
 	
 	protected void setarJogo(){
 		estadoAtual = EstadosJogo.TITULO;
+		Title.setTITLE_NAME(TITLE);
+		
 		mapaAtual = mapaInicial;
 		mostraEquipe = false;
 		Shop.inicializarLoja();
@@ -103,7 +105,7 @@ public final class Terminal implements KeyListener {
 	protected void desenhaEstado(){
 		switch (estadoAtual){
 			case TITULO:
-				desenhaTítulo();
+				Title.desenhaTítulo();
 				break;
 			case MAPA:
 				Maps.desenhaMapa(mapaAtual, jogadorX, jogadorY);
@@ -121,10 +123,10 @@ public final class Terminal implements KeyListener {
 				Inventory.desenhaInventário();
 				break;
 			case MONSTRO_DETALHES:
-				Battle.desenhaMonstroDetalhes();
+				Inventory.desenhaMonstroDetalhes();
 				break;
 			case MONSTRO_HABILIDADES:
-				Battle.desenhaHabilidadeDetalhes();
+				Inventory.desenhaHabilidadeDetalhes();
 				break;
 			case LOJA:
 				Shop.desenhaLoja();
@@ -135,44 +137,12 @@ public final class Terminal implements KeyListener {
 		}
 	}
 	
-	private void desenhaTítulo(){
-		Grapchics.desenhaCentro(TITLE, 14, AsciiPanel.brightWhite);
-		
-		if (cursorY >= 4){
-			cursorY = 1;
-		} else if (cursorY <= 0) cursorY = 3;
-		
-		if (cursorY == 1){
-			Grapchics.desenhaCentro("Novo jogo", 18, AsciiPanel.brightYellow, 
-			AsciiPanel.brightBlack);
-		}else{
-			Grapchics.desenhaCentro("Novo jogo", 18, AsciiPanel.brightWhite);
-		}
-		
-		if (cursorY == 2){
-			Grapchics.desenhaCentro("Continuar", 20, AsciiPanel.brightYellow, 
-			AsciiPanel.brightBlack);
-		}else{
-			Grapchics.desenhaCentro("Continuar", 20, AsciiPanel.brightWhite);
-		}
-		
-		if (cursorY == 3){
-			Grapchics.desenhaCentro("Sair     ", 22, AsciiPanel.brightYellow,
-			AsciiPanel.brightBlack);
-		}else{
-			Grapchics.desenhaCentro("Sair     ", 22, AsciiPanel.brightWhite);
-		}
-		
-		Grapchics.desenhaTela("Desenvolvido por Carlos S. Rehem.",0,39, AsciiPanel.brightWhite);
-		Grapchics.atualizarTela();
-	}
-	
 	private void desenhaInfo(){		
 		Grapchics.desenhaTela("ESC: Titulo",0,35, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("E: Inventario",0,36, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("Shift: Mostrar equipe",0,37, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("Enter: Interagir",0,38, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Ouro: "+Battle.getOuro(),0,39, AsciiPanel.brightWhite);	
+		Grapchics.desenhaTela("Ouro: "+Player.getOuro(),0,39, AsciiPanel.brightWhite);	
 		
 		Grapchics.atualizarTela();
 	}
@@ -292,7 +262,7 @@ public final class Terminal implements KeyListener {
             Inventory.alternarMonstroFavorito(cursorY);
             break;
 		case MONSTRO_HABILIDADES:
-			Battle.alternarHabilidadeAtiva();
+			Inventory.alternarHabilidadeAtiva();
 			break;
         case MAPA:
             if (Maps.ehEvento(mapaAtual, jogadorX, jogadorY) == '$'){
@@ -378,6 +348,9 @@ public final class Terminal implements KeyListener {
 				cursorY = 1;
 				estadoAtual = EstadosJogo.BATALHA;
 			}
+			break;
+		case BATALHA:
+			Battle.voltarComandoBatalha();
 			break;
         case LOJA:
             if (Shop.comprarMonstro()){

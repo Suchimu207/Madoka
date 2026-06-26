@@ -13,41 +13,33 @@ import java.util.Map;
 
 public final class Battle {
 	private static List<Monsters> monstrosTropa;
-	private static List<Skills> skillsTree, skillsDesbloqueadas;
-
+	
 	private static Monsters monstroCarregado, monstroMostrado;
 	private static Skills skillCarregada, skillMostrada;
 	private static Troop tropaCarregada;
 	private static Monsters[] monstroSlotsAtivos;
 	
 	private static int paginaAtual, totalPaginas,  
-	inicioLista, fimLista, ouro, maxSlotsAtivos, maxInimigos;
+	inicioLista, fimLista, maxSlotsAtivos, maxInimigos;
 	
 	private static List<Integer> posiçõesInimigosX;
 	private static List<Integer> posiçõesInimigosY;
 	
 	private static int linhaAtual, linhaInicial, linhaMax,
-	posiçãoLinhaX, posiçãoLinhaY, posiçãoLinhaSkillsAtivas, 
-	posiçãoLinhaBatalha;
+	posiçãoLinhaX, posiçãoLinhaY, posiçãoLinhaBatalha;
 	
 	private static boolean equipeSetada, selecionarAlvo;
 	
 	private Battle(){
 	}
 	
-	protected static void carregarDadosBatalha(){
-		TraitsManager.carregarTraços();
-		SkillsManager.carregarHabilidades();
-		MonstersManager.carregarMonstros();
-		TroopManager.carregarTropas();
-		
+	protected static void carregarDadosJogatina(){
+		BattleManager.carregarDadosBatalha();
 		Inventory.inicializarInventario();
 
 		monstrosTropa = new ArrayList<Monsters>();
 		monstroSlotsAtivos = new Monsters[3];
 		
-		skillsTree = new ArrayList<>();
-		skillsDesbloqueadas = new ArrayList<>();
 		posiçõesInimigosX = new ArrayList<>();
 		posiçõesInimigosY = new ArrayList<>();
 		
@@ -58,7 +50,8 @@ public final class Battle {
 		paginaAtual = 1;
 		inicioLista = 1;
 		fimLista = 1;
-		ouro = 3000;
+		
+		Player.setOuro(3000);
 		
 		Inventory.adicionarMonstroInventário(1);
 	}
@@ -105,6 +98,10 @@ public final class Battle {
 		maxSlotsAtivos = monstroSlotsAtivos.length;
 		maxInimigos = tropaCarregada.getMonstros().size();
 		List<Monsters> inimigos = tropaCarregada.getMonstros();
+		
+		if(selecionarAlvo){
+			Grapchics.desenhaTela("Q: Voltar",0,0, AsciiPanel.brightBlack);
+		}
 		
 		linhaInicial = 10;
 		
@@ -246,11 +243,18 @@ public final class Battle {
 	protected static void selecionarComandoBatalha(){
 		if (skillMostrada == null) return;
 		
-		// Usuario, alvo, habilidade.
-		
-		
-		
-		if (!selecionarAlvo) selecionarAlvo = true;		
+		if (!selecionarAlvo){
+			selecionarAlvo = true;
+		}else if (selecionarAlvo && monstroMostrado != null && skillMostrada != null){
+			if (BattleAction.verificarCustoHabilidade(monstroSlotsAtivos[0], monstroMostrado, skillMostrada)){
+				BattleAction.executarHabilidade(monstroSlotsAtivos[0], monstroMostrado, skillMostrada);
+				selecionarAlvo = false;
+			}
+		}
+	}
+	
+	protected static void voltarComandoBatalha(){
+		if (selecionarAlvo) selecionarAlvo = false;
 	}
 	
 	protected static void desenhaTelaPreparo(){
@@ -355,200 +359,6 @@ public final class Battle {
 		Grapchics.atualizarTela();
 	}
 	
-	protected static void desenhaMonstroDetalhes(){
-		Grapchics.limpaTela();
-		
-		if (Terminal.cursorX <= 0) Terminal.cursorX = 1;
-		
-		int tamanho = Inventory.getTamanhoInventario();
-		if (Terminal.cursorX > tamanho) Terminal.cursorX = tamanho;
-		
-		monstroCarregado = Inventory.getMonstroInventario(Terminal.cursorX);
-		if (monstroCarregado == null) return;
-		
-		String indicadorFavorito = monstroCarregado.isMonstroFavorito() ? " [F]" : "";
-		
-		Grapchics.desenhaCentro("Detalhes",0, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("E: Voltar", 0, 1, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Enter: Marcar/Desmarcar favorito",0,2, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Shift: Ver habilidades",0,3, AsciiPanel.brightBlack);
-		
-		Grapchics.desenhaTela("____________________",0,4, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Nome: "+monstroCarregado.getNomeMonstro() + indicadorFavorito,0,5, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Nivel: "+monstroCarregado.getNivelAtual(),0,6, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Classe: "+monstroCarregado.getClasseAtual(),0,7, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Elementos: "+monstroCarregado.getElementosAtuais(),0,8, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Raridade: "+monstroCarregado.getRaridadeMonstro(),0,9, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Forca: "+monstroCarregado.getForcaAtual(),0,10, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Vida: "+monstroCarregado.getVidaAtual(),0,11, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Velocidade: "+monstroCarregado.getSpeedAtual(),0,12, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Estamina: "+monstroCarregado.getEstaminaAtual(),0,13, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Tracos: "+Arrays.toString(monstroCarregado.getTracosIds()),0,14, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("____________________",0,15,AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Habilidades:",0,17,AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("____________________",0,18,AsciiPanel.brightWhite);
-		posiçãoLinhaSkillsAtivas = 19;
-		desenhaListaHabilidade();
-		
-		Grapchics.atualizarTela();
-	}
-	
-	private static void desenhaListaHabilidade(){
-		for (int i = 0; i < monstroCarregado.getQuantidadeMaxSlotsHabilidade(); i++){
-			skillCarregada = monstroCarregado.getHabilidadeAtiva(i);
-			if (skillCarregada != null){
-				Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-			}else{
-				Grapchics.desenhaTela("[VAZIO]",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightBlack);
-			}
-		}
-		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas,AsciiPanel.brightWhite);
-		
-		skillsDesbloqueadas = monstroCarregado.getHabilidadesDesbloqueadas();
-		skillCarregada = skillsDesbloqueadas.get(0);
-		
-		if (skillCarregada != null && skillCarregada.isTipoEspecial(skillCarregada.getTipoHabilidade())){
-			Grapchics.desenhaTela("Especial:",0,posiçãoLinhaSkillsAtivas+2,AsciiPanel.brightWhite);
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas+3,AsciiPanel.brightWhite);
-			Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas+4,AsciiPanel.brightWhite);
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas+5,AsciiPanel.brightWhite);
-		}
-	}
-	
-	protected static void desenhaHabilidadeDetalhes(){
-		Grapchics.limpaTela();
-		
-		if (Terminal.cursorX <= 0){
-			Terminal.cursorX = 1;
-		}else if (Terminal.cursorX >= Inventory.getTamanhoInventario()) Terminal.cursorX = Inventory.getTamanhoInventario();
-		
-		monstroCarregado = Inventory.getMonstroInventario(Terminal.cursorX);
-		if (monstroCarregado == null) return;
-		
-		if (Terminal.cursorY < 5){
-			Terminal.cursorY = posiçãoLinhaSkillsAtivas-1;
-		}else if (Terminal.cursorY > posiçãoLinhaSkillsAtivas-1){
-			Terminal.cursorY = 5;
-		}
-		
-		Grapchics.desenhaCentro("Habilidades",0, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("E: Voltar", 0, 1, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Enter: Ativar/Desativar habilidade",0,2, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Monstro: "+monstroCarregado.getNomeMonstro(),0,3, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("____________________",0,4,AsciiPanel.brightWhite);
-		
-		posiçãoLinhaSkillsAtivas = 5;
-		linhaAtual = posiçãoLinhaSkillsAtivas;
-		for (int i = 0; i < monstroCarregado.getQuantidadeMaxSlotsHabilidade(); i++){
-			skillCarregada = monstroCarregado.getHabilidadeAtiva(i);
-			
-			if (skillCarregada != null){
-				if (Terminal.cursorY == linhaAtual){
-					Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightYellow,
-					AsciiPanel.brightBlack);
-					skillMostrada = skillCarregada;
-				}else{
-					Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-				}
-			}else{
-				if (Terminal.cursorY == linhaAtual){
-					Grapchics.desenhaTela("[VAZIO]",0,posiçãoLinhaSkillsAtivas++,
-					AsciiPanel.brightYellow, AsciiPanel.brightBlack);
-					skillMostrada = null;
-				}else{
-					Grapchics.desenhaTela("[VAZIO]",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightBlack);
-				}
-			}
-			linhaAtual++;
-		}
-		posiçãoLinhaSkillsAtivas = linhaAtual;
-		
-		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-		listaArvoreHabilidades();
-		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-		posiçãoLinhaSkillsAtivas += 1;
-		
-		skillsDesbloqueadas = monstroCarregado.getHabilidadesDesbloqueadas();
-		skillCarregada = skillsDesbloqueadas.get(0);
-		
-		if (skillCarregada != null && skillCarregada.isTipoEspecial(skillCarregada.getTipoHabilidade())){
-			Grapchics.desenhaTela("Especial:",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-			if (Terminal.cursorY == linhaAtual){
-				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,
-				AsciiPanel.brightYellow, AsciiPanel.brightBlack);
-				skillMostrada = skillCarregada;
-			}else{
-				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-			}
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-		}
-		
-		posiçãoLinhaSkillsAtivas += 1;
-		infoHabilidade();
-		
-		linhaAtual++;
-		posiçãoLinhaSkillsAtivas = linhaAtual;
-		
-		Grapchics.atualizarTela();
-	}
-	
-	private static void infoHabilidade(){
-		if (skillMostrada != null){
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-			
-			if (skillMostrada.getPoderHabilidade() > 0){
-				Grapchics.desenhaTela("Poder: "+skillMostrada.getPoderHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-			}
-			if (skillMostrada.getPrecisaoBase() > 0){
-				Grapchics.desenhaTela("Precisao: "+skillMostrada.getPrecisaoBase(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-			}
-			if (skillMostrada.getEnergiaHabilidade() > 0){
-				Grapchics.desenhaTela("Energia: "+skillMostrada.getEnergiaHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-			}
-			if (skillMostrada.getRecargaHabilidade() > 0){
-				Grapchics.desenhaTela("Recarga: "+skillMostrada.getRecargaHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-			}
-			
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-		}
-	}
-	
-	private static void listaArvoreHabilidades(){
-		linhaAtual = posiçãoLinhaSkillsAtivas;
-		for (int i = 0; i <= monstroCarregado.getTamanhoSkillsTree(); i++){
-			skillCarregada = monstroCarregado.getHabilidadeArvoreId(i);
-			if (skillCarregada == null) continue;
-			
-			if (!skillCarregada.isTipoEspecial(skillCarregada.getTipoHabilidade()) 
-				&& !monstroCarregado.isHabilidadeAtiva(skillCarregada)){
-				if (monstroCarregado.getNivelAtual() >= skillCarregada.getNivelNecessario()){
-					
-					if (Terminal.cursorY == linhaAtual){
-						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
-						0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightYellow, AsciiPanel.brightBlack);
-						skillMostrada = skillCarregada;
-					}else{
-						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
-						0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-					}
-					
-				}else{
-					if (Terminal.cursorY == linhaAtual){
-						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
-						0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightYellow, AsciiPanel.brightBlack);
-						skillMostrada = skillCarregada;
-					}else{
-						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
-						0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightBlack);
-					}
-				}
-				linhaAtual++;
-			}
-		}
-		posiçãoLinhaSkillsAtivas = linhaAtual;
-	}
-	
 	protected static void alternarMonstroSlotsAtivos(){
 		if (monstroMostrado == null) return;
 		
@@ -587,28 +397,6 @@ public final class Battle {
 		}
 	}
 	
-	protected static void alternarHabilidadeAtiva(){
-		if (monstroCarregado == null || skillMostrada == null) return;
-		
-		int maxSlots = monstroCarregado.getQuantidadeMaxSlotsHabilidade();
-		int slotsOcupados = monstroCarregado.getQuantidadeSlotsOcupados();
-		boolean isEspecial = skillMostrada.isTipoEspecial(skillMostrada.getTipoHabilidade());
-		boolean isAtiva = monstroCarregado.isHabilidadeAtiva(skillMostrada);
-		boolean isDesbloqueada = monstroCarregado.isHabilidadeDesbloqueada(skillMostrada);
-		
-		if (isEspecial){
-			return; 
-		}
-		
-		if (isAtiva && slotsOcupados >= 2){
-			if (monstroCarregado.removerHabilidadeAtiva(skillMostrada)){
-				monstroCarregado.reordenarSkillsAtivas(); 
-			}
-		}else if (!isAtiva && isDesbloqueada){
-			monstroCarregado.adicionarHabilidadeAtiva(skillMostrada);
-		}
-	}
-	
 	protected static void alternarPagina(boolean avançar){
 		if (avançar){
 			paginaAtual++;
@@ -620,13 +408,5 @@ public final class Battle {
 		monstroSlotsAtivos = new Monsters[3];
 	}
 	
-	public static int getOuro(){
-		return ouro;
-	}
-	
-	public static void setOuro(int ouro){
-		Battle.ouro = ouro;
-	}
-
 	//===
 }

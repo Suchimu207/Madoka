@@ -420,6 +420,10 @@ public class Monsters {
 	}
 
 	public void setVidaAtualCombate(int vidaAtualCombate){
+		if(vidaAtualCombate < 0){
+			vidaAtualCombate = 0;
+		}
+		
 		this.vidaAtualCombate = vidaAtualCombate;
 	}
 

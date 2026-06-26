@@ -87,7 +87,7 @@ public final class Shop {
         Grapchics.desenhaTela("E: Sair", 0, 1, AsciiPanel.brightBlack);
         Grapchics.desenhaTela("Q: Comprar", 0, 2, AsciiPanel.brightBlack);
         Grapchics.desenhaTela("ENTER: Colocar/Remover do carrinho", 0, 3, AsciiPanel.brightBlack);
-        Grapchics.desenhaTela("Ouro: "+Battle.getOuro(), 0, 4, AsciiPanel.brightWhite);
+        Grapchics.desenhaTela("Ouro: "+Player.getOuro(), 0, 4, AsciiPanel.brightWhite);
 		
 		if (carrinho != null && !carrinho.isEmpty()){
 			total = 0;
@@ -97,11 +97,11 @@ public final class Shop {
                 total += item.preco;
             }
 			
-			if (Battle.getOuro() > total){
+			if (Player.getOuro() > total){
 				Grapchics.desenhaTela("Total: "+total, 0, 5, AsciiPanel.brightGreen);
-			}else if (Battle.getOuro() == total){
+			}else if (Player.getOuro() == total){
 				Grapchics.desenhaTela("Total: "+total, 0, 5, AsciiPanel.brightYellow);
-			}else if (Battle.getOuro() < total){
+			}else if (Player.getOuro() < total){
 				Grapchics.desenhaTela("Total: "+total, 0, 5, AsciiPanel.brightRed);
 			}
 			
@@ -142,8 +142,8 @@ public final class Shop {
                 total += item.preco;
             }
             
-            if (Battle.getOuro() >= total){
-                Battle.setOuro(Battle.getOuro() - total);
+            if (Player.getOuro() >= total){
+                Player.setOuro(Player.getOuro() - total);
                 ouroGasto = total;
                 
                 for (ItemLoja item : carrinho){
@@ -182,7 +182,7 @@ public final class Shop {
         Grapchics.desenhaTela("ESC: Sair", 0, 1, AsciiPanel.brightBlack);
 		Grapchics.desenhaTela("E: Abrir inventario", 0, 2, AsciiPanel.brightBlack);
         Grapchics.desenhaTela("Q: Continuar comprando", 0, 3, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Ouro atual: " + Battle.getOuro(), 0, 4, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("Ouro atual: " + Player.getOuro(), 0, 4, AsciiPanel.brightWhite);
         Grapchics.desenhaTela("Ouro gasto:", 0, 5, AsciiPanel.brightWhite);
 		Grapchics.desenhaTela(" " + ouroGasto,11,5, AsciiPanel.brightYellow);
         Grapchics.desenhaTela("____________________", 0, 6, AsciiPanel.brightWhite);
