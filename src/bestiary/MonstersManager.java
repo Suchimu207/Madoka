@@ -27,7 +27,7 @@ public final class MonstersManager {
 	private MonstersManager(){
 	}
 	
-	public static void carregarMonstros(){
+	public final static void carregarMonstros(){
 		try{
 			caminho = Paths.get("data", "system", "monsters.json");
 			conteudoJson = Files.readString(caminho);
@@ -88,7 +88,6 @@ public final class MonstersManager {
 			}
         
         System.out.println(">>Monstros carregados: " +monstrosExistentes.size());
-		System.out.println("");
 		}catch (IOException | IllegalArgumentException e){ 
 			System.out.println("Erro ao carregar monstros: "+e.getMessage());
 		}

@@ -15,5 +15,10 @@ public final class Player {
 		ouro = ouroDado;
 	}
 	
+	public static void ganharOuro(int ouroDado){
+		if (ouroDado <= 0) ouroDado = 1;
+		ouro += ouroDado;
+	}
+	
 	//===
 }

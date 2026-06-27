@@ -1,10 +1,12 @@
 package main;
 
+import asciiPanel.AsciiPanel;
+
 import bestiary.Monsters;
 import bestiary.MonstersManager;
 import bestiary.Skills;
 
-import asciiPanel.AsciiPanel;
+import util.Grapchics;
 
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public final class Inventory {
 	private Inventory(){
 	}
 	
-	protected static void inicializarInventario(){
+	public final static void inicializarInventario(){
         monstrosInventario = new HashMap<Integer, Monsters>();
         monstrosOrdenados = new ArrayList<Monsters>();
         equipeTabela = new EnumMap<>(SlotEquipe.class);
@@ -50,9 +52,27 @@ public final class Inventory {
         paginaAtual = 1;
         inicioLista = 1;
         fimLista = 1;
+		
+		System.out.println(">>Inventário inicializado.");
+		System.out.println("");
     }
 	
-	protected static void adicionarMonstroInventário(int id){
+	protected static void desenhaInfoEquipe(){
+		int coordenadaY = 21;
+		
+		for (Map.Entry<SlotEquipe, Monsters> entry : equipeTabela.entrySet()){
+			Monsters monstro = entry.getValue();
+			Grapchics.desenhaTela("||||||||||",0,coordenadaY, AsciiPanel.brightWhite, AsciiPanel.brightWhite);
+			Grapchics.desenhaTela(monstro.getNomeMonstro(), 10, coordenadaY, AsciiPanel.brightWhite);
+			Grapchics.desenhaTela("||||||||||", 0, coordenadaY + 1, AsciiPanel.brightRed, AsciiPanel.brightRed);
+			coordenadaY += 3;
+		}
+		Grapchics.desenhaTela("Shift: Esconder equipe",0,39, AsciiPanel.brightBlack);
+		
+		Grapchics.atualizarTela();
+	}
+	
+	public static void adicionarMonstroInventário(int id){
         Monsters monstroRequerido = MonstersManager.getMonstro(id);
         monstroCarregado = new Monsters(monstroRequerido);
         monstrosInventario.put(idInventario++, monstroCarregado);
@@ -66,7 +86,7 @@ public final class Inventory {
         }
     }
 
-    protected static void removerMonstroInventario(int id){
+    public static void removerMonstroInventario(int id){
         monstroCarregado = monstrosInventario.get(id);
         if (monstroCarregado == null)
             return;
@@ -476,6 +496,22 @@ public final class Inventory {
     public static Monsters getMonstroInventario(int id){
         return monstrosInventario != null ? monstrosInventario.get(id) : null;
     }
+	
+	public static List<Monsters> getEquipeLista(){
+		List<Monsters> lista = new ArrayList<>();
+		for (SlotEquipe slot : SlotEquipe.values()){
+			lista.add(equipeTabela.get(slot));
+		}
+		return lista;
+	}
+
+	public static int getTamanhoEquipe(){
+		return equipeTabela.size();
+	}
+
+	public static boolean temSlotVazio(){
+		return equipeTabela.size() < SlotEquipe.values().length;
+	}
 	
 	//===
 }

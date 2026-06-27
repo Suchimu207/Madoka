@@ -100,6 +100,7 @@ public class Monsters {
 	
 	private final int NIVEL_MAXIMO = 40;
 	
+	
 	private Map<Integer, List<Skills>> skillsTree = new HashMap<>();
 	private List<Skills> skillsDesbloqueadas = new ArrayList<>();
 	private EnumMap<SlotHabilidade, Skills> skillsAtivas = new EnumMap<>(SlotHabilidade.class);	
@@ -300,6 +301,45 @@ public class Monsters {
 		skillsAtivas.clear();
 		for (int i = 0; i < lista.size() && i < SlotHabilidade.values().length; i++){
 			skillsAtivas.put(SlotHabilidade.values()[i], lista.get(i));
+		}
+	}
+	
+	public void ganharExp(int expGanha){
+		if (this.nivelAtual >= NIVEL_MAXIMO) return;
+		
+		this.expAtual += expGanha;
+		int expNecessaria = getExpNecessaria();
+		
+		int i = 0;
+		while (this.expAtual >= expNecessaria && this.nivelAtual < NIVEL_MAXIMO){
+			expAtual -= expNecessaria;
+			i++;
+			subirNivel(i);
+			
+			if (nivelAtual < NIVEL_MAXIMO){
+				expNecessaria = getExpNecessaria();
+			}
+		}
+	}
+	
+	public int getExpNecessaria(){
+		if (this.nivelAtual >= NIVEL_MAXIMO) return -1;
+		return 50 * this.nivelAtual;
+	}
+	
+	public void subirNivel(int nivelAtual){
+		if (nivelAtual <= 0) return;
+		
+		if (nivelAtual <= NIVEL_MAXIMO){
+			this.nivelAtual += nivelAtual;
+			
+			for (int i = 1; i <= nivelAtual; i++){
+				this.forçaAtual += this.forçaBase;
+				this.vidaAtual += this.vidaBase;
+				this.speedAtual += this.speedBase;
+			}
+			
+			this.desbloquearHabilidades();
 		}
 	}
 	

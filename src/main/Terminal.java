@@ -2,6 +2,10 @@ package main;
 
 import asciiPanel.AsciiPanel;
 
+import combat.Battle;
+import util.Grapchics;
+import util.Utils;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -12,7 +16,6 @@ public final class Terminal implements KeyListener {
 	private enum EstadosJogo{
 		TITULO("Título"),
 		MAPA("Mapa"),
-		BATALHA_PREPARO("Batalha_Preparo"),
 		BATALHA("Batalha"),
 		INVENTARIO("Inventário"),
 		MONSTRO_DETALHES("Monstro_Detalhes"),
@@ -38,13 +41,12 @@ public final class Terminal implements KeyListener {
 	protected static int cursorX, cursorY; // Provisório.
 	private static int cursorY_Anterior;
 	private final String TITLE;
-	private String os, mapaAtual, mapaInicial;
+	private String mapaAtual, mapaInicial;
 	private boolean ativaDebug, mostraEquipe;
 	
 	protected Terminal(String TITLE, String mapaInicial){
 		this.TITLE = TITLE;
 		this.mapaInicial = mapaInicial;
-		os = System.getProperty("os.name").toLowerCase();
 		frame = new JFrame(TITLE);
 	}
 	
@@ -76,23 +78,9 @@ public final class Terminal implements KeyListener {
 		frame.setVisible(true);
 	}
 	
-	private void limpaPrompt(){
-        try {
-            if (os.contains("win")){
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            }else if (os.contains("linux") || os.contains("unix")){
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-        }catch (Exception e){
-			System.out.println("Erro ao limpar prompt: "+e.getMessage());
-			System.exit(1);
-        }
-      //===
-    }
-	
 	protected void mostrarDebug(int contadorFrames){
 		if (ativaDebug){
-			limpaPrompt();
+			Utils.limpaPrompt();
 			System.out.println("FPS Atual: " + contadorFrames);
 			System.out.println("Jogador_X: "+jogadorX);
 			System.out.println("Jogador_Y: "+jogadorY);
@@ -103,6 +91,11 @@ public final class Terminal implements KeyListener {
 	}
 	
 	protected void desenhaEstado(){
+		if (estadoAtual == EstadosJogo.BATALHA){
+			Battle.desenhaEstadoBatalha();
+			return;
+		}
+		
 		switch (estadoAtual){
 			case TITULO:
 				Title.desenhaTítulo();
@@ -110,14 +103,8 @@ public final class Terminal implements KeyListener {
 			case MAPA:
 				Maps.desenhaMapa(mapaAtual, jogadorX, jogadorY);
 				if (mostraEquipe){
-					Battle.desenhaInfoEquipe();
+					Inventory.desenhaInfoEquipe();
 				}else desenhaInfo();
-				break;
-			case BATALHA_PREPARO:
-				Battle.desenhaTelaPreparo();
-				break;
-			case BATALHA:
-				Battle.desenhaBatalha();
 				break;
 			case INVENTARIO:
 				Inventory.desenhaInventário();
@@ -154,13 +141,12 @@ public final class Terminal implements KeyListener {
                 jogadorX--;
             }
             break;
-		case BATALHA:
         case MONSTRO_DETALHES:
 		case MONSTRO_HABILIDADES:
             cursorX--;
             break;
         case INVENTARIO:
-            Battle.alternarPagina(false);
+            Inventory.alternarPagina(false);
             break;
         case LOJA:
 		case LOJA_RECIBO:
@@ -176,13 +162,12 @@ public final class Terminal implements KeyListener {
                 jogadorX++;
             }
             break;
-		case BATALHA:
         case MONSTRO_DETALHES:
 		case MONSTRO_HABILIDADES:
             cursorX++;
             break;
         case INVENTARIO:
-            Battle.alternarPagina(true);
+            Inventory.alternarPagina(true);
             break;
         case LOJA:
 		case LOJA_RECIBO:
@@ -204,8 +189,6 @@ public final class Terminal implements KeyListener {
                 jogadorY--;
             }
             break;
-		case BATALHA:
-		case BATALHA_PREPARO:
         case LOJA:
             cursorY--;
             break;
@@ -228,8 +211,6 @@ public final class Terminal implements KeyListener {
                 jogadorY++;
             }
             break;
-		case BATALHA:
-		case BATALHA_PREPARO:
         case LOJA:
             cursorY++;
             break;
@@ -242,7 +223,7 @@ public final class Terminal implements KeyListener {
 	private void teclaDebug(){
 		if (ativaDebug){
 			ativaDebug = false;
-			limpaPrompt();
+			Utils.limpaPrompt();
 		}else ativaDebug = true;
 	}
 	
@@ -272,16 +253,10 @@ public final class Terminal implements KeyListener {
                 estadoAtual = EstadosJogo.LOJA;
             }
 			if (Maps.ehEvento(mapaAtual, jogadorX, jogadorY) == '!'){
-				
-				estadoAtual = EstadosJogo.BATALHA_PREPARO;
+				Battle.setarBatalha();
+				estadoAtual = EstadosJogo.BATALHA;
             }
             break;
-		case BATALHA_PREPARO:
-			Battle.alternarMonstroSlotsAtivos();
-			break;
-		case BATALHA:
-			Battle.selecionarComandoBatalha();
-			break;
         case LOJA:
 			Shop.alternarItemCarrinho();
             break;
@@ -316,8 +291,6 @@ public final class Terminal implements KeyListener {
             cursorY = 1;
             estadoAtual = EstadosJogo.INVENTARIO;
             break;
-		case BATALHA_PREPARO:
-			Battle.resetarSlotsAtivos();
         case INVENTARIO:
             Grapchics.limpaTela();
             cursorX = 1;
@@ -342,16 +315,6 @@ public final class Terminal implements KeyListener {
 	
 	private void teclaComprar(){
 		switch (estadoAtual){
-		case BATALHA_PREPARO:
-			if (Battle.setarBatalha()){
-				cursorX = 1;
-				cursorY = 1;
-				estadoAtual = EstadosJogo.BATALHA;
-			}
-			break;
-		case BATALHA:
-			Battle.voltarComandoBatalha();
-			break;
         case LOJA:
             if (Shop.comprarMonstro()){
 				Grapchics.limpaTela();
@@ -389,6 +352,15 @@ public final class Terminal implements KeyListener {
 	
 	@Override
 	public void keyPressed(KeyEvent e){
+		int tecla = e.getKeyCode();
+		if (estadoAtual == EstadosJogo.BATALHA){
+			if(Battle.recebeComandosBatalha(tecla)){
+				Grapchics.limpaTela();
+				estadoAtual = EstadosJogo.MAPA;
+			}
+			return;
+		}
+		
 		switch (e.getKeyCode()){
 			case KeyEvent.VK_A:
 			case KeyEvent.VK_LEFT:

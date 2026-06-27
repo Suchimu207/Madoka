@@ -49,18 +49,18 @@ public class Troop {
 		return id; 
 	}
 	
-    protected List<Inimigo> getInimigos(){
+    private List<Inimigo> getInimigos(){
 		return new ArrayList<>(inimigos); 
 	}
 	
-	public List<Monsters> getMonstros(){
-		List<Monsters> listaMonstros = new ArrayList<>();
+	public ArrayList<Monsters> getMonstros(){
+		ArrayList<Monsters> listaMonstros = new ArrayList<>();
 		for (Inimigo inimigo : inimigos){
 			listaMonstros.add(inimigo.getMonstroTropa());
 		}
 		return listaMonstros;
 	}
-		
+	
     public int getExp(){ 
 		return exp; 
 	}

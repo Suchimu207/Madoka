@@ -4,6 +4,8 @@ import world.*;
 
 import asciiPanel.AsciiPanel;
 
+import util.Grapchics;
+
 import java.util.HashMap;
 import java.util.Map;
 

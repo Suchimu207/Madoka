@@ -2,6 +2,8 @@ package main;
 
 import asciiPanel.AsciiPanel;
 
+import util.Grapchics;
+
 public final class Title {
     private static String TITLE_NAME;
 	

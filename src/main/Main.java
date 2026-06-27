@@ -1,5 +1,7 @@
 package main;
 
+import combat.Battle;
+
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
 

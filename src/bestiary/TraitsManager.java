@@ -23,7 +23,7 @@ public final class TraitsManager {
 	public TraitsManager(){
 	}
 	
-	public static void carregarTraços(){
+	public final static void carregarTraços(){
 		try{
 			caminho = Paths.get("data", "system", "traits.json");
 			conteudoJson = Files.readString(caminho);
@@ -50,9 +50,7 @@ public final class TraitsManager {
 				*/
 			}
         
-		System.out.println("");
         System.out.println(">>Traços carregados: " +traçosExistentes.size());
-		System.out.println("");
 		}catch (IOException e){ 
 			System.out.println("Erro ao carregar traços: "+e.getMessage());
 		}

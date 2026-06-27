@@ -26,7 +26,7 @@ public final class SkillsManager {
 	private SkillsManager(){
 	}
 	
-	public static void carregarHabilidades(){
+	public final static void carregarHabilidades(){
 		try{
 			caminho = Paths.get("data", "system", "skills.json");
 			conteudoJson = Files.readString(caminho);
@@ -73,7 +73,6 @@ public final class SkillsManager {
 			}
         
         System.out.println(">>Habilidades carregadas: " +skillsExistentes.size());
-		System.out.println("");
 		}catch (IOException | IllegalArgumentException e){ 
 			System.out.println("Erro ao carregar habilidades: "+e.getMessage());
 		}

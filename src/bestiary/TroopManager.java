@@ -26,7 +26,7 @@ public final class TroopManager {
     private TroopManager(){
     }
 
-    public static void carregarTropas(){
+    public final static void carregarTropas(){
         try {
             caminho = Paths.get("data", "system", "troop.json");
             conteudoJson = Files.readString(caminho);
@@ -62,7 +62,6 @@ public final class TroopManager {
             }
 
             System.out.println(">>Tropas carregadas: "+tropasExistentes.size());
-            System.out.println("");
         }catch (IOException | IllegalArgumentException e){
             System.out.println("Erro ao carregar tropas: "+e.getMessage());
         }

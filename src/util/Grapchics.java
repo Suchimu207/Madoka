@@ -1,4 +1,4 @@
-package main;
+package util;
 
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
@@ -6,8 +6,8 @@ import asciiPanel.AsciiPanel;
 import java.awt.Color;
 
 public final class Grapchics {
-	private static int tileSizeX = 40;
-	private static int tileSizeY = 40;
+	private final static int tileSizeX = 40;
+	private final static int tileSizeY = 40;
 	private final static AsciiPanel tela = new AsciiPanel(tileSizeX, tileSizeY, AsciiFont.CP437_16x16);
 	
 	private Grapchics(){

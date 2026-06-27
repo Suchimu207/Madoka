@@ -1,8 +1,12 @@
 package main;
 
+import asciiPanel.AsciiPanel;
+
 import bestiary.Monsters;
 import bestiary.MonstersManager;
-import asciiPanel.AsciiPanel;
+
+import util.Grapchics;
+
 import java.util.ArrayList;
 
 public final class Shop {
