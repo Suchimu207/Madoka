@@ -16,7 +16,8 @@ public final class Battle {
 	protected enum SubEstadosBatalha{
 		PREPARO,
 		CAMPO,
-		VITORIA;
+		VITORIA,
+		DERROTA;
 	}
 	
 	private static SubEstadosBatalha subEstadoAtual;
@@ -45,7 +46,6 @@ public final class Battle {
 		
 		Inventory.adicionarMonstroInventário(1);
 		Monsters monstro = Inventory.getMonstroInventario(1);
-		monstro.subirNivel(3);
 	}
 	
 	public static void setarBatalha(){
@@ -65,6 +65,9 @@ public final class Battle {
 			case CAMPO:
 				if (campoBatalha != null){
 					campoBatalha.desenhaBatalha();
+					campoBatalha.processarTurno();
+					campoBatalha.verificarMonstros();
+					campoBatalha.verificarFimBatalha();
 				}
 				break;
 			case VITORIA:
@@ -97,6 +100,9 @@ public final class Battle {
 				if (subEstadoAtual == SubEstadosBatalha.VITORIA){
 					return true;
 				}
+				if (subEstadoAtual == SubEstadosBatalha.DERROTA){
+					return true;
+				}
 				teclaEnter();
 				break;
 			case KeyEvent.VK_SHIFT:
@@ -118,7 +124,9 @@ public final class Battle {
 			alternarMonstroSlotsAtivos();
 		}
 		if (subEstadoAtual == SubEstadosBatalha.CAMPO){
-			campoBatalha.selecionarComandoBatalha();
+			if (campoBatalha != null){
+				campoBatalha.selecionarComandoBatalha();
+			}
 		}
 	}
 	
@@ -186,6 +194,12 @@ public final class Battle {
 		return false;
 	}
 	
+	protected static void exibirMensagemInimigo(String mensagem){
+		if (campoBatalha != null){
+			campoBatalha.setMensagemTurno(mensagem);
+		}
+	}
+	
 	protected static Monsters[] getMonstroSlotsAtivos(){
 		return monstroSlotsAtivos;
 	}
@@ -220,7 +234,7 @@ public final class Battle {
 		Battle.monstroMostrado = monstroMostrado;
 	}
 	
-	public static void setSubEstadoAtual(SubEstadosBatalha subEstadoAtual){
+	protected static void setSubEstadoAtual(SubEstadosBatalha subEstadoAtual){
 		Battle.subEstadoAtual = subEstadoAtual;
 	}
 	

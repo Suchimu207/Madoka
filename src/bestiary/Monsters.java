@@ -310,11 +310,9 @@ public class Monsters {
 		this.expAtual += expGanha;
 		int expNecessaria = getExpNecessaria();
 		
-		int i = 0;
 		while (this.expAtual >= expNecessaria && this.nivelAtual < NIVEL_MAXIMO){
 			expAtual -= expNecessaria;
-			i++;
-			subirNivel(i);
+			subirNivel(1);
 			
 			if (nivelAtual < NIVEL_MAXIMO){
 				expNecessaria = getExpNecessaria();
@@ -324,23 +322,21 @@ public class Monsters {
 	
 	public int getExpNecessaria(){
 		if (this.nivelAtual >= NIVEL_MAXIMO) return -1;
-		return 50 * this.nivelAtual;
+		return 100 * this.nivelAtual;
 	}
 	
-	public void subirNivel(int nivelAtual){
-		if (nivelAtual <= 0) return;
-		
-		if (nivelAtual <= NIVEL_MAXIMO){
-			this.nivelAtual += nivelAtual;
-			
-			for (int i = 1; i <= nivelAtual; i++){
-				this.forçaAtual += this.forçaBase;
-				this.vidaAtual += this.vidaBase;
-				this.speedAtual += this.speedBase;
-			}
-			
-			this.desbloquearHabilidades();
+	public void subirNivel(int quantidade){
+		if (quantidade <= 0) return;
+    
+		int niveisReais = Math.min(quantidade, NIVEL_MAXIMO-this.nivelAtual);
+    
+		for (int i = 0; i < niveisReais; i++){
+			this.nivelAtual++;
+			this.forçaAtual += this.forçaBase;
+			this.vidaAtual += this.vidaBase;
+			this.speedAtual += this.speedBase;
 		}
+		this.desbloquearHabilidades();
 	}
 	
 	public int getQuantidadeSlotsOcupados(){
