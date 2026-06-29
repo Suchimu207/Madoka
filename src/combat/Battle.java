@@ -65,14 +65,16 @@ public final class Battle {
 			case CAMPO:
 				if (campoBatalha != null){
 					campoBatalha.desenhaBatalha();
-					campoBatalha.processarTurno();
-					campoBatalha.verificarMonstros();
-					campoBatalha.verificarFimBatalha();
 				}
 				break;
 			case VITORIA:
 				if (campoBatalha != null){
-					campoBatalha.telaVitória();
+					campoBatalha.desenhaTelaVitória();
+				}
+				break;
+			case DERROTA:
+				if (campoBatalha != null){
+					campoBatalha.desenhaTelaDerrota();
 				}
 				break;
 		}
@@ -106,6 +108,7 @@ public final class Battle {
 				teclaEnter();
 				break;
 			case KeyEvent.VK_SHIFT:
+				teclaShift();
 				break;
 			case KeyEvent.VK_E:
 				if (subEstadoAtual == SubEstadosBatalha.PREPARO){
@@ -126,6 +129,14 @@ public final class Battle {
 		if (subEstadoAtual == SubEstadosBatalha.CAMPO){
 			if (campoBatalha != null){
 				campoBatalha.selecionarComandoBatalha();
+			}
+		}
+	}
+	
+	private static void teclaShift(){
+		if (subEstadoAtual == SubEstadosBatalha.CAMPO){
+			if (campoBatalha != null){
+				campoBatalha.recarregarEnergiaUsuário();
 			}
 		}
 	}

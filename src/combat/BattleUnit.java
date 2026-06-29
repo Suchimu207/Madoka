@@ -11,7 +11,7 @@ public final class BattleUnit {
 	private int speed;
 	private int actionValueAtual;
 	
-	private final int BASE_ACTION_VALUE_CONSTANT = 10000;
+	private final int BASE_ACTION_VALUE_CONSTANT = 1000;
 	
 	protected BattleUnit(Monsters monstro, boolean aliado){
 		this.id = ++contadorId;

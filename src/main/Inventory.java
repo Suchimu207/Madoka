@@ -229,7 +229,7 @@ public final class Inventory {
 		monstroCarregado = getMonstroInventario(Terminal.cursorX);
 		if (monstroCarregado == null) return;
 		
-		String indicadorFavorito = monstroCarregado.isMonstroFavorito() ? " [F]" : "";
+		String indicadorFavorito = monstroCarregado.isMonstroFavorito() ? " ["+(char)3+"]" : "";
 		
 		Grapchics.desenhaCentro("Detalhes",0, AsciiPanel.brightWhite);
 		Grapchics.desenhaTela("E: Voltar", 0, 1, AsciiPanel.brightBlack);
@@ -467,7 +467,7 @@ public final class Inventory {
 
 		boolean selecionado = (i == Terminal.cursorY);
 		String indicadorEquipado = monstro.isMonstroEquipado() ? " [E]" : "";
-		String indicadorFavorito = monstro.isMonstroFavorito() ? " [F]" : "";
+		String indicadorFavorito = monstroCarregado.isMonstroFavorito() ? " ["+(char)3+"]" : "";
 		
 			if (selecionado){
 				nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();

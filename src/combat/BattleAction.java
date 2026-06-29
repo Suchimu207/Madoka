@@ -9,6 +9,18 @@ public final class BattleAction {
 	private BattleAction(){
 	}
 	
+	protected static void recarregarEnergia(Monsters usuario){
+		int maxEstamina = usuario.getEstaminaAtual();
+		int regneração = (int) Math.ceil(maxEstamina * 0.5); 
+		int novaEstamina = regneração + usuario.getEstaminaAtualCombate();
+		
+		 if (novaEstamina >= maxEstamina){
+			novaEstamina = maxEstamina;
+		}
+		
+		usuario.setEstaminaAtualCombate(novaEstamina);
+	}
+	
 	protected static boolean verificarCustoHabilidade(Monsters usuario, Monsters alvo, Skills habilidade){
 		int estaminaAtualCombate = usuario.getEstaminaAtualCombate();
 		int energiaHabilidade = habilidade.getEnergiaHabilidade();

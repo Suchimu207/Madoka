@@ -14,6 +14,8 @@ import util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.awt.Color;
+
 public final class BattleField {
 	// ==================== ATRIBUTOS ====================
 	
@@ -59,16 +61,6 @@ public final class BattleField {
 		Utils.limpaPrompt();
 		System.out.println("");
 		
-		for (Monsters monstro : inimigos){
-			if(monstro == null) continue;
-			monstro.setForcaAtualCombate(monstro.getForcaAtual());
-			monstro.setVidaAtualCombate(monstro.getVidaAtual());
-			monstro.setSpeedAtualCombate(monstro.getSpeedAtual());
-			monstro.setEstaminaAtualCombate(monstro.getEstaminaAtual());
-		}
-		System.out.println(">>Inimigos inicializados.");
-        System.out.println("");
-		
 		for (int i = 0; i <= maxAliados-1; i++){
 			Monsters monstro = aliados[i];
 			if(monstro == null) continue;
@@ -79,6 +71,16 @@ public final class BattleField {
 			monstro.setEstaminaAtualCombate(monstro.getEstaminaAtual());
 		}
 		System.out.println(">>Aliados inicializados.");
+        System.out.println("");
+		
+		for (Monsters monstro : inimigos){
+			if(monstro == null) continue;
+			monstro.setForcaAtualCombate(monstro.getForcaAtual());
+			monstro.setVidaAtualCombate(monstro.getVidaAtual());
+			monstro.setSpeedAtualCombate(monstro.getSpeedAtual());
+			monstro.setEstaminaAtualCombate(monstro.getEstaminaAtual());
+		}
+		System.out.println(">>Inimigos inicializados.");
         System.out.println("");
 	}
 	
@@ -107,19 +109,26 @@ public final class BattleField {
 	protected void desenhaBatalha(){
 		Grapchics.limpaTela();
 		
-		desenhaInfoTurno();
+		linhaInicial = 0;
+		linhaAtual = linhaInicial;
+		
+		desenhaBarraActionValue();
+		if (selecionarAlvo){
+			Grapchics.desenhaTela("Q: Voltar", 0, linhaAtual++, AsciiPanel.brightBlack);
+		}
+		if (BattleTurn.isTurnoJogador()){
+			Grapchics.desenhaTela("Shift: Recarregar estamina", 0, linhaAtual++, AsciiPanel.brightBlack);
+		}
+		
+		linhaAtual += 10;
 		desenhaAliados();
 		desenhaInimigos();
-		
-		if (selecionarAlvo){
-			Grapchics.desenhaTela("Q: Voltar", 0, 1, AsciiPanel.brightBlack);
-		}
 		
 		if(selecionarAlvo && !posiçõesInimigosX.isEmpty()){
 			desenhaSetaBatalha();
 		}
-		linhaAtual = 10;
 		
+		linhaAtual += 10;
 		if (BattleTurn.isAguardandoTurno() && BattleTurn.isTurnoJogador()){
 			if (!selecionarAlvo){
                 desenhaBatalhaComandos();
@@ -127,32 +136,26 @@ public final class BattleField {
                 desenhaComandoDetalhe();
             }
 		}
+		desenhaLogBatalha();
 		
-		linhaAtual = 20;
-		desenhaBarraActionValue();
+		verificarMonstros();
+		processarTurno();
+		verificarFimBatalha();
 		
-		linhaAtual = 30;
+		Grapchics.atualizarTela();
+	}
+	
+	private void desenhaLogBatalha(){
 		if (aguardandoInimigo && mensagemTurnoInimigo != null){
 			Grapchics.desenhaTela("____________________", 0,linhaAtual++, AsciiPanel.brightWhite);
 			Grapchics.desenhaTela(mensagemTurnoInimigo, 0, linhaAtual++, AsciiPanel.white);
 			Grapchics.desenhaTela("[ENTER]  ", 0, linhaAtual++, AsciiPanel.brightYellow);
 			Grapchics.desenhaTela("____________________", 0, linhaAtual++, AsciiPanel.brightWhite);
 		}
-		
-		Grapchics.atualizarTela();
 	}
-	
-	private void desenhaInfoTurno(){        
-        String turno = BattleTurn.isTurnoJogador() ? "Turno aliado" : "Turno inimigo";
-        
-        Grapchics.desenhaCentro(turno,0, 
-        BattleTurn.isTurnoJogador() ? AsciiPanel.brightYellow : AsciiPanel.brightRed);
-    }
 	
 	private void desenhaAliados(){
 		int jogadorMonstrosX = 3;
-		linhaInicial = 10;
-		linhaAtual = linhaInicial;
 		
 		if (aliados[0] != null){
 			desenhaMonstroBatalha(aliados[0], jogadorMonstrosX-2, linhaAtual-4);
@@ -207,16 +210,22 @@ public final class BattleField {
             String nome = monstro.getNomeMonstro();
             int av = unidade.getActionValue();
 			boolean ehAliado = unidade.isAliado();
-			
+			Monsters monstroUnidade = BattleTurn.getUnidadeAtual().getMonstro();
+			boolean unidadeAtual = (monstroUnidade == monstro);
+
             String texto = nome + " (AV: " + av + ")";
             if (unidade == BattleTurn.getUnidadeAtual()){
-				texto += "<<";
+				texto += (char)17;
             }
             
-			if (ehAliado){
+			if (ehAliado && unidadeAtual){
 				Grapchics.desenhaTela(texto, 0, linhaAtual++, AsciiPanel.brightWhite);
-			}else{
+			}else if (ehAliado && !unidadeAtual){
 				Grapchics.desenhaTela(texto, 0, linhaAtual++, AsciiPanel.brightBlack);
+			}else if (!ehAliado && !unidadeAtual){
+				Grapchics.desenhaTela((char)6+texto, 0, linhaAtual++, AsciiPanel.brightBlack);
+			}else if (!ehAliado && unidadeAtual){
+				Grapchics.desenhaTela((char)6+texto, 0, linhaAtual++, AsciiPanel.brightWhite);
 			}
 			
 			count++;
@@ -226,14 +235,23 @@ public final class BattleField {
 	
 	private void desenhaMonstroBatalha(Monsters monstro, int x, int y){
 		if (monstro == null) return;
-    
-		Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, AsciiPanel.brightWhite);
 		
-		Grapchics.desenhaTela(monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
-		x, y+1, AsciiPanel.brightWhite);
+		Monsters monstroUnidade = BattleTurn.getUnidadeAtual().getMonstro();
+		boolean unidadeAtual = (monstroUnidade == monstro);
 		
-		Grapchics.desenhaTela(monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
-		x, y+2, AsciiPanel.brightWhite);
+		if (unidadeAtual){
+			Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, AsciiPanel.brightWhite);
+			Grapchics.desenhaTela(monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
+			x, y+1, AsciiPanel.brightWhite);
+			Grapchics.desenhaTela(monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
+			x, y+2, AsciiPanel.brightWhite);
+		}else{
+			Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, AsciiPanel.brightBlack);	
+			Grapchics.desenhaTela(monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
+			x, y+1, AsciiPanel.brightBlack);
+			Grapchics.desenhaTela(monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
+			x, y+2, AsciiPanel.brightBlack);
+		}			
 	}
 	
 	private void desenhaSetaBatalha(){    
@@ -304,10 +322,18 @@ public final class BattleField {
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
 	}
 	
-	protected void telaVitória(){
+	protected void desenhaTelaVitória(){
 		Grapchics.limpaTela();
 		
 		Grapchics.desenhaCentro("Vitoria",10, AsciiPanel.brightWhite);
+		
+		Grapchics.atualizarTela();
+	}
+	
+	protected void desenhaTelaDerrota(){
+		Grapchics.limpaTela();
+		
+		Grapchics.desenhaCentro("Derrota",10, AsciiPanel.brightWhite);
 		
 		Grapchics.atualizarTela();
 	}
@@ -342,10 +368,21 @@ public final class BattleField {
             }
         }
     }
-		
+	
+	protected void recarregarEnergiaUsuário(){		
+        if (!BattleTurn.isAguardandoTurno() || !BattleTurn.isTurnoJogador()) return;
+        if (BattleTurn.getUnidadeJogadorAtual() == null) return;
+        Monsters usuario = BattleTurn.getUnidadeJogadorAtual().getMonstro();
+        
+        BattleAction.recarregarEnergia(usuario);
+		if (selecionarAlvo) selecionarAlvo = false;
+		BattleTurn.setAguardandoTurno(false);
+        BattleTurn.finalizarTurno();
+    }
+	
 	// ==================== MÉTODOS AUXILIARES ====================
 	
-	protected void verificarMonstros(){
+	private void verificarMonstros(){
 		maxInimigos = tropa.getMonstros().size();
 		maxAliados = aliados.length;
 		
@@ -367,7 +404,7 @@ public final class BattleField {
 		}
 	}
 	
-	protected boolean verificarFimBatalha(){
+	private boolean verificarFimBatalha(){
 		if (todosInimigosDerrotados()){
 			Battle.setSubEstadoAtual(Battle.SubEstadosBatalha.VITORIA);
 			
@@ -410,7 +447,7 @@ public final class BattleField {
     }
 	
 	protected void setMensagemTurno(String mensagem){
-		this.mensagemTurnoInimigo = mensagem;
+		this.mensagemTurnoInimigo = (char)6+mensagem;
 		this.aguardandoInimigo = true;
 	}
 
@@ -425,7 +462,7 @@ public final class BattleField {
 		BattleTurn.finalizarTurno(); 
 	}
 	
-	protected void processarTurno(){
+	private void processarTurno(){
 		if (!BattleTurn.isAguardandoTurno() && !BattleTurn.isTurnoJogador()){
 			if (!isAguardandoConfirmação()){
 				BattleAI.turnoInimigo();

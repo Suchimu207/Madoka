@@ -9,6 +9,7 @@ import java.util.Random;
 
 public final class BattleAI {
 	private static final Random random = new Random();
+	private static BattleUnit unidadeAlvo;
 	
 	private BattleAI(){
 	}
@@ -18,8 +19,11 @@ public final class BattleAI {
         if (unidadeAtual == null) return;
         
         Monsters monstroInimigo = unidadeAtual.getMonstro();
+		if (monstroInimigo == null) return;
+		
 		if (monstroInimigo.getEstaminaAtualCombate() <= 0){
-			String frase = "Sem energia...";
+			BattleAction.recarregarEnergia(monstroInimigo);
+			String frase = monstroInimigo.getNomeMonstro()+ " recarrega!";
 			Battle.exibirMensagemInimigo(frase);
 			return;
 		}
@@ -38,7 +42,11 @@ public final class BattleAI {
 			BattleAction.executarHabilidade(monstroInimigo, alvo, habilidade);
 			String frase = monstroInimigo.getNomeMonstro()+" usou "+habilidade.getNomeHabilidade() + "!";
 			Battle.exibirMensagemInimigo(frase);
-        }
+        }else{
+			BattleAction.recarregarEnergia(monstroInimigo);
+			String frase = monstroInimigo.getNomeMonstro()+ " recarrega!";
+			Battle.exibirMensagemInimigo(frase);
+		}
     }
 	
 	private static List<Monsters> getAlvos(){
