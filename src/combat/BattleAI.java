@@ -40,11 +40,11 @@ public final class BattleAI {
         
         if (alvo != null && habilidade != null){
 			BattleAction.executarHabilidade(monstroInimigo, alvo, habilidade);
-			String frase = monstroInimigo.getNomeMonstro()+" usou "+habilidade.getNomeHabilidade() + "!";
+			String frase = monstroInimigo.getNomeMonstro()+" usou "+habilidade.getNomeHabilidade() + (char)19;
 			Battle.exibirMensagemInimigo(frase);
         }else{
 			BattleAction.recarregarEnergia(monstroInimigo);
-			String frase = monstroInimigo.getNomeMonstro()+ " recarrega!";
+			String frase = monstroInimigo.getNomeMonstro()+ " recarrega"+ (char)19;
 			Battle.exibirMensagemInimigo(frase);
 		}
     }

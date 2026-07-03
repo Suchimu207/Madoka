@@ -207,7 +207,13 @@ public final class Battle {
 	
 	protected static void exibirMensagemInimigo(String mensagem){
 		if (campoBatalha != null){
-			campoBatalha.setMensagemTurno(mensagem);
+			campoBatalha.setMensagemInimigo(mensagem);
+		}
+	}
+	
+	protected static void exibirMensagemAliado(String mensagem){
+		if (campoBatalha != null){
+			campoBatalha.setMensagemAliado(mensagem);
 		}
 	}
 	

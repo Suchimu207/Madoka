@@ -7,6 +7,7 @@ public final class BattleUnit {
 	
 	private Monsters monstro;
 	private boolean aliado;
+	private boolean alvo;
 	private int id;
 	private int speed;
 	private int actionValueAtual;
@@ -17,6 +18,7 @@ public final class BattleUnit {
 		this.id = ++contadorId;
 		this.monstro = monstro;
 		this.aliado = aliado;
+		this.alvo = false;
 		this.actionValueAtual = calcularActionValue();
 	}
 	
@@ -40,6 +42,10 @@ public final class BattleUnit {
 	
 	protected boolean isAliado(){ 
 		return aliado;
+	}
+	
+	protected boolean isAlvo(){ 
+		return alvo;
 	}
 	
 	protected void setActionValueAtual(int actionValueAtual){

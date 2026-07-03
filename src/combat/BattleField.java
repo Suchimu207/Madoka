@@ -33,8 +33,10 @@ public final class BattleField {
 	
 	private boolean selecionarAlvo;
 	private boolean aguardandoInimigo = false;
+	private boolean aguardandoAliado = false; 
 	
 	private String mensagemTurnoInimigo = null;
+	private String mensagemTurnoAliado = null;
 	
 	private int linhaInicial, linhaAtual;
 	
@@ -113,11 +115,13 @@ public final class BattleField {
 		linhaAtual = linhaInicial;
 		
 		desenhaBarraActionValue();
-		if (selecionarAlvo){
-			Grapchics.desenhaTela("Q: Voltar", 0, linhaAtual++, AsciiPanel.brightBlack);
-		}
-		if (BattleTurn.isTurnoJogador()){
-			Grapchics.desenhaTela("Shift: Recarregar estamina", 0, linhaAtual++, AsciiPanel.brightBlack);
+		if (!aguardandoAliado){
+			if (selecionarAlvo){
+				Grapchics.desenhaTela("Q: Voltar", 0, linhaAtual++, AsciiPanel.brightBlack);
+			}
+			if (BattleTurn.isTurnoJogador()){
+				Grapchics.desenhaTela("Shift: Recarregar estamina", 0, linhaAtual++, AsciiPanel.brightBlack);
+			}
 		}
 		
 		linhaAtual += 10;
@@ -129,28 +133,34 @@ public final class BattleField {
 		}
 		
 		linhaAtual += 10;
-		if (BattleTurn.isAguardandoTurno() && BattleTurn.isTurnoJogador()){
-			if (!selecionarAlvo){
-                desenhaBatalhaComandos();
-            }else{
-                desenhaComandoDetalhe();
-            }
+		if (!aguardandoAliado){
+			if (BattleTurn.isAguardandoTurno() && BattleTurn.isTurnoJogador()){
+				if (!selecionarAlvo){
+					desenhaBatalhaComandos();
+				}else{
+					desenhaComandoDetalhe();
+				}
+			}
 		}
 		desenhaLogBatalha();
-		
-		verificarMonstros();
 		processarTurno();
-		verificarFimBatalha();
 		
 		Grapchics.atualizarTela();
 	}
 	
 	private void desenhaLogBatalha(){
 		if (aguardandoInimigo && mensagemTurnoInimigo != null){
-			Grapchics.desenhaTela("____________________", 0,linhaAtual++, AsciiPanel.brightWhite);
-			Grapchics.desenhaTela(mensagemTurnoInimigo, 0, linhaAtual++, AsciiPanel.white);
+			Grapchics.desenhaTela("____________________", 0,linhaAtual++, AsciiPanel.brightBlack);
+			Grapchics.desenhaTela(mensagemTurnoInimigo, 0, linhaAtual++, AsciiPanel.brightWhite);
 			Grapchics.desenhaTela("[ENTER]  ", 0, linhaAtual++, AsciiPanel.brightYellow);
-			Grapchics.desenhaTela("____________________", 0, linhaAtual++, AsciiPanel.brightWhite);
+			Grapchics.desenhaTela("____________________", 0, linhaAtual++, AsciiPanel.brightBlack);
+		}
+		
+		if (aguardandoAliado && mensagemTurnoAliado != null) {
+			Grapchics.desenhaTela("____________________", 0, linhaAtual++, AsciiPanel.brightBlack);
+			Grapchics.desenhaTela(mensagemTurnoAliado, 0, linhaAtual++, AsciiPanel.brightWhite);
+			Grapchics.desenhaTela("[ENTER]  ", 0, linhaAtual++, AsciiPanel.brightYellow);
+			Grapchics.desenhaTela("____________________", 0, linhaAtual++, AsciiPanel.brightBlack);
 		}
 	}
 	
@@ -201,7 +211,7 @@ public final class BattleField {
 	
 	private void desenhaBarraActionValue(){
 		int count = 0;
-		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightBlack);
         for (BattleUnit unidade : BattleTurn.getUnidades()){
             if (count >= 6) break;
             Monsters monstro = unidade.getMonstro();
@@ -219,9 +229,9 @@ public final class BattleField {
             }
             
 			if (ehAliado && unidadeAtual){
-				Grapchics.desenhaTela(texto, 0, linhaAtual++, AsciiPanel.brightWhite);
+				Grapchics.desenhaTela((char)4+texto, 0, linhaAtual++, AsciiPanel.brightWhite);
 			}else if (ehAliado && !unidadeAtual){
-				Grapchics.desenhaTela(texto, 0, linhaAtual++, AsciiPanel.brightBlack);
+				Grapchics.desenhaTela((char)4+texto, 0, linhaAtual++, AsciiPanel.brightBlack);
 			}else if (!ehAliado && !unidadeAtual){
 				Grapchics.desenhaTela((char)6+texto, 0, linhaAtual++, AsciiPanel.brightBlack);
 			}else if (!ehAliado && unidadeAtual){
@@ -230,7 +240,7 @@ public final class BattleField {
 			
 			count++;
         }
-		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightBlack);
     }
 	
 	private void desenhaMonstroBatalha(Monsters monstro, int x, int y){
@@ -342,7 +352,12 @@ public final class BattleField {
 	
 	protected void selecionarComandoBatalha(){
 		if (aguardandoInimigo){
-			confirmarMensagem();
+			confirmarMensagemInimigo();
+			return;
+		}
+		
+		if (aguardandoAliado){
+			confirmarMensagemAliado();
 			return;
 		}
 		
@@ -355,16 +370,15 @@ public final class BattleField {
             return;
         }
         
-        if (selecionarAlvo && monstroSelecionado != null && skillSelecionada != null) {
+        if (selecionarAlvo && monstroSelecionado != null && skillSelecionada != null){
             Monsters usuario = BattleTurn.getUnidadeJogadorAtual().getMonstro();
             
             if (BattleAction.verificarCustoHabilidade(usuario, monstroSelecionado, skillSelecionada)){
                 BattleAction.executarHabilidade(usuario, monstroSelecionado, skillSelecionada);
-                selecionarAlvo = false;
-                skillSelecionada = null;
-				BattleTurn.setAguardandoTurno(false);
-                
-                BattleTurn.finalizarTurno();
+				String frase = usuario.getNomeMonstro()+" usou "+skillSelecionada.getNomeHabilidade() + (char)19;
+				
+				selecionarAlvo = false;
+				Battle.exibirMensagemAliado(frase);
             }
         }
     }
@@ -376,8 +390,9 @@ public final class BattleField {
         
         BattleAction.recarregarEnergia(usuario);
 		if (selecionarAlvo) selecionarAlvo = false;
-		BattleTurn.setAguardandoTurno(false);
-        BattleTurn.finalizarTurno();
+		
+		String frase = usuario.getNomeMonstro()+" recarrega.";
+		Battle.exibirMensagemAliado(frase);
     }
 	
 	// ==================== MÉTODOS AUXILIARES ====================
@@ -446,34 +461,60 @@ public final class BattleField {
         return true;
     }
 	
-	protected void setMensagemTurno(String mensagem){
+	protected void setMensagemInimigo(String mensagem){
 		this.mensagemTurnoInimigo = (char)6+mensagem;
 		this.aguardandoInimigo = true;
 	}
 
+	protected void setMensagemAliado(String mensagem){
+		this.mensagemTurnoAliado = (char)4+mensagem; 
+		this.aguardandoAliado = true;
+	}
+	
 	protected boolean isAguardandoConfirmação(){
 		return aguardandoInimigo;
 	}
 	
-	protected void confirmarMensagem(){
+	protected void confirmarMensagemInimigo(){
 		this.mensagemTurnoInimigo = null;
 		this.aguardandoInimigo = false;
 		
 		BattleTurn.finalizarTurno(); 
 	}
 	
+	protected void confirmarMensagemAliado(){
+		this.mensagemTurnoAliado = null;
+		this.aguardandoAliado = false;
+		
+        skillSelecionada = null;
+		BattleTurn.setAguardandoTurno(false);
+		
+		BattleTurn.finalizarTurno();
+	}
+	
 	private void processarTurno(){
+		verificarMonstros();
+		
 		if (!BattleTurn.isAguardandoTurno() && !BattleTurn.isTurnoJogador()){
 			if (!isAguardandoConfirmação()){
 				BattleAI.turnoInimigo();
 			}
 		}
+		verificarFimBatalha();
 	}
 	
 	// ==================== OUTROS ====================
 	
 	protected void setSelecionarAlvo(boolean selecionarAlvo){
 		this.selecionarAlvo = selecionarAlvo;
+	}
+	
+	protected boolean isAguardandoInimigo(){
+		return aguardandoInimigo;
+	}
+
+	protected boolean isAguardandoAliado(){
+		return aguardandoAliado;
 	}
 	
 	//===
