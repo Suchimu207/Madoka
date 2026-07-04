@@ -3,6 +3,8 @@ package combat;
 import bestiary.Monsters;
 import bestiary.Skills;
 
+import java.util.List;
+
 public final class BattleAction {
 	private static final int CONSTANTE = 10;
 	
@@ -14,14 +16,14 @@ public final class BattleAction {
 		int regneração = (int) Math.ceil(maxEstamina * 0.5); 
 		int novaEstamina = regneração + usuario.getEstaminaAtualCombate();
 		
-		 if (novaEstamina >= maxEstamina){
+		if (novaEstamina >= maxEstamina){
 			novaEstamina = maxEstamina;
 		}
 		
 		usuario.setEstaminaAtualCombate(novaEstamina);
 	}
 	
-	protected static boolean verificarCustoHabilidade(Monsters usuario, Monsters alvo, Skills habilidade){
+	protected static boolean verificarCustoHabilidade(Monsters usuario, Skills habilidade){
 		int estaminaAtualCombate = usuario.getEstaminaAtualCombate();
 		int energiaHabilidade = habilidade.getEnergiaHabilidade();
 		
@@ -32,25 +34,27 @@ public final class BattleAction {
 		return false;
 	}
 	
-    protected static void executarHabilidade(Monsters usuario, Monsters alvo, Skills habilidade){
+    protected static void executarHabilidade(Monsters usuario, List<Monsters> alvos, Skills habilidade){
 		int estaminaAtualCombate = usuario.getEstaminaAtualCombate();
 		int energiaHabilidade = habilidade.getEnergiaHabilidade();
 		
         usuario.setEstaminaAtualCombate(estaminaAtualCombate - energiaHabilidade);
         
         if (habilidade.getPoderHabilidade() > 0){
-            calcularDano(usuario, alvo, habilidade);
+            calcularDano(usuario, alvos, habilidade);
         }
     }
 	
-	private static void calcularDano(Monsters usuario, Monsters alvo, Skills habilidade){
+	private static void calcularDano(Monsters usuario, List<Monsters> alvos, Skills habilidade){
 		int forçaMonstro = usuario.getForcaAtualCombate();
 		int poderHabilidade = habilidade.getPoderHabilidade();
 		
         double danoBase = Math.ceil((forçaMonstro / 1000.0) * (poderHabilidade) * CONSTANTE);
 		
-        int vidaRestante = (int) (alvo.getVidaAtualCombate() - danoBase);
-        alvo.setVidaAtualCombate(vidaRestante);
+		for (Monsters monstro : alvos){
+			int vidaRestante = (int) (monstro.getVidaAtualCombate() - danoBase);
+			monstro.setVidaAtualCombate(vidaRestante);
+		}
     }
 	
 	//===

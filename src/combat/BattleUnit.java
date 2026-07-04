@@ -48,6 +48,10 @@ public final class BattleUnit {
 		return alvo;
 	}
 	
+	protected void setAlvo(boolean alvo){
+		this.alvo = alvo;
+	}
+	
 	protected void setActionValueAtual(int actionValueAtual){
 		this.actionValueAtual = actionValueAtual;
 	}

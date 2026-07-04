@@ -6,7 +6,7 @@ import java.util.*;
 
 public final class BattleTurn {
 	private static List<BattleUnit> unidades = new ArrayList<>();
-	private static BattleUnit unidadeAtual, unidadeJogadorAtual, unidadeInimigaAtual;
+	private static BattleUnit unidadeAtual, unidadeJogadorAtual;
 	private static int avAtual;
 	private static boolean turnoJogador, aguardandoTurno;
 	
@@ -48,6 +48,11 @@ public final class BattleTurn {
 	protected static void finalizarTurno(){
         turnoRealizado();
         unidades.removeIf(u -> u.getMonstro().getVidaAtualCombate() <= 0);
+		
+		for (BattleUnit u : unidades){
+			u.setAlvo(false);
+		}
+		
         avançarTurno();
     }
 	
@@ -71,6 +76,15 @@ public final class BattleTurn {
 	
 	protected static BattleUnit getUnidadeJogadorAtual(){
 		return unidadeJogadorAtual;
+	}
+	
+	protected static BattleUnit getUnidadePorMonstro(Monsters monstro){
+		for (BattleUnit unidade : unidades){
+			if (unidade.getMonstro() == monstro){
+				return unidade;
+			}
+		}
+		return null;
 	}
 	
 	protected static boolean isTurnoJogador(){

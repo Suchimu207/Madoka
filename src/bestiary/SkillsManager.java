@@ -1,5 +1,7 @@
 package bestiary;
 
+import combat.effects.Effects;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,13 +60,12 @@ public final class SkillsManager {
 					for (int e = 0; e < efeitosArray.length(); e++){
 						JSONObject efeitoObj = efeitosArray.getJSONObject(e);
 						
-						String tipoStr = efeitoObj.getString("efeito");
-						Skills.EfeitoHabilidade tipo = Skills.EfeitoHabilidade.valueOf(tipoStr);
+						String tipo = efeitoObj.getString("efeito");
 						int alvo = efeitoObj.getInt("alvo");
 						int valor = efeitoObj.getInt("valor");
 						int chance = efeitoObj.getInt("chance");
 						
-						Skills.Efeito efeito = new Skills.Efeito(tipo, alvo, valor, chance);
+						Effects efeito = new Effects(tipo, alvo, valor, chance);
 						skillCarregada.adicionarEfeito(efeito);
 					}
 				}

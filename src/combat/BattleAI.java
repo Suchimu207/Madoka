@@ -23,50 +23,41 @@ public final class BattleAI {
 		
 		if (monstroInimigo.getEstaminaAtualCombate() <= 0){
 			BattleAction.recarregarEnergia(monstroInimigo);
-			String frase = monstroInimigo.getNomeMonstro()+ " recarrega!";
+			String frase = monstroInimigo.getNomeMonstro()+ " recarrega.";
 			Battle.exibirMensagemInimigo(frase);
 			return;
 		}
 		
-		List<Monsters> possiveisAlvos = getAlvos();
-		if (possiveisAlvos.isEmpty()){
-            BattleTurn.finalizarTurno();
-            return;
-        }
+		Skills habilidade = getHabilidades(monstroInimigo);
 		
-		Monsters alvo = possiveisAlvos.get(random.nextInt(possiveisAlvos.size()));
-		
-        Skills habilidade = getHabilidades(monstroInimigo, alvo);
-        
-        if (alvo != null && habilidade != null){
-			BattleAction.executarHabilidade(monstroInimigo, alvo, habilidade);
-			String frase = monstroInimigo.getNomeMonstro()+" usou "+habilidade.getNomeHabilidade() + (char)19;
-			Battle.exibirMensagemInimigo(frase);
-        }else{
-			BattleAction.recarregarEnergia(monstroInimigo);
-			String frase = monstroInimigo.getNomeMonstro()+ " recarrega"+ (char)19;
-			Battle.exibirMensagemInimigo(frase);
+		if (habilidade != null){
+			List<Monsters> alvos = getAlvosHabilidade(monstroInimigo, habilidade);
+			
+			if (!alvos.isEmpty()){
+				for (Monsters alvo : alvos){
+					unidadeAlvo = BattleTurn.getUnidadePorMonstro(alvo);
+					if (unidadeAlvo != null) unidadeAlvo.setAlvo(true);
+				}
+				BattleAction.executarHabilidade(monstroInimigo, alvos, habilidade);
+				
+				String frase = monstroInimigo.getNomeMonstro()+" usou "+habilidade.getNomeHabilidade() + (char)19;
+				Battle.exibirMensagemInimigo(frase);
+				return;
+			}
 		}
+		
+		BattleAction.recarregarEnergia(monstroInimigo);
+		String frase = monstroInimigo.getNomeMonstro()+ " recarrega.";
+		Battle.exibirMensagemInimigo(frase);
     }
 	
-	private static List<Monsters> getAlvos(){
-        List<Monsters> aliadosVivos = new ArrayList<>();
-        
-        for (BattleUnit u : BattleTurn.getUnidades()){
-            if (u.isAliado() && u.getMonstro() != null && u.getMonstro().getVidaAtualCombate() > 0){
-                aliadosVivos.add(u.getMonstro());
-            }
-        }
-        return aliadosVivos;
-    }
-	
-	private static Skills getHabilidades(Monsters monstro, Monsters alvo){
+	private static Skills getHabilidades(Monsters monstro){
         List<Skills> habilidadesValidas = new ArrayList<>();
         
         for (int i = 0; i < monstro.getQuantidadeMaxSlotsHabilidade(); i++){
             Skills skill = monstro.getHabilidadeAtiva(i);
             
-            if (skill != null && BattleAction.verificarCustoHabilidade(monstro, alvo, skill)){
+            if (skill != null && BattleAction.verificarCustoHabilidade(monstro, skill)){
                 habilidadesValidas.add(skill);
             }
         }
@@ -75,6 +66,48 @@ public final class BattleAI {
         
         return habilidadesValidas.get(random.nextInt(habilidadesValidas.size()));
     }
+	
+	private static List<Monsters> getAlvosHabilidade(Monsters usuario, Skills habilidade){
+		List<Monsters> alvos = new ArrayList<>();
+		
+		List<Monsters> timeJogador = new ArrayList<>();
+		List<Monsters> timeInimigo = new ArrayList<>(); 
+		
+		for (BattleUnit u : BattleTurn.getUnidades()){
+			if (u.getMonstro() != null && u.getMonstro().getVidaAtualCombate() > 0){
+				if (u.isAliado()){
+					timeJogador.add(u.getMonstro());
+				}else{
+					timeInimigo.add(u.getMonstro());
+				}
+			}
+		}
+    
+		Skills.TipoAlvo tipoAlvo = habilidade.getAlvoHabilidadeTipo();
+    
+		switch (tipoAlvo){
+			case INIMIGO_UNICO:
+				if (!timeJogador.isEmpty()) alvos.add(timeJogador.get(random.nextInt(timeJogador.size())));
+				break;
+			case ALIADO_UNICO:
+				if (!timeInimigo.isEmpty()) alvos.add(timeInimigo.get(random.nextInt(timeInimigo.size())));
+				break;
+			case USUARIO:
+				alvos.add(usuario);
+				break;
+			case INIMIGO_AREA:
+				alvos.addAll(timeJogador);
+				break;
+			case ALIADO_AREA:
+				alvos.addAll(timeInimigo);
+				break;
+			case CAMPO:
+				alvos.addAll(timeJogador);
+				alvos.addAll(timeInimigo);
+				break;
+		}
+		return alvos;
+	}
 	
     //===
 }
