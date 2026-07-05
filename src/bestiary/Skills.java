@@ -58,6 +58,7 @@ public class Skills {
 	
 	private int recargaHabilidade;
 	private int recargaAtual;
+	private boolean recargaPendente;
 	
 	private int nivelNecessario;
 	
@@ -82,6 +83,8 @@ public class Skills {
 		this.precisãoBase = precisãoBase;
 		this.energiaHabilidade = energiaHabilidade;
 		this.recargaHabilidade = recargaHabilidade;
+		this.recargaAtual = 0;
+		this.recargaPendente = false;
 		
 		this.nivelNecessario = 1;
 		}catch(IllegalArgumentException e){
@@ -100,6 +103,8 @@ public class Skills {
 		this.precisãoBase = skillRequerida.getPrecisaoBase();
 		this.energiaHabilidade = skillRequerida.getEnergiaHabilidade();
 		this.recargaHabilidade = skillRequerida.getRecargaHabilidade();
+		this.recargaAtual = skillRequerida.getRecargaAtual();
+		this.recargaPendente = skillRequerida.isRecargaPendente();
 		this.nivelNecessario = skillRequerida.getNivelNecessario();
 		
 		this.efeitos = new ArrayList<>();
@@ -142,9 +147,33 @@ public class Skills {
 	public void adicionarEfeito(Effects efeito){
 		if (efeito != null) this.efeitos.add(efeito);
 	}
-
+	
+	public void ativarRecarga(){
+		if (this.recargaHabilidade > 0 && this.recargaAtual <= 0){
+			this.recargaAtual = this.recargaHabilidade;
+			this.recargaPendente = true;
+		}
+	}
+	
+	public boolean isRecarga(){
+		return this.recargaAtual > 0 || this.recargaPendente;
+	}
+	
+	public boolean isRecargaPendente(){
+		return this.recargaPendente;
+	}
+	
+	public void reduzirRecarga(){
+		if (this.recargaPendente){
+			this.recargaAtual = this.recargaHabilidade;
+			this.recargaPendente = false;
+		}else if (this.recargaAtual > 0){
+			this.recargaAtual--;
+		}
+	}
+	
 	public List<Effects> getEfeitos(){
-		return new ArrayList<>();
+		return efeitos;
 	}
 	
 	public int getPoderHabilidade(){
@@ -163,12 +192,20 @@ public class Skills {
 		return recargaHabilidade;
 	}
 	
+	public int getRecargaAtual(){
+		return recargaAtual;
+	}
+	
 	public int getNivelNecessario(){
 		return this.nivelNecessario;
 	}
 	
 	public void setNivelNecessario(int nivelNecessario){
 		this.nivelNecessario = nivelNecessario;
+	}
+	
+	public void setRecargaAtual(int recargaAtual){
+		this.recargaAtual = recargaAtual;
 	}
 	
 	public boolean isTipoEspecial(TipoHabilidade tipoHabilidade){

@@ -1,5 +1,7 @@
 package combat.effects;
 
+import combat.effects.strategies.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,8 +9,8 @@ public final class EffectsManager {
     private static final Map<String, EffectsStrategy> efeitos = new HashMap<>();
 
     static{
+		efeitos.put("HEALING", new EffectsHealing());
 		/*
-        efeitos.put("HEALING", new EfeitoCura());
         efeitos.put("REMOVE_NEGATIVE_STATUS", new EfeitoRemoverNegativos());
 		efeitos.put("REMOVE_POSITIVE_STATUS", new EfeitoRemoverNegativos());
         efeitos.put("REMOVE_CONTINUOUS_DAMAGE", new EfeitoRemoverDanoContinuo());

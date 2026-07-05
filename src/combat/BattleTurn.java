@@ -1,6 +1,7 @@
 package combat;
 
 import bestiary.Monsters;
+import bestiary.Skills;
 
 import java.util.*;
 
@@ -12,6 +13,8 @@ public final class BattleTurn {
 	
 	private BattleTurn(){
 	}
+	
+	// avançarTurno() → Jogador/IA age → finalizarTurno() → turnoRealizado() → [Começo]
 	
 	protected static void ordenarActionValue(List<BattleUnit> unidades){
         Collections.sort(unidades, (u1, u2) ->{
@@ -46,13 +49,15 @@ public final class BattleTurn {
     }
 	
 	protected static void finalizarTurno(){
-        turnoRealizado();
-        unidades.removeIf(u -> u.getMonstro().getVidaAtualCombate() <= 0);
+		unidades.removeIf(u -> u.getMonstro().getVidaAtualCombate() <= 0);
+		
+		controlarRecargaHabilidade();
 		
 		for (BattleUnit u : unidades){
 			u.setAlvo(false);
 		}
 		
+		turnoRealizado();
         avançarTurno();
     }
 	
@@ -62,8 +67,14 @@ public final class BattleTurn {
 				user.setActionValueAtual(user.getActionValue() - avAtual);
 			}
 		}
-		
 		unidadeAtual.setActionValueAtual(unidadeAtual.calcularActionValue());
+	}
+	
+	private static void controlarRecargaHabilidade(){
+		if (unidadeAtual != null){
+			Monsters monstro = unidadeAtual.getMonstro();
+			monstro.reduzirRecargaHabilidades();
+		}
 	}
 	
 	protected static List<BattleUnit> getUnidades(){

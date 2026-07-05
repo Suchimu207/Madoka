@@ -77,6 +77,7 @@ public final class BattleField {
 			monstro.setVidaAtualCombate(monstro.getVidaAtual());
 			monstro.setSpeedAtualCombate(monstro.getSpeedAtual());
 			monstro.setEstaminaAtualCombate(monstro.getEstaminaAtual());
+			monstro.desativarRecargas();
 		}
 		System.out.println(">>Aliados inicializados.");
         System.out.println("");
@@ -87,6 +88,7 @@ public final class BattleField {
 			monstro.setVidaAtualCombate(monstro.getVidaAtual());
 			monstro.setSpeedAtualCombate(monstro.getSpeedAtual());
 			monstro.setEstaminaAtualCombate(monstro.getEstaminaAtual());
+			monstro.desativarRecargas();
 		}
 		System.out.println(">>Inimigos inicializados.");
         System.out.println("");
@@ -382,19 +384,34 @@ public final class BattleField {
 	}
 	
 	private void desenhaBatalhaComandos(){
-		if (aliados[0] == null) return;
-		int tamanhoSkills = aliados[0].getQuantidadeMaxSlotsHabilidade();
+		Monsters monstroAtual = BattleTurn.getUnidadeJogadorAtual().getMonstro();
+		if (monstroAtual == null) return;
+		int tamanhoSkills = monstroAtual.getQuantidadeMaxSlotsHabilidade();
 		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
 		for (int i = 0; i <= tamanhoSkills-1; i++){
-			Skills skillCarregada = aliados[0].getHabilidadeAtiva(i);
+			Skills skillCarregada = monstroAtual.getHabilidadeAtiva(i);
+			
 			if (skillCarregada != null){
-				if (Battle.getCursorY() == i){
-					Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,linhaAtual++,
-					AsciiPanel.brightYellow, AsciiPanel.brightBlack);
-					skillSelecionada = skillCarregada;
+				if (Battle.getCursorY() == i){					
+					if (skillCarregada.isRecarga()){
+						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade()+" - Recarga:"+skillCarregada.getRecargaAtual(),0,linhaAtual++,
+						AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+						
+						skillSelecionada = null;
+					}else{
+						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,linhaAtual++,
+						AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+						
+						skillSelecionada = skillCarregada;
+					}						
 				}else{
-					Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,linhaAtual++,AsciiPanel.brightWhite);
+					if (skillCarregada.isRecarga()){
+						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade()+" - Recarga:"+skillCarregada.getRecargaAtual(),0,linhaAtual++,
+						AsciiPanel.brightBlack);
+					}else{
+						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,linhaAtual++,AsciiPanel.brightWhite);
+					}
 				}
 			}else{
 				if (Battle.getCursorY() == i){
@@ -420,10 +437,23 @@ public final class BattleField {
 		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
 		Grapchics.desenhaTela(">> "+skillSelecionada.getNomeHabilidade(),0,linhaAtual++, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Poder: "+skillSelecionada.getPoderHabilidade(),0,linhaAtual++, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Precisao: "+skillSelecionada.getPrecisaoBase(),0,linhaAtual++, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Energia: "+skillSelecionada.getEnergiaHabilidade(),0,linhaAtual++, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Recarga: "+skillSelecionada.getRecargaHabilidade(),0,linhaAtual++, AsciiPanel.brightWhite);
+		
+		if (skillSelecionada.getPoderHabilidade() > 0){
+			Grapchics.desenhaTela("Poder: "+skillSelecionada.getPoderHabilidade(),0,linhaAtual++, AsciiPanel.brightWhite);
+		}
+		
+		if (skillSelecionada.getPrecisaoBase() > 0){
+			Grapchics.desenhaTela("Precisao: "+skillSelecionada.getPrecisaoBase(),0,linhaAtual++, AsciiPanel.brightWhite);
+		}
+		
+		if (skillSelecionada.getEnergiaHabilidade() > 0){
+			Grapchics.desenhaTela("Energia: "+skillSelecionada.getEnergiaHabilidade(),0,linhaAtual++, AsciiPanel.brightWhite);
+		}
+		
+		if (skillSelecionada.getRecargaHabilidade() > 0){
+			Grapchics.desenhaTela("Recarga: "+skillSelecionada.getRecargaHabilidade(),0,linhaAtual++, AsciiPanel.brightWhite);
+		}
+		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
 	}
 	
@@ -467,7 +497,7 @@ public final class BattleField {
         
         if (selecionarAlvo && !monstrosAlvos.isEmpty() && skillSelecionada != null){
             Monsters usuario = BattleTurn.getUnidadeJogadorAtual().getMonstro();
-            
+			
             if (BattleAction.verificarCustoHabilidade(usuario, skillSelecionada)){
 				for (Monsters alvo : monstrosAlvos){
 					BattleUnit unidadeAlvo = BattleTurn.getUnidadePorMonstro(alvo);
@@ -507,7 +537,6 @@ public final class BattleField {
 			
 			if (monstro.getVidaAtualCombate() <= 0){
 				inimigos.set(i, null);
-				if (maxInimigos > 0) maxInimigos -= 1;
 			}
 		}
 		
@@ -516,7 +545,6 @@ public final class BattleField {
 			
 			if (aliados[i].getVidaAtualCombate() <= 0){
 				aliados[i] = null;
-				if (maxAliados > 0) maxAliados -= 1;
 			}
 		}
 	}
@@ -605,6 +633,7 @@ public final class BattleField {
 		
         skillSelecionada = null;
 		BattleTurn.setAguardandoTurno(false);
+		monstrosAlvos.clear();
 		
 		BattleTurn.finalizarTurno();
 	}

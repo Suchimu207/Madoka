@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class Inventory {
+public final class Inventory  {
 	protected static enum SlotEquipe {
         SLOT_1,
         SLOT_2,
@@ -24,6 +24,7 @@ public final class Inventory {
         SLOT_5,
         SLOT_6;
     }
+	// ==================== ATRIBUTOS ====================
 	
 	private static Map<Integer, Monsters> monstrosInventario;
     private static List<Monsters> monstrosOrdenados;
@@ -41,6 +42,8 @@ public final class Inventory {
 	private Inventory(){
 	}
 	
+	// ==================== INICIALIZAÇÃO ====================
+	
 	public final static void inicializarInventario(){
         monstrosInventario = new HashMap<Integer, Monsters>();
         monstrosOrdenados = new ArrayList<Monsters>();
@@ -57,6 +60,8 @@ public final class Inventory {
 		System.out.println("");
     }
 	
+	// ==================== DESENHO ====================
+	
 	protected static void desenhaInfoEquipe(){
 		int coordenadaY = 21;
 		
@@ -71,152 +76,6 @@ public final class Inventory {
 		
 		Grapchics.atualizarTela();
 	}
-	
-	public static void adicionarMonstroInventário(int id){
-        Monsters monstroRequerido = MonstersManager.getMonstro(id);
-        monstroCarregado = new Monsters(monstroRequerido);
-        monstrosInventario.put(idInventario++, monstroCarregado);
-
-        for (SlotEquipe slot : SlotEquipe.values()){
-            if (!equipeTabela.containsKey(slot)){
-                equipeTabela.put(slot, monstroCarregado);
-                monstroCarregado.setMonstroEquipado(true);
-                break;
-            }
-        }
-    }
-
-    public static void removerMonstroInventario(int id){
-        monstroCarregado = monstrosInventario.get(id);
-        if (monstroCarregado == null)
-            return;
-
-        monstrosInventario.remove(id);
-        monstroCarregado.setMonstroEquipado(false);
-
-        slotEncontrado = null;
-        for (Map.Entry<SlotEquipe, Monsters> entry : equipeTabela.entrySet()) {
-            if (entry.getValue() == monstroCarregado) {
-                slotEncontrado = entry.getKey();
-                break;
-            }
-        }
-        if (slotEncontrado != null) {
-            equipeTabela.remove(slotEncontrado);
-            reordenarEquipe();
-        }
-
-        // Reordena inventário
-        Monsters[] monstrosAtuais = monstrosInventario.values().toArray(new Monsters[0]);
-        monstrosInventario.clear();
-        idInventario = 1;
-        for (int i = 0; i < monstrosAtuais.length; i++) {
-            monstrosInventario.put(idInventario++, monstrosAtuais[i]);
-        }
-    }
-
-	private static void reordenarEquipe(){
-		Monsters[] monstrosAtuais = equipeTabela.values().toArray(new Monsters[0]);
-		equipeTabela.clear();
-		
-		SlotEquipe[] slots = SlotEquipe.values();
-		for (int i = 0; i < monstrosAtuais.length && i < slots.length; i++){
-			equipeTabela.put(slots[i], monstrosAtuais[i]);
-		}
-	}
-	
-	private static void reordenarListaInventario(){
-        monstrosOrdenados.clear();
-
-        for (int i = 1; i <= monstrosInventario.size(); i++){
-            monstroCarregado = monstrosInventario.get(i);
-            if (monstroCarregado != null && (monstroCarregado.isMonstroEquipado() || monstroCarregado.isMonstroFavorito())){
-                monstrosOrdenados.add(monstroCarregado);
-            }
-        }
-
-        for (int i = 1; i <= monstrosInventario.size(); i++){
-            monstroCarregado = monstrosInventario.get(i);
-            if (monstroCarregado != null && !monstroCarregado.isMonstroEquipado() && !monstroCarregado.isMonstroFavorito()){
-                monstrosOrdenados.add(monstroCarregado);
-            }
-        }
-
-        monstrosInventario.clear();
-        idInventario = 1;
-        for (Monsters m : monstrosOrdenados){
-            monstrosInventario.put(idInventario++, m);
-        }
-    }
-	
-	protected static void alternarHabilidadeAtiva(){
-		if (monstroCarregado == null || skillMostrada == null) return;
-		
-		int maxSlots = monstroCarregado.getQuantidadeMaxSlotsHabilidade();
-		int slotsOcupados = monstroCarregado.getQuantidadeSlotsOcupados();
-		boolean isEspecial = skillMostrada.isTipoEspecial(skillMostrada.getTipoHabilidade());
-		boolean isAtiva = monstroCarregado.isHabilidadeAtiva(skillMostrada);
-		boolean isDesbloqueada = monstroCarregado.isHabilidadeDesbloqueada(skillMostrada);
-		
-		if (isEspecial){
-			return; 
-		}
-		
-		if (isAtiva && slotsOcupados >= 2){
-			if (monstroCarregado.removerHabilidadeAtiva(skillMostrada)){
-				monstroCarregado.reordenarSkillsAtivas(); 
-			}
-		}else if (!isAtiva && isDesbloqueada){
-			monstroCarregado.adicionarHabilidadeAtiva(skillMostrada);
-		}
-	}
-	
-    protected static void alternarMonstroTabela(int id){
-        Monsters monstro = monstrosInventario.get(id);
-        if (monstro == null)
-            return;
-
-        if (monstro.isMonstroEquipado()){
-            slotEncontrado = null;
-            for (Map.Entry<SlotEquipe, Monsters> entry : equipeTabela.entrySet()){
-                if (entry.getValue() == monstro){
-                    slotEncontrado = entry.getKey();
-                    break;
-                }
-            }
-
-            if (slotEncontrado != null && equipeTabela.size() >= 2){
-                equipeTabela.remove(slotEncontrado);
-                monstro.setMonstroEquipado(false);
-                reordenarEquipe();
-            }
-        }else{
-            for (SlotEquipe slot : SlotEquipe.values()){
-                if (!equipeTabela.containsKey(slot)){
-                    equipeTabela.put(slot, monstro);
-                    monstro.setMonstroEquipado(true);
-                    break;
-                }
-            }
-        }
-    }
-
-    protected static void alternarMonstroFavorito(int id){
-        Monsters monstro = monstrosInventario.get(id);
-        if (monstro == null) return;
-
-        monstro.setMonstroFavorito(!monstro.isMonstroFavorito());
-    }
-
-    protected static void alternarPagina(boolean avancar){
-        if (avancar){
-            paginaAtual++;
-            if (paginaAtual > totalPaginas) paginaAtual = 1;
-        }else{
-            paginaAtual--;
-            if (paginaAtual < 1) paginaAtual = totalPaginas;
-        }
-    }
 	
 	protected static void desenhaMonstroDetalhes(){
 		Grapchics.limpaTela();
@@ -467,7 +326,7 @@ public final class Inventory {
 
 		boolean selecionado = (i == Terminal.cursorY);
 		String indicadorEquipado = monstro.isMonstroEquipado() ? " [E]" : "";
-		String indicadorFavorito = monstroCarregado.isMonstroFavorito() ? " ["+(char)3+"]" : "";
+		String indicadorFavorito = monstro.isMonstroFavorito() ? " ["+(char)3+"]" : "";
 		
 			if (selecionado){
 				nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
@@ -480,6 +339,156 @@ public final class Inventory {
 			}
 		}
 	}
+	
+	// ==================== AÇÕES DO JOGADOR ====================
+	
+	protected static void alternarHabilidadeAtiva(){
+		if (monstroCarregado == null || skillMostrada == null) return;
+		
+		int maxSlots = monstroCarregado.getQuantidadeMaxSlotsHabilidade();
+		int slotsOcupados = monstroCarregado.getQuantidadeSlotsOcupados();
+		boolean isEspecial = skillMostrada.isTipoEspecial(skillMostrada.getTipoHabilidade());
+		boolean isAtiva = monstroCarregado.isHabilidadeAtiva(skillMostrada);
+		boolean isDesbloqueada = monstroCarregado.isHabilidadeDesbloqueada(skillMostrada);
+		
+		if (isEspecial){
+			return; 
+		}
+		
+		if (isAtiva && slotsOcupados >= 2){
+			if (monstroCarregado.removerHabilidadeAtiva(skillMostrada)){
+				monstroCarregado.reordenarSkillsAtivas(); 
+			}
+		}else if (!isAtiva && isDesbloqueada){
+			monstroCarregado.adicionarHabilidadeAtiva(skillMostrada);
+		}
+	}
+	
+    protected static void alternarMonstroTabela(int id){
+        Monsters monstro = monstrosInventario.get(id);
+        if (monstro == null)
+            return;
+
+        if (monstro.isMonstroEquipado()){
+            slotEncontrado = null;
+            for (Map.Entry<SlotEquipe, Monsters> entry : equipeTabela.entrySet()){
+                if (entry.getValue() == monstro){
+                    slotEncontrado = entry.getKey();
+                    break;
+                }
+            }
+
+            if (slotEncontrado != null && equipeTabela.size() >= 2){
+                equipeTabela.remove(slotEncontrado);
+                monstro.setMonstroEquipado(false);
+                reordenarEquipe();
+            }
+        }else{
+            for (SlotEquipe slot : SlotEquipe.values()){
+                if (!equipeTabela.containsKey(slot)){
+                    equipeTabela.put(slot, monstro);
+                    monstro.setMonstroEquipado(true);
+                    break;
+                }
+            }
+        }
+    }
+
+    protected static void alternarMonstroFavorito(int id){
+        Monsters monstro = monstrosInventario.get(id);
+        if (monstro == null) return;
+
+        monstro.setMonstroFavorito(!monstro.isMonstroFavorito());
+    }
+	
+    protected static void alternarPagina(boolean avancar){
+        if (avancar){
+            paginaAtual++;
+            if (paginaAtual > totalPaginas) paginaAtual = 1;
+        }else{
+            paginaAtual--;
+            if (paginaAtual < 1) paginaAtual = totalPaginas;
+        }
+    }
+	
+	// ==================== MÉTODOS AUXILIARES ====================
+	
+	public static void adicionarMonstroInventário(int id){
+        Monsters monstroRequerido = MonstersManager.getMonstro(id);
+        monstroCarregado = new Monsters(monstroRequerido);
+        monstrosInventario.put(idInventario++, monstroCarregado);
+
+        for (SlotEquipe slot : SlotEquipe.values()){
+            if (!equipeTabela.containsKey(slot)){
+                equipeTabela.put(slot, monstroCarregado);
+                monstroCarregado.setMonstroEquipado(true);
+                break;
+            }
+        }
+    }
+	
+    public static void removerMonstroInventario(int id){
+        monstroCarregado = monstrosInventario.get(id);
+        if (monstroCarregado == null)
+            return;
+
+        monstrosInventario.remove(id);
+        monstroCarregado.setMonstroEquipado(false);
+
+        slotEncontrado = null;
+        for (Map.Entry<SlotEquipe, Monsters> entry : equipeTabela.entrySet()) {
+            if (entry.getValue() == monstroCarregado) {
+                slotEncontrado = entry.getKey();
+                break;
+            }
+        }
+        if (slotEncontrado != null) {
+            equipeTabela.remove(slotEncontrado);
+            reordenarEquipe();
+        }
+
+        // Reordena inventário
+        Monsters[] monstrosAtuais = monstrosInventario.values().toArray(new Monsters[0]);
+        monstrosInventario.clear();
+        idInventario = 1;
+        for (int i = 0; i < monstrosAtuais.length; i++) {
+            monstrosInventario.put(idInventario++, monstrosAtuais[i]);
+        }
+    }
+
+	private static void reordenarEquipe(){
+		Monsters[] monstrosAtuais = equipeTabela.values().toArray(new Monsters[0]);
+		equipeTabela.clear();
+		
+		SlotEquipe[] slots = SlotEquipe.values();
+		for (int i = 0; i < monstrosAtuais.length && i < slots.length; i++){
+			equipeTabela.put(slots[i], monstrosAtuais[i]);
+		}
+	}
+	
+	private static void reordenarListaInventario(){
+        monstrosOrdenados.clear();
+
+        for (int i = 1; i <= monstrosInventario.size(); i++){
+            monstroCarregado = monstrosInventario.get(i);
+            if (monstroCarregado != null && (monstroCarregado.isMonstroEquipado() || monstroCarregado.isMonstroFavorito())){
+                monstrosOrdenados.add(monstroCarregado);
+            }
+        }
+
+        for (int i = 1; i <= monstrosInventario.size(); i++){
+            monstroCarregado = monstrosInventario.get(i);
+            if (monstroCarregado != null && !monstroCarregado.isMonstroEquipado() && !monstroCarregado.isMonstroFavorito()){
+                monstrosOrdenados.add(monstroCarregado);
+            }
+        }
+
+        monstrosInventario.clear();
+        idInventario = 1;
+        for (Monsters m : monstrosOrdenados){
+            monstrosInventario.put(idInventario++, m);
+        }
+    }
 	
 	public static Map<Integer, Monsters> getMonstrosInventario(){
         return monstrosInventario;

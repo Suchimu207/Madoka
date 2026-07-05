@@ -41,16 +41,19 @@ public final class Shop {
             this.carrinhoItem = carrinhoAtivo;
         }
     }
-    
-    private Shop() {
-    }
-    
-    private static ArrayList<ItemLoja> estoque, carrinho;
+    // ==================== ATRIBUTOS ====================
+	
+	private static ArrayList<ItemLoja> estoque, carrinho;
     private static int linhaItem, idEstanteAtual, totalPaginas, paginaAtual, 
     inicioLista, fimLista, tamanhoLoja, tamanhoRecibo, ouroGasto;
     
     private static String indicadorPagina;
-
+	
+    private Shop(){
+    }
+    
+	// ==================== INICIALIZAÇÃO ====================
+	
     protected static void inicializarLoja(){
         estoque = new ArrayList<>();
         carrinho = new ArrayList<>();
@@ -63,16 +66,8 @@ public final class Shop {
             estoque.add(new ItemLoja(i++, 150, idEstanteAtual++));
         }
     }
-
-    protected static void limparCarrinho(){
-        if (carrinho != null){
-            for (ItemLoja item : carrinho){
-                item.setItemCarrinho(false);
-            }
-            carrinho.clear();
-        }
-        paginaAtual = 1;
-    }
+	
+	// ==================== DESENHO ====================
 	
     protected static void desenhaLoja(){
         Grapchics.limpaTela();
@@ -137,6 +132,43 @@ public final class Shop {
         }
 	}
 	
+	protected static void desenhaLojaRecibo(){
+        Grapchics.limpaTela();
+        
+        tamanhoRecibo = carrinho.size();
+		inicioLista = (paginaAtual - 1) * 24;
+        fimLista = Math.min(inicioLista + 24, tamanhoRecibo);
+        totalPaginas = Math.max(1, (int) Math.ceil(tamanhoRecibo / 24.0));
+        indicadorPagina = "Pagina " + paginaAtual + "/" + totalPaginas;
+		
+        Grapchics.desenhaCentro("Recibo - " + indicadorPagina, 0, AsciiPanel.brightWhite);
+        Grapchics.desenhaTela("ESC: Sair", 0, 1, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("E: Abrir inventario", 0, 2, AsciiPanel.brightBlack);
+        Grapchics.desenhaTela("Q: Continuar comprando", 0, 3, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Ouro atual: " + Player.getOuro(), 0, 4, AsciiPanel.brightWhite);
+        Grapchics.desenhaTela("Ouro gasto:", 0, 5, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela(" " + ouroGasto,11,5, AsciiPanel.brightYellow);
+        Grapchics.desenhaTela("____________________", 0, 6, AsciiPanel.brightWhite);
+        linhaItem = 7;
+        
+        desenhaListaRecibo();
+        Grapchics.desenhaTela("____________________", 0, linhaItem, AsciiPanel.brightWhite);
+        
+        Grapchics.atualizarTela();
+    }
+	
+    private static void desenhaListaRecibo(){
+        for (int i = inicioLista; i < fimLista; i++){
+            ItemLoja item = carrinho.get(i);
+            Monsters infoMonstro = MonstersManager.getMonstro(item.idMonstro);
+            if (infoMonstro == null) continue;
+            
+            Grapchics.desenhaTela(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase(), 0, linhaItem++, AsciiPanel.brightWhite);
+        }
+    }
+	
+	// ==================== AÇÕES DO JOGADOR ====================
+	
     protected static boolean comprarMonstro(){
         if (carrinho != null && !carrinho.isEmpty()){
             int total = 0;
@@ -172,42 +204,19 @@ public final class Shop {
             }
         }
     }
-
-    protected static void desenhaLojaRecibo(){
-        Grapchics.limpaTela();
-        
-        tamanhoRecibo = carrinho.size();
-		inicioLista = (paginaAtual - 1) * 24;
-        fimLista = Math.min(inicioLista + 24, tamanhoRecibo);
-        totalPaginas = Math.max(1, (int) Math.ceil(tamanhoRecibo / 24.0));
-        indicadorPagina = "Pagina " + paginaAtual + "/" + totalPaginas;
-		
-        Grapchics.desenhaCentro("Recibo - " + indicadorPagina, 0, AsciiPanel.brightWhite);
-        Grapchics.desenhaTela("ESC: Sair", 0, 1, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("E: Abrir inventario", 0, 2, AsciiPanel.brightBlack);
-        Grapchics.desenhaTela("Q: Continuar comprando", 0, 3, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Ouro atual: " + Player.getOuro(), 0, 4, AsciiPanel.brightWhite);
-        Grapchics.desenhaTela("Ouro gasto:", 0, 5, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela(" " + ouroGasto,11,5, AsciiPanel.brightYellow);
-        Grapchics.desenhaTela("____________________", 0, 6, AsciiPanel.brightWhite);
-        linhaItem = 7;
-        
-        desenhaListaRecibo();
-        Grapchics.desenhaTela("____________________", 0, linhaItem, AsciiPanel.brightWhite);
-        
-        Grapchics.atualizarTela();
+	
+	// ==================== MÉTODOS AUXILIARES ====================
+	
+	protected static void limparCarrinho(){
+        if (carrinho != null){
+            for (ItemLoja item : carrinho){
+                item.setItemCarrinho(false);
+            }
+            carrinho.clear();
+        }
+        paginaAtual = 1;
     }
 	
-    private static void desenhaListaRecibo(){
-        for (int i = inicioLista; i < fimLista; i++){
-            ItemLoja item = carrinho.get(i);
-            Monsters infoMonstro = MonstersManager.getMonstro(item.idMonstro);
-            if (infoMonstro == null) continue;
-            
-            Grapchics.desenhaTela(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase(), 0, linhaItem++, AsciiPanel.brightWhite);
-        }
-    }
-
     protected static void alternarPagina(boolean avançar){
         if (avançar){
             paginaAtual++;

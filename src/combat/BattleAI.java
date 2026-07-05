@@ -42,6 +42,7 @@ public final class BattleAI {
 				
 				String frase = monstroInimigo.getNomeMonstro()+" usou "+habilidade.getNomeHabilidade() + (char)19;
 				Battle.exibirMensagemInimigo(frase);
+				alvos.clear();
 				return;
 			}
 		}

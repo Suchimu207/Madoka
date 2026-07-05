@@ -26,6 +26,8 @@ public final class BattlePreparation {
 	public void desenhaTelaPreparo(){
 		Grapchics.limpaTela();
 		
+		Battle.setMonstroMostrado(null);
+		
 		Troop tropaCarregada = Battle.getTropaCarregada();
 		Monsters[] monstroSlotsAtivos = Battle.getMonstroSlotsAtivos();
 		

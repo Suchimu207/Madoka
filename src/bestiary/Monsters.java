@@ -100,7 +100,6 @@ public class Monsters {
 	
 	private final int NIVEL_MAXIMO = 40;
 	
-	
 	private Map<Integer, List<Skills>> skillsTree = new HashMap<>();
 	private List<Skills> skillsDesbloqueadas = new ArrayList<>();
 	private EnumMap<SlotHabilidade, Skills> skillsAtivas = new EnumMap<>(SlotHabilidade.class);	
@@ -337,6 +336,20 @@ public class Monsters {
 			this.speedAtual += this.speedBase;
 		}
 		this.desbloquearHabilidades();
+	}
+	
+	public void desativarRecargas(){
+		for (int i = 0; i < this.getQuantidadeMaxSlotsHabilidade(); i++){
+			Skills skill = this.getHabilidadeAtiva(i);
+			if (skill != null && skill.isRecarga()) skill.setRecargaAtual(0);
+		}
+	}
+	
+	public void reduzirRecargaHabilidades(){
+		for (int i = 0; i < this.getQuantidadeMaxSlotsHabilidade(); i++){
+			Skills skill = this.getHabilidadeAtiva(i);
+			if (skill != null && skill.isRecarga()) skill.reduzirRecarga();
+		}
 	}
 	
 	public int getQuantidadeSlotsOcupados(){

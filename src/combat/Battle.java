@@ -45,8 +45,8 @@ public final class Battle {
 		Player.setOuro(150);
 		
 		Inventory.adicionarMonstroInventário(1);
-		Monsters monstro = Inventory.getMonstroInventario(1);
-		monstro.subirNivel(6);
+		// Monsters monstro = Inventory.getMonstroInventario(1);
+		// monstro.subirNivel(10);
 	}
 	
 	public static void setarBatalha(){
