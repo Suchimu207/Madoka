@@ -179,7 +179,7 @@ public final class Shop {
             }
             
             if (Player.getOuro() >= total){
-                Player.setOuro(Player.getOuro() - total);
+				Player.perderOuro(total);
                 ouroGasto = total;
                 
                 for (ItemLoja item : carrinho){

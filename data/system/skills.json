@@ -163,7 +163,7 @@
     "efeitos": [],
     "poder": 50,
     "precisaoBase": 95,
-    "energia": 20,
+    "energia": 25,
     "recarga": 0
   },
   {
@@ -224,7 +224,7 @@
     "alvo": "INIMIGO_AREA",
     "efeitos": [],
     "poder": 70,
-    "precisaoBase": 120,
+    "precisaoBase": 200,
     "energia": 0,
     "recarga": 0
   },

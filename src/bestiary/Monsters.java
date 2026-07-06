@@ -1,11 +1,15 @@
 package bestiary;
 
+import asciiPanel.AsciiPanel;
+
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.EnumMap;
 import java.util.Map;
+
+import java.awt.Color;
 
 public class Monsters {
 	protected enum Classes{
@@ -320,7 +324,7 @@ public class Monsters {
 	}
 	
 	public int getExpNecessaria(){
-		if (this.nivelAtual >= NIVEL_MAXIMO) return -1;
+		if (this.nivelAtual >= this.NIVEL_MAXIMO) return -1;
 		return 100 * this.nivelAtual;
 	}
 	
@@ -374,6 +378,21 @@ public class Monsters {
 	
 	public String getElementosAtuais(){
 		return Arrays.toString(elementosAtuais).replaceAll("[\\[\\]]", "");
+	}
+	
+	public Color getCorDoElemento(String elementos){
+		if (elementos.contains(Elementos.FOGO.toString())) return AsciiPanel.brightRed;
+		if (elementos.contains(Elementos.AGUA.toString())) return AsciiPanel.brightBlue;
+		//if (elementos.contains("TERRA")) return AsciiPanel.brightYellow;
+		//if (elementos.contains("VENTO")) return AsciiPanel.brightWhite;
+		if (elementos.contains(Elementos.NATUREZA.toString())) return AsciiPanel.brightGreen;
+		if (elementos.contains(Elementos.TROVAO.toString())) return AsciiPanel.brightYellow;
+		//if (elementos.contains(Elementos.LUZ.toString())) return AsciiPanel.white;
+		//if (elementos.contains("TREVAS")) return AsciiPanel.brightBlack;
+		if (elementos.contains(Elementos.MAGIA.toString())) return AsciiPanel.brightMagenta;
+		if (elementos.contains(Elementos.METAL.toString())) return AsciiPanel.white;
+		//if (elementos.contains("FISICO")) return AsciiPanel.brightWhite;
+		return AsciiPanel.brightWhite;
 	}
 	
 	public Raridades getRaridadeMonstro(){

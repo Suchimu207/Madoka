@@ -37,13 +37,12 @@ public final class Battle {
 	public static void carregarDadosJogatina(){
 		BattleManager.carregarDadosBatalha();
 		Inventory.inicializarInventario();
-
+		Player.setarJogador();
+		
 		montarEquipeInicial();
 	}
 	
 	private static void montarEquipeInicial(){
-		Player.setOuro(150);
-		
 		Inventory.adicionarMonstroInventário(1);
 		// Monsters monstro = Inventory.getMonstroInventario(1);
 		// monstro.subirNivel(10);
