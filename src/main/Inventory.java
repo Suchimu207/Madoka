@@ -1,7 +1,5 @@
 package main;
 
-import asciiPanel.AsciiPanel;
-
 import bestiary.Monsters;
 import bestiary.MonstersManager;
 import bestiary.Skills;
@@ -67,12 +65,12 @@ public final class Inventory  {
 		
 		for (Map.Entry<SlotEquipe, Monsters> entry : equipeTabela.entrySet()){
 			Monsters monstro = entry.getValue();
-			Grapchics.desenhaTela("||||||||||",0,coordenadaY, AsciiPanel.brightWhite, AsciiPanel.brightWhite);
-			Grapchics.desenhaTela(monstro.getNomeMonstro(), 10, coordenadaY, AsciiPanel.brightWhite);
-			Grapchics.desenhaTela("||||||||||", 0, coordenadaY + 1, AsciiPanel.brightRed, AsciiPanel.brightRed);
+			Grapchics.desenhaTela("||||||||||",0,coordenadaY, Grapchics.BRANCO_CLARO, Grapchics.BRANCO);
+			Grapchics.desenhaTela(monstro.getNomeMonstro(), 10, coordenadaY, Grapchics.BRANCO);
+			Grapchics.desenhaTela("||||||||||", 0, coordenadaY + 1, Grapchics.VERMELHO_CLARO, Grapchics.VERMELHO_CLARO);
 			coordenadaY += 3;
 		}
-		Grapchics.desenhaTela("Shift: Esconder equipe",0,39, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("Shift: Esconder equipe",0,39, Grapchics.PRETO_CLARO);
 		
 		Grapchics.atualizarTela();
 	}
@@ -90,30 +88,30 @@ public final class Inventory  {
 		
 		String indicadorFavorito = monstroCarregado.isMonstroFavorito() ? " ["+(char)3+"]" : "";
 		
-		Grapchics.desenhaCentro("Detalhes",0, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("E: Voltar", 0, 1, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Enter: Marcar/Desmarcar favorito",0,2, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Shift: Ver habilidades",0,3, AsciiPanel.brightBlack);
+		Grapchics.desenhaCentro("Detalhes",0, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("E: Voltar", 0, 1, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("Enter: Marcar/Desmarcar favorito",0,2, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("Shift: Ver habilidades",0,3, Grapchics.PRETO_CLARO);
 		
-		Grapchics.desenhaTela("____________________",0,4, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Nome: "+monstroCarregado.getNomeMonstro() + indicadorFavorito,0,5, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Nivel: "+monstroCarregado.getNivelAtual(),0,6, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Classe: "+monstroCarregado.getClasseAtual(),0,7, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,4, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("Nome: "+monstroCarregado.getNomeMonstro() + indicadorFavorito,0,5, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("Nivel: "+monstroCarregado.getNivelAtual(),0,6, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("Classe: "+monstroCarregado.getClasseAtual(),0,7, Grapchics.BRANCO_CLARO);
 		desenhaElementoMonstro(8);
-		Grapchics.desenhaTela("Raridade: "+monstroCarregado.getRaridadeMonstro(),0,9, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Forca: "+monstroCarregado.getForcaAtual(),0,10, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Vida: "+monstroCarregado.getVidaAtual(),0,11, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Velocidade: "+monstroCarregado.getSpeedAtual(),0,12, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Estamina: "+monstroCarregado.getEstaminaAtual(),0,13, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Tracos: "+Arrays.toString(monstroCarregado.getTracosIds()),0,14, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("____________________",0,15,AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("Raridade: "+monstroCarregado.getRaridadeMonstro(),0,9, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("Forca: "+monstroCarregado.getForcaAtual(),0,10, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("Vida: "+monstroCarregado.getVidaAtual(),0,11, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("Velocidade: "+monstroCarregado.getSpeedAtual(),0,12, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("Estamina: "+monstroCarregado.getEstaminaAtual(),0,13, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("Tracos: "+Arrays.toString(monstroCarregado.getTracosIds()),0,14, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("____________________",0,15,Grapchics.PRETO_CLARO);
 		
-		Grapchics.desenhaTela("____________________",0,17,AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("Proximo nivel: "+monstroCarregado.getExpAtual()+"/"+monstroCarregado.getExpNecessaria()+" EXP",0,18,AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("____________________",0,19,AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,17,Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("Proximo nivel: "+monstroCarregado.getExpAtual()+"/"+monstroCarregado.getExpNecessaria()+" EXP",0,18, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("____________________",0,19,Grapchics.PRETO_CLARO);
 		
-		Grapchics.desenhaTela("Habilidades:",0,21,AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("____________________",0,22,AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("Habilidades:",0,21,Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("____________________",0,22,Grapchics.PRETO_CLARO);
 		posiçãoLinhaSkillsAtivas = 23;
 		desenhaListaHabilidade();
 		
@@ -121,7 +119,7 @@ public final class Inventory  {
 	}
 	
 	private static void desenhaElementoMonstro(int linha){
-		Grapchics.desenhaTela("Elementos: "+monstroCarregado.getElementosAtuais(),0,linha, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("Elementos: "+monstroCarregado.getElementosAtuais(),0,linha, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTela(monstroCarregado.getElementosAtuais(), 11, linha, 
 		monstroCarregado.getCorDoElemento(monstroCarregado.getElementosAtuais()));
 	}
@@ -130,21 +128,21 @@ public final class Inventory  {
 		for (int i = 0; i < monstroCarregado.getQuantidadeMaxSlotsHabilidade(); i++){
 			skillCarregada = monstroCarregado.getHabilidadeAtiva(i);
 			if (skillCarregada != null){
-				Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+				Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
 			}else{
-				Grapchics.desenhaTela("[VAZIO]",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightBlack);
+				Grapchics.desenhaTela("[VAZIO]",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 			}
 		}
-		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas,AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas,Grapchics.PRETO_CLARO);
 		
 		skillsDesbloqueadas = monstroCarregado.getHabilidadesDesbloqueadas();
 		skillCarregada = skillsDesbloqueadas.get(0);
 		
 		if (skillCarregada != null && skillCarregada.isTipoEspecial(skillCarregada.getTipoHabilidade())){
-			Grapchics.desenhaTela("Especial:",0,posiçãoLinhaSkillsAtivas+2,AsciiPanel.brightWhite);
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas+3,AsciiPanel.brightWhite);
-			Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas+4,AsciiPanel.brightWhite);
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas+5,AsciiPanel.brightWhite);
+			Grapchics.desenhaTela("Especial:",0,posiçãoLinhaSkillsAtivas+2,Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas+3,Grapchics.PRETO_CLARO);
+			Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas+4,Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas+5,Grapchics.PRETO_CLARO);
 		}
 	}
 	
@@ -164,11 +162,11 @@ public final class Inventory  {
 			Terminal.cursorY = 5;
 		}
 		
-		Grapchics.desenhaCentro("Habilidades",0, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("E: Voltar", 0, 1, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Enter: Ativar/Desativar habilidade",0,2, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Monstro: "+monstroCarregado.getNomeMonstro()+" Nv"+monstroCarregado.getNivelAtual(),0,3, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("____________________",0,4,AsciiPanel.brightWhite);
+		Grapchics.desenhaCentro("Habilidades",0, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("E: Voltar", 0, 1, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("Enter: Ativar/Desativar habilidade",0,2, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("Monstro: "+monstroCarregado.getNomeMonstro()+" Nv"+monstroCarregado.getNivelAtual(),0,3, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("____________________",0,4,Grapchics.PRETO_CLARO);
 		
 		posiçãoLinhaSkillsAtivas = 5;
 		linhaAtual = posiçãoLinhaSkillsAtivas;
@@ -177,44 +175,41 @@ public final class Inventory  {
 			
 			if (skillCarregada != null){
 				if (Terminal.cursorY == linhaAtual){
-					Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightYellow,
-					AsciiPanel.brightBlack);
+					Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 					skillMostrada = skillCarregada;
 				}else{
-					Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+					Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
 				}
 			}else{
 				if (Terminal.cursorY == linhaAtual){
-					Grapchics.desenhaTela("[VAZIO]",0,posiçãoLinhaSkillsAtivas++,
-					AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+					Grapchics.desenhaTela("[VAZIO]",0,posiçãoLinhaSkillsAtivas++, Grapchics.AMARELO_CLARO);
 					skillMostrada = null;
 				}else{
-					Grapchics.desenhaTela("[VAZIO]",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightBlack);
+					Grapchics.desenhaTela("[VAZIO]",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 				}
 			}
 			linhaAtual++;
 		}
 		posiçãoLinhaSkillsAtivas = linhaAtual;
 		
-		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 		listaArvoreHabilidades();
-		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 		posiçãoLinhaSkillsAtivas += 1;
 		
 		skillsDesbloqueadas = monstroCarregado.getHabilidadesDesbloqueadas();
 		skillCarregada = skillsDesbloqueadas.get(0);
 		
 		if (skillCarregada != null && skillCarregada.isTipoEspecial(skillCarregada.getTipoHabilidade())){
-			Grapchics.desenhaTela("Especial:",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+			Grapchics.desenhaTela("Especial:",0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 			if (Terminal.cursorY == linhaAtual){
-				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,
-				AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 				skillMostrada = skillCarregada;
 			}else{
-				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
 			}
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 		}
 		
 		posiçãoLinhaSkillsAtivas += 1;
@@ -238,21 +233,21 @@ public final class Inventory  {
 					
 					if (Terminal.cursorY == linhaAtual){
 						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
-						0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+						0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 						skillMostrada = skillCarregada;
 					}else{
 						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
-						0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+						0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
 					}
 					
 				}else{
 					if (Terminal.cursorY == linhaAtual){
 						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
-						0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+						0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 						skillMostrada = skillCarregada;
 					}else{
 						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
-						0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightBlack);
+						0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 					}
 				}
 				linhaAtual++;
@@ -263,22 +258,22 @@ public final class Inventory  {
 	
 	private static void infoHabilidade(){
 		if (skillMostrada != null){
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 			
 			if (skillMostrada.getPoderHabilidade() > 0){
-				Grapchics.desenhaTela("Poder: "+skillMostrada.getPoderHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+				Grapchics.desenhaTela("Poder: "+skillMostrada.getPoderHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
 			}
 			if (skillMostrada.getPrecisaoBase() > 0){
-				Grapchics.desenhaTela("Precisao: "+skillMostrada.getPrecisaoBase(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+				Grapchics.desenhaTela("Precisao: "+skillMostrada.getPrecisaoBase(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
 			}
 			if (skillMostrada.getEnergiaHabilidade() > 0){
-				Grapchics.desenhaTela("Energia: "+skillMostrada.getEnergiaHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+				Grapchics.desenhaTela("Energia: "+skillMostrada.getEnergiaHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
 			}
 			if (skillMostrada.getRecargaHabilidade() > 0){
-				Grapchics.desenhaTela("Recarga: "+skillMostrada.getRecargaHabilidade(),0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+				Grapchics.desenhaTela("Recarga: "+skillMostrada.getRecargaHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
 			}
 			
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,AsciiPanel.brightWhite);
+			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 		}
 	}
 	
@@ -287,7 +282,7 @@ public final class Inventory  {
 		
 		reordenarListaInventario();
 		if (monstrosInventario.isEmpty()){
-			Grapchics.desenhaCentro("Inventario vazio.", 10, AsciiPanel.brightWhite);
+			Grapchics.desenhaCentro("Inventario vazio.", 10, Grapchics.BRANCO_CLARO);
 			Grapchics.atualizarTela();
 			return;
 		}
@@ -297,28 +292,28 @@ public final class Inventory  {
 		
 		String indicadorPagina = "Pagina "+paginaAtual+"/"+totalPaginas;
 		
-		Grapchics.desenhaCentro("Inventario - "+indicadorPagina,0, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("E: Voltar", 0, 1, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Enter: Equipar/Desequipar", 0, 2, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Shift: Ver detalhes", 0, 3, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("____________________",0,4, AsciiPanel.brightWhite);
+		Grapchics.desenhaCentro("Inventario - "+indicadorPagina,0, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("E: Voltar", 0, 1, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("Enter: Equipar/Desequipar", 0, 2, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("Shift: Ver detalhes", 0, 3, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("____________________",0,4, Grapchics.PRETO_CLARO);
 		desenhaListaInventário();
-		Grapchics.desenhaTela("____________________",0,posiçãoLinhaInventário, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,posiçãoLinhaInventário, Grapchics.PRETO_CLARO);
 		
 		posiçãoLinhaEquipe = 33;
-		Grapchics.desenhaCentro("Equipe:",31, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela("____________________",0,32, AsciiPanel.brightWhite);
+		Grapchics.desenhaCentro("Equipe:",31, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("____________________",0,32, Grapchics.PRETO_CLARO);
 		for (SlotEquipe slot : SlotEquipe.values()){
 			Monsters monstroEquipe = equipeTabela.get(slot);
 			
 			if (monstroEquipe != null){
 				nomeMonstroExibido = monstroEquipe.getNomeMonstro()+" Nv"+monstroEquipe.getNivelAtual();
-				Grapchics.desenhaTela(nomeMonstroExibido, 0, posiçãoLinhaEquipe++, AsciiPanel.brightWhite);
+				Grapchics.desenhaTela(nomeMonstroExibido, 0, posiçãoLinhaEquipe++, Grapchics.BRANCO_CLARO);
 			}else{
-				Grapchics.desenhaTela("[Vazio]", 0, posiçãoLinhaEquipe++, AsciiPanel.brightBlack);
+				Grapchics.desenhaTela("[Vazio]", 0, posiçãoLinhaEquipe++, Grapchics.PRETO_CLARO);
 			}
 		}
-		Grapchics.desenhaTela("____________________",0,posiçãoLinhaEquipe, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,posiçãoLinhaEquipe, Grapchics.PRETO_CLARO);
 		
 		Grapchics.atualizarTela();
 	}
@@ -342,11 +337,17 @@ public final class Inventory  {
 			if (selecionado){
 				nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
 				Grapchics.desenhaTela(nomeMonstroExibido + indicadorEquipado + indicadorFavorito, 0, posiçãoLinhaInventário++, 
-				AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+				Grapchics.AMARELO_CLARO);
 			}else{
-				nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
-				Grapchics.desenhaTela(nomeMonstroExibido + indicadorEquipado + indicadorFavorito, 0, posiçãoLinhaInventário++, 
-				AsciiPanel.brightWhite);
+				if (monstro.isMonstroEquipado() || monstro.isMonstroFavorito()){
+					nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
+					Grapchics.desenhaTela(nomeMonstroExibido + indicadorEquipado + indicadorFavorito, 0, posiçãoLinhaInventário++, 
+					Grapchics.BRANCO_CLARO);
+				}else{
+					nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
+					Grapchics.desenhaTela(nomeMonstroExibido + indicadorEquipado + indicadorFavorito, 0, posiçãoLinhaInventário++, 
+					Grapchics.PRETO_CLARO);
+				}
 			}
 		}
 	}

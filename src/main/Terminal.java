@@ -1,7 +1,5 @@
 package main;
 
-import asciiPanel.AsciiPanel;
-
 import combat.Battle;
 import util.Grapchics;
 import util.Utils;
@@ -125,11 +123,11 @@ public final class Terminal implements KeyListener {
 	}
 	
 	private void desenhaInfo(){		
-		Grapchics.desenhaTela("ESC: Titulo",0,35, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("E: Inventario",0,36, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Shift: Mostrar equipe",0,37, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Enter: Interagir",0,38, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Ouro: "+Player.getOuro(),0,39, AsciiPanel.brightWhite);	
+		Grapchics.desenhaTela("ESC: Titulo",0,35, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("E: Inventario",0,36, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("Shift: Mostrar equipe",0,37, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("Enter: Interagir",0,38, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("Ouro: "+Player.getOuro(),0,39, Grapchics.BRANCO_CLARO);	
 		
 		Grapchics.atualizarTela();
 	}

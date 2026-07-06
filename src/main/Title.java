@@ -1,7 +1,5 @@
 package main;
 
-import asciiPanel.AsciiPanel;
-
 import util.Grapchics;
 
 public final class Title {
@@ -15,34 +13,31 @@ public final class Title {
 		
 		Grapchics.limpaTela();
 		
-		Grapchics.desenhaCentro(TITLE_NAME, 14, AsciiPanel.brightWhite);
+		Grapchics.desenhaCentro(TITLE_NAME, 14, Grapchics.BRANCO_CLARO);
 		
 		if (Terminal.cursorY >= 4){
 			Terminal.cursorY = 1;
 		}else if (Terminal.cursorY <= 0) Terminal.cursorY = 3;
 		
 		if (Terminal.cursorY == 1){
-			Grapchics.desenhaCentro("Novo jogo", 18, AsciiPanel.brightYellow, 
-			AsciiPanel.brightBlack);
+			Grapchics.desenhaCentro("Novo jogo", 18, Grapchics.AMARELO_CLARO);
 		}else{
-			Grapchics.desenhaCentro("Novo jogo", 18, AsciiPanel.brightWhite);
+			Grapchics.desenhaCentro("Novo jogo", 18, Grapchics.BRANCO_CLARO);
 		}
 		
 		if (Terminal.cursorY == 2){
-			Grapchics.desenhaCentro("Continuar", 20, AsciiPanel.brightYellow, 
-			AsciiPanel.brightBlack);
+			Grapchics.desenhaCentro("Continuar", 20, Grapchics.AMARELO_CLARO);
 		}else{
-			Grapchics.desenhaCentro("Continuar", 20, AsciiPanel.brightWhite);
+			Grapchics.desenhaCentro("Continuar", 20, Grapchics.BRANCO_CLARO);
 		}
 		
 		if (Terminal.cursorY == 3){
-			Grapchics.desenhaCentro("Sair     ", 22, AsciiPanel.brightYellow,
-			AsciiPanel.brightBlack);
+			Grapchics.desenhaCentro("Sair     ", 22, Grapchics.AMARELO_CLARO);
 		}else{
-			Grapchics.desenhaCentro("Sair     ", 22, AsciiPanel.brightWhite);
+			Grapchics.desenhaCentro("Sair     ", 22, Grapchics.BRANCO_CLARO);
 		}
 		
-		Grapchics.desenhaTela("Desenvolvido por Carlos S. Rehem.",0,39, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("Desenvolvido por Carlos S. Rehem.",0,39, Grapchics.BRANCO_CLARO);
 		Grapchics.atualizarTela();
 	}
 	

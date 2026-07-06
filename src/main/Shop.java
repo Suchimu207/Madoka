@@ -1,7 +1,5 @@
 package main;
 
-import asciiPanel.AsciiPanel;
-
 import bestiary.Monsters;
 import bestiary.MonstersManager;
 
@@ -82,11 +80,11 @@ public final class Shop {
 		if (Terminal.cursorY < inicioLista) Terminal.cursorY = fimLista-1;
 		if (Terminal.cursorY >= fimLista) Terminal.cursorY = inicioLista;
 		
-        Grapchics.desenhaCentro("Loja - "+indicadorPagina, 0, AsciiPanel.brightWhite);
-        Grapchics.desenhaTela("E: Sair", 0, 1, AsciiPanel.brightBlack);
-        Grapchics.desenhaTela("Q: Comprar", 0, 2, AsciiPanel.brightBlack);
-        Grapchics.desenhaTela("ENTER: Colocar/Remover do carrinho", 0, 3, AsciiPanel.brightBlack);
-        Grapchics.desenhaTela("Ouro: "+Player.getOuro(), 0, 4, AsciiPanel.brightWhite);
+        Grapchics.desenhaCentro("Loja - "+indicadorPagina, 0, Grapchics.BRANCO_CLARO);
+        Grapchics.desenhaTela("E: Sair", 0, 1, Grapchics.PRETO_CLARO);
+        Grapchics.desenhaTela("Q: Comprar", 0, 2, Grapchics.PRETO_CLARO);
+        Grapchics.desenhaTela("ENTER: Colocar/Remover do carrinho", 0, 3, Grapchics.PRETO_CLARO);
+        Grapchics.desenhaTela("Ouro: "+Player.getOuro(), 0, 4, Grapchics.BRANCO_CLARO);
 		
 		if (carrinho != null && !carrinho.isEmpty()){
 			total = 0;
@@ -97,19 +95,19 @@ public final class Shop {
             }
 			
 			if (Player.getOuro() > total){
-				Grapchics.desenhaTela("Total: "+total, 0, 5, AsciiPanel.brightGreen);
+				Grapchics.desenhaTela("Total: "+total, 0, 5, Grapchics.VERDE_CLARO);
 			}else if (Player.getOuro() == total){
-				Grapchics.desenhaTela("Total: "+total, 0, 5, AsciiPanel.brightYellow);
+				Grapchics.desenhaTela("Total: "+total, 0, 5, Grapchics.AMARELO_CLARO);
 			}else if (Player.getOuro() < total){
-				Grapchics.desenhaTela("Total: "+total, 0, 5, AsciiPanel.brightRed);
+				Grapchics.desenhaTela("Total: "+total, 0, 5, Grapchics.VERMELHO_CLARO);
 			}
 			
 			linhaItem = 6;
 		}else linhaItem = 5;
 		
-		Grapchics.desenhaTela("____________________", 0, linhaItem++, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________", 0, linhaItem++, Grapchics.PRETO_CLARO);
 		desenhaListaLoja();
-        Grapchics.desenhaTela("____________________", 0, linhaItem, AsciiPanel.brightWhite);
+        Grapchics.desenhaTela("____________________", 0, linhaItem, Grapchics.PRETO_CLARO);
 		
         Grapchics.atualizarTela();
     }
@@ -124,10 +122,10 @@ public final class Shop {
 
             if (Terminal.cursorY == i){
                 Grapchics.desenhaTela(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase()+" - Preco: "+item.preco+textoMarcado, 0, 
-				linhaItem++, AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+				linhaItem++, Grapchics.AMARELO_CLARO);
             }else{
                 Grapchics.desenhaTela(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase()+" - Preco: "+item.preco+textoMarcado, 0, 
-				linhaItem++, AsciiPanel.brightWhite);
+				linhaItem++, Grapchics.BRANCO_CLARO);
             }
         }
 	}
@@ -141,18 +139,18 @@ public final class Shop {
         totalPaginas = Math.max(1, (int) Math.ceil(tamanhoRecibo / 24.0));
         indicadorPagina = "Pagina " + paginaAtual + "/" + totalPaginas;
 		
-        Grapchics.desenhaCentro("Recibo - " + indicadorPagina, 0, AsciiPanel.brightWhite);
-        Grapchics.desenhaTela("ESC: Sair", 0, 1, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("E: Abrir inventario", 0, 2, AsciiPanel.brightBlack);
-        Grapchics.desenhaTela("Q: Continuar comprando", 0, 3, AsciiPanel.brightBlack);
-		Grapchics.desenhaTela("Ouro atual: " + Player.getOuro(), 0, 4, AsciiPanel.brightWhite);
-        Grapchics.desenhaTela("Ouro gasto:", 0, 5, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela(" " + ouroGasto,11,5, AsciiPanel.brightYellow);
-        Grapchics.desenhaTela("____________________", 0, 6, AsciiPanel.brightWhite);
+        Grapchics.desenhaCentro("Recibo - " + indicadorPagina, 0, Grapchics.BRANCO_CLARO);
+        Grapchics.desenhaTela("ESC: Sair", 0, 1, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("E: Abrir inventario", 0, 2, Grapchics.PRETO_CLARO);
+        Grapchics.desenhaTela("Q: Continuar comprando", 0, 3, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("Ouro atual: " + Player.getOuro(), 0, 4, Grapchics.BRANCO_CLARO);
+        Grapchics.desenhaTela("Ouro gasto:", 0, 5, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela(" " + ouroGasto,11,5, Grapchics.AMARELO_CLARO);
+        Grapchics.desenhaTela("____________________", 0, 6, Grapchics.PRETO_CLARO);
         linhaItem = 7;
         
         desenhaListaRecibo();
-        Grapchics.desenhaTela("____________________", 0, linhaItem, AsciiPanel.brightWhite);
+        Grapchics.desenhaTela("____________________", 0, linhaItem, Grapchics.PRETO_CLARO);
         
         Grapchics.atualizarTela();
     }
@@ -163,7 +161,7 @@ public final class Shop {
             Monsters infoMonstro = MonstersManager.getMonstro(item.idMonstro);
             if (infoMonstro == null) continue;
             
-            Grapchics.desenhaTela(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase(), 0, linhaItem++, AsciiPanel.brightWhite);
+            Grapchics.desenhaTela(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase(), 0, linhaItem++, Grapchics.BRANCO_CLARO);
         }
     }
 	

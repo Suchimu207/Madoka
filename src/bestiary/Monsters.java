@@ -1,6 +1,6 @@
 package bestiary;
 
-import asciiPanel.AsciiPanel;
+import util.Grapchics;
 
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -381,18 +381,17 @@ public class Monsters {
 	}
 	
 	public Color getCorDoElemento(String elementos){
-		if (elementos.contains(Elementos.FOGO.toString())) return AsciiPanel.brightRed;
-		if (elementos.contains(Elementos.AGUA.toString())) return AsciiPanel.brightBlue;
-		//if (elementos.contains("TERRA")) return AsciiPanel.brightYellow;
-		//if (elementos.contains("VENTO")) return AsciiPanel.brightWhite;
-		if (elementos.contains(Elementos.NATUREZA.toString())) return AsciiPanel.brightGreen;
-		if (elementos.contains(Elementos.TROVAO.toString())) return AsciiPanel.brightYellow;
-		//if (elementos.contains(Elementos.LUZ.toString())) return AsciiPanel.white;
-		//if (elementos.contains("TREVAS")) return AsciiPanel.brightBlack;
-		if (elementos.contains(Elementos.MAGIA.toString())) return AsciiPanel.brightMagenta;
-		if (elementos.contains(Elementos.METAL.toString())) return AsciiPanel.white;
-		//if (elementos.contains("FISICO")) return AsciiPanel.brightWhite;
-		return AsciiPanel.brightWhite;
+		if (elementos.contains(Elementos.NATUREZA.toString())) return Grapchics.ELEMENTO_NATUREZA;
+		if (elementos.contains(Elementos.FOGO.toString())) return Grapchics.ELEMENTO_FOGO;
+		if (elementos.contains(Elementos.TERRA.toString())) return Grapchics.ELEMENTO_TERRA;
+		if (elementos.contains(Elementos.TROVAO.toString())) return Grapchics.ELEMENTO_TROVAO;
+		if (elementos.contains(Elementos.AGUA.toString())) return Grapchics.ELEMENTO_AGUA;
+		if (elementos.contains(Elementos.LUZ.toString())) return Grapchics.ELEMENTO_LUZ;
+		if (elementos.contains(Elementos.MAGIA.toString())) return Grapchics.ELEMENTO_MAGIA;
+		if (elementos.contains(Elementos.TREVAS.toString())) return Grapchics.ELEMENTO_TREVAS;
+		if (elementos.contains(Elementos.METAL.toString())) return Grapchics.ELEMENTO_METAL;
+		if (elementos.contains(Elementos.VENTO.toString())) return Grapchics.ELEMENTO_VENTO;
+		return Grapchics.BRANCO_CLARO;
 	}
 	
 	public Raridades getRaridadeMonstro(){

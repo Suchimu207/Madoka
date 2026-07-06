@@ -2,8 +2,6 @@ package main;
 
 import world.*;
 
-import asciiPanel.AsciiPanel;
-
 import util.Grapchics;
 
 import java.util.HashMap;
@@ -27,7 +25,7 @@ public final class Maps {
 		mapaAtual = mapasExistentes.get(mapaNome+".txt");
 		
 		if (mapaAtual == null){
-			System.out.println("Nenhum mapa para desenhar.");
+			System.out.println("Nenhum mapa para desenhar: "+mapaAtual);
 		}
 		
 		String[] linhas = mapaAtual.split("\\R");
@@ -37,35 +35,35 @@ public final class Maps {
 			for (jColuna = 0; jColuna < caracteres.length; jColuna++){
 				char tile = linhas[iLinha].charAt(jColuna);
 				if (jColuna == jogadorX && iLinha == jogadorY){
-					Grapchics.desenhaTela('@', jogadorX, jogadorY, AsciiPanel.brightWhite);
+					Grapchics.desenhaTela('@', jogadorX, jogadorY, Grapchics.BRANCO_CLARO);
 				}else{
 					switch(tile){
 					case '#':
-					Grapchics.desenhaTela('#', jColuna, iLinha, AsciiPanel.brightBlack);
+					Grapchics.desenhaTela('#', jColuna, iLinha, Grapchics.PRETO_CLARO);
 					break;
 					case '.':
-					Grapchics.desenhaTela('.', jColuna, iLinha, AsciiPanel.brightWhite);
+					Grapchics.desenhaTela('.', jColuna, iLinha, Grapchics.PRETO_CLARO);
 					break;
 					case '$':
-					Grapchics.desenhaTela('$', jColuna, iLinha, AsciiPanel.brightYellow);
+					Grapchics.desenhaTela('$', jColuna, iLinha, Grapchics.AMARELO_CLARO);
 					break;
 					case ']':
-					Grapchics.desenhaTela(']', jColuna, iLinha, AsciiPanel.brightWhite);
+					Grapchics.desenhaTela(']', jColuna, iLinha, Grapchics.BRANCO_CLARO);
 					break;
 					case '[':
-					Grapchics.desenhaTela('[', jColuna, iLinha, AsciiPanel.brightWhite);
+					Grapchics.desenhaTela('[', jColuna, iLinha, Grapchics.BRANCO_CLARO);
 					break;
 					case '-':
-					Grapchics.desenhaTela('-', jColuna, iLinha, AsciiPanel.brightCyan);
+					Grapchics.desenhaTela('-', jColuna, iLinha, Grapchics.CIANO_CLARO);
 					break;
 					case 'A':
-					Grapchics.desenhaTela('A', jColuna, iLinha, AsciiPanel.brightYellow);
+					Grapchics.desenhaTela('A', jColuna, iLinha, Grapchics.AMARELO_CLARO);
 					break;
 					case '!':
-					Grapchics.desenhaTela('!', jColuna, iLinha, AsciiPanel.brightYellow);
+					Grapchics.desenhaTela('!', jColuna, iLinha, Grapchics.AMARELO_CLARO);
 					break;
 					case '?':
-					Grapchics.desenhaTela('?', jColuna, iLinha, AsciiPanel.brightYellow);
+					Grapchics.desenhaTela('?', jColuna, iLinha, Grapchics.AMARELO_CLARO);
 					break;
 					}
 				}

@@ -1,7 +1,5 @@
 package combat;
 
-import asciiPanel.AsciiPanel;
-
 import bestiary.Monsters;
 import bestiary.Skills;
 import bestiary.Troop;
@@ -13,8 +11,6 @@ import util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import java.awt.Color;
 
 public final class BattleField {
 	// ==================== ATRIBUTOS ====================
@@ -125,10 +121,10 @@ public final class BattleField {
 		desenhaBarraActionValue();
 		if (!aguardandoAliado){
 			if (selecionarAlvo){
-				Grapchics.desenhaTela("Q: Voltar", 0, linhaAtual++, AsciiPanel.brightBlack);
+				Grapchics.desenhaTela("Q: Voltar", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 			}
 			if (BattleTurn.isTurnoJogador()){
-				Grapchics.desenhaTela("Shift: Recarregar estamina", 0, linhaAtual++, AsciiPanel.brightBlack);
+				Grapchics.desenhaTela("Shift: Recarregar estamina", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 			}
 		}
 		
@@ -158,17 +154,17 @@ public final class BattleField {
 	
 	private void desenhaLogBatalha(){
 		if (aguardandoInimigo && mensagemTurnoInimigo != null){
-			Grapchics.desenhaTela("____________________", 0,linhaAtual++, AsciiPanel.brightBlack);
-			Grapchics.desenhaTela(mensagemTurnoInimigo, 0, linhaAtual++, AsciiPanel.brightWhite);
-			Grapchics.desenhaTela("[ENTER]  ", 0, linhaAtual++, AsciiPanel.brightYellow);
-			Grapchics.desenhaTela("____________________", 0, linhaAtual++, AsciiPanel.brightBlack);
+			Grapchics.desenhaTela("____________________", 0,linhaAtual++, Grapchics.PRETO_CLARO);
+			Grapchics.desenhaTela(mensagemTurnoInimigo, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTela("[ENTER]  ", 0, linhaAtual++, Grapchics.AMARELO_CLARO);
+			Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 		}
 		
 		if (aguardandoAliado && mensagemTurnoAliado != null) {
-			Grapchics.desenhaTela("____________________", 0, linhaAtual++, AsciiPanel.brightBlack);
-			Grapchics.desenhaTela(mensagemTurnoAliado, 0, linhaAtual++, AsciiPanel.brightWhite);
-			Grapchics.desenhaTela("[ENTER]  ", 0, linhaAtual++, AsciiPanel.brightYellow);
-			Grapchics.desenhaTela("____________________", 0, linhaAtual++, AsciiPanel.brightBlack);
+			Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
+			Grapchics.desenhaTela(mensagemTurnoAliado, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTela("[ENTER]  ", 0, linhaAtual++,  Grapchics.AMARELO_CLARO);
+			Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 		}
 	}
 	
@@ -228,7 +224,7 @@ public final class BattleField {
 	
 	private void desenhaBarraActionValue(){
 		int count = 0;
-		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
         for (BattleUnit unidade : BattleTurn.getUnidades()){
             if (count >= 6) break;
             Monsters monstro = unidade.getMonstro();
@@ -246,18 +242,18 @@ public final class BattleField {
             }
             
 			if (ehAliado && unidadeAtual){
-				Grapchics.desenhaTela((char)4+texto, 0, linhaAtual++, AsciiPanel.brightWhite);
+				Grapchics.desenhaTela((char)4+texto, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
 			}else if (ehAliado && !unidadeAtual){
-				Grapchics.desenhaTela((char)4+texto, 0, linhaAtual++, AsciiPanel.brightBlack);
+				Grapchics.desenhaTela((char)4+texto, 0, linhaAtual++, Grapchics.PRETO_CLARO);
 			}else if (!ehAliado && !unidadeAtual){
-				Grapchics.desenhaTela((char)6+texto, 0, linhaAtual++, AsciiPanel.brightBlack);
+				Grapchics.desenhaTela((char)6+texto, 0, linhaAtual++, Grapchics.PRETO_CLARO);
 			}else if (!ehAliado && unidadeAtual){
-				Grapchics.desenhaTela((char)6+texto, 0, linhaAtual++, AsciiPanel.brightWhite);
+				Grapchics.desenhaTela((char)6+texto, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
 			}
 			
 			count++;
         }
-		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightBlack);
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
     }
 	
 	private void desenhaMonstroBatalha(Monsters monstro, int x, int y){
@@ -269,21 +265,21 @@ public final class BattleField {
 		BattleUnit unidadeAlvo = BattleTurn.getUnidadePorMonstro(monstro);
 		
 		if (unidadeAtual){
-			Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, AsciiPanel.brightWhite);
+			Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, Grapchics.BRANCO_CLARO);
 			Grapchics.desenhaTela(monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
-			x, y+1, AsciiPanel.brightWhite);
+			x, y+1, Grapchics.BRANCO_CLARO);
 			Grapchics.desenhaTela(monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
-			x, y+2, AsciiPanel.brightWhite);
+			x, y+2, Grapchics.BRANCO_CLARO);
 		}else{
 			if (unidadeAlvo != null && unidadeAlvo.isAlvo()){
-				Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, AsciiPanel.brightYellow);
-			}else Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, AsciiPanel.brightBlack);
+				Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, Grapchics.AMARELO_CLARO);
+			}else Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, Grapchics.PRETO_CLARO);
 			
 			Grapchics.desenhaTela(monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
-			x, y+1, AsciiPanel.brightBlack);
+			x, y+1, Grapchics.PRETO_CLARO);
 			Grapchics.desenhaTela(monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
-			x, y+2, AsciiPanel.brightBlack);
-		}		
+			x, y+2, Grapchics.PRETO_CLARO);
+		}
 	}
 	
 	private void desenhaSetaBatalha(){    
@@ -308,9 +304,9 @@ public final class BattleField {
 			
 			monstrosAlvos.add(monstroSelecionado);
 			
-			Grapchics.desenhaTela((char) 25, x+4, y - 1, AsciiPanel.brightYellow);
+			Grapchics.desenhaTela((char) 25, x+4, y - 1, Grapchics.AMARELO_CLARO);
 			Grapchics.desenhaTela(monstroSelecionado.getNomeMonstro(), x, y, 
-			AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+			Grapchics.AMARELO_CLARO);
 			break;
 			
 			case ALIADO_UNICO:
@@ -325,9 +321,9 @@ public final class BattleField {
 			
 			monstrosAlvos.add(monstroSelecionado);
 			
-			Grapchics.desenhaTela((char) 25, x+4, y - 1, AsciiPanel.brightYellow);
+			Grapchics.desenhaTela((char) 25, x+4, y - 1, Grapchics.AMARELO_CLARO);
 			Grapchics.desenhaTela(monstroSelecionado.getNomeMonstro(), x, y, 
-			AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+			Grapchics.AMARELO_CLARO);
 			break;
 			
 			case USUARIO:
@@ -336,15 +332,15 @@ public final class BattleField {
 			
 			monstrosAlvos.add(monstroSelecionado);
             
-            Grapchics.desenhaTela((char) 25, x+4, y - 1, AsciiPanel.brightYellow);
+            Grapchics.desenhaTela((char) 25, x+4, y - 1, Grapchics.AMARELO_CLARO);
 			Grapchics.desenhaTela(monstroSelecionado.getNomeMonstro(), x, y, 
-			AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+			Grapchics.AMARELO_CLARO);
             break;
 			
 			case INIMIGO_AREA:
             for (int i = 0; i < posiçõesInimigosX.size(); i++){
                 Grapchics.desenhaTela((char) 25, posiçõesInimigosX.get(i)+4, 
-				posiçõesInimigosY.get(i)-1, AsciiPanel.brightYellow);
+				posiçõesInimigosY.get(i)-1, Grapchics.AMARELO_CLARO);
             }
 			
 			for (Monsters m : inimigos){
@@ -355,7 +351,7 @@ public final class BattleField {
 			case ALIADO_AREA:
             for (int i = 0; i < posiçõesAliadosX.size(); i++){
                 Grapchics.desenhaTela((char) 25, posiçõesAliadosX.get(i)+4, 
-				posiçõesAliadosY.get(i)-1, AsciiPanel.brightYellow);
+				posiçõesAliadosY.get(i)-1, Grapchics.AMARELO_CLARO);
             }
 			
 			for (Monsters m : aliados){
@@ -366,11 +362,11 @@ public final class BattleField {
 			case CAMPO:
             for (int i = 0; i < posiçõesInimigosX.size(); i++){
 				Grapchics.desenhaTela((char) 25, posiçõesInimigosX.get(i)+4, 
-				posiçõesInimigosY.get(i)-1, AsciiPanel.brightYellow);
+				posiçõesInimigosY.get(i)-1, Grapchics.AMARELO_CLARO);
 			}				
             for (int i = 0; i < posiçõesAliadosX.size(); i++){
 				Grapchics.desenhaTela((char) 25, posiçõesAliadosX.get(i)+4, 
-				posiçõesAliadosY.get(i)-1, AsciiPanel.brightYellow);
+				posiçõesAliadosY.get(i)-1, Grapchics.AMARELO_CLARO);
 			}
 			
 			for (Monsters m : inimigos){
@@ -388,7 +384,7 @@ public final class BattleField {
 		if (monstroAtual == null) return;
 		int tamanhoSkills = monstroAtual.getQuantidadeMaxSlotsHabilidade();
 		
-		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 		for (int i = 0; i <= tamanhoSkills-1; i++){
 			Skills skillCarregada = monstroAtual.getHabilidadeAtiva(i);
 			
@@ -396,34 +392,34 @@ public final class BattleField {
 				if (Battle.getCursorY() == i){					
 					if (skillCarregada.isRecarga()){
 						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade()+" - Recarga:"+skillCarregada.getRecargaAtual(),0,linhaAtual++,
-						AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+						Grapchics.AMARELO_CLARO);
 						
 						skillSelecionada = null;
 					}else{
 						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,linhaAtual++,
-						AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+						Grapchics.AMARELO_CLARO);
 						
 						skillSelecionada = skillCarregada;
 					}						
 				}else{
 					if (skillCarregada.isRecarga()){
 						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade()+" - Recarga:"+skillCarregada.getRecargaAtual(),0,linhaAtual++,
-						AsciiPanel.brightBlack);
+						Grapchics.PRETO_CLARO);
 					}else{
-						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,linhaAtual++,AsciiPanel.brightWhite);
+						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,linhaAtual++,Grapchics.BRANCO_CLARO);
 					}
 				}
 			}else{
 				if (Battle.getCursorY() == i){
 					Grapchics.desenhaTela("[VAZIO]",0,linhaAtual++,
-					AsciiPanel.brightYellow, AsciiPanel.brightBlack);
+					Grapchics.AMARELO_CLARO);
 					skillSelecionada = null;
 				}else{
-					Grapchics.desenhaTela("[VAZIO]",0,linhaAtual++,AsciiPanel.brightBlack);
+					Grapchics.desenhaTela("[VAZIO]",0,linhaAtual++,Grapchics.PRETO_CLARO);
 				}
 			}
 		}
-		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 		
 		if (Battle.getCursorY() > tamanhoSkills-1){
 			Battle.setCursorY(0);
@@ -435,32 +431,32 @@ public final class BattleField {
 	private void desenhaComandoDetalhe(){
 		if (skillSelecionada == null) return;
 		
-		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
-		Grapchics.desenhaTela(">> "+skillSelecionada.getNomeHabilidade(),0,linhaAtual++, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela(">> "+skillSelecionada.getNomeHabilidade(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
 		
 		if (skillSelecionada.getPoderHabilidade() > 0){
-			Grapchics.desenhaTela("Poder: "+skillSelecionada.getPoderHabilidade(),0,linhaAtual++, AsciiPanel.brightWhite);
+			Grapchics.desenhaTela("Poder: "+skillSelecionada.getPoderHabilidade(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
 		}
 		
 		if (skillSelecionada.getPrecisaoBase() > 0){
-			Grapchics.desenhaTela("Precisao: "+skillSelecionada.getPrecisaoBase(),0,linhaAtual++, AsciiPanel.brightWhite);
+			Grapchics.desenhaTela("Precisao: "+skillSelecionada.getPrecisaoBase(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
 		}
 		
 		if (skillSelecionada.getEnergiaHabilidade() > 0){
-			Grapchics.desenhaTela("Energia: "+skillSelecionada.getEnergiaHabilidade(),0,linhaAtual++, AsciiPanel.brightWhite);
+			Grapchics.desenhaTela("Energia: "+skillSelecionada.getEnergiaHabilidade(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
 		}
 		
 		if (skillSelecionada.getRecargaHabilidade() > 0){
-			Grapchics.desenhaTela("Recarga: "+skillSelecionada.getRecargaHabilidade(),0,linhaAtual++, AsciiPanel.brightWhite);
+			Grapchics.desenhaTela("Recarga: "+skillSelecionada.getRecargaHabilidade(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
 		}
 		
-		Grapchics.desenhaTela("____________________",0,linhaAtual++, AsciiPanel.brightWhite);
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 	}
 	
 	protected void desenhaTelaVitória(){
 		Grapchics.limpaTela();
 		
-		Grapchics.desenhaCentro("Vitoria",10, AsciiPanel.brightWhite);
+		Grapchics.desenhaCentro("Vitoria",10, Grapchics.BRANCO_CLARO);
 		
 		Grapchics.atualizarTela();
 	}
@@ -468,7 +464,7 @@ public final class BattleField {
 	protected void desenhaTelaDerrota(){
 		Grapchics.limpaTela();
 		
-		Grapchics.desenhaCentro("Derrota",10, AsciiPanel.brightWhite);
+		Grapchics.desenhaCentro("Derrota",10, Grapchics.BRANCO_CLARO);
 		
 		Grapchics.atualizarTela();
 	}
