@@ -128,20 +128,19 @@ public final class Inventory  {
 		for (int i = 0; i < monstroCarregado.getQuantidadeMaxSlotsHabilidade(); i++){
 			skillCarregada = monstroCarregado.getHabilidadeAtiva(i);
 			if (skillCarregada != null){
-				Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
+				Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas,Grapchics.BRANCO_CLARO);
+				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),3,posiçãoLinhaSkillsAtivas++,skillCarregada.getCorHabilidade());
 			}else{
 				Grapchics.desenhaTela("[VAZIO]",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 			}
 		}
 		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas,Grapchics.PRETO_CLARO);
 		
-		skillsDesbloqueadas = monstroCarregado.getHabilidadesDesbloqueadas();
-		skillCarregada = skillsDesbloqueadas.get(0);
-		
+		skillCarregada = monstroCarregado.getHabilidadeEspecial();
 		if (skillCarregada != null && skillCarregada.isTipoEspecial(skillCarregada.getTipoHabilidade())){
 			Grapchics.desenhaTela("Especial:",0,posiçãoLinhaSkillsAtivas+2,Grapchics.BRANCO_CLARO);
 			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas+3,Grapchics.PRETO_CLARO);
-			Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas+4,Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas+4,skillCarregada.getCorHabilidade());
 			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas+5,Grapchics.PRETO_CLARO);
 		}
 	}
@@ -175,10 +174,12 @@ public final class Inventory  {
 			
 			if (skillCarregada != null){
 				if (Terminal.cursorY == linhaAtual){
-					Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
+					Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas,Grapchics.BRANCO_CLARO);
+					Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),3,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 					skillMostrada = skillCarregada;
 				}else{
-					Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
+					Grapchics.desenhaTela((i+1)+": ",0,posiçãoLinhaSkillsAtivas,Grapchics.BRANCO_CLARO);
+					Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),3,posiçãoLinhaSkillsAtivas++,skillCarregada.getCorHabilidade());
 				}
 			}else{
 				if (Terminal.cursorY == linhaAtual){
@@ -197,17 +198,16 @@ public final class Inventory  {
 		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 		posiçãoLinhaSkillsAtivas += 1;
 		
-		skillsDesbloqueadas = monstroCarregado.getHabilidadesDesbloqueadas();
-		skillCarregada = skillsDesbloqueadas.get(0);
+		skillCarregada = monstroCarregado.getHabilidadeEspecial();
 		
-		if (skillCarregada != null && skillCarregada.isTipoEspecial(skillCarregada.getTipoHabilidade())){
+		if (skillCarregada != null){
 			Grapchics.desenhaTela("Especial:",0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
 			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 			if (Terminal.cursorY == linhaAtual){
 				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 				skillMostrada = skillCarregada;
 			}else{
-				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
+				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,skillCarregada.getCorHabilidade());
 			}
 			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 		}
@@ -236,8 +236,13 @@ public final class Inventory  {
 						0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 						skillMostrada = skillCarregada;
 					}else{
-						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
-						0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
+						int tamanhoString = skillCarregada.getNomeHabilidade().length();
+						
+						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),
+						0,posiçãoLinhaSkillsAtivas,skillCarregada.getCorHabilidade());
+						Grapchics.desenhaTela("(Nv"+skillCarregada.getNivelNecessario()+")",
+						tamanhoString+1,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
+						
 					}
 					
 				}else{

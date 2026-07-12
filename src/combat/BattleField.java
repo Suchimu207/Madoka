@@ -12,6 +12,8 @@ import util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.awt.Color;
+
 public final class BattleField {
 	// ==================== ATRIBUTOS ====================
 	
@@ -23,7 +25,7 @@ public final class BattleField {
 	private Troop tropa;
 	private Monsters monstroSelecionado;
 	private List<Monsters> monstrosAlvos;
-	private Skills skillSelecionada;
+	private Skills skillSelecionada, skillEspecial;
 	
 	private List<Monsters> inimigos;
 	private int maxInimigos;
@@ -33,6 +35,7 @@ public final class BattleField {
 	private boolean selecionarAlvo;
 	private boolean aguardandoInimigo = false;
 	private boolean aguardandoAliado = false; 
+	private boolean especialAtivo = false;
 	
 	private String mensagemTurnoInimigo = null;
 	private String mensagemTurnoAliado = null;
@@ -123,6 +126,9 @@ public final class BattleField {
 			if (selecionarAlvo){
 				Grapchics.desenhaTela("Q: Voltar", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 			}
+			if (especialAtivo && BattleTurn.isTurnoJogador() && !selecionarAlvo){
+				Grapchics.desenhaTela("E+Q: Ativar especial", 0, linhaAtual++, Grapchics.PRETO_CLARO);
+			}
 			if (BattleTurn.isTurnoJogador()){
 				Grapchics.desenhaTela("Shift: Recarregar estamina", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 			}
@@ -155,14 +161,16 @@ public final class BattleField {
 	private void desenhaLogBatalha(){
 		if (aguardandoInimigo && mensagemTurnoInimigo != null){
 			Grapchics.desenhaTela("____________________", 0,linhaAtual++, Grapchics.PRETO_CLARO);
-			Grapchics.desenhaTela(mensagemTurnoInimigo, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTela((char)6, 0, linhaAtual, Grapchics.VERMELHO_CLARO);
+			Grapchics.desenhaTela(mensagemTurnoInimigo, 1, linhaAtual++, Grapchics.BRANCO_CLARO);
 			Grapchics.desenhaTela("[ENTER]  ", 0, linhaAtual++, Grapchics.AMARELO_CLARO);
 			Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 		}
 		
 		if (aguardandoAliado && mensagemTurnoAliado != null) {
 			Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
-			Grapchics.desenhaTela(mensagemTurnoAliado, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTela((char)4, 0, linhaAtual, Grapchics.AZUL_CLARO);
+			Grapchics.desenhaTela(mensagemTurnoAliado, 1, linhaAtual++, Grapchics.BRANCO_CLARO);
 			Grapchics.desenhaTela("[ENTER]  ", 0, linhaAtual++,  Grapchics.AMARELO_CLARO);
 			Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 		}
@@ -242,13 +250,17 @@ public final class BattleField {
             }
             
 			if (ehAliado && unidadeAtual){
-				Grapchics.desenhaTela((char)4+texto, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+				Grapchics.desenhaTela((char)4+texto, 0, linhaAtual, Grapchics.AZUL_CLARO);
+				Grapchics.desenhaTela(texto, 1, linhaAtual++, Grapchics.BRANCO_CLARO);
 			}else if (ehAliado && !unidadeAtual){
-				Grapchics.desenhaTela((char)4+texto, 0, linhaAtual++, Grapchics.PRETO_CLARO);
+				Grapchics.desenhaTela((char)4+texto, 0, linhaAtual, Grapchics.AZUL_CLARO);
+				Grapchics.desenhaTela(texto, 1, linhaAtual++, Grapchics.PRETO_CLARO);
 			}else if (!ehAliado && !unidadeAtual){
-				Grapchics.desenhaTela((char)6+texto, 0, linhaAtual++, Grapchics.PRETO_CLARO);
+				Grapchics.desenhaTela((char)6+texto, 0, linhaAtual, Grapchics.VERMELHO_CLARO);
+				Grapchics.desenhaTela(texto, 1, linhaAtual++, Grapchics.PRETO_CLARO);
 			}else if (!ehAliado && unidadeAtual){
-				Grapchics.desenhaTela((char)6+texto, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+				Grapchics.desenhaTela((char)6, 0, linhaAtual, Grapchics.VERMELHO_CLARO);
+				Grapchics.desenhaTela(texto, 1, linhaAtual++, Grapchics.BRANCO_CLARO);
 			}
 			
 			count++;
@@ -265,20 +277,27 @@ public final class BattleField {
 		BattleUnit unidadeAlvo = BattleTurn.getUnidadePorMonstro(monstro);
 		
 		if (unidadeAtual){
-			Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, Grapchics.BRANCO_CLARO);
-			Grapchics.desenhaTela(monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
+			Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, Grapchics.AMARELO_CLARO);
+			Grapchics.desenhaTela("PV: "+monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
 			x, y+1, Grapchics.BRANCO_CLARO);
-			Grapchics.desenhaTela(monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
+			Grapchics.desenhaTela("STA: "+monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
 			x, y+2, Grapchics.BRANCO_CLARO);
 		}else{
 			if (unidadeAlvo != null && unidadeAlvo.isAlvo()){
-				Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, Grapchics.AMARELO_CLARO);
-			}else Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, Grapchics.PRETO_CLARO);
-			
-			Grapchics.desenhaTela(monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
-			x, y+1, Grapchics.PRETO_CLARO);
-			Grapchics.desenhaTela(monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
-			x, y+2, Grapchics.PRETO_CLARO);
+				Grapchics.desenhaTela((char) 25, x+4, y - 1, Grapchics.AMARELO_CLARO);
+				
+				Grapchics.desenhaTela("PV: "+monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
+				x, y+1, Grapchics.BRANCO_CLARO);
+				Grapchics.desenhaTela("STA: "+monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
+				x, y+2, Grapchics.BRANCO_CLARO);
+				
+			}else{
+				Grapchics.desenhaTela("PV: "+monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
+				x, y+1, Grapchics.PRETO_CLARO);
+				Grapchics.desenhaTela("STA: "+monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
+				x, y+2, Grapchics.PRETO_CLARO);
+			}
+			Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, Grapchics.PRETO_CLARO);
 		}
 	}
 	
@@ -384,6 +403,9 @@ public final class BattleField {
 		if (monstroAtual == null) return;
 		int tamanhoSkills = monstroAtual.getQuantidadeMaxSlotsHabilidade();
 		
+		skillEspecial = monstroAtual.getHabilidadeEspecial();
+		desenhaMonstroEspecial(monstroAtual, skillEspecial);
+		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 		for (int i = 0; i <= tamanhoSkills-1; i++){
 			Skills skillCarregada = monstroAtual.getHabilidadeAtiva(i);
@@ -391,22 +413,26 @@ public final class BattleField {
 			if (skillCarregada != null){
 				if (Battle.getCursorY() == i){					
 					if (skillCarregada.isRecarga()){
-						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade()+" - Recarga:"+skillCarregada.getRecargaAtual(),0,linhaAtual++,
+						Grapchics.desenhaTela((i+1)+": ",0,linhaAtual, Grapchics.PRETO_CLARO);
+						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" - Recarga:"+skillCarregada.getRecargaAtual(),4,linhaAtual++,
 						Grapchics.AMARELO_CLARO);
 						
 						skillSelecionada = null;
 					}else{
-						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,linhaAtual++,
-						Grapchics.AMARELO_CLARO);
+						Grapchics.desenhaTela((i+1)+": ",0,linhaAtual, Grapchics.BRANCO_CLARO);
+						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),4,linhaAtual++,Grapchics.AMARELO_CLARO);
 						
 						skillSelecionada = skillCarregada;
 					}						
 				}else{
 					if (skillCarregada.isRecarga()){
-						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade()+" - Recarga:"+skillCarregada.getRecargaAtual(),0,linhaAtual++,
+						Grapchics.desenhaTela((i+1)+": ",0,linhaAtual, Grapchics.PRETO_CLARO);
+						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" - Recarga:"+skillCarregada.getRecargaAtual(),3,linhaAtual++,
 						Grapchics.PRETO_CLARO);
+						
 					}else{
-						Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,linhaAtual++,Grapchics.BRANCO_CLARO);
+						Grapchics.desenhaTela((i+1)+": ",0,linhaAtual, Grapchics.BRANCO_CLARO);
+						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),3,linhaAtual++,skillCarregada.getCorHabilidade());
 					}
 				}
 			}else{
@@ -428,11 +454,30 @@ public final class BattleField {
 		}
 	}
 	
+	private void desenhaMonstroEspecial(Monsters monstro, Skills habilidade){
+		if (monstro == null || habilidade == null) return;
+		
+		int barraEspecialAtual = monstro.getBarraEspecialAtual();
+		int barraEspecialMaxima = monstro.getBarraEspecialMaximo();
+		boolean especialDisponivel = monstro.isEspecialCarregado();
+		
+		if (especialDisponivel){
+			Grapchics.desenhaTela(">>"+habilidade.getNomeHabilidade()+"<<",0,linhaAtual++, habilidade.getCorHabilidade());
+			skillEspecial = habilidade;
+			especialAtivo = true;
+		}else{
+			Grapchics.desenhaTela(habilidade.getNomeHabilidade()+" "+barraEspecialAtual+
+			"/"+barraEspecialMaxima,0,linhaAtual++, Grapchics.PRETO_CLARO);
+			skillEspecial = null;
+		}
+	}
+	
 	private void desenhaComandoDetalhe(){
 		if (skillSelecionada == null) return;
 		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTela(">> "+skillSelecionada.getNomeHabilidade(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela(">> ",0,linhaAtual, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela(skillSelecionada.getNomeHabilidade(),3,linhaAtual++, skillSelecionada.getCorHabilidade());
 		
 		if (skillSelecionada.getPoderHabilidade() > 0){
 			Grapchics.desenhaTela("Poder: "+skillSelecionada.getPoderHabilidade(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
@@ -453,6 +498,7 @@ public final class BattleField {
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 	}
 	
+	// OBS: Transferir estes dois últimos métodos para uma nova classe: BattleResult.
 	protected void desenhaTelaVitória(){
 		Grapchics.limpaTela();
 		
@@ -520,6 +566,23 @@ public final class BattleField {
 		String frase = usuario.getNomeMonstro()+" recarrega.";
 		Battle.exibirMensagemAliado(frase);
     }
+	
+	protected void ativarEspecial(){
+		if (aguardandoAliado){
+			confirmarMensagemAliado();
+			return;
+		}
+		
+		if (!BattleTurn.isAguardandoTurno() || !BattleTurn.isTurnoJogador()) return;
+		if (skillEspecial == null || selecionarAlvo) return;
+		if (BattleTurn.getUnidadeJogadorAtual() == null) return;
+		
+		skillSelecionada = skillEspecial;
+		
+		if (!selecionarAlvo && especialAtivo){
+            selecionarAlvo = true;
+        }
+	}
 	
 	// ==================== MÉTODOS AUXILIARES ====================
 	
@@ -603,12 +666,12 @@ public final class BattleField {
 	}
 	
 	protected void setMensagemInimigo(String mensagem){
-		this.mensagemTurnoInimigo = (char)6+mensagem;
+		this.mensagemTurnoInimigo = mensagem;
 		this.aguardandoInimigo = true;
 	}
 
 	protected void setMensagemAliado(String mensagem){
-		this.mensagemTurnoAliado = (char)4+mensagem; 
+		this.mensagemTurnoAliado = mensagem;
 		this.aguardandoAliado = true;
 	}
 	

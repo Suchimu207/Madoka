@@ -9,6 +9,7 @@ import asciiPanel.AsciiPanel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import java.awt.event.KeyEvent;
 
@@ -51,6 +52,7 @@ public final class Battle {
 	public static void setarBatalha(){
 		subEstadoAtual = SubEstadosBatalha.PREPARO;
 		
+		Battle.resetarCursor();
 		menu = new BattlePreparation();
 		
 		monstroSlotsAtivos = new Monsters[3];
@@ -80,7 +82,17 @@ public final class Battle {
 		}
 	}
 	
-	public static boolean recebeComandosBatalha(int tecla){
+	public static boolean recebeComandosBatalha(int tecla, Set<Integer> teclasPressionadas){
+		if (teclasPressionadas != null && 
+			teclasPressionadas.contains(KeyEvent.VK_Q) &&
+			teclasPressionadas.contains(KeyEvent.VK_E)){
+			
+			if (subEstadoAtual == SubEstadosBatalha.CAMPO && campoBatalha != null){
+				campoBatalha.ativarEspecial();
+				return false;
+			}
+		}
+		
 		switch (tecla){
 			case KeyEvent.VK_A:
 			case KeyEvent.VK_LEFT:
@@ -121,7 +133,7 @@ public final class Battle {
 		}
 		return false;
 	}
-	
+		
 	private static void teclaEnter(){
 		if (subEstadoAtual == SubEstadosBatalha.PREPARO){
 			alternarMonstroSlotsAtivos();
@@ -245,6 +257,11 @@ public final class Battle {
 	protected static void setCursorY(int cursorY){
 		if (cursorY < 0) cursorY = 0;
 		Battle.cursorY = cursorY;
+	}
+	
+	protected static void resetarCursor(){
+		Battle.cursorX = 0;
+		Battle.cursorY = 0;
 	}
 	
 	protected static void setMonstroMostrado(Monsters monstroMostrado){

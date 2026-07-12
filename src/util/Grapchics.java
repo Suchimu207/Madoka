@@ -38,6 +38,7 @@ public final class Grapchics {
 	public final static Color ELEMENTO_TREVAS = new Color(92, 92, 92);
 	public final static Color ELEMENTO_METAL = new Color(173, 173, 173);
 	public final static Color ELEMENTO_VENTO = new Color(177, 251, 177);
+	public final static Color ELEMENTO_FISICO = new Color(249, 192, 78);
 	
 	static{
 		tela.setDefaultBackgroundColor(PRETO);

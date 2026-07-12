@@ -96,6 +96,7 @@ public class Monsters {
 	private int vidaBase, vidaAtual, vidaAtualCombate;
 	private int speedBase, speedAtual, speedAtualCombate;
 	private int estaminaBase, estaminaAtual, estaminaAtualCombate;
+	private int barraEspecialAtual;
 	private int[] traçosIds;
 	
 	private Classes classeAtual;
@@ -103,6 +104,7 @@ public class Monsters {
 	private Raridades raridadeMonstro;
 	
 	private final int NIVEL_MAXIMO = 40;
+	private final int BARRA_ESPECIAL_MAXIMO = 100;
 	
 	private Map<Integer, List<Skills>> skillsTree = new HashMap<>();
 	private List<Skills> skillsDesbloqueadas = new ArrayList<>();
@@ -148,6 +150,8 @@ public class Monsters {
 			this.estaminaBase = estaminaBase;
 			this.estaminaAtual = this.estaminaBase;
 			
+			this.barraEspecialAtual = 0;
+			
 			this.traçosIds = traçosIds;
 			this.monstroEquipado = false;
 			this.monstroFavorito = false;
@@ -156,7 +160,7 @@ public class Monsters {
 			System.exit(1);
 		}
 	}
-	
+
    public Monsters(Monsters monstroRequerido){
 	   this.idMonstro = monstroRequerido.getIdMonstro();
 	   this.nomeMonstro = monstroRequerido.getNomeMonstro();
@@ -174,6 +178,7 @@ public class Monsters {
 	   this.speedAtual = monstroRequerido.getSpeedAtual();
 	   this.estaminaBase = monstroRequerido.getEstaminaBase();
 	   this.estaminaAtual = monstroRequerido.getEstaminaAtual();
+	   this.barraEspecialAtual = monstroRequerido.getBarraEspecialAtual();
 	   this.traçosIds = monstroRequerido.getTracosIds();
 	   this.monstroEquipado = false;
 	   this.monstroFavorito = false;
@@ -237,6 +242,17 @@ public class Monsters {
 			total += lista.size();
 		}
 		return total;
+	}
+	
+	public Skills getHabilidadeEspecial(){
+		for (List<Skills> lista : this.skillsTree.values()){
+			for (Skills skill : lista){
+				if (skill != null && skill.isTipoEspecial(skill.getTipoHabilidade())){
+					return skill;
+				}
+			}
+		}
+		return null;
 	}
 	
 	public List<Skills> getHabilidadesDesbloqueadas(){
@@ -356,6 +372,16 @@ public class Monsters {
 		}
 	}
 	
+	public void carregarEspecial(int carga){
+		if (carga > this.BARRA_ESPECIAL_MAXIMO || carga <= 0) return;
+		this.barraEspecialAtual = Math.min(this.BARRA_ESPECIAL_MAXIMO, carga+this.barraEspecialAtual);
+	}
+	
+	public boolean isEspecialCarregado(){
+		if (this.barraEspecialAtual == this.BARRA_ESPECIAL_MAXIMO) return true;
+		return false;
+	}
+	
 	public int getQuantidadeSlotsOcupados(){
 		return skillsAtivas.size();
 	}
@@ -433,7 +459,7 @@ public class Monsters {
 	public int getVidaAtualCombate(){
 		return vidaAtualCombate;
 	}
-
+	
 	public int getSpeedBase(){
 		return speedBase;
 	}
@@ -453,11 +479,19 @@ public class Monsters {
 	public int getEstaminaAtual(){
 		return estaminaAtual;
 	}
-
+	
 	public int getEstaminaAtualCombate(){
 		return estaminaAtualCombate;
 	}
+	
+	public int getBarraEspecialAtual(){
+		return barraEspecialAtual;
+	}
 
+	public int getBarraEspecialMaximo(){
+		return BARRA_ESPECIAL_MAXIMO;
+	}
+	
 	public int[] getTracosIds(){
 		return traçosIds;
 	}

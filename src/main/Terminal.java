@@ -10,6 +10,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public final class Terminal implements KeyListener {
 	private enum EstadosJogo{
 		TITULO("Título"),
@@ -41,6 +44,8 @@ public final class Terminal implements KeyListener {
 	private final String TITLE;
 	private String mapaAtual, mapaInicial;
 	private boolean ativaDebug, mostraEquipe;
+	
+	private Set<Integer> teclasPressionadas = new HashSet<>();
 	
 	protected Terminal(String TITLE, String mapaInicial){
 		this.TITLE = TITLE;
@@ -351,8 +356,9 @@ public final class Terminal implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e){
 		int tecla = e.getKeyCode();
+		teclasPressionadas.add(tecla);	
 		if (estadoAtual == EstadosJogo.BATALHA){
-			if(Battle.recebeComandosBatalha(tecla)){
+			if(Battle.recebeComandosBatalha(tecla, teclasPressionadas)){
 				Grapchics.limpaTela();
 				estadoAtual = EstadosJogo.MAPA;
 			}
@@ -399,7 +405,10 @@ public final class Terminal implements KeyListener {
 	}
 	
 	@Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e){
+		int tecla = e.getKeyCode();
+        teclasPressionadas.remove(tecla);
+	}
     
     @Override
     public void keyTyped(KeyEvent e) {}

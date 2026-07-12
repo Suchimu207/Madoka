@@ -49,6 +49,10 @@ public final class BattleAction {
 		
         if (habilidade.getPoderHabilidade() > 0){
             calcularDano(usuario, alvos, habilidade);
+			usuario.carregarEspecial(5);
+			for (Monsters monstro : alvos){
+				monstro.carregarEspecial(2);
+			}
         }
 		
 		habilidade.ativarRecarga();

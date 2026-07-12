@@ -2,9 +2,13 @@ package bestiary;
 
 import combat.effects.Effects;
 
+import util.Grapchics;
+
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
+
+import java.awt.Color;
 
 public class Skills {
 	protected enum TipoHabilidade{
@@ -131,7 +135,7 @@ public class Skills {
 	public Monsters.Elementos getElementoHabilidadeTipo(){
 		return elementoHabilidade;
 	}
-
+	
 	public TipoHabilidade getTipoHabilidade(){
 		return tipoHabilidade;
 	}
@@ -170,6 +174,21 @@ public class Skills {
 		}else if (this.recargaAtual > 0){
 			this.recargaAtual--;
 		}
+	}
+	
+	public Color getCorHabilidade(){
+		if (getElementoHabilidade().contains(Monsters.Elementos.NATUREZA.toString())) return Grapchics.ELEMENTO_NATUREZA;
+		if (getElementoHabilidade().contains(Monsters.Elementos.FOGO.toString())) return Grapchics.ELEMENTO_FOGO;
+		if (getElementoHabilidade().contains(Monsters.Elementos.TERRA.toString())) return Grapchics.ELEMENTO_TERRA;
+		if (getElementoHabilidade().contains(Monsters.Elementos.TROVAO.toString())) return Grapchics.ELEMENTO_TROVAO;
+		if (getElementoHabilidade().contains(Monsters.Elementos.AGUA.toString())) return Grapchics.ELEMENTO_AGUA;
+		if (getElementoHabilidade().contains(Monsters.Elementos.LUZ.toString())) return Grapchics.ELEMENTO_LUZ;
+		if (getElementoHabilidade().contains(Monsters.Elementos.MAGIA.toString())) return Grapchics.ELEMENTO_MAGIA;
+		if (getElementoHabilidade().contains(Monsters.Elementos.TREVAS.toString())) return Grapchics.ELEMENTO_TREVAS;
+		if (getElementoHabilidade().contains(Monsters.Elementos.METAL.toString())) return Grapchics.ELEMENTO_METAL;
+		if (getElementoHabilidade().contains(Monsters.Elementos.VENTO.toString())) return Grapchics.ELEMENTO_VENTO;
+		if (getElementoHabilidade().contains(Monsters.Elementos.FISICO.toString())) return Grapchics.ELEMENTO_FISICO;
+		return Grapchics.BRANCO_CLARO;
 	}
 	
 	public List<Effects> getEfeitos(){
