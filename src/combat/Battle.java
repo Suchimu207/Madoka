@@ -45,8 +45,8 @@ public final class Battle {
 	
 	private static void montarEquipeInicial(){
 		Inventory.adicionarMonstroInventário(1);
-		// Monsters monstro = Inventory.getMonstroInventario(1);
-		// monstro.subirNivel(10);
+		Monsters monstro = Inventory.getMonstroInventario(1);
+		monstro.subirNivel(40);
 	}
 	
 	public static void setarBatalha(){

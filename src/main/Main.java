@@ -2,6 +2,8 @@ package main;
 
 import combat.Battle;
 
+import util.Utils;
+
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
 
@@ -37,6 +39,8 @@ public final class Main {
 		}
 	}
     public static void main(String[] args) {
+		Utils.limpaPrompt();
+		
 		Game.carregarGameJson();
 		
 		String mapaInicial = "Lobby";

@@ -6,9 +6,12 @@ import asciiPanel.AsciiPanel;
 import java.awt.Color;
 
 public final class Grapchics {
-	private final static int tileSizeX = 40;
-	private final static int tileSizeY = 40;
-	private final static AsciiPanel tela = new AsciiPanel(tileSizeX, tileSizeY, AsciiFont.CP437_16x16);
+	private final static int TILE_SIZE_X = 40;
+	private final static int TILE_SIZE_Y = 40;
+	
+	private final static AsciiPanel tela = new AsciiPanel(TILE_SIZE_X, TILE_SIZE_Y, AsciiFont.CP437_16x16);
+	
+	// ==================== CORES ====================
 	
 	public final static Color PRETO = new Color(10, 10, 10);
 	public final static Color VERMELHO = new Color(69, 5, 5);
@@ -40,12 +43,16 @@ public final class Grapchics {
 	public final static Color ELEMENTO_VENTO = new Color(177, 251, 177);
 	public final static Color ELEMENTO_FISICO = new Color(249, 192, 78);
 	
+	// ==================== INICIALIZAÇÃO ====================
+	
 	static{
 		tela.setDefaultBackgroundColor(PRETO);
 	}
 
 	private Grapchics(){
 	}
+	
+	// ==================== DESENHO ====================
 	
 	public static void desenhaTela(char desenho, int posX, int posY){
 		tela.write(desenho, posX, posY);
@@ -79,6 +86,8 @@ public final class Grapchics {
 		tela.writeCenter(desenho, linha, corFonte, corFundo);
 	}
 	
+	// ==================== MÉTODOS AUXILIARES ====================
+	
 	public static void limpaTela(){
 		tela.clear();
 	}
@@ -88,11 +97,11 @@ public final class Grapchics {
 	}
 	
 	public static int getTileSizeX(){
-		return tileSizeX;
+		return TILE_SIZE_X;
 	}
 		
 	public static int getTileSizeY(){
-		return tileSizeY;
+		return TILE_SIZE_Y;
 	}
 
 	public static AsciiPanel getTela(){

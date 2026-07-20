@@ -113,8 +113,8 @@ public class Skills {
 		
 		this.efeitos = new ArrayList<>();
 		for (Effects e : skillRequerida.getEfeitos()){
-			this.efeitos.add(new Effects(e.getTipo(), e.getAlvo(), e.getValor(), e.getChance()));
-		}	
+			this.efeitos.add(new Effects(e.getTipo(), e.getAlvo(), e.getValor(), e.getChance(), e.getTurnos()));
+		}
 	}
 	
 	public Skills(){

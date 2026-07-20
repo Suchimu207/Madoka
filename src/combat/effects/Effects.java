@@ -12,18 +12,21 @@ public class Effects {
     private final int alvo;
     private final int valor;
     private final int chance;
-
-    public Effects(String tipo, int alvo, int valor, int chance){
+	private final int turnos;
+	
+	public Effects(String tipo, int alvo, int valor, int chance, int turnos){
         this.tipo = tipo;
         this.alvo = alvo;
         this.valor = valor;
         this.chance = chance;
+		this.turnos = turnos;
     }
-
+	
     public String getTipo() { return tipo; }
     public int getAlvo() { return alvo; }
     public int getValor() { return valor; }
     public int getChance() { return chance; }
+	public int getTurnos() { return turnos; }
 	
 	//===
 }

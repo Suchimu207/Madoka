@@ -182,8 +182,9 @@
       {
         "efeito": "APPLY_STATUS",
         "alvo": -1,
-        "valor": 0,
-        "chance": 100
+        "valor": 8,
+        "chance": 100,
+		"turnos": 3
       }
     ],
     "poder": 0,

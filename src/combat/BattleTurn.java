@@ -38,6 +38,9 @@ public final class BattleTurn {
         unidadeAtual = unidades.get(0);
         avAtual = unidadeAtual.getActionValue();
 		
+		Monsters monstro = unidadeAtual.getMonstro();
+		monstro.checarStatus();
+		
         turnoJogador = unidadeAtual.isAliado();
         
 		if (turnoJogador){
@@ -49,6 +52,10 @@ public final class BattleTurn {
     }
 	
 	protected static void finalizarTurno(){
+		Monsters monstro = unidadeAtual.getMonstro();
+		
+		monstro.reduzirDuraçãoStatus();
+		
 		unidades.removeIf(u -> u.getMonstro().getVidaAtualCombate() <= 0);
 		
 		controlarRecargaHabilidade();

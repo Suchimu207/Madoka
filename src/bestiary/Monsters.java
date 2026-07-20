@@ -1,9 +1,12 @@
 package bestiary;
 
+import combat.status.StatusBase;
+
 import util.Grapchics;
 
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.HashMap;
 import java.util.EnumMap;
@@ -110,6 +113,8 @@ public class Monsters {
 	private List<Skills> skillsDesbloqueadas = new ArrayList<>();
 	private EnumMap<SlotHabilidade, Skills> skillsAtivas = new EnumMap<>(SlotHabilidade.class);	
 	
+	private List<StatusBase> statusAtuais = new ArrayList<>();
+	
 	public Monsters(int idMonstro, String nomeMonstro, Classes classeAtual, Elementos[] elementosAtuais,
 	Raridades raridadeMonstro, int nivelBase, int forçaBase, int vidaBase, int speedBase, int estaminaBase, int[] traçosIds){
 		try{
@@ -180,6 +185,7 @@ public class Monsters {
 	   this.estaminaAtual = monstroRequerido.getEstaminaAtual();
 	   this.barraEspecialAtual = monstroRequerido.getBarraEspecialAtual();
 	   this.traçosIds = monstroRequerido.getTracosIds();
+	   this.statusAtuais = new ArrayList<>(monstroRequerido.getStatusAtuais());
 	   this.monstroEquipado = false;
 	   this.monstroFavorito = false;
 	   
@@ -496,6 +502,10 @@ public class Monsters {
 		return traçosIds;
 	}
 	
+	public List<StatusBase> getStatusAtuais(){
+		return statusAtuais;
+	}
+	
 	public boolean isMonstroEquipado(){ 
 		return monstroEquipado;
 	}
@@ -527,7 +537,24 @@ public class Monsters {
 		
 		this.vidaAtualCombate = vidaAtualCombate;
 	}
-
+	
+	public void ganharVida(int cura){		
+		if (cura <= 0) return;
+    
+		int vidaMaxima = this.getVidaAtual();
+		int novaVida = Math.min(vidaMaxima, this.getVidaAtualCombate()+cura);
+    
+		this.setVidaAtualCombate(novaVida);
+	}
+	
+	public void perderVida(int dano){
+		if (this.getVidaAtualCombate() <= 0) return;
+		
+		int vidaRestante = this.getVidaAtualCombate() - dano;
+		
+		this.setVidaAtualCombate(vidaRestante);	
+	}
+	
 	public void setSpeedAtual(int speedAtual){
 		this.speedAtual = speedAtual;
 	}
@@ -543,7 +570,46 @@ public class Monsters {
 	public void setEstaminaAtualCombate(int estaminaAtualCombate){
 		this.estaminaAtualCombate = estaminaAtualCombate;
 	}
-
+	
+	public void receberStatus(StatusBase status){
+		if (status == null || status.getDuraçãoBase() <= 0) return;
+		
+		statusAtuais.add(status);
+	}
+	
+	public void checarStatus(){
+		if (this.statusAtuais.isEmpty() || this.vidaAtualCombate <= 0) return;
+		
+		for (StatusBase status : this.statusAtuais){
+			if (status != null && status.isAtivo()){
+				status.checar(this);
+			}
+		}
+	}
+	
+	public void reduzirDuraçãoStatus(){
+		if (this.statusAtuais.isEmpty()) return;
+		
+		Iterator<StatusBase> iterator = statusAtuais.iterator();
+		while (iterator.hasNext()){
+			StatusBase status = iterator.next();
+			if (status != null && status.isAtivo()){
+				status.reduzirDuração(this);
+				if (status.getDuraçãoAtual() <= 0){
+					iterator.remove();
+				}
+			}
+		}
+	}
+	
+	public void removerStatus(StatusBase status){
+		if (status == null || !this.statusAtuais.contains(status)){
+			return;
+		}
+		
+		this.statusAtuais.remove(status);
+	}
+	
 	public void setMonstroEquipado(boolean monstroEquipado){
 		this.monstroEquipado = monstroEquipado;
 	}

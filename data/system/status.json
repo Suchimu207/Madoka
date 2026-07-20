@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "nome": "Veneno",
+    "tipo": "NEGATIVE",
+    "subtipo": "DOT"
+  },
+  {
+    "id": 2,
+    "nome": "Combustão",
+    "tipo": "NEGATIVE",
+    "subtipo": "DOT"
+  },
+  {
+    "id": 3,
+    "nome": "Tontura",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 4,
+    "nome": "Atordoamento",
+    "tipo": "NEGATIVE",
+    "subtipo": "CONTROL"
+  },
+  {
+    "id": 5,
+    "nome": "Cegueira",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 6,
+    "nome": "Pesadelos",
+    "tipo": "NEGATIVE",
+    "subtipo": "DOT"
+  },
+  {
+    "id": 7,
+    "nome": "Recém-Atordoado",
+    "tipo": "POSITIVE",
+    "subtipo": "CONTROL"
+  },
+  {
+    "id": 8,
+    "nome": "Regeneração",
+    "tipo": "POSITIVE",
+    "subtipo": "HOT"
+  }
+]

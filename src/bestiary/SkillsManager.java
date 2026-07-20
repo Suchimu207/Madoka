@@ -64,8 +64,9 @@ public final class SkillsManager {
 						int alvo = efeitoObj.getInt("alvo");
 						int valor = efeitoObj.getInt("valor");
 						int chance = efeitoObj.getInt("chance");
+						int turnos = efeitoObj.optInt("turnos", 0);
 						
-						Effects efeito = new Effects(tipo, alvo, valor, chance);
+						Effects efeito = new Effects(tipo, alvo, valor, chance, turnos);
 						skillCarregada.adicionarEfeito(efeito);
 					}
 				}

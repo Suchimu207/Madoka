@@ -47,13 +47,12 @@ public final class BattleAction {
         
 		aplicarEfeitos(usuario, alvos, habilidade);
 		
-        if (habilidade.getPoderHabilidade() > 0){
-            calcularDano(usuario, alvos, habilidade);
-			usuario.carregarEspecial(5);
-			for (Monsters monstro : alvos){
-				monstro.carregarEspecial(2);
-			}
-        }
+        if (habilidade.getPoderHabilidade() > 0) calcularDano(usuario, alvos, habilidade);
+		
+		usuario.carregarEspecial(5);
+		for (Monsters monstro : alvos){
+			monstro.carregarEspecial(2);
+		}
 		
 		habilidade.ativarRecarga();
     }
@@ -65,8 +64,8 @@ public final class BattleAction {
         double danoBase = Math.ceil((forçaMonstro / 1000.0) * (poderHabilidade) * CONSTANTE);
 		
 		for (Monsters monstro : alvos){
-			int vidaRestante = (int) (monstro.getVidaAtualCombate() - danoBase);
-			monstro.setVidaAtualCombate(vidaRestante);
+			int danoFinal = (int) (danoBase);
+			monstro.perderVida(danoFinal);
 		}
     }
 	
