@@ -5,6 +5,7 @@ import bestiary.MonstersManager;
 import bestiary.Skills;
 
 import util.Grapchics;
+import util.Input;
 
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -78,12 +79,12 @@ public final class Inventory  {
 	protected static void desenhaMonstroDetalhes(){
 		Grapchics.limpaTela();
 		
-		if (Terminal.cursorX <= 0) Terminal.cursorX = 1;
+		if (Input.getCursorX() <= 0) Input.setCursorX(1);
 		
 		int tamanho = getTamanhoInventario();
-		if (Terminal.cursorX > tamanho) Terminal.cursorX = tamanho;
+		if (Input.getCursorX() > tamanho) Input.setCursorX(tamanho);
 		
-		monstroCarregado = getMonstroInventario(Terminal.cursorX);
+		monstroCarregado = getMonstroInventario(Input.getCursorX());
 		if (monstroCarregado == null) return;
 		
 		String indicadorFavorito = monstroCarregado.isMonstroFavorito() ? " ["+(char)3+"]" : "";
@@ -107,7 +108,7 @@ public final class Inventory  {
 		Grapchics.desenhaTela("____________________",0,15,Grapchics.PRETO_CLARO);
 		
 		Grapchics.desenhaTela("____________________",0,17,Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTela("Proximo nivel: "+monstroCarregado.getExpAtual()+"/"+monstroCarregado.getExpNecessaria()+" EXP",0,18, Grapchics.BRANCO_CLARO);
+		desenhaExp(18);
 		Grapchics.desenhaTela("____________________",0,19,Grapchics.PRETO_CLARO);
 		
 		Grapchics.desenhaTela("Habilidades:",0,21,Grapchics.BRANCO_CLARO);
@@ -116,6 +117,14 @@ public final class Inventory  {
 		desenhaListaHabilidade();
 		
 		Grapchics.atualizarTela();
+	}
+	
+	private static void desenhaExp(int linha){
+		if (monstroCarregado.isNivelMaximo()){
+			Grapchics.desenhaTela("NIVEL MAXIMO",0,linha, Grapchics.BRANCO_CLARO);
+		}else{
+			Grapchics.desenhaTela("Proximo nivel: "+monstroCarregado.getExpAtual()+"/"+monstroCarregado.getExpNecessaria()+" EXP",0,linha, Grapchics.BRANCO_CLARO);
+		}
 	}
 	
 	private static void desenhaElementoMonstro(int linha){
@@ -148,17 +157,17 @@ public final class Inventory  {
 	protected static void desenhaHabilidadeDetalhes(){
 		Grapchics.limpaTela();
 		
-		if (Terminal.cursorX <= 0){
-			Terminal.cursorX = 1;
-		}else if (Terminal.cursorX >= getTamanhoInventario()) Terminal.cursorX = getTamanhoInventario();
+		if (Input.getCursorX() <= 0){
+			Input.setCursorX(1);
+		}else if (Input.getCursorX() >= getTamanhoInventario()) Input.setCursorX(getTamanhoInventario());
 		
-		monstroCarregado = getMonstroInventario(Terminal.cursorX);
+		monstroCarregado = getMonstroInventario(Input.getCursorX());
 		if (monstroCarregado == null) return;
 		
-		if (Terminal.cursorY < 5){
-			Terminal.cursorY = posiçãoLinhaSkillsAtivas-1;
-		}else if (Terminal.cursorY > posiçãoLinhaSkillsAtivas-1){
-			Terminal.cursorY = 5;
+		if (Input.getCursorY() < 5){
+			Input.setCursorY(posiçãoLinhaSkillsAtivas-1);
+		}else if (Input.getCursorY() > posiçãoLinhaSkillsAtivas-1){
+			Input.setCursorY(5);
 		}
 		
 		Grapchics.desenhaCentro("Habilidades",0, Grapchics.BRANCO_CLARO);
@@ -173,7 +182,7 @@ public final class Inventory  {
 			skillCarregada = monstroCarregado.getHabilidadeAtiva(i);
 			
 			if (skillCarregada != null){
-				if (Terminal.cursorY == linhaAtual){
+				if (Input.getCursorY() == linhaAtual){
 					Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas,Grapchics.BRANCO_CLARO);
 					Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),3,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 					skillMostrada = skillCarregada;
@@ -182,7 +191,7 @@ public final class Inventory  {
 					Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),3,posiçãoLinhaSkillsAtivas++,skillCarregada.getCorHabilidade());
 				}
 			}else{
-				if (Terminal.cursorY == linhaAtual){
+				if (Input.getCursorY() == linhaAtual){
 					Grapchics.desenhaTela("[VAZIO]",0,posiçãoLinhaSkillsAtivas++, Grapchics.AMARELO_CLARO);
 					skillMostrada = null;
 				}else{
@@ -203,7 +212,7 @@ public final class Inventory  {
 		if (skillCarregada != null){
 			Grapchics.desenhaTela("Especial:",0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
 			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
-			if (Terminal.cursorY == linhaAtual){
+			if (Input.getCursorY() == linhaAtual){
 				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 				skillMostrada = skillCarregada;
 			}else{
@@ -231,7 +240,7 @@ public final class Inventory  {
 				&& !monstroCarregado.isHabilidadeAtiva(skillCarregada)){
 				if (monstroCarregado.getNivelAtual() >= skillCarregada.getNivelNecessario()){
 					
-					if (Terminal.cursorY == linhaAtual){
+					if (Input.getCursorY() == linhaAtual){
 						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
 						0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 						skillMostrada = skillCarregada;
@@ -246,7 +255,7 @@ public final class Inventory  {
 					}
 					
 				}else{
-					if (Terminal.cursorY == linhaAtual){
+					if (Input.getCursorY() == linhaAtual){
 						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
 						0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 						skillMostrada = skillCarregada;
@@ -327,15 +336,15 @@ public final class Inventory  {
 		inicioLista = (paginaAtual - 1) * 24;
 		fimLista = Math.min(inicioLista + 24, monstrosOrdenados.size());
 		
-		if (Terminal.cursorY < inicioLista + 1) Terminal.cursorY = fimLista;
-		if (Terminal.cursorY > fimLista) Terminal.cursorY = inicioLista+1;
+		if (Input.getCursorY() < inicioLista + 1) Input.setCursorY(fimLista);
+		if (Input.getCursorY() > fimLista) Input.setCursorY(inicioLista+1);
 		
 		posiçãoLinhaInventário = 5;
 		for (int i = inicioLista+1; i <= fimLista; i++){
 		Monsters monstro = monstrosInventario.get(i);
 		if (monstro == null) continue;
 
-		boolean selecionado = (i == Terminal.cursorY);
+		boolean selecionado = (i == Input.getCursorY());
 		String indicadorEquipado = monstro.isMonstroEquipado() ? " [E]" : "";
 		String indicadorFavorito = monstro.isMonstroFavorito() ? " ["+(char)3+"]" : "";
 		

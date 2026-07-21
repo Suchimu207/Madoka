@@ -357,9 +357,9 @@ public class Monsters {
     
 		for (int i = 0; i < niveisReais; i++){
 			this.nivelAtual++;
-			this.forçaAtual += this.forçaBase;
-			this.vidaAtual += this.vidaBase;
-			this.speedAtual += this.speedBase;
+			this.forçaAtual += (int) Math.ceil((this.forçaBase/3));
+			this.vidaAtual += (int) Math.ceil((this.vidaBase/3));
+			this.speedAtual += (int) Math.ceil((this.speedBase/3));
 		}
 		this.desbloquearHabilidades();
 	}
@@ -385,6 +385,11 @@ public class Monsters {
 	
 	public boolean isEspecialCarregado(){
 		if (this.barraEspecialAtual == this.BARRA_ESPECIAL_MAXIMO) return true;
+		return false;
+	}
+	
+	public boolean isNivelMaximo(){
+		if (this.nivelAtual == this.NIVEL_MAXIMO) return true;
 		return false;
 	}
 	

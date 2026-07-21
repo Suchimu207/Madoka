@@ -56,7 +56,7 @@
       { "id": 2, "nivel": 1 },
       { "id": 3, "nivel": 1 }
     ],
-    "forcaBase": 14,
+    "forcaBase": 16,
     "vidaBase": 25,
     "velocidadeBase": 9,
     "estaminaBase": 100,
@@ -146,7 +146,7 @@
       { "id": 2, "nivel": 1 },
       { "id": 3, "nivel": 1 }
     ],
-    "forcaBase": 14,
+    "forcaBase": 16,
     "vidaBase": 25,
     "velocidadeBase": 9,
     "estaminaBase": 100,
@@ -254,7 +254,7 @@
       { "id": 2, "nivel": 1 },
       { "id": 3, "nivel": 1 }
     ],
-    "forcaBase": 14,
+    "forcaBase": 16,
     "vidaBase": 25,
     "velocidadeBase": 10,
     "estaminaBase": 100,

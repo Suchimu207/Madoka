@@ -6,6 +6,7 @@ import bestiary.Skills;
 import bestiary.Troop;
 
 import util.Grapchics;
+import util.Input;
 
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -55,14 +56,14 @@ public final class BattlePreparation {
 		for (int i = 0; i <= maxSlotsAtivos-1; i++){
 			Monsters monstro = monstroSlotsAtivos[i];
 			if(monstro == null){
-				if (Battle.getCursorY() == linhaAtual){
+				if (Input.getCursorY() == linhaAtual){
 					Grapchics.desenhaTela("["+(i+1)+"]", 0, linhaAtual++, Grapchics.AMARELO_CLARO);
 					Battle.setMonstroMostrado(null);
 				}else{
 					Grapchics.desenhaTela("["+(i+1)+"]", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 				}
 			}else{
-				if (Battle.getCursorY() == linhaAtual){
+				if (Input.getCursorY() == linhaAtual){
 					Grapchics.desenhaTela(monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual(), 0, linhaAtual++, 
 					Grapchics.AMARELO_CLARO);
 					Battle.setMonstroMostrado(monstro);
@@ -82,7 +83,7 @@ public final class BattlePreparation {
 			String nomeMonstroExibido = "";
 			
 			if (monstroEquipe != null){
-				if (Battle.getCursorY() == linhaAtual){
+				if (Input.getCursorY() == linhaAtual){
 					Battle.setMonstroMostrado(null);
 					nomeMonstroExibido = monstroEquipe.getNomeMonstro()+" Nv"+monstroEquipe.getNivelAtual();
 					Grapchics.desenhaTela(nomeMonstroExibido, 0, linhaAtual++, Grapchics.AMARELO_CLARO);
@@ -92,7 +93,7 @@ public final class BattlePreparation {
 					Grapchics.desenhaTela(nomeMonstroExibido, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
 				}
 			}else{
-				if (Battle.getCursorY() == linhaAtual){
+				if (Input.getCursorY() == linhaAtual){
 					Grapchics.desenhaTela("[Vazio]", 0, linhaAtual++, Grapchics.AMARELO_CLARO);
 					Battle.setMonstroMostrado(null);
 				}else{
@@ -103,10 +104,10 @@ public final class BattlePreparation {
 		linhaMax = linhaAtual;
 		Grapchics.desenhaTela("____________________",0,linhaAtual, Grapchics.PRETO_CLARO);
 		
-		if (Battle.getCursorY() > linhaMax-1){
-			Battle.setCursorY(linhaInicial);
-		}else if (Battle.getCursorY() < linhaInicial){
-			Battle.setCursorY(linhaMax-1);
+		if (Input.getCursorY() > linhaMax-1){
+			Input.setCursorY(linhaInicial);
+		}else if (Input.getCursorY() < linhaInicial){
+			Input.setCursorY(linhaMax-1);
 		}
 		
 		Grapchics.atualizarTela();

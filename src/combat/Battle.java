@@ -4,6 +4,7 @@ import bestiary.*;
 import combat.*;
 import main.Player;
 import main.Inventory;
+import util.Input;
 
 import asciiPanel.AsciiPanel;
 
@@ -30,8 +31,6 @@ public final class Battle {
 	private static Monsters monstroMostrado;
 	private static Skills skillMostrada;
 	
-	private static int cursorX, cursorY; // Provisório.
-	
 	private Battle(){
 	}
 	
@@ -45,14 +44,14 @@ public final class Battle {
 	
 	private static void montarEquipeInicial(){
 		Inventory.adicionarMonstroInventário(1);
-		Monsters monstro = Inventory.getMonstroInventario(1);
-		monstro.subirNivel(40);
+		//Monsters monstro = Inventory.getMonstroInventario(1);
+		//monstro.subirNivel(39);
 	}
 	
 	public static void setarBatalha(){
 		subEstadoAtual = SubEstadosBatalha.PREPARO;
 		
-		Battle.resetarCursor();
+		Input.resetarCursor();
 		menu = new BattlePreparation();
 		
 		monstroSlotsAtivos = new Monsters[3];
@@ -96,19 +95,19 @@ public final class Battle {
 		switch (tecla){
 			case KeyEvent.VK_A:
 			case KeyEvent.VK_LEFT:
-				cursorX--;
+				Input.decrementarCursorX();
 				break;
 			case KeyEvent.VK_D:
 			case KeyEvent.VK_RIGHT:
-				cursorX++;
+				Input.incrementarCursorX();
 				break;
 			case KeyEvent.VK_W:
 			case KeyEvent.VK_UP:
-				cursorY--;
+				Input.decrementarCursorY();
 				break;
 			case KeyEvent.VK_S:
 			case KeyEvent.VK_DOWN:
-				cursorY++;
+				Input.incrementarCursorY();
 				break;
 			case KeyEvent.VK_ENTER:
 				if (subEstadoAtual == SubEstadosBatalha.VITORIA){
@@ -237,31 +236,8 @@ public final class Battle {
 		return tropaCarregada;
 	}
 	
-	protected static int getCursorX(){
-		return cursorX;
-	}
-
-	protected static int getCursorY(){
-		return cursorY;
-	}
-	
 	protected SubEstadosBatalha getSubEstadoAtual(){
 		return subEstadoAtual;
-	}
-	
-	protected static void setCursorX(int cursorX){
-		if (cursorX < 0) cursorX = 0;
-		Battle.cursorX = cursorX;
-	}
-
-	protected static void setCursorY(int cursorY){
-		if (cursorY < 0) cursorY = 0;
-		Battle.cursorY = cursorY;
-	}
-	
-	protected static void resetarCursor(){
-		Battle.cursorX = 0;
-		Battle.cursorY = 0;
 	}
 	
 	protected static void setMonstroMostrado(Monsters monstroMostrado){

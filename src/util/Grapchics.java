@@ -99,7 +99,7 @@ public final class Grapchics {
 	public static int getTileSizeX(){
 		return TILE_SIZE_X;
 	}
-		
+	
 	public static int getTileSizeY(){
 		return TILE_SIZE_Y;
 	}

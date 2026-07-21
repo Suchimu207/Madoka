@@ -4,6 +4,7 @@ import bestiary.Monsters;
 import bestiary.MonstersManager;
 
 import util.Grapchics;
+import util.Input;
 
 import java.util.ArrayList;
 
@@ -77,8 +78,8 @@ public final class Shop {
 		totalPaginas = Math.max(1, (int) Math.ceil(tamanhoLoja / 24.0));
 		indicadorPagina = "Pagina " + paginaAtual + "/" + totalPaginas;
 		
-		if (Terminal.cursorY < inicioLista) Terminal.cursorY = fimLista-1;
-		if (Terminal.cursorY >= fimLista) Terminal.cursorY = inicioLista;
+		if (Input.getCursorY() < inicioLista) Input.setCursorY(fimLista-1);
+		if (Input.getCursorY() >= fimLista) Input.setCursorY(inicioLista);
 		
         Grapchics.desenhaCentro("Loja - "+indicadorPagina, 0, Grapchics.BRANCO_CLARO);
         Grapchics.desenhaTela("E: Sair", 0, 1, Grapchics.PRETO_CLARO);
@@ -120,7 +121,7 @@ public final class Shop {
 
             String textoMarcado = item.isItemCarrinho() ? " [C]" : "";
 
-            if (Terminal.cursorY == i){
+            if (Input.getCursorY() == i){
                 Grapchics.desenhaTela(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase()+" - Preco: "+item.preco+textoMarcado, 0, 
 				linhaItem++, Grapchics.AMARELO_CLARO);
             }else{
@@ -191,8 +192,8 @@ public final class Shop {
     }
 
 	protected static void alternarItemCarrinho(){
-        if (Terminal.cursorY >= 0 && Terminal.cursorY < estoque.size()){
-            ItemLoja item = estoque.get(Terminal.cursorY);
+        if (Input.getCursorY() >= 0 && Input.getCursorY() < estoque.size()){
+            ItemLoja item = estoque.get(Input.getCursorY());
             if (item.isItemCarrinho()){
                 item.setItemCarrinho(false);
                 carrinho.remove(item);

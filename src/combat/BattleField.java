@@ -7,6 +7,7 @@ import bestiary.Troop;
 import main.Player;
 
 import util.Grapchics;
+import util.Input;
 import util.Utils;
 
 import java.util.ArrayList;
@@ -312,13 +313,13 @@ public final class BattleField {
 		
 		switch(tipoAlvo){
 			case INIMIGO_UNICO:
-			if (Battle.getCursorX() < 0) Battle.setCursorX(maxInimigos - 1);
-			if (Battle.getCursorX() >= maxInimigos) Battle.setCursorX(0);
+			if (Input.getCursorX() < 0) Input.setCursorX(maxInimigos - 1);
+			if (Input.getCursorX() >= maxInimigos) Input.setCursorX(0);
 			
-			x = posiçõesInimigosX.get(Battle.getCursorX());
-			y = posiçõesInimigosY.get(Battle.getCursorX());
+			x = posiçõesInimigosX.get(Input.getCursorX());
+			y = posiçõesInimigosY.get(Input.getCursorX());
 			
-			monstroSelecionado = tropa.getMonstros().get(Battle.getCursorX());
+			monstroSelecionado = tropa.getMonstros().get(Input.getCursorX());
 			if (monstroSelecionado == null) return;
 			
 			monstrosAlvos.add(monstroSelecionado);
@@ -329,13 +330,13 @@ public final class BattleField {
 			break;
 			
 			case ALIADO_UNICO:
-			if (Battle.getCursorX() < 0) Battle.setCursorX(posiçõesAliadosX.size() - 1);
-            if (Battle.getCursorX() >= posiçõesAliadosX.size()) Battle.setCursorX(0);
+			if (Input.getCursorX() < 0) Input.setCursorX(posiçõesAliadosX.size() - 1);
+            if (Input.getCursorX() >= posiçõesAliadosX.size()) Input.setCursorX(0);
 			
-			x = posiçõesAliadosX.get(Battle.getCursorX());
-            y = posiçõesAliadosY.get(Battle.getCursorX());
+			x = posiçõesAliadosX.get(Input.getCursorX());
+            y = posiçõesAliadosY.get(Input.getCursorX());
 			
-			monstroSelecionado = obterAliadoPorIndiceValido(Battle.getCursorX());
+			monstroSelecionado = obterAliadoPorIndiceValido(Input.getCursorX());
 			if (monstroSelecionado == null) return;
 			
 			monstrosAlvos.add(monstroSelecionado);
@@ -411,7 +412,7 @@ public final class BattleField {
 			Skills skillCarregada = monstroAtual.getHabilidadeAtiva(i);
 			
 			if (skillCarregada != null){
-				if (Battle.getCursorY() == i){					
+				if (Input.getCursorY() == i){					
 					if (skillCarregada.isRecarga()){
 						Grapchics.desenhaTela((i+1)+": ",0,linhaAtual, Grapchics.PRETO_CLARO);
 						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" - Recarga:"+skillCarregada.getRecargaAtual(),4,linhaAtual++,
@@ -436,7 +437,7 @@ public final class BattleField {
 					}
 				}
 			}else{
-				if (Battle.getCursorY() == i){
+				if (Input.getCursorY() == i){
 					Grapchics.desenhaTela("[VAZIO]",0,linhaAtual++,
 					Grapchics.AMARELO_CLARO);
 					skillSelecionada = null;
@@ -447,10 +448,10 @@ public final class BattleField {
 		}
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 		
-		if (Battle.getCursorY() > tamanhoSkills-1){
-			Battle.setCursorY(0);
-		}else if (Battle.getCursorY() < 0){
-			Battle.setCursorY(tamanhoSkills-1);
+		if (Input.getCursorY() > tamanhoSkills-1){
+			Input.setCursorY(0);
+		}else if (Input.getCursorY() < 0){
+			Input.setCursorY(tamanhoSkills-1);
 		}
 	}
 	

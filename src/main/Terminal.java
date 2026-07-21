@@ -2,6 +2,7 @@ package main;
 
 import combat.Battle;
 import util.Grapchics;
+import util.Input;
 import util.Utils;
 
 import javax.swing.*;
@@ -37,10 +38,7 @@ public final class Terminal implements KeyListener {
 
     private final JFrame frame;
 	private EstadosJogo estadoAtual;
-	
 	private int jogadorX, jogadorY;
-	protected static int cursorX, cursorY; // Provisório.
-	private static int cursorY_Anterior;
 	private final String TITLE;
 	private String mapaAtual, mapaInicial;
 	private boolean ativaDebug, mostraEquipe;
@@ -63,7 +61,7 @@ public final class Terminal implements KeyListener {
 		
 		jogadorX = 19;
 		jogadorY = 9;
-		cursorY = 1; // A posição inicial é "Novo jogo".
+		Input.setCursorY(1); // A posição inicial é "Novo jogo".
 	}
 	
 	protected void setarJanela(){
@@ -82,6 +80,7 @@ public final class Terminal implements KeyListener {
 	}
 	
 	protected void mostrarDebug(int contadorFrames){
+		/*
 		if (ativaDebug){
 			Utils.limpaPrompt();
 			System.out.println("FPS Atual: " + contadorFrames);
@@ -91,6 +90,7 @@ public final class Terminal implements KeyListener {
 			System.out.println("Cursor_Y: "+cursorY);
 			System.out.println("EstadoAtual: "+estadoAtual);
 		}
+		*/
 	}
 	
 	protected void desenhaEstado(){
@@ -146,7 +146,7 @@ public final class Terminal implements KeyListener {
             break;
         case MONSTRO_DETALHES:
 		case MONSTRO_HABILIDADES:
-            cursorX--;
+			Input.decrementarCursorX();
             break;
         case INVENTARIO:
             Inventory.alternarPagina(false);
@@ -167,7 +167,7 @@ public final class Terminal implements KeyListener {
             break;
         case MONSTRO_DETALHES:
 		case MONSTRO_HABILIDADES:
-            cursorX++;
+			Input.incrementarCursorX();
             break;
         case INVENTARIO:
             Inventory.alternarPagina(true);
@@ -182,10 +182,10 @@ public final class Terminal implements KeyListener {
 	private void teclaCima(){
 		switch (estadoAtual){
         case TITULO:
-            cursorY--;
+			Input.decrementarCursorY();
             break;
         case INVENTARIO:
-            cursorY--;
+			Input.decrementarCursorY();
             break;
         case MAPA:
             if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY - 1)){
@@ -193,10 +193,10 @@ public final class Terminal implements KeyListener {
             }
             break;
         case LOJA:
-            cursorY--;
+            Input.decrementarCursorY();
             break;
 		case MONSTRO_HABILIDADES:
-			cursorY--;
+			Input.decrementarCursorY();
 			break;
 		}
 	}
@@ -204,10 +204,10 @@ public final class Terminal implements KeyListener {
 	private void teclaBaixo(){
 		switch (estadoAtual){
         case TITULO:
-            cursorY++;
+			Input.incrementarCursorY();
             break;
         case INVENTARIO:
-            cursorY++;
+			Input.incrementarCursorY();
             break;
         case MAPA:
             if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY + 1)){
@@ -215,10 +215,10 @@ public final class Terminal implements KeyListener {
             }
             break;
         case LOJA:
-            cursorY++;
+            Input.incrementarCursorY();
             break;
 		case MONSTRO_HABILIDADES:
-			cursorY++;
+			Input.incrementarCursorY();
 			break;
 		}
 	}
@@ -233,25 +233,25 @@ public final class Terminal implements KeyListener {
 	private void teclaEnter(){
 		switch (estadoAtual) {
         case TITULO:
-            if (cursorY == 1 || cursorY == 2){
+            if (Input.getCursorY() == 1 || Input.getCursorY() == 2){
                 Grapchics.limpaTela();
+				Input.resetarCursor();
                 estadoAtual = EstadosJogo.MAPA;
             }
-            if (cursorY == 3) System.exit(0); // Provisório.
+            if (Input.getCursorY() == 3) System.exit(0); // Provisório.
             break;
         case INVENTARIO:
-            Inventory.alternarMonstroTabela(cursorY);
+            Inventory.alternarMonstroTabela(Input.getCursorY());
             break;
         case MONSTRO_DETALHES:
-            Inventory.alternarMonstroFavorito(cursorY);
+            Inventory.alternarMonstroFavorito(Input.getCursorY());
             break;
 		case MONSTRO_HABILIDADES:
 			Inventory.alternarHabilidadeAtiva();
 			break;
         case MAPA:
             if (Maps.ehEvento(mapaAtual, jogadorX, jogadorY) == '$'){
-                cursorY = 0;
-                cursorX = 0;
+                Input.resetarCursor();
                 Shop.limparCarrinho();
                 estadoAtual = EstadosJogo.LOJA;
             }
@@ -274,12 +274,12 @@ public final class Terminal implements KeyListener {
             break;
         case INVENTARIO:
             Grapchics.limpaTela();
-			cursorX = cursorY;
+			Input.setCursorX(Input.getCursorY());
             estadoAtual = EstadosJogo.MONSTRO_DETALHES;
             break;
 		case MONSTRO_DETALHES:
 			Grapchics.limpaTela();
-			cursorY_Anterior = cursorY;
+			Input.setCursorAnteriorY(Input.getCursorY());
 			estadoAtual = EstadosJogo.MONSTRO_HABILIDADES;
 			break;
 		}
@@ -290,14 +290,14 @@ public final class Terminal implements KeyListener {
         case MAPA:
         case LOJA_RECIBO:
             Grapchics.limpaTela();
-            cursorX = 1;
-            cursorY = 1;
+			Input.setCursorX(1);
+			Input.setCursorY(1);
             estadoAtual = EstadosJogo.INVENTARIO;
             break;
         case INVENTARIO:
             Grapchics.limpaTela();
-            cursorX = 1;
-            cursorY = 1;
+            Input.setCursorX(1);
+			Input.setCursorY(1);
             estadoAtual = EstadosJogo.MAPA;
             break;
         case MONSTRO_DETALHES:
@@ -306,7 +306,7 @@ public final class Terminal implements KeyListener {
             break;
 		case MONSTRO_HABILIDADES:
 			Grapchics.limpaTela();
-			cursorY = cursorY_Anterior;
+			Input.setCursorY(Input.getCursorAnteriorY());
 			estadoAtual = EstadosJogo.MONSTRO_DETALHES;
 			break;
         case LOJA:
@@ -321,19 +321,19 @@ public final class Terminal implements KeyListener {
         case LOJA:
             if (Shop.comprarMonstro()){
 				Grapchics.limpaTela();
-				cursorY = 0;
+				Input.resetarCursor();
 				estadoAtual = EstadosJogo.LOJA_RECIBO;
 			}else if (estadoAtual == EstadosJogo.LOJA_RECIBO){
 				Grapchics.limpaTela();
 				Shop.limparCarrinho(); 
-				cursorY = 0;
+				Input.resetarCursor();
 				estadoAtual = EstadosJogo.LOJA;
 			}
             break;
         case LOJA_RECIBO:
             Grapchics.limpaTela();
             Shop.limparCarrinho();
-			cursorY = 0;
+			Input.resetarCursor();
             estadoAtual = EstadosJogo.LOJA;
             break;
 		}

@@ -1,6 +1,7 @@
 package main;
 
 import util.Grapchics;
+import util.Input;
 
 public final class Title {
     private static String TITLE_NAME;
@@ -15,23 +16,23 @@ public final class Title {
 		
 		Grapchics.desenhaCentro(TITLE_NAME, 14, Grapchics.BRANCO_CLARO);
 		
-		if (Terminal.cursorY >= 4){
-			Terminal.cursorY = 1;
-		}else if (Terminal.cursorY <= 0) Terminal.cursorY = 3;
+		if (Input.getCursorY() >= 4){
+			Input.setCursorY(1);
+		}else if (Input.getCursorY() <= 0) Input.setCursorY(3);
 		
-		if (Terminal.cursorY == 1){
+		if (Input.getCursorY() == 1){
 			Grapchics.desenhaCentro("Novo jogo", 18, Grapchics.AMARELO_CLARO);
 		}else{
 			Grapchics.desenhaCentro("Novo jogo", 18, Grapchics.BRANCO_CLARO);
 		}
 		
-		if (Terminal.cursorY == 2){
+		if (Input.getCursorY() == 2){
 			Grapchics.desenhaCentro("Continuar", 20, Grapchics.AMARELO_CLARO);
 		}else{
 			Grapchics.desenhaCentro("Continuar", 20, Grapchics.BRANCO_CLARO);
 		}
 		
-		if (Terminal.cursorY == 3){
+		if (Input.getCursorY() == 3){
 			Grapchics.desenhaCentro("Sair     ", 22, Grapchics.AMARELO_CLARO);
 		}else{
 			Grapchics.desenhaCentro("Sair     ", 22, Grapchics.BRANCO_CLARO);
