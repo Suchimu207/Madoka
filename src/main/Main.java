@@ -2,6 +2,7 @@ package main;
 
 import combat.Battle;
 
+import util.Debug;
 import util.Utils;
 
 import asciiPanel.AsciiFont;
@@ -71,11 +72,11 @@ public final class Main {
 						tempoInicioFrame = System.nanoTime();
 						
 						terminal.desenhaEstado();
-
+						
 						//Contador de FPS.
 						contadorFrames++;
 						if (System.nanoTime() - tempoUltimoCalculoFPS >= 1000000000){
-							terminal.mostrarDebug(contadorFrames);
+							Debug.mostrarDebug(contadorFrames, terminal.getEstadoAtual());
 							contadorFrames = 0;
 							tempoUltimoCalculoFPS = System.nanoTime();
 						}

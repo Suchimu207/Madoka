@@ -1,6 +1,8 @@
 package main;
 
 import combat.Battle;
+
+import util.Debug;
 import util.Grapchics;
 import util.Input;
 import util.Utils;
@@ -25,7 +27,7 @@ public final class Terminal implements KeyListener {
 		LOJA("Loja"),
 		LOJA_RECIBO("Loja_Recibo");
 		
-		private String nome;
+		private final String nome;
 		
 		EstadosJogo(String nome){
 			this.nome = nome;
@@ -38,10 +40,9 @@ public final class Terminal implements KeyListener {
 
     private final JFrame frame;
 	private EstadosJogo estadoAtual;
-	private int jogadorX, jogadorY;
 	private final String TITLE;
 	private String mapaAtual, mapaInicial;
-	private boolean ativaDebug, mostraEquipe;
+	private boolean mostraEquipe;
 	
 	private Set<Integer> teclasPressionadas = new HashSet<>();
 	
@@ -50,7 +51,7 @@ public final class Terminal implements KeyListener {
 		this.mapaInicial = mapaInicial;
 		frame = new JFrame(TITLE);
 	}
-	
+		
 	protected void setarJogo(){
 		estadoAtual = EstadosJogo.TITULO;
 		Title.setTITLE_NAME(TITLE);
@@ -59,8 +60,6 @@ public final class Terminal implements KeyListener {
 		mostraEquipe = false;
 		Shop.inicializarLoja();
 		
-		jogadorX = 19;
-		jogadorY = 9;
 		Input.setCursorY(1); // A posição inicial é "Novo jogo".
 	}
 	
@@ -79,20 +78,6 @@ public final class Terminal implements KeyListener {
 		frame.setVisible(true);
 	}
 	
-	protected void mostrarDebug(int contadorFrames){
-		/*
-		if (ativaDebug){
-			Utils.limpaPrompt();
-			System.out.println("FPS Atual: " + contadorFrames);
-			System.out.println("Jogador_X: "+jogadorX);
-			System.out.println("Jogador_Y: "+jogadorY);
-			System.out.println("Cursor_X: "+cursorX);
-			System.out.println("Cursor_Y: "+cursorY);
-			System.out.println("EstadoAtual: "+estadoAtual);
-		}
-		*/
-	}
-	
 	protected void desenhaEstado(){
 		if (estadoAtual == EstadosJogo.BATALHA){
 			Battle.desenhaEstadoBatalha();
@@ -104,7 +89,7 @@ public final class Terminal implements KeyListener {
 				Title.desenhaTítulo();
 				break;
 			case MAPA:
-				Maps.desenhaMapa(mapaAtual, jogadorX, jogadorY);
+				Maps.desenhaMapa(mapaAtual, Player.getJogadorX(), Player.getJogadorY());
 				if (mostraEquipe){
 					Inventory.desenhaInfoEquipe();
 				}else desenhaInfo();
@@ -140,8 +125,8 @@ public final class Terminal implements KeyListener {
 	private void teclaEsquerda(){
 		switch (estadoAtual){
         case MAPA:
-            if (!Maps.ehParede(mapaAtual, jogadorX - 1, jogadorY)){
-                jogadorX--;
+            if (!Maps.ehParede(mapaAtual, Player.getJogadorX() - 1, Player.getJogadorY())){
+				Player.setJogadorX(Player.getJogadorX()-1);
             }
             break;
         case MONSTRO_DETALHES:
@@ -161,8 +146,8 @@ public final class Terminal implements KeyListener {
 	private void teclaDireita(){
 		switch (estadoAtual){
         case MAPA:
-            if (!Maps.ehParede(mapaAtual, jogadorX + 1, jogadorY)){
-                jogadorX++;
+            if (!Maps.ehParede(mapaAtual, Player.getJogadorX() + 1, Player.getJogadorY())){
+				Player.setJogadorX(Player.getJogadorX()+1);
             }
             break;
         case MONSTRO_DETALHES:
@@ -188,8 +173,8 @@ public final class Terminal implements KeyListener {
 			Input.decrementarCursorY();
             break;
         case MAPA:
-            if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY - 1)){
-                jogadorY--;
+            if (!Maps.ehParede(mapaAtual, Player.getJogadorX(), Player.getJogadorY() - 1)){
+				Player.setJogadorY(Player.getJogadorY()-1);
             }
             break;
         case LOJA:
@@ -210,8 +195,8 @@ public final class Terminal implements KeyListener {
 			Input.incrementarCursorY();
             break;
         case MAPA:
-            if (!Maps.ehParede(mapaAtual, jogadorX, jogadorY + 1)){
-                jogadorY++;
+            if (!Maps.ehParede(mapaAtual, Player.getJogadorX(), Player.getJogadorY() + 1)){
+                Player.setJogadorY(Player.getJogadorY()+1);
             }
             break;
         case LOJA:
@@ -224,10 +209,10 @@ public final class Terminal implements KeyListener {
 	}
 	
 	private void teclaDebug(){
-		if (ativaDebug){
-			ativaDebug = false;
+		if (Debug.isAtivaDebug()){
+			Debug.setAtivaDebug(false);
 			Utils.limpaPrompt();
-		}else ativaDebug = true;
+		}else Debug.setAtivaDebug(true);
 	}
 	
 	private void teclaEnter(){
@@ -250,12 +235,12 @@ public final class Terminal implements KeyListener {
 			Inventory.alternarHabilidadeAtiva();
 			break;
         case MAPA:
-            if (Maps.ehEvento(mapaAtual, jogadorX, jogadorY) == '$'){
+            if (Maps.ehEvento(mapaAtual, Player.getJogadorX(), Player.getJogadorY()) == '$'){
                 Input.resetarCursor();
                 Shop.limparCarrinho();
                 estadoAtual = EstadosJogo.LOJA;
             }
-			if (Maps.ehEvento(mapaAtual, jogadorX, jogadorY) == '!'){
+			if (Maps.ehEvento(mapaAtual, Player.getJogadorX(), Player.getJogadorY()) == '!'){
 				Battle.setarBatalha();
 				estadoAtual = EstadosJogo.BATALHA;
             }
@@ -412,6 +397,13 @@ public final class Terminal implements KeyListener {
     
     @Override
     public void keyTyped(KeyEvent e) {}
+	
+	public String getEstadoAtual(){
+		if (this.estadoAtual == null){
+			return EstadosJogo.TITULO.getEstadoNome();
+		}
+		return this.estadoAtual.getEstadoNome();
+	}
 	
 	//===
 }

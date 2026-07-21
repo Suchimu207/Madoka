@@ -16,10 +16,20 @@ import java.awt.event.KeyEvent;
 
 public final class Battle {
 	protected enum SubEstadosBatalha{
-		PREPARO,
-		CAMPO,
-		VITORIA,
-		DERROTA;
+		PREPARO("Preparo"),
+		CAMPO("Campo"),
+		VITORIA("Vitória"),
+		DERROTA("Derrota");
+		
+		private final String nome;
+		
+		SubEstadosBatalha(String nome){
+			this.nome = nome;
+		}
+		
+		public String getSubEstadoNome(){
+			return nome;
+		}
 	}
 	
 	private static SubEstadosBatalha subEstadoAtual;
@@ -111,9 +121,11 @@ public final class Battle {
 				break;
 			case KeyEvent.VK_ENTER:
 				if (subEstadoAtual == SubEstadosBatalha.VITORIA){
+					subEstadoAtual = null;
 					return true;
 				}
 				if (subEstadoAtual == SubEstadosBatalha.DERROTA){
+					subEstadoAtual = null;
 					return true;
 				}
 				teclaEnter();
@@ -123,6 +135,8 @@ public final class Battle {
 				break;
 			case KeyEvent.VK_E:
 				if (subEstadoAtual == SubEstadosBatalha.PREPARO){
+					Input.resetarCursor();
+					subEstadoAtual = null;
 					return true;
 				}
 				break;
@@ -132,7 +146,7 @@ public final class Battle {
 		}
 		return false;
 	}
-		
+	
 	private static void teclaEnter(){
 		if (subEstadoAtual == SubEstadosBatalha.PREPARO){
 			alternarMonstroSlotsAtivos();
@@ -246,6 +260,13 @@ public final class Battle {
 	
 	protected static void setSubEstadoAtual(SubEstadosBatalha subEstadoAtual){
 		Battle.subEstadoAtual = subEstadoAtual;
+	}
+	
+	public static String getSubEstadoAtualTexto(){
+		if (Battle.subEstadoAtual == null){
+			return null;
+		}
+		return Battle.subEstadoAtual.getSubEstadoNome();
 	}
 	
 	//===
