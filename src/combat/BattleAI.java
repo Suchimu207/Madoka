@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 public final class BattleAI {
+	// ==================== ATRIBUTOS ====================
+	
 	private static final Random random = new Random();
 	private static BattleUnit unidadeAlvo;
 	
@@ -22,9 +24,7 @@ public final class BattleAI {
 		if (monstroInimigo == null) return;
 		
 		if (monstroInimigo.getEstaminaAtualCombate() <= 0){
-			BattleAction.recarregarEnergia(monstroInimigo);
-			String frase = monstroInimigo.getNomeMonstro()+ " recarrega.";
-			Battle.exibirMensagemInimigo(frase);
+			recarregarEnergiaUsuário(monstroInimigo);
 			return;
 		}
 		
@@ -38,19 +38,30 @@ public final class BattleAI {
 					unidadeAlvo = BattleTurn.getUnidadePorMonstro(alvo);
 					if (unidadeAlvo != null) unidadeAlvo.setAlvo(true);
 				}
-				BattleAction.executarHabilidade(monstroInimigo, alvos, habilidade);
 				
-				String frase = monstroInimigo.getNomeMonstro()+" usou "+habilidade.getNomeHabilidade() + (char)19;
-				Battle.exibirMensagemInimigo(frase);
+				int danoRealizado = BattleAction.executarHabilidade(monstroInimigo, alvos, habilidade);
+				String nomeMonstro = monstroInimigo.getNomeMonstro()+" usou ";
+				Skills ultimaSkill = habilidade;
+				
+				String dano = null;
+				if (danoRealizado > 0) dano = ">>Causou "+danoRealizado+" de dano.";
+				
+				Battle.exibirMensagemInimigo(nomeMonstro, ultimaSkill, dano);
 				alvos.clear();
 				return;
 			}
 		}
 		
-		BattleAction.recarregarEnergia(monstroInimigo);
-		String frase = monstroInimigo.getNomeMonstro()+ " recarrega.";
-		Battle.exibirMensagemInimigo(frase);
+		recarregarEnergiaUsuário(monstroInimigo);
     }
+	
+	private static void recarregarEnergiaUsuário(Monsters monstro){
+		BattleAction.recarregarEnergia(monstro);
+		String frase = monstro.getNomeMonstro()+ " recarrega.";
+		Battle.exibirMensagemInimigo(frase,null,null);
+	}
+	
+	// ==================== MÉTODOS AUXILIARES ====================
 	
 	private static Skills getHabilidades(Monsters monstro){
         List<Skills> habilidadesValidas = new ArrayList<>();

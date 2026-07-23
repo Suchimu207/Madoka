@@ -247,7 +247,7 @@
     "nome": "Bloom Fairy",
     "classe": "ATACANTE",
     "elementos": ["MAGIA"],
-    "raridade": "COMUM",
+    "raridade": "RARO",
     "nivelBase": 1,
     "habilidades": [
       { "id": 1, "nivel": 1 },
@@ -262,7 +262,7 @@
   },
   {
     "id": 15,
-    "nome": "Tyrannoking",
+    "nome": "Yutyrannus",
     "classe": "SABOTADOR",
     "elementos": ["TREVAS"],
     "raridade": "COMUM",
@@ -272,8 +272,8 @@
       { "id": 2, "nivel": 1 },
       { "id": 3, "nivel": 1 }
     ],
-    "forcaBase": 9,
-    "vidaBase": 25,
+    "forcaBase": 10,
+    "vidaBase": 30,
     "velocidadeBase": 12,
     "estaminaBase": 100,
     "tracos": [4]

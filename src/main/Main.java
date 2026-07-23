@@ -71,6 +71,7 @@ public final class Main {
 					while(rodandoJogo == true){
 						tempoInicioFrame = System.nanoTime();
 						
+						Battle.atualizarEstadoBatalha();
 						terminal.desenhaEstado();
 						
 						//Contador de FPS.

@@ -18,6 +18,7 @@ public final class Battle {
 	protected enum SubEstadosBatalha{
 		PREPARO("Preparo"),
 		CAMPO("Campo"),
+		CAMPO_DETALHES("Campo_Detalhes"),
 		VITORIA("Vitória"),
 		DERROTA("Derrota");
 		
@@ -54,8 +55,8 @@ public final class Battle {
 	
 	private static void montarEquipeInicial(){
 		Inventory.adicionarMonstroInventário(1);
-		//Monsters monstro = Inventory.getMonstroInventario(1);
-		//monstro.subirNivel(39);
+		// Monsters monstro = Inventory.getMonstroInventario(1);
+		// monstro.subirNivel(39);
 	}
 	
 	public static void setarBatalha(){
@@ -78,23 +79,24 @@ public final class Battle {
 					campoBatalha.desenhaBatalha();
 				}
 				break;
-			case VITORIA:
+			case CAMPO_DETALHES:
 				if (campoBatalha != null){
-					campoBatalha.desenhaTelaVitória();
+					campoBatalha.desenhaDetalhes();
 				}
 				break;
+			case VITORIA:
+				BattleResult.desenhaTelaVitoria();
+				break;
 			case DERROTA:
-				if (campoBatalha != null){
-					campoBatalha.desenhaTelaDerrota();
-				}
+				BattleResult.desenhaTelaDerrota();
 				break;
 		}
 	}
 	
 	public static boolean recebeComandosBatalha(int tecla, Set<Integer> teclasPressionadas){
 		if (teclasPressionadas != null && 
-			teclasPressionadas.contains(KeyEvent.VK_Q) &&
-			teclasPressionadas.contains(KeyEvent.VK_E)){
+			teclasPressionadas.contains(KeyEvent.VK_E) &&
+			teclasPressionadas.contains(KeyEvent.VK_Q)){
 			
 			if (subEstadoAtual == SubEstadosBatalha.CAMPO && campoBatalha != null){
 				campoBatalha.ativarEspecial();
@@ -134,18 +136,21 @@ public final class Battle {
 				teclaShift();
 				break;
 			case KeyEvent.VK_E:
-				if (subEstadoAtual == SubEstadosBatalha.PREPARO){
-					Input.resetarCursor();
-					subEstadoAtual = null;
-					return true;
-				}
+				teclaE();
 				break;
 			case KeyEvent.VK_Q:
 				teclaQ();
 				break;
 		}
+		if (subEstadoAtual == null) return true;
 		return false;
 	}
+	
+	public static void atualizarEstadoBatalha(){
+		if (subEstadoAtual == SubEstadosBatalha.CAMPO && campoBatalha != null){
+			campoBatalha.processarTurno();
+		}
+    }
 	
 	private static void teclaEnter(){
 		if (subEstadoAtual == SubEstadosBatalha.PREPARO){
@@ -162,6 +167,26 @@ public final class Battle {
 		if (subEstadoAtual == SubEstadosBatalha.CAMPO){
 			if (campoBatalha != null){
 				campoBatalha.recarregarEnergiaUsuário();
+			}
+		}
+	}
+	
+	private static void teclaE(){
+		if (subEstadoAtual == SubEstadosBatalha.PREPARO){
+			Input.resetarCursor();
+			subEstadoAtual = null;
+		}
+		if (subEstadoAtual == SubEstadosBatalha.CAMPO){
+			if (campoBatalha != null){
+				if (BattleTurn.isTurnoJogador()){
+					Input.resetarCursor();
+					subEstadoAtual = SubEstadosBatalha.CAMPO_DETALHES;
+				}
+			}
+		}else if (subEstadoAtual == SubEstadosBatalha.CAMPO_DETALHES){
+			if (campoBatalha != null){
+				Input.resetarCursor();
+				subEstadoAtual = SubEstadosBatalha.CAMPO;
 			}
 		}
 	}
@@ -230,15 +255,15 @@ public final class Battle {
 		return false;
 	}
 	
-	protected static void exibirMensagemInimigo(String mensagem){
+	protected static void exibirMensagemInimigo(String mensagem, Skills habilidadeUsada, String dano){
 		if (campoBatalha != null){
-			campoBatalha.setMensagemInimigo(mensagem);
+			campoBatalha.setMensagemInimigo(mensagem, habilidadeUsada, dano);
 		}
 	}
 	
-	protected static void exibirMensagemAliado(String mensagem){
+	protected static void exibirMensagemAliado(String mensagem, Skills habilidadeUsada, String dano){
 		if (campoBatalha != null){
-			campoBatalha.setMensagemAliado(mensagem);
+			campoBatalha.setMensagemAliado(mensagem, habilidadeUsada, dano);
 		}
 	}
 	

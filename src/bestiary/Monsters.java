@@ -15,14 +15,14 @@ import java.util.Map;
 import java.awt.Color;
 
 public class Monsters {
-	protected enum Classes{
+	public enum Classes{
 		ATACANTE("Atacante"),
 		SUPORTE("Suporte"),
 		GENERALISTA("Generalista"),
 		SABOTADOR("Sabotador"),
 		TANQUE("Tanque");
 		
-		private String nomeClasse;
+		private final String nomeClasse;
 		
 		Classes(String nomeClasse){
 			this.nomeClasse = nomeClasse;
@@ -32,7 +32,7 @@ public class Monsters {
 			return nomeClasse;
 		}
 	}
-	protected enum Elementos{
+	public enum Elementos{
 		FOGO("Fogo"),
 		NATUREZA("Natureza"),
 		MAGIA("Magia"),
@@ -45,7 +45,7 @@ public class Monsters {
 		AGUA("Água"),
 		FISICO("Físico");
 		
-		private String nomeElemento;
+		private final String nomeElemento;
 		
 		Elementos(String nomeElemento){
 			this.nomeElemento = nomeElemento;
@@ -55,24 +55,45 @@ public class Monsters {
 			return nomeElemento;
 		}
 		
-		/*
-		Fogo -> Natureza -> Magia -> Metal -> Vento -> 
-		Luz -> Trevas -> Terra -> Trovão -> Água.
 		public boolean temVantagemContra(Elementos outro){
-			if (this == FOGO && outro == NATUREZA) return true;
-			if (this == AGUA && outro == FOGO) return true;
-			return false;
+        if (outro == null || this == FISICO || outro == FISICO) return false;
+
+			switch (this){
+				case FOGO:     return outro == NATUREZA;
+				case NATUREZA: return outro == MAGIA;
+				case MAGIA:    return outro == METAL;
+				case METAL:    return outro == VENTO;
+				case VENTO:    return outro == LUZ;
+				case LUZ:      return outro == TREVAS;
+				case TREVAS:   return outro == TERRA;
+				case TERRA:    return outro == TROVAO;
+				case TROVAO:   return outro == AGUA;
+				case AGUA:     return outro == FOGO;
+				default:       return false;
+			}
 		}
-		*/
+		
+		public boolean temFraquezaContra(Elementos outro){
+			return outro != null && outro.temVantagemContra(this);
+		}
+		
+		public double getMultiplicadorDano(Elementos elementoAlvo){
+			if (this.temVantagemContra(elementoAlvo)){
+				return 2;
+			}else if (this.temFraquezaContra(elementoAlvo)){
+				return 0.5;
+			}
+			return 1.0;
+		}
 	}
-	protected enum Raridades{
+	public enum Raridades{
 		COMUM("Comum"),
 		INCOMUM("Incomum"),
 		RARO("Raro"),
 		EPICO("Épico"),
 		LENDARIO("Lendário");
 		
-		private String nomeRaridade;
+		private final String nomeRaridade;
 		
 		Raridades(String nomeRaridade){
 			this.nomeRaridade = nomeRaridade;
@@ -383,6 +404,10 @@ public class Monsters {
 		this.barraEspecialAtual = Math.min(this.BARRA_ESPECIAL_MAXIMO, carga+this.barraEspecialAtual);
 	}
 	
+	public void zerarEspecial(){
+		this.barraEspecialAtual = 0;
+	}
+	
 	public boolean isEspecialCarregado(){
 		if (this.barraEspecialAtual == this.BARRA_ESPECIAL_MAXIMO) return true;
 		return false;
@@ -404,8 +429,12 @@ public class Monsters {
 	public String getNomeMonstro(){
 		return nomeMonstro;
 	}
-		
+
 	public Classes getClasseAtual(){
+		return classeAtual;
+	}
+	
+	public Classes getClasseAtualTexto(){
 		return classeAtual;
 	}
 	
@@ -510,7 +539,7 @@ public class Monsters {
 	public List<StatusBase> getStatusAtuais(){
 		return statusAtuais;
 	}
-	
+		
 	public boolean isMonstroEquipado(){ 
 		return monstroEquipado;
 	}
@@ -580,6 +609,10 @@ public class Monsters {
 		if (status == null || status.getDuraçãoBase() <= 0) return;
 		
 		statusAtuais.add(status);
+	}
+	
+	public boolean possuiStatus(StatusBase status){
+		return statusAtuais.contains(status);
 	}
 	
 	public void checarStatus(){

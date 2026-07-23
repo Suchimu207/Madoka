@@ -26,7 +26,7 @@ public class StatusRegen extends StatusBase {
 		
 		alvo.receberStatus(this);
 		
-		System.out.println(dados.getNome()+" aplicada. Turnos: "+duraçãoBase);
+		// System.out.println(dados.getNome()+" aplicada. Turnos: "+duraçãoBase);
     }
 
     @Override
@@ -43,9 +43,16 @@ public class StatusRegen extends StatusBase {
 		
 		if (duraçãoAtual <= 0) isAtivo = false;
 		
-		System.out.println("Turno: "+duraçãoAtual);
+		// System.out.println("Turno: "+duraçãoAtual);
 	}
-
+	
+	@Override
+	public void renovarDuração(){
+		if (duraçãoBase <= 0) return;
+		
+		duraçãoAtual = duraçãoBase;
+	}
+	
     @Override
     public boolean isAtivo(){
         return isAtivo;
@@ -58,7 +65,7 @@ public class StatusRegen extends StatusBase {
 
     @Override
     public String getNome(){
-        return "...";
+        return "Regeneracao";
     }
 
     @Override

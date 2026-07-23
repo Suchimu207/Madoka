@@ -21,7 +21,12 @@ public class EffectsApplyStatus implements EffectsStrategy {
 		StatusBase status = StatusManager.getStatusPorId(efeitoValor);
 		
 		if (status == null || efeitoTurnos <= 0) return;
-		status.aplicar(alvo, efeitoTurnos); // Verificar se ele tem imunidade e/ou se já está com o status.
+		
+		if (!alvo.possuiStatus(status)){
+			status.aplicar(alvo, efeitoTurnos);
+		}else if(alvo.possuiStatus(status)){
+			status.renovarDuração();
+		}
     }
     
     @Override

@@ -2,7 +2,7 @@
   {
     "id": 1,
     "nome": "Forest Wind",
-    "elemento": "NATUREZA",
+    "elemento": "VENTO",
     "tipo": "ESPECIAL",
     "alvo": "ALIADO_AREA",
     "efeitos": [
@@ -195,7 +195,7 @@
   {
     "id": 12,
     "nome": "Balsamic Winds",
-    "elemento": "NATUREZA",
+    "elemento": "VENTO",
     "tipo": "DEFENSIVA",
     "alvo": "ALIADO_AREA",
     "efeitos": [

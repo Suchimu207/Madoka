@@ -39,34 +39,50 @@ public final class BattleAction {
 		return false;
 	}
 	
-    protected static void executarHabilidade(Monsters usuario, List<Monsters> alvos, Skills habilidade){
+    protected static int executarHabilidade(Monsters usuario, List<Monsters> alvos, Skills habilidade){
 		int estaminaAtualCombate = usuario.getEstaminaAtualCombate();
 		int energiaHabilidade = habilidade.getEnergiaHabilidade();
+		int danoResultado = 0;
 		
         usuario.setEstaminaAtualCombate(estaminaAtualCombate - energiaHabilidade);
         
 		aplicarEfeitos(usuario, alvos, habilidade);
 		
-        if (habilidade.getPoderHabilidade() > 0) calcularDano(usuario, alvos, habilidade);
+        if (habilidade.getPoderHabilidade() > 0) danoResultado = calcularDano(usuario, alvos, habilidade);
 		
 		usuario.carregarEspecial(5);
 		for (Monsters monstro : alvos){
 			monstro.carregarEspecial(2);
 		}
 		
+		if (habilidade.isTipoEspecial(habilidade.getTipoHabilidade())){
+			usuario.zerarEspecial();
+		}
+		
 		habilidade.ativarRecarga();
+		return danoResultado;
     }
 	
-	private static void calcularDano(Monsters usuario, List<Monsters> alvos, Skills habilidade){
+	private static int calcularDano(Monsters usuario, List<Monsters> alvos, Skills habilidade){
 		int forçaMonstro = usuario.getForcaAtualCombate();
 		int poderHabilidade = habilidade.getPoderHabilidade();
 		
         double danoBase = Math.ceil((forçaMonstro / 1000.0) * (poderHabilidade) * CONSTANTE);
+		int danoSomado = 0;
 		
 		for (Monsters monstro : alvos){
-			int danoFinal = (int) (danoBase);
+			double multiplicadorElemental = 1.0;
+			
+			for (Monsters.Elementos elementoDefensor : monstro.getElementosAtuaisValores()){
+				multiplicadorElemental *= habilidade.getElementoHabilidadeTipo().
+				getMultiplicadorDano(elementoDefensor);
+			}
+			
+			int danoFinal = (int) (danoBase * multiplicadorElemental);
+			danoSomado += danoFinal;
 			monstro.perderVida(danoFinal);
 		}
+		return danoSomado;
     }
 	
 	private static void aplicarEfeitos(Monsters usuario, List<Monsters> alvosHabilidade, Skills habilidade){
