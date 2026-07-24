@@ -1,5 +1,8 @@
 package bestiary;
 
+import bestiary.traits.Traits;
+import bestiary.traits.TraitsManager;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;

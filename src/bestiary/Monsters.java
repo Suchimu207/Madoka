@@ -1,5 +1,9 @@
 package bestiary;
 
+import bestiary.traits.Traits;
+import bestiary.traits.TraitEffect;
+import bestiary.traits.TraitsManager;
+
 import combat.status.StatusBase;
 
 import util.Grapchics;
@@ -110,6 +114,8 @@ public class Monsters {
 		SLOT_4,
 	}
 	
+	// ==================== ATRIBUTOS ====================
+	
 	private int idMonstro;
 	private String nomeMonstro;
 	private int nivelBase, nivelAtual;
@@ -121,6 +127,7 @@ public class Monsters {
 	private int speedBase, speedAtual, speedAtualCombate;
 	private int estaminaBase, estaminaAtual, estaminaAtualCombate;
 	private int barraEspecialAtual;
+	private int attuned_percent;
 	private int[] traçosIds;
 	
 	private Classes classeAtual;
@@ -135,6 +142,11 @@ public class Monsters {
 	private EnumMap<SlotHabilidade, Skills> skillsAtivas = new EnumMap<>(SlotHabilidade.class);	
 	
 	private List<StatusBase> statusAtuais = new ArrayList<>();
+	private List<StatusBase> imunidades = new ArrayList<>();
+	
+	private List<Traits> traçosAtuais = new ArrayList<>();
+		
+	// ==================== CONSTRUTORES ==================== 
 	
 	public Monsters(int idMonstro, String nomeMonstro, Classes classeAtual, Elementos[] elementosAtuais,
 	Raridades raridadeMonstro, int nivelBase, int forçaBase, int vidaBase, int speedBase, int estaminaBase, int[] traçosIds){
@@ -205,7 +217,15 @@ public class Monsters {
 	   this.estaminaBase = monstroRequerido.getEstaminaBase();
 	   this.estaminaAtual = monstroRequerido.getEstaminaAtual();
 	   this.barraEspecialAtual = monstroRequerido.getBarraEspecialAtual();
-	   this.traçosIds = monstroRequerido.getTracosIds();
+	   
+	   this.traçosIds = monstroRequerido.getTracosIds();	   
+	   if (this.traçosIds != null){
+		for (int traçoId : this.traçosIds){
+			Traits traço = TraitsManager.getTraço(traçoId);
+			if (traço != null) this.adicionarTraço(traço);
+			}
+	   }
+	   
 	   this.statusAtuais = new ArrayList<>(monstroRequerido.getStatusAtuais());
 	   this.monstroEquipado = false;
 	   this.monstroFavorito = false;
@@ -221,6 +241,8 @@ public class Monsters {
 		
 	   this.desbloquearHabilidades();
 	}
+	
+	// ==================== HABILIDADES ====================
 	
 	public void adicionarHabilidadeArvore(int nivel, Skills skill){
 		// A função só é executada se a chave "nivel" não existir.
@@ -350,6 +372,48 @@ public class Monsters {
 		}
 	}
 	
+	public void desativarRecargas(){
+		for (int i = 0; i < this.getQuantidadeMaxSlotsHabilidade(); i++){
+			Skills skill = this.getHabilidadeAtiva(i);
+			if (skill != null && skill.isRecarga()) skill.setRecargaAtual(0);
+		}
+	}
+	
+	public void reduzirRecargaHabilidades(){
+		for (int i = 0; i < this.getQuantidadeMaxSlotsHabilidade(); i++){
+			Skills skill = this.getHabilidadeAtiva(i);
+			if (skill != null && skill.isRecarga()) skill.reduzirRecarga();
+		}
+	}
+	
+	public void carregarEspecial(int carga){
+		if (carga > this.BARRA_ESPECIAL_MAXIMO || carga <= 0) return;
+		this.barraEspecialAtual = Math.min(this.BARRA_ESPECIAL_MAXIMO, carga+this.barraEspecialAtual);
+	}
+	
+	public void zerarEspecial(){
+		this.barraEspecialAtual = 0;
+	}
+	
+	public boolean isEspecialCarregado(){
+		if (this.barraEspecialAtual == this.BARRA_ESPECIAL_MAXIMO) return true;
+		return false;
+	}
+	
+	public int getBarraEspecialAtual(){
+		return barraEspecialAtual;
+	}
+
+	public int getBarraEspecialMaximo(){
+		return BARRA_ESPECIAL_MAXIMO;
+	}
+	
+	public int getQuantidadeSlotsOcupados(){
+		return skillsAtivas.size();
+	}
+	
+	// ==================== EXPERIÊNCIA/NIVEL ====================
+	
 	public void ganharExp(int expGanha){
 		if (this.nivelAtual >= NIVEL_MAXIMO) return;
 		
@@ -385,42 +449,144 @@ public class Monsters {
 		this.desbloquearHabilidades();
 	}
 	
-	public void desativarRecargas(){
-		for (int i = 0; i < this.getQuantidadeMaxSlotsHabilidade(); i++){
-			Skills skill = this.getHabilidadeAtiva(i);
-			if (skill != null && skill.isRecarga()) skill.setRecargaAtual(0);
-		}
-	}
-	
-	public void reduzirRecargaHabilidades(){
-		for (int i = 0; i < this.getQuantidadeMaxSlotsHabilidade(); i++){
-			Skills skill = this.getHabilidadeAtiva(i);
-			if (skill != null && skill.isRecarga()) skill.reduzirRecarga();
-		}
-	}
-	
-	public void carregarEspecial(int carga){
-		if (carga > this.BARRA_ESPECIAL_MAXIMO || carga <= 0) return;
-		this.barraEspecialAtual = Math.min(this.BARRA_ESPECIAL_MAXIMO, carga+this.barraEspecialAtual);
-	}
-	
-	public void zerarEspecial(){
-		this.barraEspecialAtual = 0;
-	}
-	
-	public boolean isEspecialCarregado(){
-		if (this.barraEspecialAtual == this.BARRA_ESPECIAL_MAXIMO) return true;
-		return false;
-	}
-	
 	public boolean isNivelMaximo(){
 		if (this.nivelAtual == this.NIVEL_MAXIMO) return true;
 		return false;
 	}
 	
-	public int getQuantidadeSlotsOcupados(){
-		return skillsAtivas.size();
+	public int getNivelBase(){
+		return nivelBase;
 	}
+	
+	public int getNivelAtual(){
+		return nivelAtual;
+	}
+	
+	public int getExpAtual(){
+		return expAtual;
+	}
+	
+	public void setNivelAtual(int nivelAtual){
+		this.nivelAtual = nivelAtual;
+	}
+	
+	// ==================== COMBATE ====================
+	
+	public void ganharVida(int cura){		
+		if (cura <= 0) return;
+    
+		int vidaMaxima = this.getVidaAtual();
+		int novaVida = Math.min(vidaMaxima, this.getVidaAtualCombate()+cura);
+    
+		this.setVidaAtualCombate(novaVida);
+	}
+	
+	public void perderVida(int dano){
+		if (this.getVidaAtualCombate() <= 0) return;
+		
+		int vidaRestante = this.getVidaAtualCombate() - dano;
+		
+		this.setVidaAtualCombate(vidaRestante);	
+	}
+	
+	public int getVidaAtualCombate(){
+		return vidaAtualCombate;
+	}
+	
+	public int getForcaAtualCombate(){
+		return forçaAtualCombate;
+	}
+	
+	public int getSpeedAtualCombate(){
+		return speedAtualCombate;
+	}
+	
+	public int getEstaminaAtualCombate(){
+		return estaminaAtualCombate;
+	}
+	
+	public void setVidaAtualCombate(int vidaAtualCombate){
+		if(vidaAtualCombate < 0){
+			vidaAtualCombate = 0;
+		}
+		
+		this.vidaAtualCombate = vidaAtualCombate;
+	}
+	
+	public void setForcaAtualCombate(int forcaAtualCombate){
+		this.forçaAtualCombate = forcaAtualCombate;
+	}
+	
+	public void setSpeedAtualCombate(int speedAtualCombate){
+		this.speedAtualCombate = speedAtualCombate;
+	}
+	
+	public void setEstaminaAtualCombate(int estaminaAtualCombate){
+		this.estaminaAtualCombate = estaminaAtualCombate;
+	}
+	
+	// ==================== VIDA ====================
+	
+	public int getVidaBase(){
+		return vidaBase;
+	}
+
+	public int getVidaAtual(){
+		return vidaAtual;
+	}
+	
+	public void setVidaAtual(int vidaAtual){
+		this.vidaAtual = vidaAtual;
+	}
+	
+	// ==================== FORÇA ====================
+	
+	public int getForcaBase(){
+		return forçaBase;
+	}
+	
+	public int getForcaAtual(){
+		return forçaAtual;
+	}
+	
+	public void setForcaAtual(int forcaAtual){
+		this.forçaAtual = forcaAtual;
+	}
+	
+	// ==================== VELOCIDADE ====================
+	
+	public int getSpeedBase(){
+		return speedBase;
+	}
+	
+	public int getSpeedAtual(){
+		return speedAtual;
+	}
+	
+	public void setSpeedAtual(int speedAtual){
+		this.speedAtual = speedAtual;
+	}
+	
+	// ==================== ESTAMINA ====================
+	
+	public int getEstaminaBase(){
+		return estaminaBase;
+	}
+	
+	public int getEstaminaAtual(){
+		return estaminaAtual;
+	}
+	
+	public void setEstaminaBase(int estaminaBase){
+		if (estaminaBase <= 0) estaminaBase = 100;
+		this.estaminaBase = estaminaBase;
+	}
+	
+	public void setEstaminaAtual(int estaminaAtual){
+		this.estaminaAtual = estaminaAtual;
+	}
+	
+	// ==================== CARACTERÍSTICAS ====================
 	
 	public int getIdMonstro(){
 		return idMonstro;
@@ -433,11 +599,7 @@ public class Monsters {
 	public Classes getClasseAtual(){
 		return classeAtual;
 	}
-	
-	public Classes getClasseAtualTexto(){
-		return classeAtual;
-	}
-	
+		
 	public Elementos[] getElementosAtuaisValores(){
 		return elementosAtuais;
 	}
@@ -464,145 +626,53 @@ public class Monsters {
 		return raridadeMonstro;
 	}
 	
-	public int getNivelBase(){
-		return nivelBase;
+	// ==================== TRAÇOS ====================
+	
+	public void adicionarTraço(Traits traço){
+		if (traço != null && !traçosAtuais.contains(traço)){
+			traçosAtuais.add(traço);
+			
+			for (TraitEffect traçoEfeito : traço.getEfeitosTraço()){
+				traçoEfeito.aplicar(this);
+			}
+		}
 	}
 	
-	public int getNivelAtual(){
-		return nivelAtual;
-	}
-	
-	public int getExpAtual(){
-		return expAtual;
-	}
-	
-	public int getForcaBase(){
-		return forçaBase;
-	}
-	
-	public int getForcaAtual(){
-		return forçaAtual;
-	}
-	
-	public int getForcaAtualCombate(){
-		return forçaAtualCombate;
-	}
-
-	public int getVidaBase(){
-		return vidaBase;
-	}
-
-	public int getVidaAtual(){
-		return vidaAtual;
-	}
-
-	public int getVidaAtualCombate(){
-		return vidaAtualCombate;
-	}
-	
-	public int getSpeedBase(){
-		return speedBase;
-	}
-	
-	public int getSpeedAtual(){
-		return speedAtual;
-	}
-	
-	public int getSpeedAtualCombate(){
-		return speedAtualCombate;
-	}
-
-	public int getEstaminaBase(){
-		return estaminaBase;
-	}
-	
-	public int getEstaminaAtual(){
-		return estaminaAtual;
-	}
-	
-	public int getEstaminaAtualCombate(){
-		return estaminaAtualCombate;
-	}
-	
-	public int getBarraEspecialAtual(){
-		return barraEspecialAtual;
-	}
-
-	public int getBarraEspecialMaximo(){
-		return BARRA_ESPECIAL_MAXIMO;
+	public void adicionarImunidadeTraço(StatusBase status){
+		if (status != null && !imunidades.contains(status)){
+			imunidades.add(status);
+		}
 	}
 	
 	public int[] getTracosIds(){
 		return traçosIds;
 	}
 	
-	public List<StatusBase> getStatusAtuais(){
-		return statusAtuais;
-	}
-		
-	public boolean isMonstroEquipado(){ 
-		return monstroEquipado;
+	public List<Traits> getTraçosAtuais(){
+		return traçosAtuais;
 	}
 	
-	public boolean isMonstroFavorito(){ 
-		return monstroFavorito;
-	}
-	
-	public void setNivelAtual(int nivelAtual){
-		this.nivelAtual = nivelAtual;
-	}
-	
-	public void setForcaAtual(int forcaAtual){
-		this.forçaAtual = forcaAtual;
-	}
-
-	public void setForcaAtualCombate(int forcaAtualCombate){
-		this.forçaAtualCombate = forcaAtualCombate;
-	}
-
-	public void setVidaAtual(int vidaAtual){
-		this.vidaAtual = vidaAtual;
-	}
-
-	public void setVidaAtualCombate(int vidaAtualCombate){
-		if(vidaAtualCombate < 0){
-			vidaAtualCombate = 0;
+	public String getNomesTraços(){
+		List<Traits> tracos = this.getTraçosAtuais();
+		if (tracos == null || tracos.isEmpty()){
+			return "Nenhum";
 		}
-		
-		this.vidaAtualCombate = vidaAtualCombate;
+
+		List<String> nomes = new ArrayList<>();
+		for (Traits traco : tracos){
+			if (traco != null) nomes.add(traco.getNomeTraço()); 
+		}
+		return String.join(", ", nomes);
 	}
 	
-	public void ganharVida(int cura){		
-		if (cura <= 0) return;
-    
-		int vidaMaxima = this.getVidaAtual();
-		int novaVida = Math.min(vidaMaxima, this.getVidaAtualCombate()+cura);
-    
-		this.setVidaAtualCombate(novaVida);
+	public void setHarmonizado(int attuned_percent){
+		this.attuned_percent = attuned_percent;
 	}
 	
-	public void perderVida(int dano){
-		if (this.getVidaAtualCombate() <= 0) return;
-		
-		int vidaRestante = this.getVidaAtualCombate() - dano;
-		
-		this.setVidaAtualCombate(vidaRestante);	
-	}
+	// ==================== STATUS ====================
 	
-	public void setSpeedAtual(int speedAtual){
-		this.speedAtual = speedAtual;
-	}
-
-	public void setSpeedAtualCombate(int speedAtualCombate){
-		this.speedAtualCombate = speedAtualCombate;
-	}
-
-	public void setEstaminaAtual(int estaminaAtual){
-		this.estaminaAtual = estaminaAtual;
-	}
-
-	public void setEstaminaAtualCombate(int estaminaAtualCombate){
-		this.estaminaAtualCombate = estaminaAtualCombate;
+	public boolean isImune(StatusBase status){
+		return imunidades.contains(status); 
 	}
 	
 	public void receberStatus(StatusBase status){
@@ -646,6 +716,20 @@ public class Monsters {
 		}
 		
 		this.statusAtuais.remove(status);
+	}
+	
+	public List<StatusBase> getStatusAtuais(){
+		return statusAtuais;
+	}
+	
+	// ==================== OUTROS ====================
+	
+	public boolean isMonstroEquipado(){ 
+		return monstroEquipado;
+	}
+	
+	public boolean isMonstroFavorito(){ 
+		return monstroFavorito;
 	}
 	
 	public void setMonstroEquipado(boolean monstroEquipado){

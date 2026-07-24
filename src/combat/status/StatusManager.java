@@ -28,7 +28,8 @@ public final class StatusManager {
         try {
             caminho = Paths.get("data", "system", "status.json");
             conteudoJson = Files.readString(caminho);
-
+			
+			statusExistentes = new HashMap<>();
             statusDataExistentes = new HashMap<Integer, StatusData>();
             statusArray = new JSONArray(conteudoJson);
 
@@ -53,7 +54,6 @@ public final class StatusManager {
     }
 	
 	private static void inicializarStatus(){
-		statusExistentes = new HashMap<>();
 		StatusData dadosRegeneração = statusDataExistentes.get(8);
 		StatusBase statusRegeneração = new StatusRegen(dadosRegeneração);
 		

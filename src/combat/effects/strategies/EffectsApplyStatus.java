@@ -20,7 +20,7 @@ public class EffectsApplyStatus implements EffectsStrategy {
 		
 		StatusBase status = StatusManager.getStatusPorId(efeitoValor);
 		
-		if (status == null || efeitoTurnos <= 0) return;
+		if (status == null || efeitoTurnos <= 0 || alvo.isImune(status)) return;
 		
 		if (!alvo.possuiStatus(status)){
 			status.aplicar(alvo, efeitoTurnos);

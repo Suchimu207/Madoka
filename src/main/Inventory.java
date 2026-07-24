@@ -104,7 +104,7 @@ public final class Inventory  {
 		Grapchics.desenhaTela("Vida: "+monstroCarregado.getVidaAtual(),0,11, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTela("Velocidade: "+monstroCarregado.getSpeedAtual(),0,12, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTela("Estamina: "+monstroCarregado.getEstaminaAtual(),0,13, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTela("Tracos: "+Arrays.toString(monstroCarregado.getTracosIds()),0,14, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("Tracos: "+monstroCarregado.getNomesTraços(),0,14, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTela("____________________",0,15,Grapchics.PRETO_CLARO);
 		
 		Grapchics.desenhaTela("____________________",0,17,Grapchics.PRETO_CLARO);
