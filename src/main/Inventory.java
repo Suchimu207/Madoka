@@ -4,6 +4,8 @@ import bestiary.Monsters;
 import bestiary.MonstersManager;
 import bestiary.Skills;
 
+import combat.effects.Effects;
+
 import util.Grapchics;
 import util.Input;
 
@@ -270,9 +272,14 @@ public final class Inventory  {
 		posiçãoLinhaSkillsAtivas = linhaAtual;
 	}
 	
+	// OBS: Seria bom criar um "SkillDescription" no futuro.
 	private static void infoHabilidade(){
 		if (skillMostrada != null){
 			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
+			
+			if (skillMostrada.getAlvoHabilidade() != null){
+				Grapchics.desenhaTela("Alvo: "+skillMostrada.getAlvoHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
+			}
 			
 			if (skillMostrada.getPoderHabilidade() > 0){
 				Grapchics.desenhaTela("Poder: "+skillMostrada.getPoderHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
@@ -285,6 +292,56 @@ public final class Inventory  {
 			}
 			if (skillMostrada.getRecargaHabilidade() > 0){
 				Grapchics.desenhaTela("Recarga: "+skillMostrada.getRecargaHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
+			}
+			
+			List<Effects> efeitos = skillMostrada.getEfeitos();
+			if (efeitos != null && !efeitos.isEmpty()){
+				for (Effects efeito : efeitos){
+					StringBuilder info = new StringBuilder(efeito.getTipo());
+					int infoQuant = 0;
+					
+					info.append(" (");
+					
+					if (efeito.getChance() > 0 && efeito.getChance() < 100){
+						info.append(efeito.getChance()).append("%");
+						infoQuant++;
+					}
+					if (efeito.getValor() > 0){
+						if (infoQuant > 0) info.append(", ");
+						info.append(efeito.getValor());
+						infoQuant++;
+					}
+					
+					if (infoQuant > 0) info.append(", ");
+					if (efeito.getAlvo() == Effects.MESMO_ALVO){
+						info.append("MESMO ALVO");
+					}
+					if (efeito.getAlvo() == Effects.ALIADO_UNICO){
+						info.append("ALIADO UNICO");
+					}
+					if (efeito.getAlvo() == Effects.ALIADO_AREA){
+						info.append("ALIADO AREA");
+					}
+					if (efeito.getAlvo() == Effects.INIMIGO_UNICO){
+						info.append("INIMIGO UNICO");
+					}
+					if (efeito.getAlvo() == Effects.INIMIGO_AREA){
+						info.append("INIMIGO AREA");
+					}
+					if (efeito.getAlvo() == Effects.USUARIO){
+						info.append("USUARIO");
+					}
+					infoQuant++;
+					
+					if (efeito.getTurnos() > 0){
+						if (infoQuant > 0) info.append(", ");
+						info.append(efeito.getTurnos()).append("t");
+						infoQuant++;
+					}
+					
+					info.append(")");
+					Grapchics.desenhaTela(info.toString(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
+				}
 			}
 			
 			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);

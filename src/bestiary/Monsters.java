@@ -127,7 +127,8 @@ public class Monsters {
 	private int speedBase, speedAtual, speedAtualCombate;
 	private int estaminaBase, estaminaAtual, estaminaAtualCombate;
 	private int barraEspecialAtual;
-	private int attuned_percent;
+	private int attunedPercent;
+	private int statusArmor;
 	private int[] traçosIds;
 	
 	private Classes classeAtual;
@@ -648,6 +649,10 @@ public class Monsters {
 		return traçosIds;
 	}
 	
+	public int getStatusArmor(){
+		return statusArmor;
+	}
+	
 	public List<Traits> getTraçosAtuais(){
 		return traçosAtuais;
 	}
@@ -665,8 +670,12 @@ public class Monsters {
 		return String.join(", ", nomes);
 	}
 	
-	public void setHarmonizado(int attuned_percent){
-		this.attuned_percent = attuned_percent;
+	public void setHarmonizado(int attunedPercent){
+		this.attunedPercent = attunedPercent;
+	}
+	
+	public void setStatusArmor(int statusArmor){
+		this.statusArmor = statusArmor;
 	}
 	
 	// ==================== STATUS ====================

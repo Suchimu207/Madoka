@@ -4,6 +4,8 @@ import bestiary.Monsters;
 import bestiary.Skills;
 import bestiary.Troop;
 
+import combat.effects.Effects;
+
 import combat.status.StatusBase;
 
 import main.Player;
@@ -547,6 +549,56 @@ public final class BattleField {
 			Grapchics.desenhaTela("Recarga: "+skillSelecionada.getRecargaHabilidade(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
 		}
 		
+		List<Effects> efeitos = skillSelecionada.getEfeitos();
+		if (efeitos != null && !efeitos.isEmpty()){
+			for (Effects efeito : efeitos){
+				StringBuilder info = new StringBuilder(efeito.getTipo());
+				int infoQuant = 0;
+				
+				info.append(" (");
+				
+				if (efeito.getChance() > 0 && efeito.getChance() < 100){
+					info.append(efeito.getChance()).append("%");
+					infoQuant++;
+				}
+				if (efeito.getValor() > 0){
+					if (infoQuant > 0) info.append(", ");
+					info.append(efeito.getValor());
+					infoQuant++;
+				}
+				
+				if (infoQuant > 0) info.append(", ");
+				if (efeito.getAlvo() == Effects.MESMO_ALVO){
+					info.append("MESMO ALVO");
+				}
+				if (efeito.getAlvo() == Effects.ALIADO_UNICO){
+					info.append("ALIADO UNICO");
+				}
+				if (efeito.getAlvo() == Effects.ALIADO_AREA){
+					info.append("ALIADO AREA");
+				}
+				if (efeito.getAlvo() == Effects.INIMIGO_UNICO){
+					info.append("INIMIGO UNICO");
+				}
+				if (efeito.getAlvo() == Effects.INIMIGO_AREA){
+					info.append("INIMIGO AREA");
+				}
+				if (efeito.getAlvo() == Effects.USUARIO){
+					info.append("USUARIO");
+				}
+				infoQuant++;
+				
+				if (efeito.getTurnos() > 0){
+					if (infoQuant > 0) info.append(", ");
+					info.append(efeito.getTurnos()).append("t");
+					infoQuant++;
+				}
+				
+				info.append(")");
+				Grapchics.desenhaTela(info.toString(), 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+			}
+		}
+		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 	}
 	
@@ -617,6 +669,19 @@ public final class BattleField {
 		
 		Grapchics.desenhaTela("Forca: "+monstroVisualizado.getForcaAtualCombate(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTela("Velocidade: "+monstroVisualizado.getSpeedAtualCombate(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("Traco: "+monstroVisualizado.getNomesTraços(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
+		
+		for (int i = 0; i < monstroVisualizado.getQuantidadeMaxSlotsHabilidade(); i++){
+			Skills skillCarregada = monstroVisualizado.getHabilidadeAtiva(i);
+			if (skillCarregada != null){
+				Grapchics.desenhaTela((i+1)+": "+skillCarregada.getNomeHabilidade(),0,linhaAtual,Grapchics.BRANCO_CLARO);
+				Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),3,linhaAtual++,skillCarregada.getCorHabilidade());
+			}else{
+				Grapchics.desenhaTela("[VAZIO]",0,linhaAtual++,Grapchics.PRETO_CLARO);
+			}
+		}
+		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 		
 		List<StatusBase> listaStatus = monstroVisualizado.getStatusAtuais();

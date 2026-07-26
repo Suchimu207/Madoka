@@ -26,7 +26,7 @@ public class EffectsHealing implements EffectsStrategy {
     
     @Override
     public String getNome(){
-        return "HEALING";
+        return "CURA";
     }
     
 	//===

@@ -9,26 +9,63 @@ import combat.effects.EffectsStrategy;
 import combat.status.StatusManager;
 import combat.status.StatusBase;
 
+import java.util.Random;
+
 public class EffectsApplyStatus implements EffectsStrategy {
-    
+	private static final Random random = new Random();
+	
+    private int efeitoValor, efeitoTurnos, efeitoChance;
+	
+	private Monsters usuario, alvo;
+	private Skills habilidade;
+	private Effects efeito;
+	private StatusBase status;
+	
     @Override
     public void aplicar(Monsters usuario, Monsters alvo, Skills habilidade, Effects efeito){
-        if (alvo == null || usuario == null || efeito == null) return;
+        if (alvo == null || usuario == null || habilidade == null || efeito == null) return;
 		
-		int efeitoValor = efeito.getValor();
-		int efeitoTurnos = efeito.getTurnos();
+		this.usuario = usuario;
+		this.alvo = alvo;
+		this.habilidade = habilidade;
+		this.efeito = efeito;
 		
-		StatusBase status = StatusManager.getStatusPorId(efeitoValor);
+		efeitoValor = this.efeito.getValor();
+		efeitoTurnos = this.efeito.getTurnos();
+		efeitoChance = this.efeito.getChance();
 		
-		if (status == null || efeitoTurnos <= 0 || alvo.isImune(status)) return;
+		this.status = StatusManager.getStatusPorId(efeitoValor);
 		
+		if (this.status == null || efeitoTurnos <= 0 || this.alvo.isImune(status) || efeitoChance <= 0) return;
+		
+		if (this.status.isPositivo()){
+			processarStatus();
+		}else{
+			if (!calcularChance()){
+				return;
+			}
+			processarStatus();
+		}
+    }
+    
+	private boolean calcularChance(){
+		int chanceBase = Math.max(1, Math.min(100, efeitoChance));
+		int statusArmor = alvo.getStatusArmor();
+		
+		int chanceFinal = Math.max(1, chanceBase - statusArmor);
+		int roll = random.nextInt(100) + 1;
+		
+		return roll <= chanceFinal;
+	}
+	
+	private void processarStatus(){
 		if (!alvo.possuiStatus(status)){
 			status.aplicar(alvo, efeitoTurnos);
 		}else if(alvo.possuiStatus(status)){
 			status.renovarDuração();
 		}
-    }
-    
+	}
+	
     @Override
     public String getNome(){
         return "APPLY_STATUS";
