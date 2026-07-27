@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.Comparator;
+
 public final class Inventory  {
 	protected static enum SlotEquipe {
         SLOT_1,
@@ -234,41 +236,53 @@ public final class Inventory  {
 	
 	private static void listaArvoreHabilidades(){
 		linhaAtual = posiçãoLinhaSkillsAtivas;
-		for (int i = 0; i <= monstroCarregado.getTamanhoSkillsTree(); i++){
-			skillCarregada = monstroCarregado.getHabilidadeArvoreId(i);
-			if (skillCarregada == null) continue;
-			
-			if (!skillCarregada.isTipoEspecial(skillCarregada.getTipoHabilidade()) 
-				&& !monstroCarregado.isHabilidadeAtiva(skillCarregada)){
-				if (monstroCarregado.getNivelAtual() >= skillCarregada.getNivelNecessario()){
+		
+		Map<Integer, List<Skills>>  arvoreHabilidades = monstroCarregado.getHabilidadesArvore();
+		if (arvoreHabilidades != null){
+        List<Skills> todasSkills = new ArrayList<>();
+        for (List<Skills> listaSkills : arvoreHabilidades.values()){
+            if (listaSkills != null) {
+                todasSkills.addAll(listaSkills);
+            }
+        }
+
+        todasSkills.sort(Comparator.comparingInt(Skills::getNivelNecessario));
+
+        for (Skills skill : todasSkills){
+				skillCarregada = skill;
+				if (skillCarregada == null) continue;
+				
+				if (!skillCarregada.isTipoEspecial(skillCarregada.getTipoHabilidade()) 
+					&& !monstroCarregado.isHabilidadeAtiva(skillCarregada)){
 					
-					if (Input.getCursorY() == linhaAtual){
-						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
-						0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
-						skillMostrada = skillCarregada;
+					if (monstroCarregado.getNivelAtual() >= skillCarregada.getNivelNecessario()){
+						if (Input.getCursorY() == linhaAtual){
+							Grapchics.desenhaTela(skillCarregada.getNomeHabilidade() + " (Nv" + skillCarregada.getNivelNecessario() + ")",
+							0, posiçãoLinhaSkillsAtivas++, Grapchics.AMARELO_CLARO);
+							skillMostrada = skillCarregada;
+						}else{
+							int tamanhoString = skillCarregada.getNomeHabilidade().length();
+							
+							Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),
+							0, posiçãoLinhaSkillsAtivas, skillCarregada.getCorHabilidade());
+							Grapchics.desenhaTela("(Nv" + skillCarregada.getNivelNecessario() + ")",
+							tamanhoString + 1, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
+						}
 					}else{
-						int tamanhoString = skillCarregada.getNomeHabilidade().length();
-						
-						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade(),
-						0,posiçãoLinhaSkillsAtivas,skillCarregada.getCorHabilidade());
-						Grapchics.desenhaTela("(Nv"+skillCarregada.getNivelNecessario()+")",
-						tamanhoString+1,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
-						
+						if (Input.getCursorY() == linhaAtual){
+							Grapchics.desenhaTela(skillCarregada.getNomeHabilidade() + " (Nv" + skillCarregada.getNivelNecessario() + ")",
+							0, posiçãoLinhaSkillsAtivas++, Grapchics.AMARELO_CLARO);
+							skillMostrada = skillCarregada;
+						}else{
+							Grapchics.desenhaTela(skillCarregada.getNomeHabilidade() + " (Nv" + skillCarregada.getNivelNecessario() + ")",
+							0, posiçãoLinhaSkillsAtivas++, Grapchics.PRETO_CLARO);
+						}
 					}
-					
-				}else{
-					if (Input.getCursorY() == linhaAtual){
-						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
-						0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
-						skillMostrada = skillCarregada;
-					}else{
-						Grapchics.desenhaTela(skillCarregada.getNomeHabilidade()+" (Nv"+skillCarregada.getNivelNecessario()+")",
-						0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
-					}
+					linhaAtual++;
 				}
-				linhaAtual++;
 			}
 		}
+		
 		posiçãoLinhaSkillsAtivas = linhaAtual;
 	}
 	

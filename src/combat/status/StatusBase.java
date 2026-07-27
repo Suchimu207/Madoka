@@ -12,8 +12,8 @@ public abstract class StatusBase {
     }
 	
 	public abstract void aplicar(Monsters alvo, int duraçãoBase);
-    public abstract void checar(Monsters alvo);
-	public abstract void reduzirDuração(Monsters alvo);
+    public abstract void checar(Monsters alvo); // Começo do turno.
+	public abstract void reduzirDuração(Monsters alvo); // Final do turno.
 	public abstract void renovarDuração();
 	public abstract boolean isAtivo();
 	public abstract boolean isPositivo();

@@ -56,7 +56,7 @@ public final class Battle {
 	private static void montarEquipeInicial(){
 		Inventory.adicionarMonstroInventário(1);
 		// Monsters monstro = Inventory.getMonstroInventario(1);
-		// monstro.subirNivel(39);
+		// monstro.subirNivel(19);
 	}
 	
 	public static void setarBatalha(){
@@ -108,10 +108,12 @@ public final class Battle {
 			case KeyEvent.VK_A:
 			case KeyEvent.VK_LEFT:
 				Input.decrementarCursorX();
+				teclaEsquerda();
 				break;
 			case KeyEvent.VK_D:
 			case KeyEvent.VK_RIGHT:
 				Input.incrementarCursorX();
+				teclaDireita();
 				break;
 			case KeyEvent.VK_W:
 			case KeyEvent.VK_UP:
@@ -152,6 +154,18 @@ public final class Battle {
 		}
     }
 	
+	private static void teclaEsquerda(){
+		if (campoBatalha != null && subEstadoAtual == SubEstadosBatalha.CAMPO_DETALHES){
+			campoBatalha.alternarDetalhe(false);
+		}
+	}
+	
+	private static void teclaDireita(){
+		if (campoBatalha != null && subEstadoAtual == SubEstadosBatalha.CAMPO_DETALHES){
+			campoBatalha.alternarDetalhe(true);
+		}
+	}
+	
 	private static void teclaEnter(){
 		if (subEstadoAtual == SubEstadosBatalha.PREPARO){
 			alternarMonstroSlotsAtivos();
@@ -180,6 +194,8 @@ public final class Battle {
 			if (campoBatalha != null){
 				if (BattleTurn.isTurnoJogador()){
 					Input.resetarCursor();
+					int detalheAtual = BattleField.TipoDetalhe.ALIADO.getValor();
+					campoBatalha.setDetalheAtual(detalheAtual);
 					subEstadoAtual = SubEstadosBatalha.CAMPO_DETALHES;
 				}
 			}

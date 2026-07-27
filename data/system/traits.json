@@ -6,7 +6,7 @@
 	"efeitos": [
     {
 	"efeito": "IMMUNITY",
-	"valor": 0,
+	"valor": 1,
     }
     ],
   },
@@ -17,7 +17,7 @@
 	"efeitos": [
     {
 	"efeito": "IMMUNITY",
-	"valor": 0,
+	"valor": 2,
     }
     ],
   },
@@ -28,7 +28,7 @@
 	"efeitos": [
     {
 	"efeito": "IMMUNITY",
-	"valor": 0,
+	"valor": 3,
     }
     ],
   },
@@ -39,7 +39,7 @@
 	"efeitos": [
     {
 	"efeito": "IMMUNITY",
-	"valor": 0,
+	"valor": 4,
     }
     ],
   },
@@ -50,7 +50,7 @@
 	"efeitos": [
     {
 	"efeito": "IMMUNITY",
-	"valor": 0,
+	"valor": 5,
     }
     ],
   },
@@ -61,7 +61,7 @@
 	"efeitos": [
     {
 	"efeito": "IMMUNITY",
-	"valor": 0,
+	"valor": 6,
     }
     ],
   },

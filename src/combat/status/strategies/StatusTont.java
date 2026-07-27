@@ -1,15 +1,16 @@
 package combat.status.strategies;
 
 import bestiary.Monsters;
+import bestiary.Skills;
 
 import combat.status.StatusBase;
 import combat.status.StatusData;
 
-public class StatusRegen extends StatusBase {
+public class StatusTont extends StatusBase {
 	private int duraçãoBase, duraçãoAtual;
 	private boolean isAtivo;
 	
-    public StatusRegen(StatusData dados){
+    public StatusTont(StatusData dados){
         super(dados);
 		this.duraçãoBase = 0;
 		this.duraçãoAtual = 0;
@@ -24,22 +25,46 @@ public class StatusRegen extends StatusBase {
 		this.duraçãoAtual = this.duraçãoBase;
 		this.isAtivo = true;
 		
+		int forçaAtualCombate = alvo.getForcaAtualCombate();
+		int forçaNerfada = (int) Math.ceil(forçaAtualCombate * 0.75);
+		
+		alvo.setForcaAtualCombate(forçaNerfada);
+		
+		for (int i = 0; i < alvo.getQuantidadeMaxSlotsHabilidade(); i++){
+            Skills skill = alvo.getHabilidadeAtiva(i);
+            if (skill != null) {
+                int precisaoNerfada = (int) Math.ceil(skill.getPrecisaoAtual() * 0.75);
+                skill.setPrecisaoAtual(precisaoNerfada);
+            }
+        }
+		
+		System.out.println("Debuff aplicado!");
+		
 		alvo.receberStatus(this);
     }
 
     @Override
     public void checar(Monsters alvo){
 		if (duraçãoAtual <= 0) return;
-		
-		int cura = (int) Math.ceil(alvo.getVidaAtual() * (20 / 100.0));
-		alvo.ganharVida(cura);
     }
 
 	@Override
 	public void reduzirDuração(Monsters alvo){
 		duraçãoAtual -= 1;
 		
-		if (duraçãoAtual <= 0) isAtivo = false;
+		if (duraçãoAtual <= 0){
+			isAtivo = false;
+			alvo.setForcaAtualCombate(alvo.getForcaAtual());
+			
+			for (int i = 0; i < alvo.getQuantidadeMaxSlotsHabilidade(); i++){
+                Skills skill = alvo.getHabilidadeAtiva(i);
+                if (skill != null){
+                    skill.setPrecisaoAtual(skill.getPrecisaoBase());
+                }
+            }
+			
+			System.out.println("Debuf acabou!");
+		}
 	}
 	
 	@Override
@@ -56,12 +81,12 @@ public class StatusRegen extends StatusBase {
 
     @Override
     public boolean isPositivo(){
-        return true; 
+        return false; 
     }
 
     @Override
     public String getNome(){
-        return "Regeneracao";
+        return "Tontura";
     }
 
     @Override

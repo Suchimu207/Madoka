@@ -10,8 +10,11 @@ import combat.effects.EffectsStrategy;
 import java.util.List;
 import java.util.ArrayList;
 
+import java.util.Random;
+
 public final class BattleAction {
 	private static final int CONSTANTE = 10;
+	private static final Random random = new Random();
 	
 	private BattleAction(){
 	}
@@ -39,6 +42,19 @@ public final class BattleAction {
 		return false;
 	}
 	
+	private static boolean verificarPrecisao(Monsters usuario, List<Monsters> alvos, Skills habilidade){
+		if (habilidade.getTipoHabilidade() == Skills.TipoHabilidade.ESPECIAL || 
+		habilidade.getTipoHabilidade() == Skills.TipoHabilidade.DEFENSIVA) return true;
+		
+		int precisaoBase = habilidade.getPrecisaoBase();
+		int precisaoAtual = habilidade.getPrecisaoAtual();
+		
+		if (precisaoBase <= 0 || precisaoAtual <= 0) return false;
+		
+		int roll = random.nextInt(100) + 1;
+        return roll <= precisaoAtual;
+	}
+	
     protected static int executarHabilidade(Monsters usuario, List<Monsters> alvos, Skills habilidade){
 		int estaminaAtualCombate = usuario.getEstaminaAtualCombate();
 		int energiaHabilidade = habilidade.getEnergiaHabilidade();
@@ -46,6 +62,8 @@ public final class BattleAction {
 		
         usuario.setEstaminaAtualCombate(estaminaAtualCombate - energiaHabilidade);
         
+		if (!verificarPrecisao(usuario, alvos, habilidade)) return danoResultado;
+		
 		aplicarEfeitos(usuario, alvos, habilidade);
 		
         if (habilidade.getPoderHabilidade() > 0) danoResultado = calcularDano(usuario, alvos, habilidade);

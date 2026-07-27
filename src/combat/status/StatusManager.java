@@ -54,10 +54,19 @@ public final class StatusManager {
     }
 	
 	private static void inicializarStatus(){
-		StatusData dadosRegeneração = statusDataExistentes.get(8);
-		StatusBase statusRegeneração = new StatusRegen(dadosRegeneração);
+		StatusData dados = null;
 		
-		statusExistentes.put(dadosRegeneração.getId(), statusRegeneração);	
+		dados = statusDataExistentes.get(2);
+		StatusBase statusCombustão = new StatusCombus(dados);
+		statusExistentes.put(dados.getId(), statusCombustão);
+		
+		dados = statusDataExistentes.get(3);
+		StatusBase statusTontura = new StatusTont(dados);
+		statusExistentes.put(dados.getId(), statusTontura);
+		
+		dados = statusDataExistentes.get(8);
+		StatusBase statusRegeneração = new StatusRegen(dados);
+		statusExistentes.put(dados.getId(), statusRegeneração);	
 	}
 	
 	public static StatusBase getStatusPorId(int id){

@@ -223,9 +223,24 @@
     "elemento": "FOGO",
     "tipo": "ESPECIAL",
     "alvo": "INIMIGO_AREA",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 100,
+		"turnos": 4
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 3,
+		"chance": 100,
+		"turnos": 4
+    }
+	],
     "poder": 70,
-    "precisaoBase": 200,
+    "precisaoBase": 0,
     "energia": 0,
     "recarga": 0
   },
@@ -238,7 +253,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 13,
+    "energia": 10,
     "recarga": 0
   },
   {
@@ -259,10 +274,18 @@
     "elemento": "FOGO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 16,
+    "energia": 15,
     "recarga": 0
   },
   {
@@ -271,10 +294,18 @@
     "elemento": "FOGO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
-    "poder": 25,
-    "precisaoBase": 95,
-    "energia": 16,
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 65,
+		"turnos": 4
+    }
+	],
+    "poder": 30,
+    "precisaoBase": 100,
+    "energia": 20,
     "recarga": 0
   },
   {
@@ -283,10 +314,18 @@
     "elemento": "FOGO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 65,
+		"turnos": 4
+    }
+	],
     "poder": 40,
     "precisaoBase": 95,
-    "energia": 17,
+    "energia": 15,
     "recarga": 1
   },
   {
@@ -295,10 +334,18 @@
     "elemento": "FOGO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 100,
+		"turnos": 4
+    }
+	],
     "poder": 50,
     "precisaoBase": 95,
-    "energia": 18,
+    "energia": 20,
     "recarga": 0
   },
   {
@@ -307,10 +354,18 @@
     "elemento": "FOGO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 3,
+		"chance": 65,
+		"turnos": 3
+    }
+	],
     "poder": 40,
-    "precisaoBase": 92,
-    "energia": 17,
+    "precisaoBase": 90,
+    "energia": 15,
     "recarga": 0
   },
   {
@@ -321,7 +376,7 @@
     "alvo": "INIMIGO_AREA",
     "efeitos": [],
     "poder": 25,
-    "precisaoBase": 94,
+    "precisaoBase": 95,
     "energia": 35,
     "recarga": 2
   },
@@ -334,7 +389,7 @@
     "efeitos": [],
     "poder": 60,
     "precisaoBase": 95,
-    "energia": 21,
+    "energia": 20,
     "recarga": 1
   },
   {
@@ -343,10 +398,18 @@
     "elemento": "FOGO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 100,
+		"turnos": 5
+    }
+	],
     "poder": 30,
-    "precisaoBase": 92,
-    "energia": 42,
+    "precisaoBase": 90,
+    "energia": 40,
     "recarga": 2
   },
   {
@@ -355,10 +418,18 @@
     "elemento": "FOGO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
     "poder": 50,
     "precisaoBase": 95,
-    "energia": 19,
+    "energia": 20,
     "recarga": 1
   },
   {

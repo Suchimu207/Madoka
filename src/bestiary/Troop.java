@@ -12,7 +12,7 @@ public class Troop {
             this.monstro = monstro;
             this.nivel = nivel;
 			
-			this.monstro.setNivelAtual(this.nivel);
+			this.monstro.subirNivel(this.nivel-1);
         }
 
         public Monsters getMonstroTropa(){ 

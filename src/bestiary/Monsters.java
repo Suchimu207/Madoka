@@ -468,6 +468,7 @@ public class Monsters {
 	}
 	
 	public void setNivelAtual(int nivelAtual){
+		if (nivelAtual < 1) nivelAtual = 1;
 		this.nivelAtual = nivelAtual;
 	}
 	
@@ -507,22 +508,22 @@ public class Monsters {
 	}
 	
 	public void setVidaAtualCombate(int vidaAtualCombate){
-		if(vidaAtualCombate < 0){
-			vidaAtualCombate = 0;
-		}
-		
+		if (vidaAtualCombate < 0) vidaAtualCombate = 0;
 		this.vidaAtualCombate = vidaAtualCombate;
 	}
 	
 	public void setForcaAtualCombate(int forcaAtualCombate){
+		if (forcaAtualCombate < 1) forcaAtualCombate = 1;
 		this.forçaAtualCombate = forcaAtualCombate;
 	}
 	
 	public void setSpeedAtualCombate(int speedAtualCombate){
+		if (speedAtualCombate < 1) speedAtualCombate = 1;
 		this.speedAtualCombate = speedAtualCombate;
 	}
 	
 	public void setEstaminaAtualCombate(int estaminaAtualCombate){
+		if (estaminaAtualCombate < 0) estaminaAtualCombate = 0; 
 		this.estaminaAtualCombate = estaminaAtualCombate;
 	}
 	

@@ -5,11 +5,11 @@ import bestiary.Monsters;
 import combat.status.StatusBase;
 import combat.status.StatusData;
 
-public class StatusRegen extends StatusBase {
+public class StatusCombus extends StatusBase {
 	private int duraçãoBase, duraçãoAtual;
 	private boolean isAtivo;
 	
-    public StatusRegen(StatusData dados){
+    public StatusCombus(StatusData dados){
         super(dados);
 		this.duraçãoBase = 0;
 		this.duraçãoAtual = 0;
@@ -31,8 +31,8 @@ public class StatusRegen extends StatusBase {
     public void checar(Monsters alvo){
 		if (duraçãoAtual <= 0) return;
 		
-		int cura = (int) Math.ceil(alvo.getVidaAtual() * (20 / 100.0));
-		alvo.ganharVida(cura);
+		int dano = (int) Math.ceil(alvo.getVidaAtual() * (15 / 100.0));
+		alvo.perderVida(dano);
     }
 
 	@Override
@@ -56,12 +56,12 @@ public class StatusRegen extends StatusBase {
 
     @Override
     public boolean isPositivo(){
-        return true; 
+        return false; 
     }
 
     @Override
     public String getNome(){
-        return "Regeneracao";
+        return "Combustao";
     }
 
     @Override

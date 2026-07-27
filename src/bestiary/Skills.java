@@ -11,7 +11,7 @@ import java.util.List;
 import java.awt.Color;
 
 public class Skills {
-	protected enum TipoHabilidade{
+	public enum TipoHabilidade{
 		ESPECIAL("Especial"),
 		OFENSIVA("Ofensiva"),
 		DEFENSIVA("Defensiva"),
@@ -85,6 +85,7 @@ public class Skills {
 			}
 		this.poderHabilidade = poderHabilidade;
 		this.precisãoBase = precisãoBase;
+		this.precisãoAtual = this.precisãoBase;
 		this.energiaHabilidade = energiaHabilidade;
 		this.recargaHabilidade = recargaHabilidade;
 		this.recargaAtual = 0;
@@ -105,6 +106,7 @@ public class Skills {
 		this.alvoHabilidade = skillRequerida.getAlvoHabilidadeTipo();
 		this.poderHabilidade = skillRequerida.getPoderHabilidade();
 		this.precisãoBase = skillRequerida.getPrecisaoBase();
+		this.precisãoAtual = skillRequerida.getPrecisaoAtual();
 		this.energiaHabilidade = skillRequerida.getEnergiaHabilidade();
 		this.recargaHabilidade = skillRequerida.getRecargaHabilidade();
 		this.recargaAtual = skillRequerida.getRecargaAtual();
@@ -202,6 +204,10 @@ public class Skills {
 	public int getPrecisaoBase(){
 		return precisãoBase;
 	}
+	
+	public int getPrecisaoAtual(){
+		return precisãoAtual;
+	}
 
 	public int getEnergiaHabilidade(){
 		return energiaHabilidade;
@@ -225,6 +231,11 @@ public class Skills {
 	
 	public void setRecargaAtual(int recargaAtual){
 		this.recargaAtual = recargaAtual;
+	}
+	
+	public void setPrecisaoAtual(int precisãoAtual){
+		if (precisãoAtual < 0) precisãoAtual = 0;
+		this.precisãoAtual = precisãoAtual;
 	}
 	
 	public boolean isTipoEspecial(TipoHabilidade tipoHabilidade){
