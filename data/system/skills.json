@@ -440,7 +440,7 @@
     "alvo": "USUARIO",
     "efeitos": [],
     "poder": 0,
-    "precisaoBase": 120,
+    "precisaoBase": 0,
     "energia": 0,
     "recarga": 0
   },
@@ -453,7 +453,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 13,
+    "energia": 10,
     "recarga": 0
   },
   {
@@ -474,14 +474,42 @@
     "elemento": "TERRA",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 4,
+		"chance": 65,
+		"turnos": 1
+    }
+	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 18,
+    "energia": 20,
     "recarga": 0
   },
   {
     "id": 29,
+    "nome": "Rock Block",
+    "elemento": "TERRA",
+    "tipo": "DEFENSIVA",
+    "alvo": "ALIADO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_SHIELD",
+		"alvo": -1,
+		"valor": 40,
+		"chance": 0,
+		"turnos": 0
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "energia": 15,
+    "recarga": 0
+  },
+  {
+    "id": 30,
     "nome": "Mud Slap",
     "elemento": "TERRA",
     "tipo": "OFENSIVA",
@@ -489,19 +517,7 @@
     "efeitos": [],
     "poder": 35,
     "precisaoBase": 95,
-    "energia": 18,
-    "recarga": 0
-  },
-  {
-    "id": 30,
-    "nome": "Rock Block",
-    "elemento": "TERRA",
-    "tipo": "DEFENSIVA",
-    "alvo": "ALIADO_AREA",
-    "efeitos": [],
-    "poder": 0,
-    "precisaoBase": 100,
-    "energia": 13,
+    "energia": 20,
     "recarga": 0
   },
   {
@@ -510,10 +526,18 @@
     "elemento": "TERRA",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 4,
+		"chance": 100,
+		"turnos": 1
+    }
+	],
     "poder": 30,
     "precisaoBase": 95,
-    "energia": 18,
+    "energia": 20,
     "recarga": 1
   },
   {
@@ -525,7 +549,7 @@
     "efeitos": [],
     "poder": 40,
     "precisaoBase": 95,
-    "energia": 22,
+    "energia": 20,
     "recarga": 0
   },
   {
@@ -533,11 +557,33 @@
     "nome": "Rock Will",
     "elemento": "TERRA",
     "tipo": "DEFENSIVA",
-    "alvo": "ALIADO_AREA",
-    "efeitos": [],
+    "alvo": "ALIADO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_SHIELD",
+		"alvo": -1,
+		"valor": 30,
+		"chance": 0,
+		"turnos": 0
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 0,
+		"chance": 100,
+		"turnos": 3
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 0,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
     "poder": 0,
-    "precisaoBase": 100,
-    "energia": 16,
+    "precisaoBase": 0,
+    "energia": 25,
     "recarga": 0
   },
   {
@@ -549,7 +595,7 @@
     "efeitos": [],
     "poder": 60,
     "precisaoBase": 95,
-    "energia": 31,
+    "energia": 30,
     "recarga": 1
   },
   {
@@ -558,10 +604,18 @@
     "elemento": "TERRA",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
-    "poder": 60,
+    "efeitos": [
+	{
+		"efeito": "APPLY_SHIELD",
+		"alvo": 4,
+		"valor": 20,
+		"chance": 0,
+		"turnos": 0
+    }
+	],
+    "poder": 50,
     "precisaoBase": 95,
-    "energia": 31,
+    "energia": 30,
     "recarga": 1
   },
   {
@@ -570,10 +624,18 @@
     "elemento": "TERRA",
     "tipo": "DEFENSIVA",
     "alvo": "ALIADO_AREA",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_SHIELD",
+		"alvo": -1,
+		"valor": 30,
+		"chance": 0,
+		"turnos": 0
+    }
+	],
     "poder": 0,
-    "precisaoBase": 100,
-    "energia": 28,
+    "precisaoBase": 0,
+    "energia": 30,
     "recarga": 2
   },
   {

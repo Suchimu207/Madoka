@@ -41,13 +41,22 @@ public final class BattleTurn {
 		Monsters monstro = unidadeAtual.getMonstro();
 		monstro.checarStatus();
 		
-        turnoJogador = unidadeAtual.isAliado();
-        
+		turnoJogador = unidadeAtual.isAliado();
 		if (turnoJogador){
 			unidadeJogadorAtual = unidadeAtual;
             aguardandoTurno = true;
         }else{
 			aguardandoTurno = false;
+		}
+		
+		if (!monstro.podeAgir()){
+			String frase = monstro.getNomeMonstro()+" perdeu a rodada.";
+			if (unidadeAtual.isAliado()){
+				Battle.exibirMensagemAliado(frase, null, null);
+			}else{
+				Battle.exibirMensagemInimigo(frase, null, null);
+			}
+			return;
 		}
     }
 	

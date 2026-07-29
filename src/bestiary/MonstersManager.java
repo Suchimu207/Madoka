@@ -70,6 +70,27 @@ public final class MonstersManager {
 					traçosIds
 				);
 				
+				switch(classeConvertida){
+					case Monsters.Classes.ATACANTE:
+					monstroCarregado.setProvocationRate(80);
+					break;
+					case Monsters.Classes.SUPORTE:
+					monstroCarregado.setProvocationRate(80);
+					break;
+					case Monsters.Classes.TANQUE:
+					monstroCarregado.setProvocationRate(200);
+					break;
+					case Monsters.Classes.SABOTADOR:
+					monstroCarregado.setProvocationRate(100);
+					break;
+					case Monsters.Classes.GENERALISTA:
+					monstroCarregado.setProvocationRate(100);
+					break;
+				}
+				
+				if (monstroCarregado.getClasseAtual() == Monsters.Classes.ATACANTE){
+				}
+				
 				Map<Integer, Skills> skillsTree = new HashMap<Integer, Skills>();
 				habilidadesArray = monstros.getJSONArray("habilidades");
 				Skills skillEncontrada = null;

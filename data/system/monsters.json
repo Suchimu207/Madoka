@@ -97,9 +97,18 @@
     "raridade": "COMUM",
     "nivelBase": 1,
     "habilidades": [
-      { "id": 1, "nivel": 1 },
-      { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 25, "nivel": 1 },
+      { "id": 26, "nivel": 1 },
+      { "id": 27, "nivel": 1 },
+	  { "id": 28, "nivel": 4 },
+	  { "id": 29, "nivel": 7 },
+	  { "id": 30, "nivel": 10 },
+	  { "id": 31, "nivel": 15 },
+	  { "id": 32, "nivel": 20 },
+	  { "id": 33, "nivel": 25 },
+	  { "id": 34, "nivel": 30 },
+	  { "id": 35, "nivel": 35 },
+	  { "id": 36, "nivel": 40 }
     ],
     "forcaBase": 9,
     "vidaBase": 36,

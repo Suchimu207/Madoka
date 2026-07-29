@@ -15,6 +15,12 @@ public abstract class StatusBase {
     public abstract void checar(Monsters alvo); // Começo do turno.
 	public abstract void reduzirDuração(Monsters alvo); // Final do turno.
 	public abstract void renovarDuração();
+	public boolean impedeAção(){
+		return false;
+	}
+	public int getId(){
+		return dados.getId();
+	}
 	public abstract boolean isAtivo();
 	public abstract boolean isPositivo();
 	public abstract String getNome();

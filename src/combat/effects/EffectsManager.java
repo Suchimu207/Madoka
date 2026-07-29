@@ -11,6 +11,7 @@ public final class EffectsManager {
     static{
 		efeitos.put("HEALING", new EffectsHealing());
 		efeitos.put("APPLY_STATUS", new EffectsApplyStatus());
+		efeitos.put("APPLY_SHIELD", new EffectsApplyShield());
 		/*
         efeitos.put("REMOVE_NEGATIVE_STATUS", new EfeitoRemoverNegativos());
 		efeitos.put("REMOVE_POSITIVE_STATUS", new EfeitoRemoverNegativos());

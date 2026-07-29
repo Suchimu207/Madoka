@@ -12,9 +12,12 @@ public final class BattleAI {
 	
 	private static final Random random = new Random();
 	private static BattleUnit unidadeAlvo;
+	private static Skills ultimaSkill = null;
 	
 	private BattleAI(){
 	}
+	
+	// ==================== AÇÕES DO INIMIGO ====================
 	
 	protected static void turnoInimigo(){
 		BattleUnit unidadeAtual = BattleTurn.getUnidadeAtual();
@@ -41,7 +44,7 @@ public final class BattleAI {
 				
 				int danoRealizado = BattleAction.executarHabilidade(monstroInimigo, alvos, habilidade);
 				String nomeMonstro = monstroInimigo.getNomeMonstro()+" usou ";
-				Skills ultimaSkill = habilidade;
+				ultimaSkill = habilidade;
 				
 				String dano = null;
 				if (danoRealizado > 0) dano = ">>Causou "+danoRealizado+" de dano.";
@@ -99,7 +102,23 @@ public final class BattleAI {
     
 		switch (tipoAlvo){
 			case INIMIGO_UNICO:
-				if (!timeJogador.isEmpty()) alvos.add(timeJogador.get(random.nextInt(timeJogador.size())));
+				if (!timeJogador.isEmpty()){
+					int totalProvocacao = 0;
+					for (Monsters monstro : timeJogador){
+						totalProvocacao += monstro.getProvocationRate();
+					}
+					
+					int valorSorteado = random.nextInt(totalProvocacao);
+					
+					int acumulador = 0;
+					for (Monsters monstro : timeJogador){
+						acumulador += monstro.getProvocationRate();
+						if (valorSorteado < acumulador){
+							alvos.add(monstro);
+							break; 
+						}
+					}
+				}
 				break;
 			case ALIADO_UNICO:
 				if (!timeInimigo.isEmpty()) alvos.add(timeInimigo.get(random.nextInt(timeInimigo.size())));
@@ -119,6 +138,12 @@ public final class BattleAI {
 				break;
 		}
 		return alvos;
+	}
+	
+	// ==================== OUTROS ====================
+	
+	public static void setUltimaSkill(Skills ultimaSkill){
+		BattleAI.ultimaSkill = ultimaSkill;
 	}
 	
     //===

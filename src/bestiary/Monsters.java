@@ -127,8 +127,10 @@ public class Monsters {
 	private int speedBase, speedAtual, speedAtualCombate;
 	private int estaminaBase, estaminaAtual, estaminaAtualCombate;
 	private int barraEspecialAtual;
+	private int escudoAtual;
 	private int attunedPercent;
 	private int statusArmor;
+	private int provocationRate;
 	private int[] traçosIds;
 	
 	private Classes classeAtual;
@@ -138,15 +140,19 @@ public class Monsters {
 	private final int NIVEL_MAXIMO = 40;
 	private final int BARRA_ESPECIAL_MAXIMO = 100;
 	
+	private final int MIN_PROVOCATION_RATE = 100;
+	private final int MAX_PROVOCATION_RATE = 999;
+	
 	private Map<Integer, List<Skills>> skillsTree = new HashMap<>();
 	private List<Skills> skillsDesbloqueadas = new ArrayList<>();
 	private EnumMap<SlotHabilidade, Skills> skillsAtivas = new EnumMap<>(SlotHabilidade.class);	
 	
 	private List<StatusBase> statusAtuais = new ArrayList<>();
 	private List<StatusBase> imunidades = new ArrayList<>();
+	private List<StatusBase> imunidadesTemp = new ArrayList<>();
 	
 	private List<Traits> traçosAtuais = new ArrayList<>();
-		
+	
 	// ==================== CONSTRUTORES ==================== 
 	
 	public Monsters(int idMonstro, String nomeMonstro, Classes classeAtual, Elementos[] elementosAtuais,
@@ -190,6 +196,7 @@ public class Monsters {
 			this.estaminaAtual = this.estaminaBase;
 			
 			this.barraEspecialAtual = 0;
+			this.escudoAtual = 0;
 			
 			this.traçosIds = traçosIds;
 			this.monstroEquipado = false;
@@ -218,6 +225,8 @@ public class Monsters {
 	   this.estaminaBase = monstroRequerido.getEstaminaBase();
 	   this.estaminaAtual = monstroRequerido.getEstaminaAtual();
 	   this.barraEspecialAtual = monstroRequerido.getBarraEspecialAtual();
+	   this.escudoAtual = monstroRequerido.getEscudoAtual();
+	   this.provocationRate = monstroRequerido.getProvocationRate();
 	   
 	   this.traçosIds = monstroRequerido.getTracosIds();	   
 	   if (this.traçosIds != null){
@@ -484,11 +493,46 @@ public class Monsters {
 	}
 	
 	public void perderVida(int dano){
-		if (this.getVidaAtualCombate() <= 0) return;
+		if (this.getVidaAtualCombate() <= 0 || dano <= 0) return;
 		
-		int vidaRestante = this.getVidaAtualCombate() - dano;
+		int danoRestante = dano;
+		int escudoAtual = this.getEscudoAtual();
 		
-		this.setVidaAtualCombate(vidaRestante);	
+		if (escudoAtual > 0){
+			if (escudoAtual >= danoRestante){
+				this.setEscudoAtual(escudoAtual - danoRestante);
+				danoRestante = 0;
+			}else{
+				this.setEscudoAtual(0);
+				danoRestante -= escudoAtual;
+			}
+		}
+
+		if (danoRestante > 0){
+			int vidaRestante = this.getVidaAtualCombate() - danoRestante;
+			this.setVidaAtualCombate(vidaRestante);
+		}
+	}
+	
+	public boolean podeAgir(){
+		if (this.statusAtuais == null || this.statusAtuais.isEmpty()){
+			return true;
+		}
+		
+		for (StatusBase status : this.statusAtuais){
+			if (status != null && status.isAtivo() && status.impedeAção()){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public void zerarEscudoAtual(){
+		this.escudoAtual = 0;
+	}
+	
+	public int getEscudoAtual(){
+		return escudoAtual;
 	}
 	
 	public int getVidaAtualCombate(){
@@ -505,6 +549,11 @@ public class Monsters {
 	
 	public int getEstaminaAtualCombate(){
 		return estaminaAtualCombate;
+	}
+	
+	public void setEscudoAtual(int escudoAtual){
+		if (escudoAtual < 0) escudoAtual = 0;
+		this.escudoAtual = escudoAtual;
 	}
 	
 	public void setVidaAtualCombate(int vidaAtualCombate){
@@ -601,7 +650,7 @@ public class Monsters {
 	public Classes getClasseAtual(){
 		return classeAtual;
 	}
-		
+	
 	public Elementos[] getElementosAtuaisValores(){
 		return elementosAtuais;
 	}
@@ -626,6 +675,19 @@ public class Monsters {
 	
 	public Raridades getRaridadeMonstro(){
 		return raridadeMonstro;
+	}
+	
+	public int getProvocationRate(){
+		return provocationRate;
+	}
+	
+	public void setProvocationRate(int provocationRate){
+		if (provocationRate < this.MIN_PROVOCATION_RATE){
+			provocationRate = this.MIN_PROVOCATION_RATE;
+		}else if (provocationRate > this.MAX_PROVOCATION_RATE){
+			provocationRate = this.MAX_PROVOCATION_RATE;
+		}
+		this.provocationRate = provocationRate;
 	}
 	
 	// ==================== TRAÇOS ====================
@@ -682,7 +744,22 @@ public class Monsters {
 	// ==================== STATUS ====================
 	
 	public boolean isImune(StatusBase status){
-		return imunidades.contains(status); 
+		if (status == null) return false;
+		int statusId = status.getId();
+    
+		for (StatusBase s : imunidades){
+			if (s != null && s.getId() == statusId){
+				return true;
+			}
+		}
+		
+		for (StatusBase s : imunidadesTemp){
+			if (s != null && s.getId() == statusId){
+				return true;
+			}
+		}
+    
+		return false;
 	}
 	
 	public void receberStatus(StatusBase status){
@@ -691,8 +768,44 @@ public class Monsters {
 		statusAtuais.add(status);
 	}
 	
+	public void removerStatus(StatusBase status){
+		if (status == null || !this.statusAtuais.contains(status)){
+			return;
+		}
+		
+		this.statusAtuais.remove(status);
+	}
+	
+	public void receberImunidadeTemp(StatusBase status){
+		if (status == null || status.getDuraçãoBase() <= 0) return;
+		
+		imunidadesTemp.add(status);
+	}
+	
+	public void removerImunidadeTemp(StatusBase status){
+		if (status == null || status.getDuraçãoBase() <= 0) return;
+		
+		imunidadesTemp.remove(status);
+	}
+	
 	public boolean possuiStatus(StatusBase status){
-		return statusAtuais.contains(status);
+		int statusId = status.getId();
+		
+		for (StatusBase s : statusAtuais){
+			if (s != null && s.getId() == statusId && s.isAtivo()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public StatusBase getStatusPorId(int statusId){
+		for (StatusBase s : statusAtuais){
+			if (s != null && s.dados.getId() == statusId && s.isAtivo()){
+				return s;
+			}
+		}
+		return null;
 	}
 	
 	public void checarStatus(){
@@ -708,7 +821,9 @@ public class Monsters {
 	public void reduzirDuraçãoStatus(){
 		if (this.statusAtuais.isEmpty()) return;
 		
-		Iterator<StatusBase> iterator = statusAtuais.iterator();
+		List<StatusBase> copiaStatus = new ArrayList<>(this.statusAtuais);
+		
+		Iterator<StatusBase> iterator = copiaStatus.iterator();
 		while (iterator.hasNext()){
 			StatusBase status = iterator.next();
 			if (status != null && status.isAtivo()){
@@ -718,18 +833,18 @@ public class Monsters {
 				}
 			}
 		}
-	}
-	
-	public void removerStatus(StatusBase status){
-		if (status == null || !this.statusAtuais.contains(status)){
-			return;
-		}
 		
-		this.statusAtuais.remove(status);
+		this.statusAtuais.removeIf(status -> !status.isAtivo());
 	}
 	
 	public List<StatusBase> getStatusAtuais(){
 		return statusAtuais;
+	}
+	
+	public void limparStatus(){
+		if (statusAtuais == null) return;
+		statusAtuais.clear();
+		imunidadesTemp.clear();
 	}
 	
 	// ==================== OUTROS ====================

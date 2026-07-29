@@ -102,6 +102,8 @@ public final class BattleField {
 			monstro.setSpeedAtualCombate(monstro.getSpeedAtual());
 			monstro.setEstaminaAtualCombate(monstro.getEstaminaAtual());
 			monstro.desativarRecargas();
+			monstro.limparStatus();
+			monstro.zerarEscudoAtual();
 		}
 		System.out.println(">>Aliados inicializados.");
         System.out.println("");
@@ -113,6 +115,8 @@ public final class BattleField {
 			monstro.setSpeedAtualCombate(monstro.getSpeedAtual());
 			monstro.setEstaminaAtualCombate(monstro.getEstaminaAtual());
 			monstro.desativarRecargas();
+			monstro.limparStatus();
+			monstro.zerarEscudoAtual();
 		}
 		System.out.println(">>Inimigos inicializados.");
         System.out.println("");
@@ -260,16 +264,16 @@ public final class BattleField {
 		}
 		if (maxAliados >= 2){
 			if (aliados[1] != null){
-			desenhaMonstroBatalha(aliados[1], jogadorMonstrosX, linhaAtual);
+			desenhaMonstroBatalha(aliados[1], jogadorMonstrosX, linhaAtual+1);
 			posiçõesAliadosX.add(jogadorMonstrosX);
-			posiçõesAliadosY.add(linhaAtual);
+			posiçõesAliadosY.add(linhaAtual+1);
 			}
 		}
 		if (maxAliados >= 3){
 			if (aliados[2] != null){
-			desenhaMonstroBatalha(aliados[2], jogadorMonstrosX-2, linhaAtual+4);
+			desenhaMonstroBatalha(aliados[2], jogadorMonstrosX-2, linhaAtual+6);
 			posiçõesAliadosX.add(jogadorMonstrosX-2);
-			posiçõesAliadosY.add(linhaAtual+4);
+			posiçõesAliadosY.add(linhaAtual+6);
 			}
 		}
 	}
@@ -286,17 +290,17 @@ public final class BattleField {
 		
 		if (maxInimigos >= 2){
 			if(inimigos.get(1) != null){
-				desenhaMonstroBatalha(inimigos.get(1), 22, linhaAtual);
+				desenhaMonstroBatalha(inimigos.get(1), 22, linhaAtual+1);
 				posiçõesInimigosX.add(22);
-				posiçõesInimigosY.add(linhaAtual);
+				posiçõesInimigosY.add(linhaAtual+1);
 			}
 		}
 		
 		if (maxInimigos >= 3){
 			if(inimigos.get(2) != null){
-				desenhaMonstroBatalha(inimigos.get(2), 24, linhaAtual+4);
+				desenhaMonstroBatalha(inimigos.get(2), 24, linhaAtual+6);
 				posiçõesInimigosX.add(24);
-				posiçõesInimigosY.add(linhaAtual+4);
+				posiçõesInimigosY.add(linhaAtual+6);
 			}
 		}
 	}
@@ -351,22 +355,42 @@ public final class BattleField {
 			Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, Grapchics.AMARELO_CLARO);
 			Grapchics.desenhaTela("PV: "+monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
 			x, y+1, Grapchics.BRANCO_CLARO);
-			Grapchics.desenhaTela("STA: "+monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
-			x, y+2, Grapchics.BRANCO_CLARO);
+			
+			if (monstro.getEscudoAtual() > 0){
+				Grapchics.desenhaTela("Escudo: "+monstro.getEscudoAtual(),x, y+2, Grapchics.BRANCO_CLARO);
+				Grapchics.desenhaTela("STA: "+monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
+				x, y+3, Grapchics.BRANCO_CLARO);
+			}else{
+				Grapchics.desenhaTela("STA: "+monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
+				x, y+2, Grapchics.BRANCO_CLARO);
+			}
 		}else{
 			if (unidadeAlvo != null && unidadeAlvo.isAlvo()){
 				Grapchics.desenhaTela((char) 25, x+4, y - 1, Grapchics.AMARELO_CLARO);
 				
 				Grapchics.desenhaTela("PV: "+monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
 				x, y+1, Grapchics.BRANCO_CLARO);
-				Grapchics.desenhaTela("STA: "+monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
-				x, y+2, Grapchics.BRANCO_CLARO);
 				
+				if (monstro.getEscudoAtual() > 0){
+					Grapchics.desenhaTela("Escudo: "+monstro.getEscudoAtual(),x, y+2, Grapchics.BRANCO_CLARO);
+					Grapchics.desenhaTela("STA: "+monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
+					x, y+3, Grapchics.BRANCO_CLARO);
+				}else{
+					Grapchics.desenhaTela("STA: "+monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
+					x, y+2, Grapchics.BRANCO_CLARO);
+				}
 			}else{
 				Grapchics.desenhaTela("PV: "+monstro.getVidaAtualCombate() + "/" + monstro.getVidaAtual(), 
 				x, y+1, Grapchics.PRETO_CLARO);
-				Grapchics.desenhaTela("STA: "+monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
-				x, y+2, Grapchics.PRETO_CLARO);
+				
+				if (monstro.getEscudoAtual() > 0){
+					Grapchics.desenhaTela("Escudo: "+monstro.getEscudoAtual(),x, y+2, Grapchics.PRETO_CLARO);
+					Grapchics.desenhaTela("STA: "+monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
+					x, y+3, Grapchics.PRETO_CLARO);
+				}else{
+					Grapchics.desenhaTela("STA: "+monstro.getEstaminaAtualCombate() + "/" + monstro.getEstaminaAtual(), 
+					x, y+2, Grapchics.PRETO_CLARO);
+				}
 			}
 			Grapchics.desenhaTela(monstro.getNomeMonstro(), x, y, Grapchics.PRETO_CLARO);
 		}
@@ -474,6 +498,7 @@ public final class BattleField {
 		if (monstroAtual == null) return;
 		int tamanhoSkills = monstroAtual.getQuantidadeMaxSlotsHabilidade();
 		
+		if (maxAliados >= 3) linhaAtual++;
 		skillEspecial = monstroAtual.getHabilidadeEspecial();
 		desenhaMonstroEspecial(monstroAtual, skillEspecial);
 		
@@ -703,6 +728,9 @@ public final class BattleField {
 		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 		Grapchics.desenhaTela("PV: "+monstroVisualizado.getVidaAtualCombate()+"/"+monstroVisualizado.getVidaAtual(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
+		if (monstroVisualizado.getEscudoAtual() > 0){
+			Grapchics.desenhaTela("Escudo: "+monstroVisualizado.getEscudoAtual(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
+		}
 		Grapchics.desenhaTela("STA: "+monstroVisualizado.getEstaminaAtualCombate()+"/"+monstroVisualizado.getEstaminaAtual(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
 		
 		if (monstroVisualizado.getForcaAtualCombate() == monstroVisualizado.getForcaAtual()){
@@ -960,6 +988,7 @@ public final class BattleField {
 		this.mensagemTurnoInimigo = null;
 		this.danoTurnoInimigo = null;
 		this.aguardandoInimigo = false;
+		BattleAI.setUltimaSkill(null);
 		
 		BattleTurn.finalizarTurno(); 
 	}
@@ -970,6 +999,7 @@ public final class BattleField {
 		this.aguardandoAliado = false;
 		
         skillSelecionada = null;
+		skillUsada = null;
 		BattleTurn.setAguardandoTurno(false);
 		monstrosAlvos.clear();
 		

@@ -62,7 +62,8 @@ public class EffectsApplyStatus implements EffectsStrategy {
 		if (!alvo.possuiStatus(status)){
 			status.aplicar(alvo, efeitoTurnos);
 		}else if(alvo.possuiStatus(status)){
-			status.renovarDuração();
+			StatusBase statusExistente = alvo.getStatusPorId(efeitoValor);
+            if (statusExistente != null) statusExistente.renovarDuração();
 		}
 	}
 	

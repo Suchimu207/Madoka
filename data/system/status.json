@@ -1,5 +1,11 @@
 [
   {
+    "id": 0,
+    "nome": "Escudo",
+    "tipo": "POSITIVE",
+    "subtipo": "BUFF"
+  },
+  {
     "id": 1,
     "nome": "Veneno",
     "tipo": "NEGATIVE",
@@ -37,7 +43,7 @@
   },
   {
     "id": 7,
-    "nome": "Recém-Atordoado",
+    "nome": "Imunidade a Atordoamento",
     "tipo": "POSITIVE",
     "subtipo": "CONTROL"
   },

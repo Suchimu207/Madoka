@@ -45,32 +45,25 @@ public final class StatusManager {
                 statusDataExistentes.put(statusCarregado.getId(), statusCarregado);
             }
 			
-			inicializarStatus();
-            System.out.println(">>Status carregados: " + statusExistentes.size());
-
-        } catch (IOException | IllegalArgumentException e){
+            System.out.println(">>Status carregados: " + statusDataExistentes.size());
+        }catch (IOException | IllegalArgumentException e){
             System.out.println("Erro ao carregar status: "+e.getMessage());
         }
     }
-	
-	private static void inicializarStatus(){
-		StatusData dados = null;
 		
-		dados = statusDataExistentes.get(2);
-		StatusBase statusCombustão = new StatusCombus(dados);
-		statusExistentes.put(dados.getId(), statusCombustão);
-		
-		dados = statusDataExistentes.get(3);
-		StatusBase statusTontura = new StatusTont(dados);
-		statusExistentes.put(dados.getId(), statusTontura);
-		
-		dados = statusDataExistentes.get(8);
-		StatusBase statusRegeneração = new StatusRegen(dados);
-		statusExistentes.put(dados.getId(), statusRegeneração);	
-	}
-	
 	public static StatusBase getStatusPorId(int id){
-		return statusExistentes.get(id);
+		StatusData dados = statusDataExistentes.get(id);
+        if (dados == null) return null;
+		
+        switch (id){
+            case 0: return new StatusShield(dados);
+            case 2: return new StatusCombus(dados);
+            case 3: return new StatusTont(dados);
+            case 4: return new StatusAtord(dados);
+            case 7: return new StatusImunAtord(dados);
+            case 8: return new StatusRegen(dados);
+            default: return null;
+        }
 	}
 	
     //===
