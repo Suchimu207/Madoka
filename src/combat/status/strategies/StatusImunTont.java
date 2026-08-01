@@ -6,13 +6,13 @@ import combat.status.StatusBase;
 import combat.status.StatusData;
 import combat.status.StatusManager;
 
-public class StatusImunAtord extends StatusBase {
+public class StatusImunTont extends StatusBase {
 	private int duraçãoBase, duraçãoAtual;
 	private boolean isAtivo;
 
 	private StatusBase statusImune;
 	
-    public StatusImunAtord(StatusData dados){
+    public StatusImunTont(StatusData dados){
         super(dados);
 		this.duraçãoBase = 0;
 		this.duraçãoAtual = 0;
@@ -27,7 +27,7 @@ public class StatusImunAtord extends StatusBase {
 		this.duraçãoAtual = this.duraçãoBase;
 		this.isAtivo = true;
 		
-		this.statusImune = StatusManager.getStatusPorId(4);
+		this.statusImune = StatusManager.getStatusPorId(3);
 		
 		alvo.receberImunidadeTemp(statusImune);
 		alvo.receberStatus(this);
@@ -66,10 +66,10 @@ public class StatusImunAtord extends StatusBase {
     public boolean isPositivo(){
         return true; 
     }
-
+	
     @Override
     public String getNome(){
-        return "Imunidade a Atordoamento";
+        return "Imunidade a Tontura";
     }
 
     @Override

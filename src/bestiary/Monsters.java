@@ -765,7 +765,9 @@ public class Monsters {
 	public void receberStatus(StatusBase status){
 		if (status == null || status.getDuraçãoBase() <= 0) return;
 		
-		statusAtuais.add(status);
+		if (!possuiStatus(status)){
+			statusAtuais.add(status);
+		}
 	}
 	
 	public void removerStatus(StatusBase status){
@@ -779,7 +781,9 @@ public class Monsters {
 	public void receberImunidadeTemp(StatusBase status){
 		if (status == null || status.getDuraçãoBase() <= 0) return;
 		
-		imunidadesTemp.add(status);
+		if (!isImune(status)) {
+			imunidadesTemp.add(status);
+		}
 	}
 	
 	public void removerImunidadeTemp(StatusBase status){
@@ -792,16 +796,23 @@ public class Monsters {
 		int statusId = status.getId();
 		
 		for (StatusBase s : statusAtuais){
-			if (s != null && s.getId() == statusId && s.isAtivo()){
+			if (s != null && s.getId() == statusId){
 				return true;
 			}
 		}
+		
+		for (StatusBase s : imunidadesTemp){
+			if (s != null && s.getId() == statusId){
+				return true;
+			}
+		}
+		
 		return false;
 	}
 	
-	public StatusBase getStatusPorId(int statusId){
+	public StatusBase getStatus(int statusId){
 		for (StatusBase s : statusAtuais){
-			if (s != null && s.dados.getId() == statusId && s.isAtivo()){
+			if (s != null && s.getId() == statusId && s.isAtivo()){
 				return s;
 			}
 		}

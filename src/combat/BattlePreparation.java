@@ -35,17 +35,24 @@ public final class BattlePreparation {
 		int maxSlotsAtivos = monstroSlotsAtivos.length;
 		int linhaAtual = 1;
 		
-		Grapchics.desenhaCentro("Batalha",0, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTela("E: Voltar", 0,linhaAtual++, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTela("Q: Iniciar batalha",0,linhaAtual++, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTela("Enter: Escolher integrante",0,linhaAtual++, Grapchics.PRETO_CLARO);		
-		Grapchics.desenhaTela("Oponente: ",0,linhaAtual++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaCentroTTF("Batalha",0, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("E: Voltar", 0,linhaAtual++, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Q: Iniciar batalha",0,linhaAtual++, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Enter: Escolher integrante",0,linhaAtual++, Grapchics.PRETO_CLARO);		
+		Grapchics.desenhaTTF("Oponente: ",0,linhaAtual++, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 		
 		for (Monsters monstro : tropaCarregada.getMonstros()){
-			Grapchics.desenhaTela(monstro.getNomeMonstro()+" Nv"+
-			monstro.getNivelAtual()+" ("+monstro.getElementosAtuais()+")"
-			,0,linhaAtual++, Grapchics.BRANCO_CLARO);
+			String nomeMonstro = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
+			int tamanhoTexto = nomeMonstro.length();
+			int tamanhoElementos = monstro.getElementosAtuais().length();
+			
+			Grapchics.desenhaTTF(nomeMonstro,0,linhaAtual,Grapchics.BRANCO_CLARO);
+			
+			Grapchics.desenhaTela("(",tamanhoTexto+1,linhaAtual,Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTTF(monstro.getElementosAtuais(),tamanhoTexto+2,linhaAtual,
+			monstro.getCorDoElemento(monstro.getElementosAtuais()));
+			Grapchics.desenhaTela(")",tamanhoElementos+tamanhoTexto+2,linhaAtual++,Grapchics.BRANCO_CLARO);
 		}
 		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
@@ -57,18 +64,18 @@ public final class BattlePreparation {
 			Monsters monstro = monstroSlotsAtivos[i];
 			if(monstro == null){
 				if (Input.getCursorY() == linhaAtual){
-					Grapchics.desenhaTela("["+(i+1)+"]", 0, linhaAtual++, Grapchics.AMARELO_CLARO);
+					Grapchics.desenhaTTF("["+(i+1)+"]", 0, linhaAtual++, Grapchics.AMARELO_CLARO);
 					Battle.setMonstroMostrado(null);
 				}else{
-					Grapchics.desenhaTela("["+(i+1)+"]", 0, linhaAtual++, Grapchics.PRETO_CLARO);
+					Grapchics.desenhaTTF("["+(i+1)+"]", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 				}
 			}else{
 				if (Input.getCursorY() == linhaAtual){
-					Grapchics.desenhaTela(monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual(), 0, linhaAtual++, 
+					Grapchics.desenhaTTF(monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual(), 0, linhaAtual++, 
 					Grapchics.AMARELO_CLARO);
 					Battle.setMonstroMostrado(monstro);
 				}else{
-					Grapchics.desenhaTela(monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual(), 0, linhaAtual++, 
+					Grapchics.desenhaTTF(monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual(), 0, linhaAtual++, 
 					Grapchics.BRANCO_CLARO);
 				}
 			}
@@ -86,18 +93,18 @@ public final class BattlePreparation {
 				if (Input.getCursorY() == linhaAtual){
 					Battle.setMonstroMostrado(null);
 					nomeMonstroExibido = monstroEquipe.getNomeMonstro()+" Nv"+monstroEquipe.getNivelAtual();
-					Grapchics.desenhaTela(nomeMonstroExibido, 0, linhaAtual++, Grapchics.AMARELO_CLARO);
+					Grapchics.desenhaTTF(nomeMonstroExibido, 0, linhaAtual++, Grapchics.AMARELO_CLARO);
 					Battle.setMonstroMostrado(monstroEquipe);
 				}else{
 					nomeMonstroExibido = monstroEquipe.getNomeMonstro()+" Nv"+monstroEquipe.getNivelAtual();
-					Grapchics.desenhaTela(nomeMonstroExibido, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+					Grapchics.desenhaTTF(nomeMonstroExibido, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
 				}
 			}else{
 				if (Input.getCursorY() == linhaAtual){
-					Grapchics.desenhaTela("[Vazio]", 0, linhaAtual++, Grapchics.AMARELO_CLARO);
+					Grapchics.desenhaTTF("[Vazio]", 0, linhaAtual++, Grapchics.AMARELO_CLARO);
 					Battle.setMonstroMostrado(null);
 				}else{
-					Grapchics.desenhaTela("[Vazio]", 0, linhaAtual++, Grapchics.PRETO_CLARO);
+					Grapchics.desenhaTTF("[Vazio]", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 				}
 			}
 		}

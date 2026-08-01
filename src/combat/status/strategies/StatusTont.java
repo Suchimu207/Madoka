@@ -74,6 +74,11 @@ public class StatusTont extends StatusBase {
 		duraçãoAtual = duraçãoBase;
 	}
 	
+	@Override
+	public int getId(){
+		return this.dados.getId();
+	}
+	
     @Override
     public boolean isAtivo(){
         return isAtivo;

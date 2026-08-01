@@ -21,24 +21,24 @@ public final class Title {
 		}else if (Input.getCursorY() <= 0) Input.setCursorY(3);
 		
 		if (Input.getCursorY() == 1){
-			Grapchics.desenhaCentro("Novo jogo", 18, Grapchics.AMARELO_CLARO);
+			Grapchics.desenhaCentroTTF("Novo jogo", 18, Grapchics.AMARELO_CLARO);
 		}else{
-			Grapchics.desenhaCentro("Novo jogo", 18, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaCentroTTF("Novo jogo", 18, Grapchics.BRANCO_CLARO);
 		}
 		
 		if (Input.getCursorY() == 2){
-			Grapchics.desenhaCentro("Continuar", 20, Grapchics.AMARELO_CLARO);
+			Grapchics.desenhaCentroTTF("Continuar", 20, Grapchics.AMARELO_CLARO);
 		}else{
-			Grapchics.desenhaCentro("Continuar", 20, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaCentroTTF("Continuar", 20, Grapchics.BRANCO_CLARO);
 		}
 		
 		if (Input.getCursorY() == 3){
-			Grapchics.desenhaCentro("Sair     ", 22, Grapchics.AMARELO_CLARO);
+			Grapchics.desenhaCentroTTF("Sair     ", 22, Grapchics.AMARELO_CLARO);
 		}else{
-			Grapchics.desenhaCentro("Sair     ", 22, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaCentroTTF("Sair     ", 22, Grapchics.BRANCO_CLARO);
 		}
 		
-		Grapchics.desenhaTela("Desenvolvido por Carlos S. Rehem.",0,39, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Desenvolvido por Carlos S. Rehem.",0,39, Grapchics.BRANCO_CLARO);
 		Grapchics.atualizarTela();
 	}
 	

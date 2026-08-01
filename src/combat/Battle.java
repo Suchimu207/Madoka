@@ -6,8 +6,6 @@ import main.Player;
 import main.Inventory;
 import util.Input;
 
-import asciiPanel.AsciiPanel;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -54,9 +52,9 @@ public final class Battle {
 	}
 	
 	private static void montarEquipeInicial(){
-		Inventory.adicionarMonstroInventário(1);
-		// Monsters monstro = Inventory.getMonstroInventario(1);
-		// monstro.subirNivel(39);
+		Inventory.adicionarMonstroInventário(5);
+		Monsters monstro = Inventory.getMonstroInventario(1);
+		monstro.subirNivel(39);
 	}
 	
 	public static void setarBatalha(){

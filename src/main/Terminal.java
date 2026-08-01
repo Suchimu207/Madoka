@@ -7,6 +7,8 @@ import util.Grapchics;
 import util.Input;
 import util.Utils;
 
+import asciiPanel.AsciiTTFFont;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -15,6 +17,11 @@ import java.awt.event.KeyListener;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import java.io.IOException;
 
 public final class Terminal implements KeyListener {
 	private enum EstadosJogo{
@@ -51,7 +58,37 @@ public final class Terminal implements KeyListener {
 		this.mapaInicial = mapaInicial;
 		frame = new JFrame(TITLE);
 	}
+	
+	// ==================== INICIALIZAÇÃO ====================
+	
+	protected void setarFonte(){
+		Font fontePadrao;
+		Font fonteItalico;
 		
+		try{
+			Path caminho = Paths.get("data", "font", "mac's Minecraft.ttf");
+			
+			AsciiTTFFont ttf = AsciiTTFFont.loadFromFile(caminho.toString(), 0, 0);
+			
+			fontePadrao = ttf.getFont();
+			fontePadrao = new Font("mac's Minecraft", Font.BOLD, 14);
+			
+			fonteItalico = fontePadrao.deriveFont(Font.ITALIC, 14);
+			System.out.println(">>Fonte carregada com sucesso.");
+			System.out.println("");
+		}catch (Exception e){
+			System.err.println(">>Erro ao carregar fonte TTF: " + e.getMessage());
+			System.out.println("");
+			System.err.println(">>Usando fonte fallback (Monospaced).");
+			
+			fontePadrao = new Font("Monospaced", Font.PLAIN, 14);
+			fonteItalico = new Font("Monospaced", Font.ITALIC, 14);
+		}
+		
+		Grapchics.setFontePadrao(fontePadrao);
+		Grapchics.setFonteItalico(fonteItalico);
+	}
+	
 	protected void setarJogo(){
 		estadoAtual = EstadosJogo.TITULO;
 		Title.setTITLE_NAME(TITLE);
@@ -77,6 +114,8 @@ public final class Terminal implements KeyListener {
 		
 		frame.setVisible(true);
 	}
+	
+	// ==================== DESENHO DO ESTADO ====================
 	
 	protected void desenhaEstado(){
 		if (estadoAtual == EstadosJogo.BATALHA){
@@ -113,14 +152,76 @@ public final class Terminal implements KeyListener {
 	}
 	
 	private void desenhaInfo(){		
-		Grapchics.desenhaTela("ESC: Titulo",0,35, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTela("E: Inventario",0,36, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTela("Shift: Mostrar equipe",0,37, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTela("Enter: Interagir",0,38, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTela("Ouro: "+Player.getOuro(),0,39, Grapchics.BRANCO_CLARO);	
+		Grapchics.desenhaTTF("ESC: Título",0,35, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("E: Inventário",0,36, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Shift: Mostrar equipe",0,37, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Enter: Interagir",0,38, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Ouro: "+Player.getOuro(),0,39, Grapchics.BRANCO_CLARO);	
 		
 		Grapchics.atualizarTela();
 	}
+	
+	// ==================== TECLAS ====================
+	
+	@Override
+	public void keyPressed(KeyEvent e){
+		int tecla = e.getKeyCode();
+		teclasPressionadas.add(tecla);	
+		if (estadoAtual == EstadosJogo.BATALHA){
+			if(Battle.recebeComandosBatalha(tecla, teclasPressionadas)){
+				Grapchics.limpaTela();
+				estadoAtual = EstadosJogo.MAPA;
+			}
+			return;
+		}
+		
+		switch (e.getKeyCode()){
+			case KeyEvent.VK_A:
+			case KeyEvent.VK_LEFT:
+				teclaEsquerda();
+				break;
+			case KeyEvent.VK_D:
+			case KeyEvent.VK_RIGHT:
+				teclaDireita();
+				break;
+			case KeyEvent.VK_W:
+			case KeyEvent.VK_UP:
+				teclaCima();
+				break;
+			case KeyEvent.VK_S:
+			case KeyEvent.VK_DOWN:
+				teclaBaixo();
+				break;
+			case KeyEvent.VK_ENTER:
+				teclaEnter();
+				break;
+			case KeyEvent.VK_SHIFT:
+				teclaShift();
+				break;
+			case KeyEvent.VK_E:
+				teclaInventário();
+				break;
+			case KeyEvent.VK_Q:
+				teclaComprar();
+				break;	
+			case KeyEvent.VK_F3:
+			case KeyEvent.VK_ALT:
+				teclaDebug();
+				break;
+			case KeyEvent.VK_ESCAPE:
+				teclaEsc();
+				break;
+		}
+	}
+	
+	@Override
+    public void keyReleased(KeyEvent e){
+		int tecla = e.getKeyCode();
+        teclasPressionadas.remove(tecla);
+	}
+    
+    @Override
+    public void keyTyped(KeyEvent e) {}
 	
 	private void teclaEsquerda(){
 		switch (estadoAtual){
@@ -338,65 +439,7 @@ public final class Terminal implements KeyListener {
 		}
 	}
 	
-	@Override
-	public void keyPressed(KeyEvent e){
-		int tecla = e.getKeyCode();
-		teclasPressionadas.add(tecla);	
-		if (estadoAtual == EstadosJogo.BATALHA){
-			if(Battle.recebeComandosBatalha(tecla, teclasPressionadas)){
-				Grapchics.limpaTela();
-				estadoAtual = EstadosJogo.MAPA;
-			}
-			return;
-		}
-		
-		switch (e.getKeyCode()){
-			case KeyEvent.VK_A:
-			case KeyEvent.VK_LEFT:
-				teclaEsquerda();
-				break;
-			case KeyEvent.VK_D:
-			case KeyEvent.VK_RIGHT:
-				teclaDireita();
-				break;
-			case KeyEvent.VK_W:
-			case KeyEvent.VK_UP:
-				teclaCima();
-				break;
-			case KeyEvent.VK_S:
-			case KeyEvent.VK_DOWN:
-				teclaBaixo();
-				break;
-			case KeyEvent.VK_ENTER:
-				teclaEnter();
-				break;
-			case KeyEvent.VK_SHIFT:
-				teclaShift();
-				break;
-			case KeyEvent.VK_E:
-				teclaInventário();
-				break;
-			case KeyEvent.VK_Q:
-				teclaComprar();
-				break;	
-			case KeyEvent.VK_F3:
-			case KeyEvent.VK_ALT:
-				teclaDebug();
-				break;
-			case KeyEvent.VK_ESCAPE:
-				teclaEsc();
-				break;
-		}
-	}
-	
-	@Override
-    public void keyReleased(KeyEvent e){
-		int tecla = e.getKeyCode();
-        teclasPressionadas.remove(tecla);
-	}
-    
-    @Override
-    public void keyTyped(KeyEvent e) {}
+	// ==================== OUTROS ====================
 	
 	public String getEstadoAtual(){
 		if (this.estadoAtual == null){

@@ -2,8 +2,10 @@ package util;
 
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
+import asciiPanel.AsciiTTFFont;
 
 import java.awt.Color;
+import java.awt.Font;
 
 public final class Grapchics {
 	private final static int TILE_SIZE_X = 40;
@@ -43,6 +45,13 @@ public final class Grapchics {
 	public final static Color ELEMENTO_VENTO = new Color(177, 251, 177);
 	public final static Color ELEMENTO_FISICO = new Color(249, 192, 78);
 	
+	// ==================== FONTES ====================
+	
+	private final static Font fonteFallback = new Font("Consolas", Font.BOLD, 14);
+	
+	private static Font fontePadrão = fonteFallback;
+	private static Font fonteItálico = fonteFallback;
+	
 	// ==================== INICIALIZAÇÃO ====================
 	
 	static{
@@ -52,7 +61,7 @@ public final class Grapchics {
 	private Grapchics(){
 	}
 	
-	// ==================== DESENHO ====================
+	// ==================== DESENHO CP437 (BITMAP) ====================
 	
 	public static void desenhaTela(char desenho, int posX, int posY){
 		tela.write(desenho, posX, posY);
@@ -86,6 +95,80 @@ public final class Grapchics {
 		tela.writeCenter(desenho, linha, corFonte, corFundo);
 	}
 	
+	// ==================== DESENHO TTF ====================
+	
+	public static void desenhaTTF(char desenho, int posX, int posY){
+		tela.writeTTF(desenho, posX, posY, fontePadrão);
+	}
+	
+	public static void desenhaTTF(char desenho, int posX, int posY, Color corFonte){
+		tela.writeTTF(desenho, posX, posY, corFonte, fontePadrão);
+	}
+	
+	public static void desenhaTTF(char desenho, int posX, int posY, Color corFonte, Font fonte){
+		tela.writeTTF(desenho, posX, posY, corFonte, fonte);
+	}
+	
+	public static void desenhaTTF(char desenho, int posX, int posY, Color corFonte, Color corFundo, Font fonte){
+		tela.writeTTF(desenho, posX, posY, corFonte, corFundo, fonte);
+	}
+	
+	public static void desenhaTTF(String desenho, int posX, int posY){
+		tela.writeTTF(desenho, posX, posY, fontePadrão);
+	}
+	
+	public static void desenhaTTF(String desenho, int posX, int posY, Color corFonte){
+		tela.writeTTF(desenho, posX, posY, corFonte, fontePadrão);
+	}
+	
+	public static void desenhaTTF(String desenho, int posX, int posY, Color corFonte, Font fonte){
+		tela.writeTTF(desenho, posX, posY, corFonte, fonte);
+	}
+	
+	public static void desenhaTTF(String desenho, int posX, int posY, Color corFonte, Color corFundo, Font fonte){
+		tela.writeTTF(desenho, posX, posY, corFonte, corFundo, fonte);
+	}
+	
+	public static void desenhaCentroTTF(String desenho, int linha){
+		tela.writeCenterTTF(desenho, linha, fontePadrão);
+	}
+	
+	public static void desenhaCentroTTF(String desenho, int linha, Color corFonte){
+		tela.writeCenterTTF(desenho, linha, corFonte, fontePadrão);
+	}
+	
+	public static void desenhaCentroTTF(String desenho, int linha, Color corFonte, Font fonte){
+		tela.writeCenterTTF(desenho, linha, corFonte, fonte);
+	}
+	
+	public static void desenhaCentroTTF(String desenho, int linha, Color corFonte, Color corFundo, Font fonte){
+		tela.writeCenterTTF(desenho, linha, corFonte, corFundo, fonte);
+	}
+	
+	// ==================== DESENHO HÍBRIDO ====================
+	
+	public static void desenhaHibrido(String texto, int caracteresCP437, int posX, int posY, Color corFonte){
+		tela.writeTTF(texto, posX, posY, corFonte, PRETO, fontePadrão);
+		if (caracteresCP437 > 0){
+			int tamanhoTexto = texto.length();
+			tela.write("["+(char)caracteresCP437+"]", tamanhoTexto+1, posY, corFonte);
+		}
+	}
+	
+	public static void desenhaHibrido(String texto, int c1, int c2, int posX, int posY, Color corFonte){
+		tela.writeTTF(texto, posX, posY, corFonte, PRETO, fontePadrão);
+		int tamanhoTexto = texto.length();
+		if (c1 > 0 && c2 > 0){
+			tela.write("["+(char)c1+"]", tamanhoTexto+1, posY, corFonte);
+			tela.write("["+(char)c2+"]", tamanhoTexto+4, posY, corFonte);
+		}else if (c1 > 0){
+			tela.write("["+(char)c1+"]", tamanhoTexto+1, posY, corFonte);
+		}else if (c2 > 0){
+			tela.write("["+(char)c2+"]", tamanhoTexto+1, posY, corFonte);
+		}
+		
+	}
+	
 	// ==================== MÉTODOS AUXILIARES ====================
 	
 	public static void limpaTela(){
@@ -94,6 +177,10 @@ public final class Grapchics {
 	
 	public static void atualizarTela(){
 		tela.repaint();
+	}
+	
+	public static Font getFonteFallback(){
+		return fonteFallback;
 	}
 	
 	public static int getTileSizeX(){
@@ -108,5 +195,29 @@ public final class Grapchics {
 		return tela;
     }
 	
+	public static Font getFontePadrao(){
+		return fontePadrão;
+	}
+	
+	public static Font getFonteItalico(){
+		return fonteItálico;
+	}
+		
+	public static boolean isTTFEnabled(){
+		return tela.isTTFEnabled();
+	}
+	
+	public static void setTTFEnabled(boolean enabled){
+		tela.setTTFEnabled(enabled);
+	}
+	
+	public static void setFontePadrao(Font fonte){
+		fontePadrão = fonte;
+	}
+		
+	public static void setFonteItalico(Font fonte){
+		fonteItálico = fonte;
+	}
+		
 	//===
 }

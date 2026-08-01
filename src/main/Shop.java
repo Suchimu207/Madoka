@@ -76,16 +76,16 @@ public final class Shop {
         inicioLista = (paginaAtual - 1) * 24;
         fimLista = Math.min(inicioLista + 24, tamanhoLoja);
 		totalPaginas = Math.max(1, (int) Math.ceil(tamanhoLoja / 24.0));
-		indicadorPagina = "Pagina " + paginaAtual + "/" + totalPaginas;
+		indicadorPagina = "Página " + paginaAtual+(char)45+totalPaginas;
 		
 		if (Input.getCursorY() < inicioLista) Input.setCursorY(fimLista-1);
 		if (Input.getCursorY() >= fimLista) Input.setCursorY(inicioLista);
 		
-        Grapchics.desenhaCentro("Loja - "+indicadorPagina, 0, Grapchics.BRANCO_CLARO);
-        Grapchics.desenhaTela("E: Sair", 0, 1, Grapchics.PRETO_CLARO);
-        Grapchics.desenhaTela("Q: Comprar", 0, 2, Grapchics.PRETO_CLARO);
-        Grapchics.desenhaTela("ENTER: Colocar/Remover do carrinho", 0, 3, Grapchics.PRETO_CLARO);
-        Grapchics.desenhaTela("Ouro: "+Player.getOuro(), 0, 4, Grapchics.BRANCO_CLARO);
+        Grapchics.desenhaCentroTTF("Loja - "+indicadorPagina, 0, Grapchics.BRANCO_CLARO);
+        Grapchics.desenhaTTF("E: Sair", 0, 1, Grapchics.PRETO_CLARO);
+        Grapchics.desenhaTTF("Q: Comprar", 0, 2, Grapchics.PRETO_CLARO);
+        Grapchics.desenhaTTF("ENTER: Colocar/Remover do carrinho", 0, 3, Grapchics.PRETO_CLARO);
+        Grapchics.desenhaTTF("Ouro: "+Player.getOuro(), 0, 4, Grapchics.BRANCO_CLARO);
 		
 		if (carrinho != null && !carrinho.isEmpty()){
 			total = 0;
@@ -96,11 +96,11 @@ public final class Shop {
             }
 			
 			if (Player.getOuro() > total){
-				Grapchics.desenhaTela("Total: "+total, 0, 5, Grapchics.VERDE_CLARO);
+				Grapchics.desenhaTTF("Total: "+total, 0, 5, Grapchics.VERDE_CLARO);
 			}else if (Player.getOuro() == total){
-				Grapchics.desenhaTela("Total: "+total, 0, 5, Grapchics.AMARELO_CLARO);
+				Grapchics.desenhaTTF("Total: "+total, 0, 5, Grapchics.AMARELO_CLARO);
 			}else if (Player.getOuro() < total){
-				Grapchics.desenhaTela("Total: "+total, 0, 5, Grapchics.VERMELHO_CLARO);
+				Grapchics.desenhaTTF("Total: "+total, 0, 5, Grapchics.VERMELHO_CLARO);
 			}
 			
 			linhaItem = 6;
@@ -119,13 +119,13 @@ public final class Shop {
             Monsters infoMonstro = MonstersManager.getMonstro(item.idMonstro); 
             if (infoMonstro == null) continue;
 
-            String textoMarcado = item.isItemCarrinho() ? " [C]" : "";
-
+            int textoMarcado = item.isItemCarrinho() ? 67 : 0;
+			
             if (Input.getCursorY() == i){
-                Grapchics.desenhaTela(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase()+" - Preco: "+item.preco+textoMarcado, 0, 
+                Grapchics.desenhaHibrido(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase()+" - Preço: "+item.preco,textoMarcado, 0, 
 				linhaItem++, Grapchics.AMARELO_CLARO);
             }else{
-                Grapchics.desenhaTela(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase()+" - Preco: "+item.preco+textoMarcado, 0, 
+                Grapchics.desenhaHibrido(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase()+" - Preço: "+item.preco,textoMarcado, 0, 
 				linhaItem++, Grapchics.BRANCO_CLARO);
             }
         }
@@ -138,15 +138,16 @@ public final class Shop {
 		inicioLista = (paginaAtual - 1) * 24;
         fimLista = Math.min(inicioLista + 24, tamanhoRecibo);
         totalPaginas = Math.max(1, (int) Math.ceil(tamanhoRecibo / 24.0));
-        indicadorPagina = "Pagina " + paginaAtual + "/" + totalPaginas;
 		
-        Grapchics.desenhaCentro("Recibo - " + indicadorPagina, 0, Grapchics.BRANCO_CLARO);
-        Grapchics.desenhaTela("ESC: Sair", 0, 1, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTela("E: Abrir inventario", 0, 2, Grapchics.PRETO_CLARO);
-        Grapchics.desenhaTela("Q: Continuar comprando", 0, 3, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTela("Ouro atual: " + Player.getOuro(), 0, 4, Grapchics.BRANCO_CLARO);
-        Grapchics.desenhaTela("Ouro gasto:", 0, 5, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTela(" " + ouroGasto,11,5, Grapchics.AMARELO_CLARO);
+        indicadorPagina = "Página " + paginaAtual+(char)45+totalPaginas;
+		
+        Grapchics.desenhaCentroTTF("Recibo - " + indicadorPagina, 0, Grapchics.BRANCO_CLARO);
+        Grapchics.desenhaTTF("ESC: Sair", 0, 1, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("E: Abrir inventário", 0, 2, Grapchics.PRETO_CLARO);
+        Grapchics.desenhaTTF("Q: Continuar comprando", 0, 3, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Ouro atual: " + Player.getOuro(), 0, 4, Grapchics.BRANCO_CLARO);
+        Grapchics.desenhaTTF("Ouro gasto:", 0, 5, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF(" " + ouroGasto,11,5, Grapchics.AMARELO_CLARO);
         Grapchics.desenhaTela("____________________", 0, 6, Grapchics.PRETO_CLARO);
         linhaItem = 7;
         
@@ -162,7 +163,7 @@ public final class Shop {
             Monsters infoMonstro = MonstersManager.getMonstro(item.idMonstro);
             if (infoMonstro == null) continue;
             
-            Grapchics.desenhaTela(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase(), 0, linhaItem++, Grapchics.BRANCO_CLARO);
+            Grapchics.desenhaTTF(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase(), 0, linhaItem++, Grapchics.BRANCO_CLARO);
         }
     }
 	

@@ -16,7 +16,6 @@ public final class StatusManager {
     private static Path caminho;
 
     private static Map<Integer, StatusData> statusDataExistentes;
-	private static Map<Integer, StatusBase> statusExistentes;
     private static StatusData statusCarregado;
     private static JSONObject status;
     private static JSONArray statusArray;
@@ -29,7 +28,6 @@ public final class StatusManager {
             caminho = Paths.get("data", "system", "status.json");
             conteudoJson = Files.readString(caminho);
 			
-			statusExistentes = new HashMap<>();
             statusDataExistentes = new HashMap<Integer, StatusData>();
             statusArray = new JSONArray(conteudoJson);
 
@@ -50,7 +48,7 @@ public final class StatusManager {
             System.out.println("Erro ao carregar status: "+e.getMessage());
         }
     }
-		
+	
 	public static StatusBase getStatusPorId(int id){
 		StatusData dados = statusDataExistentes.get(id);
         if (dados == null) return null;
@@ -62,6 +60,7 @@ public final class StatusManager {
             case 4: return new StatusAtord(dados);
             case 7: return new StatusImunAtord(dados);
             case 8: return new StatusRegen(dados);
+			case 9: return new StatusImunTont(dados);
             default: return null;
         }
 	}

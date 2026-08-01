@@ -32,6 +32,7 @@ public class StatusShield extends StatusBase {
 		if (duraçãoAtual <= 0) return;
 		
 		if (alvo.getEscudoAtual() <= 0){
+			this.isAtivo = false;
 			alvo.removerStatus(this);
 		}
     }
@@ -51,6 +52,11 @@ public class StatusShield extends StatusBase {
 		if (duraçãoBase <= 0) return;
 		
 		duraçãoAtual = duraçãoBase;
+	}
+	
+	@Override
+	public int getId(){
+		return this.dados.getId();
 	}
 	
     @Override

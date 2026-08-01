@@ -52,6 +52,11 @@ public class StatusAtord extends StatusBase {
 	}
 	
 	@Override
+	public int getId(){
+		return this.dados.getId();
+	}
+	
+	@Override
 	public boolean impedeAção(){
 		return isAtivo();
 	}

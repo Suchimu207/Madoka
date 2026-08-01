@@ -52,5 +52,11 @@
     "nome": "Regeneração",
     "tipo": "POSITIVE",
     "subtipo": "HOT"
+  },
+   {
+    "id": 9,
+    "nome": "Imunidade a Tontura",
+    "tipo": "POSITIVE",
+    "subtipo": "CONTROL"
   }
 ]

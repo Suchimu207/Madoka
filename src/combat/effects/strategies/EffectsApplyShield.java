@@ -29,7 +29,7 @@ public class EffectsApplyShield implements EffectsStrategy {
 		if (!alvo.possuiStatus(status)){
 			status.aplicar(alvo, 3);
         }else{
-            StatusBase statusExistente = alvo.getStatusPorId(0);
+            StatusBase statusExistente = alvo.getStatus(0);
             if (statusExistente != null) statusExistente.renovarDuração();
         }
 		
@@ -42,7 +42,7 @@ public class EffectsApplyShield implements EffectsStrategy {
     
     @Override
     public String getNome(){
-        return "APLICAR_ESCUDO";
+        return "APPLY_SHIELD";
     }
     
 	//===

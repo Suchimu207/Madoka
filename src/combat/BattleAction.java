@@ -134,19 +134,13 @@ public final class BattleAction {
 				}
 			}
 		}
-    
+		
 		if (alvoEfeito == Effects.MESMO_ALVO){
 			return alvosHabilidade;
-		}else if (alvoEfeito == Effects.ALIADO_UNICO){
-			if (!aliadosVivos.isEmpty()){
-			alvos.add(aliadosVivos.get(0));
-			}
+		}else if (alvoEfeito == Effects.ALIADO_UNICO || alvoEfeito == Effects.INIMIGO_UNICO){
+			return alvosHabilidade.isEmpty() ? alvos : alvosHabilidade;
 		}else if (alvoEfeito == Effects.ALIADO_AREA){
 			alvos.addAll(aliadosVivos);
-		}else if (alvoEfeito == Effects.INIMIGO_UNICO){
-			if (!inimigosVivos.isEmpty()){
-                alvos.add(inimigosVivos.get(0));
-            }
 		}else if (alvoEfeito == Effects.INIMIGO_AREA){
 			alvos.addAll(inimigosVivos);
 		}else if (alvoEfeito == Effects.USUARIO){

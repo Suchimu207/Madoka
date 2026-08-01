@@ -18,9 +18,7 @@ public abstract class StatusBase {
 	public boolean impedeAção(){
 		return false;
 	}
-	public int getId(){
-		return dados.getId();
-	}
+	public abstract int getId();
 	public abstract boolean isAtivo();
 	public abstract boolean isPositivo();
 	public abstract String getNome();

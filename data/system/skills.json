@@ -569,14 +569,14 @@
 	{
 		"efeito": "APPLY_STATUS",
 		"alvo": -1,
-		"valor": 0,
+		"valor": 7,
 		"chance": 100,
 		"turnos": 3
     },
 	{
 		"efeito": "APPLY_STATUS",
 		"alvo": -1,
-		"valor": 0,
+		"valor": 9,
 		"chance": 100,
 		"turnos": 3
     }

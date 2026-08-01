@@ -39,16 +39,16 @@ public class EffectsApplyStatus implements EffectsStrategy {
 		if (this.status == null || efeitoTurnos <= 0 || this.alvo.isImune(status) || efeitoChance <= 0) return;
 		
 		if (this.status.isPositivo()){
-			processarStatus();
+			processarStatus(alvo, status, efeitoValor, efeitoTurnos);
 		}else{
-			if (!calcularChance()){
+			if (!calcularChance(alvo, efeitoChance)){
 				return;
 			}
-			processarStatus();
+			processarStatus(alvo, status, efeitoValor, efeitoTurnos);
 		}
     }
     
-	private boolean calcularChance(){
+	private boolean calcularChance(Monsters alvo, int efeitoChance){
 		int chanceBase = Math.max(1, Math.min(100, efeitoChance));
 		int statusArmor = alvo.getStatusArmor();
 		
@@ -58,11 +58,11 @@ public class EffectsApplyStatus implements EffectsStrategy {
 		return roll <= chanceFinal;
 	}
 	
-	private void processarStatus(){
+	private void processarStatus(Monsters alvo, StatusBase status, int efeitoValor, int efeitoTurnos){
 		if (!alvo.possuiStatus(status)){
 			status.aplicar(alvo, efeitoTurnos);
 		}else if(alvo.possuiStatus(status)){
-			StatusBase statusExistente = alvo.getStatusPorId(efeitoValor);
+			StatusBase statusExistente = alvo.getStatus(efeitoValor);
             if (statusExistente != null) statusExistente.renovarDuração();
 		}
 	}

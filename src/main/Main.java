@@ -55,6 +55,7 @@ public final class Main {
 		Maps.carregarMapas();
 		Battle.carregarDadosJogatina();
 		
+		terminal.setarFonte();
 		terminal.setarJogo();
 		terminal.setarJanela();
 		
