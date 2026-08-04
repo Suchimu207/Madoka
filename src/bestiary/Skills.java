@@ -65,10 +65,11 @@ public class Skills {
 	private boolean recargaPendente;
 	
 	private int nivelNecessario;
+	private double lifeSteal;
 	
 	public Skills(int idHabilidade, String nomeHabilidade, Monsters.Elementos elementoHabilidade,
 	TipoHabilidade tipoHabilidade, TipoAlvo alvoHabilidade, int poderHabilidade, int precisãoBase,
-	int energiaHabilidade, int recargaHabilidade){
+	int energiaHabilidade, int recargaHabilidade, double lifeSteal){
 		try{
 			if (idHabilidade <= 0){
 				throw new IllegalArgumentException("ID deve ser maior do que 0.");
@@ -90,6 +91,7 @@ public class Skills {
 		this.recargaHabilidade = recargaHabilidade;
 		this.recargaAtual = 0;
 		this.recargaPendente = false;
+		this.lifeSteal = lifeSteal;
 		
 		this.nivelNecessario = 1;
 		}catch(IllegalArgumentException e){
@@ -111,6 +113,7 @@ public class Skills {
 		this.recargaHabilidade = skillRequerida.getRecargaHabilidade();
 		this.recargaAtual = skillRequerida.getRecargaAtual();
 		this.recargaPendente = skillRequerida.isRecargaPendente();
+		this.lifeSteal = skillRequerida.getLifeSteal();
 		this.nivelNecessario = skillRequerida.getNivelNecessario();
 		
 		this.efeitos = new ArrayList<>();
@@ -223,6 +226,15 @@ public class Skills {
 	
 	public int getNivelNecessario(){
 		return this.nivelNecessario;
+	}
+	
+	public double getLifeSteal(){
+		return lifeSteal;
+	}
+	
+	public void setLifeSteal(int lifeSteal){
+		if (lifeSteal < 0) lifeSteal = 0;
+		this.lifeSteal = lifeSteal;
 	}
 	
 	public void setNivelNecessario(int nivelNecessario){

@@ -31,7 +31,7 @@ public class StatusRegen extends StatusBase {
     public void checar(Monsters alvo){
 		if (duraçãoAtual <= 0) return;
 		
-		int cura = (int) Math.ceil(alvo.getVidaAtual() * (20 / 100.0));
+		int cura = (int) Math.ceil(alvo.getVidaAtualCombateMaxima() * (20 / 100.0));
 		alvo.ganharVida(cura);
     }
 
@@ -66,7 +66,7 @@ public class StatusRegen extends StatusBase {
 
     @Override
     public String getNome(){
-        return "Regeneracao";
+        return this.dados.getNome();
     }
 
     @Override

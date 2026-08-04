@@ -73,7 +73,7 @@ public class StatusAtord extends StatusBase {
 
     @Override
     public String getNome(){
-        return "Atordoamento";
+        return this.dados.getNome();
     }
 
     @Override

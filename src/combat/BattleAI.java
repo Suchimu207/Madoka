@@ -2,6 +2,7 @@ package combat;
 
 import bestiary.Monsters;
 import bestiary.Skills;
+import combat.status.StatusBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ public final class BattleAI {
 	private static final Random random = new Random();
 	private static BattleUnit unidadeAlvo;
 	private static Skills ultimaSkill = null;
+	private static BattleActionResult resultadoAção = null;
 	
 	private BattleAI(){
 	}
@@ -42,7 +44,9 @@ public final class BattleAI {
 					if (unidadeAlvo != null) unidadeAlvo.setAlvo(true);
 				}
 				
-				int danoRealizado = BattleAction.executarHabilidade(monstroInimigo, alvos, habilidade);
+				resultadoAção = BattleAction.executarHabilidade(monstroInimigo, alvos, habilidade);
+				
+				int danoRealizado = resultadoAção.getDanoRealizado();
 				String nomeMonstro = monstroInimigo.getNomeMonstro()+" usou ";
 				ultimaSkill = habilidade;
 				
@@ -103,19 +107,33 @@ public final class BattleAI {
 		switch (tipoAlvo){
 			case INIMIGO_UNICO:
 				if (!timeJogador.isEmpty()){
-					int totalProvocacao = 0;
+					List<Monsters> alvosComProvocacao = new ArrayList<>();
 					for (Monsters monstro : timeJogador){
-						totalProvocacao += monstro.getProvocationRate();
+						if (monstro.possuiStatus(11)){
+							alvosComProvocacao.add(monstro);
+						}
 					}
 					
-					int valorSorteado = random.nextInt(totalProvocacao);
-					
-					int acumulador = 0;
-					for (Monsters monstro : timeJogador){
-						acumulador += monstro.getProvocationRate();
-						if (valorSorteado < acumulador){
-							alvos.add(monstro);
-							break; 
+					if (!alvosComProvocacao.isEmpty()){
+						alvos.add(alvosComProvocacao.get(random.nextInt(alvosComProvocacao.size())));
+					}else{
+						int totalProvocacao = 0;
+						for (Monsters monstro : timeJogador){
+							totalProvocacao += monstro.getProvocationRate();
+						}
+						
+						if (totalProvocacao > 0){
+							int valorSorteado = random.nextInt(totalProvocacao);
+							int acumulador = 0;
+							for (Monsters monstro : timeJogador){
+								acumulador += monstro.getProvocationRate();
+								if (valorSorteado < acumulador){
+									alvos.add(monstro);
+									break; 
+								}
+							}
+						}else{
+							alvos.add(timeJogador.get(random.nextInt(timeJogador.size())));
 						}
 					}
 				}
@@ -141,6 +159,10 @@ public final class BattleAI {
 	}
 	
 	// ==================== OUTROS ====================
+	
+	public static BattleActionResult getResultadoAção(){
+		return BattleAI.resultadoAção;
+	}
 	
 	public static void setUltimaSkill(Skills ultimaSkill){
 		BattleAI.ultimaSkill = ultimaSkill;

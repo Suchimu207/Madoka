@@ -5,11 +5,11 @@ import bestiary.Monsters;
 import combat.status.StatusBase;
 import combat.status.StatusData;
 
-public class StatusCombus extends StatusBase {
+public class StatusPes extends StatusBase {
 	private int duraçãoBase, duraçãoAtual;
 	private boolean isAtivo;
 	
-    public StatusCombus(StatusData dados){
+    public StatusPes(StatusData dados){
         super(dados);
 		this.duraçãoBase = 0;
 		this.duraçãoAtual = 0;
@@ -31,10 +31,13 @@ public class StatusCombus extends StatusBase {
     public void checar(Monsters alvo){
 		if (duraçãoAtual <= 0) return;
 		
-		int dano = (int) Math.ceil(alvo.getVidaAtualCombateMaxima() * (15 / 100.0));
+		int dano = (int) Math.ceil(alvo.getVidaAtualCombateMaxima() * (10 / 100.0));
 		alvo.perderVida(dano);
+		
+		int perda = (int) Math.ceil(alvo.getEstaminaAtual() * (10 / 100.0));
+		alvo.perderEstamina(perda);
     }
-
+	
 	@Override
 	public void reduzirDuração(Monsters alvo){
 		duraçãoAtual -= 1;
@@ -68,7 +71,7 @@ public class StatusCombus extends StatusBase {
     public String getNome(){
         return this.dados.getNome();
     }
-	
+
     @Override
     public String getSubtipo(){
         return "..."; 

@@ -18,7 +18,7 @@ public class EffectsApplyShield implements EffectsStrategy {
         
         int efeitoValor = efeito.getValor();
 		
-		int vidaAtual = usuario.getVidaAtual();
+		int vidaAtual = usuario.getVidaAtualCombateMaxima();
 		int limiteEscudo = vidaAtual * 2;
 		
 		if (alvo.getEscudoAtual() >= limiteEscudo) return;

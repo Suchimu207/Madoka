@@ -28,6 +28,11 @@ public final class BattleUnit {
 		return BASE_ACTION_VALUE_CONSTANT / this.speed; 
 	}
 	
+	public void avancarAção(double porcentagem){
+		double reducao = this.actionValueAtual * (porcentagem / 100.0);
+		this.actionValueAtual = (int) (Math.max(0, this.actionValueAtual - reducao));
+	}
+	
 	protected int getId(){ 
 		return id; 
 	}
@@ -55,14 +60,6 @@ public final class BattleUnit {
 	protected void setActionValueAtual(int actionValueAtual){
 		this.actionValueAtual = actionValueAtual;
 	}
-	
-	/*
-	// Método para avançar a ação (ex: 25% de avanço)
-	protected void avancarAcao(int porcentagem){
-		int reducaoAV = (int) (this.calcularActionValue() * (porcentagem / 100.0));
-		this.actionValue -= reducaoAV;
-	}
-	*/
 	
 	//===
 }

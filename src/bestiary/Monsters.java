@@ -123,7 +123,7 @@ public class Monsters {
 	private boolean monstroEquipado, monstroFavorito;
 	
 	private int forçaBase, forçaAtual, forçaAtualCombate;
-	private int vidaBase, vidaAtual, vidaAtualCombate;
+	private int vidaBase, vidaAtual, vidaAtualCombate, vidaAtualCombateMaxima;
 	private int speedBase, speedAtual, speedAtualCombate;
 	private int estaminaBase, estaminaAtual, estaminaAtualCombate;
 	private int barraEspecialAtual;
@@ -486,7 +486,7 @@ public class Monsters {
 	public void ganharVida(int cura){		
 		if (cura <= 0) return;
     
-		int vidaMaxima = this.getVidaAtual();
+		int vidaMaxima = this.getVidaAtualCombateMaxima();
 		int novaVida = Math.min(vidaMaxima, this.getVidaAtualCombate()+cura);
     
 		this.setVidaAtualCombate(novaVida);
@@ -514,6 +514,23 @@ public class Monsters {
 		}
 	}
 	
+	public void ganharEstamina(int regen){
+		if (regen <= 0) return;
+    
+		int estaminaMaxima = this.getEstaminaAtual();
+		int estaminaRegen = Math.min(estaminaMaxima, this.getEstaminaAtualCombate()+regen);
+		
+		this.setEstaminaAtualCombate(estaminaRegen);
+	}
+	
+	public void perderEstamina(int perda){
+		if (perda <= 0) return;
+		
+		int novaEstamina = Math.max(0, this.getEstaminaAtualCombate()-perda);
+		
+		this.setEstaminaAtualCombate(novaEstamina);
+	}
+	
 	public boolean podeAgir(){
 		if (this.statusAtuais == null || this.statusAtuais.isEmpty()){
 			return true;
@@ -539,6 +556,10 @@ public class Monsters {
 		return vidaAtualCombate;
 	}
 	
+	public int getVidaAtualCombateMaxima(){
+		return vidaAtualCombateMaxima;
+	}
+	
 	public int getForcaAtualCombate(){
 		return forçaAtualCombate;
 	}
@@ -559,6 +580,11 @@ public class Monsters {
 	public void setVidaAtualCombate(int vidaAtualCombate){
 		if (vidaAtualCombate < 0) vidaAtualCombate = 0;
 		this.vidaAtualCombate = vidaAtualCombate;
+	}
+	
+	public void setVidaAtualCombateMaxima(int vidaAtualCombateMaxima){
+		if (vidaAtualCombateMaxima < 0) vidaAtualCombateMaxima = 0;
+		this.vidaAtualCombateMaxima = vidaAtualCombateMaxima;
 	}
 	
 	public void setForcaAtualCombate(int forcaAtualCombate){
@@ -634,6 +660,7 @@ public class Monsters {
 	}
 	
 	public void setEstaminaAtual(int estaminaAtual){
+		if (estaminaAtual < 0) estaminaAtual = 0;
 		this.estaminaAtual = estaminaAtual;
 	}
 	
@@ -649,6 +676,10 @@ public class Monsters {
 
 	public Classes getClasseAtual(){
 		return classeAtual;
+	}
+	
+	public String getClasseAtualTexto(){
+		return classeAtual.getClasseNome();
 	}
 	
 	public Elementos[] getElementosAtuaisValores(){
@@ -675,6 +706,10 @@ public class Monsters {
 	
 	public Raridades getRaridadeMonstro(){
 		return raridadeMonstro;
+	}
+	
+	public String getRaridadeMonstroTexto(){
+		return raridadeMonstro.getRaridadeNome();
 	}
 	
 	public int getProvocationRate(){
@@ -807,6 +842,22 @@ public class Monsters {
 			}
 		}
 		
+		return false;
+	}
+	
+	public boolean possuiStatus(int statusId){
+		for (StatusBase s : statusAtuais){
+			if (s != null && s.getId() == statusId){
+				return true;
+			}
+		}
+		
+		for (StatusBase s : imunidadesTemp){
+			if (s != null && s.getId() == statusId){
+				return true;
+			}
+		}
+    
 		return false;
 	}
 	

@@ -10,14 +10,15 @@ public final class EffectsManager {
 
     static{
 		efeitos.put("HEALING", new EffectsHealing());
+		efeitos.put("GAIN_STA", new EffectsGainSta());
 		efeitos.put("APPLY_STATUS", new EffectsApplyStatus());
 		efeitos.put("APPLY_SHIELD", new EffectsApplyShield());
+		efeitos.put("REMOVE_STA", new EffectsRemoveSta());
+		efeitos.put("REMOVE_NEGATIVE_STATUS", new EffectsRemoveNegativeStatus());
+		efeitos.put("REMOVE_POSITIVE_STATUS", new EffectsRemovePositiveStatus());
+		efeitos.put("ACTION_ADVANCE", new EffectsActionAdvance());
 		/*
-        efeitos.put("REMOVE_NEGATIVE_STATUS", new EfeitoRemoverNegativos());
-		efeitos.put("REMOVE_POSITIVE_STATUS", new EfeitoRemoverNegativos());
         efeitos.put("REMOVE_CONTINUOUS_DAMAGE", new EfeitoRemoverDanoContinuo());
-		efeitos.put("REMOVE_CONTROL_STATUS", new EfeitoRemoverDanoContinuo());
-		efeitos.put("REMOVE_STATUS", new EfeitoAplicarStatus());
 		*/
     }
 	

@@ -1,15 +1,16 @@
 package combat.status.strategies;
 
 import bestiary.Monsters;
+import bestiary.Skills;
 
 import combat.status.StatusBase;
 import combat.status.StatusData;
 
-public class StatusCombus extends StatusBase {
+public class StatusCeg extends StatusBase {
 	private int duraçãoBase, duraçãoAtual;
 	private boolean isAtivo;
 	
-    public StatusCombus(StatusData dados){
+    public StatusCeg(StatusData dados){
         super(dados);
 		this.duraçãoBase = 0;
 		this.duraçãoAtual = 0;
@@ -24,22 +25,37 @@ public class StatusCombus extends StatusBase {
 		this.duraçãoAtual = this.duraçãoBase;
 		this.isAtivo = true;
 		
+		for (int i = 0; i < alvo.getQuantidadeMaxSlotsHabilidade(); i++){
+            Skills skill = alvo.getHabilidadeAtiva(i);
+            if (skill != null) {
+                int precisaoNerfada = (int) Math.ceil(skill.getPrecisaoAtual() * 0.50);
+                skill.setPrecisaoAtual(precisaoNerfada);
+            }
+        }
+		
 		alvo.receberStatus(this);
     }
 
     @Override
     public void checar(Monsters alvo){
 		if (duraçãoAtual <= 0) return;
-		
-		int dano = (int) Math.ceil(alvo.getVidaAtualCombateMaxima() * (15 / 100.0));
-		alvo.perderVida(dano);
     }
 
 	@Override
 	public void reduzirDuração(Monsters alvo){
 		duraçãoAtual -= 1;
 		
-		if (duraçãoAtual <= 0) isAtivo = false;
+		if (duraçãoAtual <= 0){
+			isAtivo = false;
+			
+			for (int i = 0; i < alvo.getQuantidadeMaxSlotsHabilidade(); i++){
+                Skills skill = alvo.getHabilidadeAtiva(i);
+                if (skill != null){
+                    skill.setPrecisaoAtual(skill.getPrecisaoBase());
+                }
+            }
+			
+		}
 	}
 	
 	@Override
@@ -68,7 +84,7 @@ public class StatusCombus extends StatusBase {
     public String getNome(){
         return this.dados.getNome();
     }
-	
+
     @Override
     public String getSubtipo(){
         return "..."; 

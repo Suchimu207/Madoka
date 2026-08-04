@@ -43,7 +43,7 @@
   },
   {
     "id": 7,
-    "nome": "Imunidade a Atordoamento",
+    "nome": "Imun. Atordoamento",
     "tipo": "POSITIVE",
     "subtipo": "CONTROL"
   },
@@ -53,10 +53,100 @@
     "tipo": "POSITIVE",
     "subtipo": "HOT"
   },
-   {
+  {
     "id": 9,
-    "nome": "Imunidade a Tontura",
+    "nome": "Imun. Tontura",
     "tipo": "POSITIVE",
     "subtipo": "CONTROL"
-  }
+  },
+  {
+    "id": 10,
+    "nome": "Dobro de vida",
+    "tipo": "POSITIVE",
+    "subtipo": "BUFF"
+  },
+  {
+    "id": 11,
+    "nome": "Provocação",
+    "tipo": "POSITIVE",
+    "subtipo": "BUFF"
+  },
+  {
+    "id": 12,
+    "nome": "Lentidão",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 13,
+    "nome": "Regen. estamina",
+    "tipo": "POSITIVE",
+    "subtipo": "BUFF"
+  },
+  {
+    "id": 14,
+    "nome": "Fraq. Fogo",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 15,
+    "nome": "Fraq. Natureza",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 16,
+    "nome": "Fraq. Magia",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 17,
+    "nome": "Fraq. Metal",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 18,
+    "nome": "Fraq. Vento",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 19,
+    "nome": "Fraq. Luz",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 20,
+    "nome": "Fraq. Trevas",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 21,
+    "nome": "Fraq. Terra",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 22,
+    "nome": "Fraq. Trovão",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 23,
+    "nome": "Fraq. Água",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 24,
+    "nome": "Fraq. Físico",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
 ]

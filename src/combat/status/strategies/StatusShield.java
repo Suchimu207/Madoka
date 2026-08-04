@@ -71,7 +71,7 @@ public class StatusShield extends StatusBase {
 
     @Override
     public String getNome(){
-        return "Escudo";
+        return this.dados.getNome();
     }
 
     @Override

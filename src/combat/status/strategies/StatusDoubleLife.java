@@ -5,11 +5,11 @@ import bestiary.Monsters;
 import combat.status.StatusBase;
 import combat.status.StatusData;
 
-public class StatusCombus extends StatusBase {
+public class StatusDoubleLife extends StatusBase {
 	private int duraçãoBase, duraçãoAtual;
 	private boolean isAtivo;
 	
-    public StatusCombus(StatusData dados){
+    public StatusDoubleLife(StatusData dados){
         super(dados);
 		this.duraçãoBase = 0;
 		this.duraçãoAtual = 0;
@@ -19,6 +19,15 @@ public class StatusCombus extends StatusBase {
     @Override
     public void aplicar(Monsters alvo, int duraçãoBase){
 		if (duraçãoBase <= 0) return;
+		
+		
+		int vidaAtualCombate = alvo.getVidaAtualCombate();
+		int vidaAtualCombateMaxima = alvo.getVidaAtualCombateMaxima();
+		
+        if (vidaAtualCombate > 0){
+			alvo.setVidaAtualCombate(vidaAtualCombate * 2);
+			alvo.setVidaAtualCombateMaxima(vidaAtualCombateMaxima * 2);
+		}
 		
 		this.duraçãoBase = duraçãoBase;
 		this.duraçãoAtual = this.duraçãoBase;
@@ -30,16 +39,17 @@ public class StatusCombus extends StatusBase {
     @Override
     public void checar(Monsters alvo){
 		if (duraçãoAtual <= 0) return;
-		
-		int dano = (int) Math.ceil(alvo.getVidaAtualCombateMaxima() * (15 / 100.0));
-		alvo.perderVida(dano);
     }
 
 	@Override
 	public void reduzirDuração(Monsters alvo){
 		duraçãoAtual -= 1;
 		
-		if (duraçãoAtual <= 0) isAtivo = false;
+		if (duraçãoAtual <= 0){
+			int vidaAtualCombateMaxima = alvo.getVidaAtualCombateMaxima();
+			alvo.setVidaAtualCombateMaxima(vidaAtualCombateMaxima/2);
+			isAtivo = false;
+		}			
 	}
 	
 	@Override
@@ -61,7 +71,7 @@ public class StatusCombus extends StatusBase {
 
     @Override
     public boolean isPositivo(){
-        return false; 
+        return true; 
     }
 
     @Override

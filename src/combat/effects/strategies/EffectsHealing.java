@@ -10,12 +10,12 @@ public class EffectsHealing implements EffectsStrategy {
     
     @Override
     public void aplicar(Monsters usuario, Monsters alvo, Skills habilidade, Effects efeito){
-        if (alvo == null || usuario == null) return;
+        if (alvo == null || usuario == null || efeito == null) return;
         
         int curaPorcentagem = efeito.getValor();
 		if (curaPorcentagem <= 0) return;
 		
-		int vidaAtual = alvo.getVidaAtual();
+		int vidaAtual = alvo.getVidaAtualCombateMaxima();
 		int vidaAtualCombate = alvo.getVidaAtualCombate();
         if (vidaAtualCombate <= 0) return;
 		

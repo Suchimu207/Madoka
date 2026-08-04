@@ -4,7 +4,7 @@ import bestiary.Monsters;
 import bestiary.MonstersManager;
 import bestiary.Skills;
 
-import combat.effects.Effects;
+import combat.SkillDescription;
 
 import util.Grapchics;
 import util.Input;
@@ -103,9 +103,9 @@ public final class Inventory  {
 		Grapchics.desenhaHibrido("Nome: "+monstroCarregado.getNomeMonstro(),indicadorFavorito,0,5, Grapchics.BRANCO_CLARO);
 		
 		Grapchics.desenhaTTF("Nível: "+monstroCarregado.getNivelAtual(),0,6, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF("Classe: "+monstroCarregado.getClasseAtual(),0,7, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Classe: "+monstroCarregado.getClasseAtualTexto(),0,7, Grapchics.BRANCO_CLARO);
 		desenhaElementoMonstro(8);
-		Grapchics.desenhaTTF("Raridade: "+monstroCarregado.getRaridadeMonstro(),0,9, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Raridade: "+monstroCarregado.getRaridadeMonstroTexto(),0,9, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF("Força: "+monstroCarregado.getForcaAtual(),0,10, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF("Vida: "+monstroCarregado.getVidaAtual(),0,11, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF("Velocidade: "+monstroCarregado.getSpeedAtual(),0,12, Grapchics.BRANCO_CLARO);
@@ -129,14 +129,19 @@ public final class Inventory  {
 	
 	private static void desenhaExp(int linha){
 		if (monstroCarregado.isNivelMaximo()){
-			Grapchics.desenhaTTF("NIVEL MAXIMO",0,linha, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTTF("NÍVEL MÁXIMO",0,linha, Grapchics.BRANCO_CLARO);
 		}else{
-			Grapchics.desenhaTTF("Proximo nivel: "+monstroCarregado.getExpAtual()+"/"+monstroCarregado.getExpNecessaria()+" EXP",0,linha, Grapchics.BRANCO_CLARO);
+			String nextLevel = "Próximo nível: "+monstroCarregado.getExpAtual();
+			int tamanhoTexto = nextLevel.length();
+			
+			Grapchics.desenhaTTF(nextLevel,0,linha, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTela(""+(char)47+monstroCarregado.getExpNecessaria(),tamanhoTexto,linha, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTTF(monstroCarregado.getExpNecessaria()+" EXP",tamanhoTexto+1,linha, Grapchics.BRANCO_CLARO);
 		}
 	}
 	
 	private static void desenhaElementoMonstro(int linha){
-		Grapchics.desenhaTTF("Elementos: "+monstroCarregado.getElementosAtuais(),0,linha, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Elementos: ",0,linha, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF(monstroCarregado.getElementosAtuais(), 11, linha, 
 		monstroCarregado.getCorDoElemento(monstroCarregado.getElementosAtuais()));
 	}
@@ -191,8 +196,8 @@ public final class Inventory  {
 			
 			if (skillCarregada != null){
 				if (Input.getCursorY() == linhaAtual){
-					Grapchics.desenhaTTF((i+1)+": "+skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas,Grapchics.BRANCO_CLARO);
-					Grapchics.desenhaTTF(skillCarregada.getNomeHabilidade(),3,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
+					Grapchics.desenhaTTF((i+1)+": ",0,posiçãoLinhaSkillsAtivas,Grapchics.BRANCO_CLARO);
+					Grapchics.desenhaTTF(skillCarregada.getNomeHabilidade(),4,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 					skillMostrada = skillCarregada;
 				}else{
 					Grapchics.desenhaTTF((i+1)+": ",0,posiçãoLinhaSkillsAtivas,Grapchics.BRANCO_CLARO);
@@ -221,7 +226,7 @@ public final class Inventory  {
 			Grapchics.desenhaTTF("Especial:",0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
 			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 			if (Input.getCursorY() == linhaAtual){
-				Grapchics.desenhaTTF(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
+				Grapchics.desenhaTTF(skillCarregada.getNomeHabilidade(),1,posiçãoLinhaSkillsAtivas++,Grapchics.AMARELO_CLARO);
 				skillMostrada = skillCarregada;
 			}else{
 				Grapchics.desenhaTTF(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas++,skillCarregada.getCorHabilidade());
@@ -262,7 +267,7 @@ public final class Inventory  {
 					if (monstroCarregado.getNivelAtual() >= skillCarregada.getNivelNecessario()){
 						if (Input.getCursorY() == linhaAtual){
 							Grapchics.desenhaTTF(skillCarregada.getNomeHabilidade() + " (Nv" + skillCarregada.getNivelNecessario() + ")",
-							0, posiçãoLinhaSkillsAtivas++, Grapchics.AMARELO_CLARO);
+							1, posiçãoLinhaSkillsAtivas++, Grapchics.AMARELO_CLARO);
 							skillMostrada = skillCarregada;
 						}else{
 							int tamanhoString = skillCarregada.getNomeHabilidade().length();
@@ -275,7 +280,7 @@ public final class Inventory  {
 					}else{
 						if (Input.getCursorY() == linhaAtual){
 							Grapchics.desenhaTTF(skillCarregada.getNomeHabilidade() + " (Nv" + skillCarregada.getNivelNecessario() + ")",
-							0, posiçãoLinhaSkillsAtivas++, Grapchics.AMARELO_CLARO);
+							1, posiçãoLinhaSkillsAtivas++, Grapchics.AMARELO_CLARO);
 							skillMostrada = skillCarregada;
 						}else{
 							Grapchics.desenhaTTF(skillCarregada.getNomeHabilidade() + " (Nv" + skillCarregada.getNivelNecessario() + ")",
@@ -290,80 +295,10 @@ public final class Inventory  {
 		posiçãoLinhaSkillsAtivas = linhaAtual;
 	}
 	
-	// OBS: Seria bom criar um "SkillDescription" no futuro.
 	private static void infoHabilidade(){
-		if (skillMostrada != null){
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
-			
-			if (skillMostrada.getAlvoHabilidade() != null){
-				Grapchics.desenhaTTF("Alvo: "+skillMostrada.getAlvoHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
-			}
-			
-			if (skillMostrada.getPoderHabilidade() > 0){
-				Grapchics.desenhaTTF("Poder: "+skillMostrada.getPoderHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
-			}
-			if (skillMostrada.getPrecisaoBase() > 0){
-				Grapchics.desenhaTTF("Precisão: "+skillMostrada.getPrecisaoBase(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
-			}
-			if (skillMostrada.getEnergiaHabilidade() > 0){
-				Grapchics.desenhaTTF("Energia: "+skillMostrada.getEnergiaHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
-			}
-			if (skillMostrada.getRecargaHabilidade() > 0){
-				Grapchics.desenhaTTF("Recarga: "+skillMostrada.getRecargaHabilidade(),0,posiçãoLinhaSkillsAtivas++,Grapchics.BRANCO_CLARO);
-			}
-			
-			List<Effects> efeitos = skillMostrada.getEfeitos();
-			if (efeitos != null && !efeitos.isEmpty()){
-				for (Effects efeito : efeitos){
-					StringBuilder info = new StringBuilder(efeito.getTipo());
-					int infoQuant = 0;
-					
-					info.append(" (");
-					
-					if (efeito.getChance() > 0 && efeito.getChance() < 100){
-						info.append(efeito.getChance()).append("%");
-						infoQuant++;
-					}
-					if (efeito.getValor() > 0){
-						if (infoQuant > 0) info.append(", ");
-						info.append(efeito.getValor());
-						infoQuant++;
-					}
-					
-					if (infoQuant > 0) info.append(", ");
-					if (efeito.getAlvo() == Effects.MESMO_ALVO){
-						info.append("MESMO ALVO");
-					}
-					if (efeito.getAlvo() == Effects.ALIADO_UNICO){
-						info.append("ALIADO UNICO");
-					}
-					if (efeito.getAlvo() == Effects.ALIADO_AREA){
-						info.append("ALIADO AREA");
-					}
-					if (efeito.getAlvo() == Effects.INIMIGO_UNICO){
-						info.append("INIMIGO UNICO");
-					}
-					if (efeito.getAlvo() == Effects.INIMIGO_AREA){
-						info.append("INIMIGO AREA");
-					}
-					if (efeito.getAlvo() == Effects.USUARIO){
-						info.append("USUARIO");
-					}
-					infoQuant++;
-					
-					if (efeito.getTurnos() > 0){
-						if (infoQuant > 0) info.append(", ");
-						info.append(efeito.getTurnos()).append("t");
-						infoQuant++;
-					}
-					
-					info.append(")");
-					Grapchics.desenhaTTF(info.toString(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
-				}
-			}
-			
-			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
-		}
+		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
+		posiçãoLinhaSkillsAtivas = SkillDescription.infoHabilidade(skillMostrada, posiçãoLinhaSkillsAtivas, false);
+		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 	}
 	
     protected static void desenhaInventário(){

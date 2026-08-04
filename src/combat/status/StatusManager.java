@@ -1,5 +1,7 @@
 package combat.status;
 
+import bestiary.Monsters;
+
 import combat.status.strategies.*;
 
 import java.util.HashMap;
@@ -58,9 +60,26 @@ public final class StatusManager {
             case 2: return new StatusCombus(dados);
             case 3: return new StatusTont(dados);
             case 4: return new StatusAtord(dados);
+			case 5: return new StatusCeg(dados);
+			case 6: return new StatusPes(dados);
             case 7: return new StatusImunAtord(dados);
             case 8: return new StatusRegen(dados);
 			case 9: return new StatusImunTont(dados);
+			case 10: return new StatusDoubleLife(dados);
+			case 11: return new StatusProvo(dados);
+			case 12: return new StatusLent(dados);
+			case 13: return new StatusRegenSta(dados);
+			case 14: return new StatusFraquezaElemental(dados, Monsters.Elementos.FOGO);
+			case 15: return new StatusFraquezaElemental(dados, Monsters.Elementos.NATUREZA);
+			case 16: return new StatusFraquezaElemental(dados, Monsters.Elementos.MAGIA);
+			case 17: return new StatusFraquezaElemental(dados, Monsters.Elementos.METAL);
+			case 18: return new StatusFraquezaElemental(dados, Monsters.Elementos.VENTO);
+			case 19: return new StatusFraquezaElemental(dados, Monsters.Elementos.LUZ);
+			case 20: return new StatusFraquezaElemental(dados, Monsters.Elementos.TREVAS);
+			case 21: return new StatusFraquezaElemental(dados, Monsters.Elementos.TERRA);
+			case 22: return new StatusFraquezaElemental(dados, Monsters.Elementos.TROVAO);
+			case 23: return new StatusFraquezaElemental(dados, Monsters.Elementos.AGUA);
+			case 24: return new StatusFraquezaElemental(dados, Monsters.Elementos.FISICO);
             default: return null;
         }
 	}

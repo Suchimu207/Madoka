@@ -7,6 +7,9 @@ import combat.effects.Effects;
 import combat.effects.EffectsManager;
 import combat.effects.EffectsStrategy;
 
+import combat.status.StatusBase;
+import combat.status.strategies.StatusFraquezaElemental;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -24,11 +27,7 @@ public final class BattleAction {
 		int regneração = (int) Math.ceil(maxEstamina * 0.5); 
 		int novaEstamina = regneração + usuario.getEstaminaAtualCombate();
 		
-		if (novaEstamina >= maxEstamina){
-			novaEstamina = maxEstamina;
-		}
-		
-		usuario.setEstaminaAtualCombate(novaEstamina);
+		usuario.ganharEstamina(novaEstamina);
 	}
 	
 	protected static boolean verificarCustoHabilidade(Monsters usuario, Skills habilidade){
@@ -55,14 +54,16 @@ public final class BattleAction {
         return roll <= precisaoAtual;
 	}
 	
-    protected static int executarHabilidade(Monsters usuario, List<Monsters> alvos, Skills habilidade){
+    protected static BattleActionResult executarHabilidade(Monsters usuario, List<Monsters> alvos, Skills habilidade){
 		int estaminaAtualCombate = usuario.getEstaminaAtualCombate();
 		int energiaHabilidade = habilidade.getEnergiaHabilidade();
 		int danoResultado = 0;
 		
         usuario.setEstaminaAtualCombate(estaminaAtualCombate - energiaHabilidade);
         
-		if (!verificarPrecisao(usuario, alvos, habilidade)) return danoResultado;
+		if (!verificarPrecisao(usuario, alvos, habilidade)){
+			return new BattleActionResult(danoResultado, false);
+		}			
 		
 		aplicarEfeitos(usuario, alvos, habilidade);
 		
@@ -70,7 +71,9 @@ public final class BattleAction {
 		
 		usuario.carregarEspecial(5);
 		for (Monsters monstro : alvos){
-			monstro.carregarEspecial(2);
+			monstro.carregarEspecial(2); 
+			/* habilidade.getTipoHabilidade() != Skills.TipoHabilidade.DEFENSIVA &&
+			habilidade.getTipoHabilidade() != Skills.TipoHabilidade.ESPECIAL */
 		}
 		
 		if (habilidade.isTipoEspecial(habilidade.getTipoHabilidade())){
@@ -78,12 +81,17 @@ public final class BattleAction {
 		}
 		
 		habilidade.ativarRecarga();
-		return danoResultado;
+		return new BattleActionResult(danoResultado, true);
     }
+	
+	private static void carregarEspecialMonstros(){
+	}
 	
 	private static int calcularDano(Monsters usuario, List<Monsters> alvos, Skills habilidade){
 		int forçaMonstro = usuario.getForcaAtualCombate();
 		int poderHabilidade = habilidade.getPoderHabilidade();
+		
+		Monsters.Elementos elementoAtaque = habilidade.getElementoHabilidadeTipo();
 		
         double danoBase = Math.ceil((forçaMonstro / 1000.0) * (poderHabilidade) * CONSTANTE);
 		int danoSomado = 0;
@@ -92,13 +100,25 @@ public final class BattleAction {
 			double multiplicadorElemental = 1.0;
 			
 			for (Monsters.Elementos elementoDefensor : monstro.getElementosAtuaisValores()){
-				multiplicadorElemental *= habilidade.getElementoHabilidadeTipo().
-				getMultiplicadorDano(elementoDefensor);
+				multiplicadorElemental *= elementoAtaque.getMultiplicadorDano(elementoDefensor);
+			}
+			
+			for (StatusBase status : monstro.getStatusAtuais()){
+				if (status instanceof StatusFraquezaElemental fraq && fraq.isAtivo()){
+					if (fraq.getElementoFraqueza() == elementoAtaque){
+						multiplicadorElemental += 0.5;
+					}
+				}
 			}
 			
 			int danoFinal = (int) (danoBase * multiplicadorElemental);
 			danoSomado += danoFinal;
 			monstro.perderVida(danoFinal);
+			
+			if (habilidade.getLifeSteal() > 0){
+				int cura = (int) Math.ceil(danoFinal * (habilidade.getLifeSteal() / 100));
+				usuario.ganharVida(cura);
+			}
 		}
 		return danoSomado;
     }

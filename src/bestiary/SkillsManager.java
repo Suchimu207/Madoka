@@ -52,7 +52,8 @@ public final class SkillsManager {
 					skills.getInt("poder"),
 					skills.getInt("precisaoBase"),
 					skills.getInt("energia"),
-					skills.getInt("recarga")
+					skills.getInt("recarga"),
+					skills.optDouble("lifeSteal", 0.0)
 				);
 				
 				efeitosArray = skills.optJSONArray("efeitos");

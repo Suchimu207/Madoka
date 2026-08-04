@@ -69,7 +69,7 @@ public class StatusImunAtord extends StatusBase {
 
     @Override
     public String getNome(){
-        return "Imunidade a Atordoamento";
+        return this.dados.getNome();
     }
 
     @Override

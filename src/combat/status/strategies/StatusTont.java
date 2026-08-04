@@ -38,8 +38,6 @@ public class StatusTont extends StatusBase {
             }
         }
 		
-		System.out.println("Debuff aplicado!");
-		
 		alvo.receberStatus(this);
     }
 
@@ -63,7 +61,6 @@ public class StatusTont extends StatusBase {
                 }
             }
 			
-			System.out.println("Debuf acabou!");
 		}
 	}
 	
@@ -91,7 +88,7 @@ public class StatusTont extends StatusBase {
 
     @Override
     public String getNome(){
-        return "Tontura";
+        return this.dados.getNome();
     }
 
     @Override

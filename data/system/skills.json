@@ -214,7 +214,7 @@
     ],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 30,
+    "energia": 40,
     "recarga": 2
   },
   {
@@ -229,14 +229,14 @@
 		"alvo": -1,
 		"valor": 2,
 		"chance": 100,
-		"turnos": 4
+		"turnos": 5
     },
 	{
 		"efeito": "APPLY_STATUS",
 		"alvo": -1,
 		"valor": 3,
 		"chance": 100,
-		"turnos": 4
+		"turnos": 5
     }
 	],
     "poder": 70,
@@ -300,7 +300,7 @@
 		"alvo": -1,
 		"valor": 2,
 		"chance": 65,
-		"turnos": 4
+		"turnos": 5
     }
 	],
     "poder": 30,
@@ -320,7 +320,7 @@
 		"alvo": -1,
 		"valor": 2,
 		"chance": 65,
-		"turnos": 4
+		"turnos": 5
     }
 	],
     "poder": 40,
@@ -374,7 +374,15 @@
     "elemento": "FOGO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 65,
+		"turnos": 1
+    }
+	],
     "poder": 25,
     "precisaoBase": 95,
     "energia": 35,
@@ -404,7 +412,7 @@
 		"alvo": -1,
 		"valor": 2,
 		"chance": 100,
-		"turnos": 5
+		"turnos": 3
     }
 	],
     "poder": 30,
@@ -424,13 +432,13 @@
 		"alvo": -1,
 		"valor": 2,
 		"chance": 100,
-		"turnos": 3
+		"turnos": 5
     }
 	],
-    "poder": 50,
+    "poder": 70,
     "precisaoBase": 95,
-    "energia": 20,
-    "recarga": 1
+    "energia": 50,
+    "recarga": 3
   },
   {
     "id": 25,
@@ -438,7 +446,22 @@
     "elemento": "TERRA",
     "tipo": "ESPECIAL",
     "alvo": "USUARIO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 10,
+		"chance": 100,
+		"turnos": 3
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 11,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
     "poder": 0,
     "precisaoBase": 0,
     "energia": 0,
@@ -644,9 +667,24 @@
     "elemento": "AGUA",
     "tipo": "ESPECIAL",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "REMOVE_STA",
+		"alvo": -1,
+		"valor": 50,
+		"chance": 0,
+		"turnos": 0
+    },
+	{
+		"efeito": "GAIN_STA",
+		"alvo": 4,
+		"valor": 100,
+		"chance": 0,
+		"turnos": 0
+    }
+	],
     "poder": 0,
-    "precisaoBase": 120,
+    "precisaoBase": 0,
     "energia": 0,
     "recarga": 0
   },
@@ -659,7 +697,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 13,
+    "energia": 10,
     "recarga": 0
   },
   {
@@ -680,23 +718,39 @@
     "elemento": "FISICO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 12,
+		"chance": 100,
+		"turnos": 2
+    }
+	],
     "poder": 35,
     "precisaoBase": 95,
-    "energia": 24,
+    "energia": 20,
     "recarga": 1
   },
   {
     "id": 41,
-    "nome": "Cleaning Whirlpool",
+    "nome": "Flooding",
     "elemento": "AGUA",
     "tipo": "OFENSIVA",
-    "alvo": "INIMIGO_AREA",
-    "efeitos": [],
-    "poder": 20,
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "REMOVE_POSITIVE_STATUS",
+		"alvo": -1,
+		"valor": 0,
+		"chance": 0,
+		"turnos": 0
+    }
+	],
+    "poder": 35,
     "precisaoBase": 95,
-    "energia": 37,
-    "recarga": 2
+    "energia": 20,
+    "recarga": 0
   },
   {
     "id": 42,
@@ -706,8 +760,8 @@
     "alvo": "INIMIGO_UNICO",
     "efeitos": [],
     "poder": 30,
-    "precisaoBase": 96,
-    "energia": 15,
+    "precisaoBase": 95,
+    "energia": 10,
     "recarga": 0
   },
   {
@@ -716,35 +770,59 @@
     "elemento": "FISICO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 4,
+		"chance": 100,
+		"turnos": 1
+    }
+	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 29,
+    "energia": 30,
+    "recarga": 2
+  },
+   {
+    "id": 44,
+    "nome": "Cleaning Whirlpool",
+    "elemento": "AGUA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+		"efeito": "REMOVE_POSITIVE_STATUS",
+		"alvo": -1,
+		"valor": 0,
+		"chance": 0,
+		"turnos": 0
+    }
+	],
+    "poder": 20,
+    "precisaoBase": 95,
+    "energia": 30,
     "recarga": 2
   },
   {
-    "id": 44,
+    "id": 45,
     "nome": "Destabilizing Strike",
     "elemento": "FISICO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
-    "efeitos": [],
-    "poder": 0,
-    "precisaoBase": 85,
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 3,
+		"chance": 100,
+		"turnos": 2
+    }
+	],
+    "poder": 20,
+    "precisaoBase": 95,
     "energia": 30,
     "recarga": 3
-  },
-  {
-    "id": 45,
-    "nome": "Flooding",
-    "elemento": "AGUA",
-    "tipo": "OFENSIVA",
-    "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
-    "poder": 35,
-    "precisaoBase": 100,
-    "energia": 19,
-    "recarga": 0
   },
   {
     "id": 46,
@@ -752,7 +830,15 @@
     "elemento": "FISICO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 12,
+		"chance": 100,
+		"turnos": 2
+    }
+	],
     "poder": 30,
     "precisaoBase": 95,
     "energia": 35,
@@ -764,11 +850,19 @@
     "elemento": "AGUA",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": 4,
+		"valor": 13,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 37,
-    "recarga": 2
+    "energia": 30,
+    "recarga": 1
   },
   {
     "id": 48,
@@ -778,8 +872,8 @@
     "alvo": "INIMIGO_UNICO",
     "efeitos": [],
     "poder": 60,
-    "precisaoBase": 94,
-    "energia": 39,
+    "precisaoBase": 95,
+    "energia": 40,
     "recarga": 2
   },
   {
@@ -787,23 +881,43 @@
     "nome": "Love Explosion",
     "elemento": "MAGIA",
     "tipo": "ESPECIAL",
-    "alvo": "INIMIGO_AREA",
-    "efeitos": [],
+    "alvo": "ALIADO_AREA",
+    "efeitos": [
+	{
+        "efeito": "HEALING",
+        "alvo": -1,
+        "valor": 40,
+        "chance": 0
+    },
+    {
+		"efeito": "REMOVE_NEGATIVE_STATUS",
+        "alvo": -1,
+        "valor": 0,
+        "chance": 0
+    },
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 8,
+        "chance": 100,
+        "turnos": 3
+    }
+	],
     "poder": 0,
-    "precisaoBase": 120,
+    "precisaoBase": 0,
     "energia": 0,
     "recarga": 0
   },
   {
     "id": 50,
-    "nome": "Double Open Hand Slap",
+    "nome": "Hand Slap",
     "elemento": "FISICO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 13,
+    "energia": 10,
     "recarga": 0
   },
   {
@@ -820,15 +934,22 @@
   },
   {
     "id": 52,
-    "nome": "Light Spikes",
+    "nome": "Heal",
     "elemento": "LUZ",
-    "tipo": "OFENSIVA",
-    "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
-    "poder": 40,
-    "precisaoBase": 95,
-    "energia": 25,
-    "recarga": 0
+    "tipo": "DEFENSIVA",
+    "alvo": "ALIADO_UNICO",
+    "efeitos": [
+	{
+        "efeito": "HEALING",
+        "alvo": -1,
+        "valor": 40,
+        "chance": 0
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "energia": 30,
+    "recarga": 1
   },
   {
     "id": 53,
@@ -844,15 +965,15 @@
   },
   {
     "id": 54,
-    "nome": "Heal",
+    "nome": "Light Spikes",
     "elemento": "LUZ",
-    "tipo": "DEFENSIVA",
-    "alvo": "ALIADO_UNICO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
     "efeitos": [],
-    "poder": 0,
-    "precisaoBase": 100,
+    "poder": 40,
+    "precisaoBase": 95,
     "energia": 30,
-    "recarga": 1
+    "recarga": 0
   },
   {
     "id": 55,
@@ -860,10 +981,17 @@
     "elemento": "FISICO",
     "tipo": "DEFENSIVA",
     "alvo": "USUARIO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_SHIELD",
+		"alvo": -1,
+		"valor": 30,
+		"chance": 0
+    }
+	],
     "poder": 0,
-    "precisaoBase": 100,
-    "energia": 16,
+    "precisaoBase": 0,
+    "energia": 15,
     "recarga": 1
   },
   {
@@ -874,9 +1002,9 @@
     "alvo": "INIMIGO_AREA",
     "efeitos": [],
     "poder": 25,
-    "precisaoBase": 95,
-    "energia": 37,
-    "recarga": 2
+    "precisaoBase": 100,
+    "energia": 20,
+    "recarga": 1
   },
   {
     "id": 57,
@@ -884,10 +1012,18 @@
     "elemento": "FISICO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 3,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
     "poder": 40,
     "precisaoBase": 95,
-    "energia": 21,
+    "energia": 20,
     "recarga": 1
   },
   {
@@ -896,9 +1032,16 @@
     "elemento": "LUZ",
     "tipo": "DEFENSIVA",
     "alvo": "ALIADO_AREA",
-    "efeitos": [],
+    "efeitos": [
+	{
+        "efeito": "HEALING",
+        "alvo": -1,
+        "valor": 35,
+        "chance": 0
+    }
+	],
     "poder": 0,
-    "precisaoBase": 100,
+    "precisaoBase": 0,
     "energia": 30,
     "recarga": 2
   },
@@ -921,8 +1064,8 @@
     "tipo": "ESPECIAL",
     "alvo": "INIMIGO_AREA",
     "efeitos": [],
-    "poder": 90,
-    "precisaoBase": 120,
+    "poder": 70,
+    "precisaoBase": 0,
     "energia": 0,
     "recarga": 0
   },
@@ -935,7 +1078,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 13,
+    "energia": 10,
     "recarga": 0
   },
   {
@@ -946,7 +1089,7 @@
     "alvo": "INIMIGO_UNICO",
     "efeitos": [],
     "poder": 30,
-    "precisaoBase": 100,
+    "precisaoBase": 90,
     "energia": 15,
     "recarga": 0
   },
@@ -956,10 +1099,17 @@
     "elemento": "FISICO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
-    "poder": 20,
+    "efeitos": [
+	{
+        "efeito": "ACTION_ADVANCE",
+        "alvo": 4,
+        "valor": 100,
+        "chance": 0
+    }
+	],
+    "poder": 25,
     "precisaoBase": 95,
-    "energia": 16,
+    "energia": 15,
     "recarga": 2
   },
   {
@@ -968,11 +1118,18 @@
     "elemento": "FISICO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+        "efeito": "ACTION_ADVANCE",
+        "alvo": 4,
+        "valor": 100,
+        "chance": 0
+    }
+	],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 13,
-    "recarga": 0
+    "energia": 20,
+    "recarga": 2
   },
   {
     "id": 65,
@@ -982,7 +1139,7 @@
     "alvo": "INIMIGO_UNICO",
     "efeitos": [],
     "poder": 30,
-    "precisaoBase": 96,
+    "precisaoBase": 100,
     "energia": 15,
     "recarga": 0
   },
@@ -992,10 +1149,18 @@
     "elemento": "TROVAO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
     "poder": 40,
-    "precisaoBase": 92,
-    "energia": 19,
+    "precisaoBase": 90,
+    "energia": 20,
     "recarga": 2
   },
   {
@@ -1006,8 +1171,8 @@
     "alvo": "INIMIGO_AREA",
     "efeitos": [],
     "poder": 25,
-    "precisaoBase": 95,
-    "energia": 37,
+    "precisaoBase": 100,
+    "energia": 30,
     "recarga": 2
   },
   {
@@ -1017,9 +1182,9 @@
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
     "efeitos": [],
-    "poder": 25,
+    "poder": 30,
     "precisaoBase": 95,
-    "energia": 37,
+    "energia": 30,
     "recarga": 2
   },
   {
@@ -1036,13 +1201,28 @@
   },
   {
     "id": 70,
-    "nome": "Back in Time",
+    "nome": "Magic Flux",
     "elemento": "MAGIA",
     "tipo": "ESPECIAL",
     "alvo": "INIMIGO_AREA",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "REMOVE_STA",
+		"alvo": -1,
+		"valor": 25,
+		"chance": 0,
+		"turnos": 0
+    },
+	{
+		"efeito": "GAIN_STA",
+		"alvo": 1,
+		"valor": 50,
+		"chance": 0,
+		"turnos": 0
+    }
+	],
     "poder": 0,
-    "precisaoBase": 120,
+    "precisaoBase": 0,
     "energia": 0,
     "recarga": 0
   },
@@ -1055,12 +1235,12 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 13,
+    "energia": 10,
     "recarga": 0
   },
   {
     "id": 72,
-    "nome": "Houdinis Slap",
+    "nome": "Magical Slap",
     "elemento": "MAGIA",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
@@ -1070,28 +1250,28 @@
     "energia": 15,
     "recarga": 0
   },
-  {
+   {
     "id": 73,
-    "nome": "Prismatic Ray",
-    "elemento": "MAGIA",
-    "tipo": "OFENSIVA",
-    "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
-    "poder": 45,
-    "precisaoBase": 93,
-    "energia": 29,
-    "recarga": 2
-  },
-  {
-    "id": 74,
     "nome": "Arcane Orb",
     "elemento": "MAGIA",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
     "efeitos": [],
     "poder": 25,
+    "precisaoBase": 100,
+    "energia": 30,
+    "recarga": 2
+  },
+  {
+    "id": 74,
+    "nome": "Prismatic Ray",
+    "elemento": "MAGIA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 40,
     "precisaoBase": 95,
-    "energia": 37,
+    "energia": 25,
     "recarga": 2
   },
   {
@@ -1100,10 +1280,17 @@
     "elemento": "MAGIA",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "REMOVE_STA",
+        "alvo": -1,
+        "valor": 15,
+        "chance": 0,
+    }
+	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 37,
+    "energia": 30,
     "recarga": 2
   },
   {
@@ -1112,11 +1299,18 @@
     "elemento": "NATUREZA",
     "tipo": "DEFENSIVA",
     "alvo": "ALIADO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+        "efeito": "HEALING",
+        "alvo": -1,
+        "valor": 50,
+        "chance": 0
+    }
+	],
     "poder": 0,
-    "precisaoBase": 100,
-    "energia": 30,
-    "recarga": 1
+    "precisaoBase": 0,
+    "energia": 40,
+    "recarga": 3
   },
   {
     "id": 77,
@@ -1124,11 +1318,18 @@
     "elemento": "MAGIA",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "REMOVE_STA",
+        "alvo": -1,
+        "valor": 20,
+        "chance": 0,
+    }
+	],
     "poder": 35,
-    "precisaoBase": 96,
-    "energia": 17,
-    "recarga": 0
+    "precisaoBase": 95,
+    "energia": 20,
+    "recarga": 1
   },
   {
     "id": 78,
@@ -1137,21 +1338,21 @@
     "tipo": "ESPECIAL",
     "alvo": "INIMIGO_AREA",
     "efeitos": [],
-    "poder": 60,
-    "precisaoBase": 120,
+    "poder": 70,
+    "precisaoBase": 0,
     "energia": 0,
     "recarga": 0
   },
   {
     "id": 79,
-    "nome": "Combo Stroke",
+    "nome": "Combo Strike",
     "elemento": "FISICO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 13,
+    "energia": 10,
     "recarga": 0
   },
   {
@@ -1163,7 +1364,7 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 100,
-    "energia": 13,
+    "energia": 15,
     "recarga": 0
   },
   {
@@ -1172,10 +1373,18 @@
     "elemento": "METAL",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 17,
+		"chance": 65,
+		"turnos": 3
+    }
+	],
     "poder": 30,
-    "precisaoBase": 98,
-    "energia": 23,
+    "precisaoBase": 95,
+    "energia": 20,
     "recarga": 0
   },
   {
@@ -1184,10 +1393,18 @@
     "elemento": "METAL",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 3,
+		"chance": 65,
+		"turnos": 2
+    }
+	],
     "poder": 25,
-    "precisaoBase": 98,
-    "energia": 21,
+    "precisaoBase": 95,
+    "energia": 20,
     "recarga": 0
   },
   {
@@ -1196,10 +1413,18 @@
     "elemento": "METAL",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 4,
+		"chance": 65,
+		"turnos": 1
+    }
+	],
     "poder": 35,
-    "precisaoBase": 98,
-    "energia": 35,
+    "precisaoBase": 95,
+    "energia": 30,
     "recarga": 1
   },
   {
@@ -1208,7 +1433,15 @@
     "elemento": "METAL",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 17,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
     "poder": 35,
     "precisaoBase": 95,
     "energia": 40,
@@ -1220,10 +1453,18 @@
     "elemento": "METAL",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 3,
+		"chance": 100,
+		"turnos": 2
+    }
+	],
     "poder": 25,
-    "precisaoBase": 90,
-    "energia": 46,
+    "precisaoBase": 100,
+    "energia": 45,
     "recarga": 3
   },
   {
@@ -1232,7 +1473,15 @@
     "elemento": "METAL",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 4,
+		"chance": 100,
+		"turnos": 1
+    }
+	],
     "poder": 40,
     "precisaoBase": 95,
     "energia": 40,
@@ -1244,10 +1493,25 @@
     "elemento": "METAL",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 17,
+		"chance": 100,
+		"turnos": 3
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 4,
+		"chance": 100,
+		"turnos": 1
+    }
+	],
     "poder": 30,
     "precisaoBase": 95,
-    "energia": 44,
+    "energia": 45,
     "recarga": 0
   },
   {
@@ -1256,7 +1520,15 @@
     "elemento": "METAL",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 3,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
     "poder": 35,
     "precisaoBase": 90,
     "energia": 50,
@@ -1268,7 +1540,15 @@
     "elemento": "METAL",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+		"efeito": "APPLY_SHIELD",
+		"alvo": 4,
+		"valor": 30,
+		"chance": 0,
+		"turnos": 0
+    }
+	],
     "poder": 45,
     "precisaoBase": 95,
     "energia": 40,
@@ -1276,26 +1556,41 @@
   },
   {
     "id": 90,
-    "nome": "Devour",
+    "nome": "Hail to the king",
     "elemento": "TREVAS",
     "tipo": "ESPECIAL",
     "alvo": "INIMIGO_AREA",
-    "efeitos": [],
-    "poder": 0,
-    "precisaoBase": 120,
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 5,
+        "chance": 100,
+		"turnos": 3
+    },
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 6,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 70,
+    "precisaoBase": 0,
     "energia": 0,
     "recarga": 0
   },
   {
     "id": 91,
-    "nome": "Grab or Bite",
+    "nome": "Grab and Bite",
     "elemento": "FISICO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 13,
+    "energia": 10,
     "recarga": 0
   },
   {
@@ -1316,10 +1611,18 @@
     "elemento": "TREVAS",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 5,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
     "poder": 30,
     "precisaoBase": 95,
-    "energia": 34,
+    "energia": 20,
     "recarga": 0
   },
   {
@@ -1328,10 +1631,18 @@
     "elemento": "TREVAS",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 6,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
     "poder": 30,
-    "precisaoBase": 96,
-    "energia": 15,
+    "precisaoBase": 95,
+    "energia": 20,
     "recarga": 0
   },
   {
@@ -1339,11 +1650,19 @@
     "nome": "Blackout",
     "elemento": "TREVAS",
     "tipo": "OFENSIVA",
-    "alvo": "INIMIGO_UNICO",
-    "efeitos": [],
-    "poder": 40,
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 5,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 25,
     "precisaoBase": 95,
-    "energia": 19,
+    "energia": 30,
     "recarga": 2
   },
   {
@@ -1352,10 +1671,18 @@
     "elemento": "TREVAS",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
-    "efeitos": [],
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 6,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 37,
+    "energia": 30,
     "recarga": 2
   },
   {
@@ -1363,11 +1690,75 @@
     "nome": "Apocalypse",
     "elemento": "TREVAS",
     "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 20,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 60,
+    "precisaoBase": 100,
+    "energia": 40,
+    "recarga": 2
+  },
+  {
+    "id": 98,
+    "nome": "Energy Storm",
+    "elemento": "LUZ",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 60,
+    "precisaoBase": 95,
+    "energia": 30,
+    "recarga": 2
+  },
+  {
+    "id": 99,
+    "nome": "Mana Leak",
+    "elemento": "MAGIA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "REMOVE_STA",
+        "alvo": -1,
+        "valor": 25,
+        "chance": 0,
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 100,
+    "energia": 15,
+    "recarga": 2
+  },
+  {
+    "id": 100,
+    "nome": "Dark Nightmare",
+    "elemento": "TREVAS",
+    "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 37,
+    "energia": 30,
     "recarga": 2
+  },
+  {
+    "id": 101,
+    "nome": "Big Life Steal",
+    "elemento": "TREVAS",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 45,
+    "precisaoBase": 95,
+    "energia": 30,
+    "recarga": 3,
+	"lifeSteal": 60
   }
 ]

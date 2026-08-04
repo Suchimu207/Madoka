@@ -11,6 +11,8 @@ public final class BattleTurn {
 	private static int avAtual;
 	private static boolean turnoJogador, aguardandoTurno;
 	
+	private static BattleUnit proximaUnidadeForçada = null;
+	
 	private BattleTurn(){
 	}
 	
@@ -33,9 +35,14 @@ public final class BattleTurn {
     protected static void avançarTurno(){
         if (unidades.isEmpty()) return;
         
-        ordenarActionValue(unidades);
-        
-        unidadeAtual = unidades.get(0);
+		if (proximaUnidadeForçada != null && unidades.contains(proximaUnidadeForçada)){
+            unidadeAtual = proximaUnidadeForçada;
+            proximaUnidadeForçada = null;
+        }else{
+			ordenarActionValue(unidades);
+			unidadeAtual = unidades.get(0);
+		}
+		
         avAtual = unidadeAtual.getActionValue();
 		
 		Monsters monstro = unidadeAtual.getMonstro();
@@ -93,6 +100,10 @@ public final class BattleTurn {
 		}
 	}
 	
+	public static void forcarProximoTurno(BattleUnit unidade){
+        proximaUnidadeForçada = unidade;
+    }
+	
 	protected static List<BattleUnit> getUnidades(){
 		return unidades;
 	}	
@@ -105,7 +116,7 @@ public final class BattleTurn {
 		return unidadeJogadorAtual;
 	}
 	
-	protected static BattleUnit getUnidadePorMonstro(Monsters monstro){
+	public static BattleUnit getUnidadePorMonstro(Monsters monstro){
 		for (BattleUnit unidade : unidades){
 			if (unidade.getMonstro() == monstro){
 				return unidade;

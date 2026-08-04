@@ -69,7 +69,7 @@ public class StatusImunTont extends StatusBase {
 	
     @Override
     public String getNome(){
-        return "Imunidade a Tontura";
+        return this.dados.getNome();
     }
 
     @Override
