@@ -1,4 +1,4 @@
-package combat;
+package combat.description;
 
 import bestiary.Skills;
 import combat.effects.Effects;

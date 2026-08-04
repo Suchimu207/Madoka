@@ -2,11 +2,17 @@ package main;
 
 import bestiary.Monsters;
 import bestiary.MonstersManager;
+import bestiary.Skills;
+import bestiary.SkillsManager;
 
 import util.Grapchics;
 import util.Input;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import java.util.Comparator;
 
 public final class Shop {
     private static class ItemLoja {
@@ -43,10 +49,13 @@ public final class Shop {
     // ==================== ATRIBUTOS ====================
 	
 	private static ArrayList<ItemLoja> estoque, carrinho;
+	
     private static int linhaItem, idEstanteAtual, totalPaginas, paginaAtual, 
-    inicioLista, fimLista, tamanhoLoja, tamanhoRecibo, ouroGasto;
+    inicioLista, fimLista, tamanhoLoja, tamanhoRecibo, ouroGasto, total;
     
     private static String indicadorPagina;
+	
+	private static Monsters monstroVisualizado = null;
 	
     private Shop(){
     }
@@ -71,7 +80,7 @@ public final class Shop {
     protected static void desenhaLoja(){
         Grapchics.limpaTela();
 		
-		int total;
+		linhaItem = 0;
 		tamanhoLoja = estoque.size();
         inicioLista = (paginaAtual - 1) * 24;
         fimLista = Math.min(inicioLista + 24, tamanhoLoja);
@@ -81,30 +90,8 @@ public final class Shop {
 		if (Input.getCursorY() < inicioLista) Input.setCursorY(fimLista-1);
 		if (Input.getCursorY() >= fimLista) Input.setCursorY(inicioLista);
 		
-        Grapchics.desenhaCentroTTF("Loja - "+indicadorPagina, 0, Grapchics.BRANCO_CLARO);
-        Grapchics.desenhaTTF("E: Sair", 0, 1, Grapchics.PRETO_CLARO);
-        Grapchics.desenhaTTF("Q: Comprar", 0, 2, Grapchics.PRETO_CLARO);
-        Grapchics.desenhaTTF("ENTER: Colocar/Remover do carrinho", 0, 3, Grapchics.PRETO_CLARO);
-        Grapchics.desenhaTTF("Ouro: "+Player.getOuro(), 0, 4, Grapchics.BRANCO_CLARO);
-		
-		if (carrinho != null && !carrinho.isEmpty()){
-			total = 0;
-            for (int i = 0; i < carrinho.size(); i++){
-                ItemLoja item = carrinho.get(i);
-                if (item == null) continue;
-                total += item.preco;
-            }
-			
-			if (Player.getOuro() > total){
-				Grapchics.desenhaTTF("Total: "+total, 0, 5, Grapchics.VERDE_CLARO);
-			}else if (Player.getOuro() == total){
-				Grapchics.desenhaTTF("Total: "+total, 0, 5, Grapchics.AMARELO_CLARO);
-			}else if (Player.getOuro() < total){
-				Grapchics.desenhaTTF("Total: "+total, 0, 5, Grapchics.VERMELHO_CLARO);
-			}
-			
-			linhaItem = 6;
-		}else linhaItem = 5;
+        Grapchics.desenhaCentroTTF("Loja - "+indicadorPagina, linhaItem++, Grapchics.BRANCO_CLARO);
+        desenhaOpçõesLoja(false);
 		
 		Grapchics.desenhaTela("____________________", 0, linhaItem++, Grapchics.PRETO_CLARO);
 		desenhaListaLoja();
@@ -119,16 +106,86 @@ public final class Shop {
             Monsters infoMonstro = MonstersManager.getMonstro(item.idMonstro); 
             if (infoMonstro == null) continue;
 
-            int textoMarcado = item.isItemCarrinho() ? 67 : 0;
+            int textoMarcado = item.isItemCarrinho() ? 36 : 0;
 			
             if (Input.getCursorY() == i){
-                Grapchics.desenhaHibrido(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase()+" - Preço: "+item.preco,textoMarcado, 0, 
+                Grapchics.desenhaHibrido(infoMonstro.getNomeMonstro()+" - Preço: "+item.preco,textoMarcado, 1, 
 				linhaItem++, Grapchics.AMARELO_CLARO);
+				monstroVisualizado = infoMonstro;
+				Input.setCursorX(monstroVisualizado.getIdMonstro());
             }else{
-                Grapchics.desenhaHibrido(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase()+" - Preço: "+item.preco,textoMarcado, 0, 
+                Grapchics.desenhaHibrido(infoMonstro.getNomeMonstro()+" - Preço: "+item.preco,textoMarcado, 0, 
 				linhaItem++, Grapchics.BRANCO_CLARO);
             }
         }
+	}
+	
+	protected static void desenhaItemDetalhes(){
+		Grapchics.limpaTela();
+		
+		if (monstroVisualizado == null || estoque == null) return;
+		
+		Skills especial = monstroVisualizado.getHabilidadeEspecial();
+		if (especial == null) return;
+		
+		ItemLoja item = getItemPorMonstroId(monstroVisualizado.getIdMonstro());
+		if (item == null) return;
+		
+		int textoMarcado = item.isItemCarrinho() ? 36 : 0;
+		
+		linhaItem = 0;
+		
+		Grapchics.desenhaCentroTTF("Detalhes - Loja", linhaItem++, Grapchics.BRANCO_CLARO);
+		desenhaOpçõesLoja(true);
+		
+		Grapchics.desenhaTela("____________________",0,linhaItem++, Grapchics.PRETO_CLARO);
+		
+		Grapchics.desenhaHibrido("Nome: "+monstroVisualizado.getNomeMonstro(),textoMarcado,0,linhaItem++, Grapchics.BRANCO_CLARO);
+		
+		Grapchics.desenhaTTF("Nível: "+monstroVisualizado.getNivelAtual(),0,linhaItem++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Classe: "+monstroVisualizado.getClasseAtualTexto(),0,linhaItem++, Grapchics.BRANCO_CLARO);
+		desenhaElementoMonstro(linhaItem);
+		linhaItem++;
+		
+		Grapchics.desenhaTTF("Raridade: "+monstroVisualizado.getRaridadeMonstroTexto(),0,linhaItem++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Força: "+monstroVisualizado.getForcaAtual(),0,linhaItem++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Vida: "+monstroVisualizado.getVidaAtual(),0,linhaItem++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Velocidade: "+monstroVisualizado.getSpeedAtual(),0,linhaItem++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Estamina: "+monstroVisualizado.getEstaminaAtual(),0,linhaItem++, Grapchics.BRANCO_CLARO);
+		
+		Grapchics.desenhaTTF("Traços: "+monstroVisualizado.getNomesTraços(),0,linhaItem++, Grapchics.BRANCO_CLARO);
+		
+		Grapchics.desenhaTela("____________________",0,linhaItem++,Grapchics.PRETO_CLARO);
+		linhaItem++;
+		
+		Grapchics.desenhaTela("____________________",0,linhaItem++,Grapchics.PRETO_CLARO);
+		for (int i = 0; i < monstroVisualizado.getQuantidadeMaxSlotsHabilidade(); i++){
+			Skills skillCarregada = monstroVisualizado.getHabilidadeAtiva(i);
+			
+			if (skillCarregada != null){
+				Grapchics.desenhaTTF((i+1)+": ",0,linhaItem,Grapchics.BRANCO_CLARO);
+				Grapchics.desenhaTTF(skillCarregada.getNomeHabilidade(),3,linhaItem++,skillCarregada.getCorHabilidade());
+			}else{
+				Grapchics.desenhaTTF("[VAZIO]",0,linhaItem++,Grapchics.PRETO_CLARO);
+			}
+		}
+		Grapchics.desenhaTela("____________________",0,linhaItem++,Grapchics.PRETO_CLARO);
+		linhaItem++;
+		
+		Grapchics.desenhaTTF("Especial:",0,linhaItem++,Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("____________________",0,linhaItem++,Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF(especial.getNomeHabilidade(),0,linhaItem++,especial.getCorHabilidade());
+		Grapchics.desenhaTela("____________________",0,linhaItem++,Grapchics.PRETO_CLARO);
+		
+		Grapchics.atualizarTela();
+	}
+	
+	private static void desenhaElementoMonstro(int linha){
+		if (monstroVisualizado == null) return;
+		
+		Grapchics.desenhaTTF("Elementos: ",0,linha, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF(monstroVisualizado.getElementosAtuais(), 11, linha, 
+		monstroVisualizado.getCorDoElemento(monstroVisualizado.getElementosAtuais()));
 	}
 	
 	protected static void desenhaLojaRecibo(){
@@ -163,9 +220,59 @@ public final class Shop {
             Monsters infoMonstro = MonstersManager.getMonstro(item.idMonstro);
             if (infoMonstro == null) continue;
             
-            Grapchics.desenhaTTF(infoMonstro.getNomeMonstro()+" Nv"+infoMonstro.getNivelBase(), 0, linhaItem++, Grapchics.BRANCO_CLARO);
+			String nomeMonstro = infoMonstro.getNomeMonstro();
+			int tamanhoNome = nomeMonstro.length();
+			int tamanhoElementos = infoMonstro.getElementosAtuais().length();
+			
+            Grapchics.desenhaTTF(nomeMonstro, 0, linhaItem, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTTF("(", tamanhoNome+1, linhaItem, Grapchics.BRANCO_CLARO);
+			
+			Grapchics.desenhaTTF(infoMonstro.getElementosAtuais(), tamanhoNome+2, linhaItem, 
+			infoMonstro.getCorDoElemento(infoMonstro.getElementosAtuais()));
+			
+			Grapchics.desenhaTTF(")", tamanhoNome+tamanhoElementos+2, linhaItem++, Grapchics.BRANCO_CLARO);
         }
     }
+	
+	private static void desenhaOpçõesLoja(boolean isLongeDoCaixa){
+		if (isLongeDoCaixa){
+			Grapchics.desenhaTTF("E: Voltar", 0, linhaItem++, Grapchics.PRETO_CLARO);
+		}else{
+			Grapchics.desenhaTTF("E: Sair", 0, linhaItem++, Grapchics.PRETO_CLARO);
+		}
+		
+        Grapchics.desenhaTTF("Q: Comprar", 0, linhaItem++, Grapchics.PRETO_CLARO);
+        
+		if (!isLongeDoCaixa){
+			Grapchics.desenhaTTF("Shift: Ver detalhes", 0, linhaItem++, Grapchics.PRETO_CLARO);
+		}
+		
+		Grapchics.desenhaTTF("ENTER: Colocar", 0, linhaItem, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela(""+(char)47,13,linhaItem,Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Remover do carrinho", 14, linhaItem++, Grapchics.PRETO_CLARO);
+		desenhaOuroCarrinho();
+	}
+	
+	private static void desenhaOuroCarrinho(){
+		Grapchics.desenhaTTF("Ouro: "+Player.getOuro(), 0, linhaItem++, Grapchics.BRANCO_CLARO);
+		
+		if (carrinho != null && !carrinho.isEmpty()){
+			total = 0;
+            for (int i = 0; i < carrinho.size(); i++){
+                ItemLoja item = carrinho.get(i);
+                if (item == null) continue;
+                total += item.preco;
+            }
+			
+			if (Player.getOuro() > total){
+				Grapchics.desenhaTTF("Total: "+total, 0, linhaItem++, Grapchics.VERDE_CLARO);
+			}else if (Player.getOuro() == total){
+				Grapchics.desenhaTTF("Total: "+total, 0, linhaItem++, Grapchics.AMARELO_CLARO);
+			}else if (Player.getOuro() < total){
+				Grapchics.desenhaTTF("Total: "+total, 0, linhaItem++, Grapchics.VERMELHO_CLARO);
+			}
+		}
+	}
 	
 	// ==================== AÇÕES DO JOGADOR ====================
 	
@@ -191,10 +298,13 @@ public final class Shop {
         }
         return false;
     }
-
+	
 	protected static void alternarItemCarrinho(){
+		if (monstroVisualizado == null) return;
+		
         if (Input.getCursorY() >= 0 && Input.getCursorY() < estoque.size()){
-            ItemLoja item = estoque.get(Input.getCursorY());
+			ItemLoja item = getItemPorMonstroId(monstroVisualizado.getIdMonstro());
+			if (item == null) return;
             if (item.isItemCarrinho()){
                 item.setItemCarrinho(false);
                 carrinho.remove(item);
@@ -206,6 +316,19 @@ public final class Shop {
     }
 	
 	// ==================== MÉTODOS AUXILIARES ====================
+	
+	public static ItemLoja getItemPorMonstroId(int idMonstro){
+		if (estoque == null || idMonstro <= 0){
+			return null;
+		}
+		
+		for (ItemLoja item : estoque){
+			if (item != null && item.idMonstro == idMonstro){
+				return item;
+			}
+		}
+		return null;
+	}
 	
 	protected static void limparCarrinho(){
         if (carrinho != null){

@@ -199,6 +199,13 @@ public class Monsters {
 			this.escudoAtual = 0;
 			
 			this.traçosIds = traçosIds;
+			if (this.traçosIds != null){
+			for (int traçoId : this.traçosIds){
+				Traits traço = TraitsManager.getTraço(traçoId);
+				if (traço != null) this.adicionarTraço(traço);
+				}
+			}
+			
 			this.monstroEquipado = false;
 			this.monstroFavorito = false;
 		}catch(IllegalArgumentException e){

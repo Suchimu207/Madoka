@@ -160,12 +160,16 @@ public final class BattleAI {
 	
 	// ==================== OUTROS ====================
 	
-	public static BattleActionResult getResultadoAção(){
+	protected static BattleActionResult getResultadoAção(){
 		return BattleAI.resultadoAção;
 	}
 	
-	public static void setUltimaSkill(Skills ultimaSkill){
+	protected static void setUltimaSkill(Skills ultimaSkill){
 		BattleAI.ultimaSkill = ultimaSkill;
+	}
+	
+	protected static void setResultadoAção(BattleActionResult resultadoAção){
+		BattleAI.resultadoAção = resultadoAção;
 	}
 	
     //===

@@ -4,7 +4,7 @@ import bestiary.Monsters;
 import bestiary.MonstersManager;
 import bestiary.Skills;
 
-import combat.SkillDescription;
+import combat.description.SkillDescription;
 
 import util.Grapchics;
 import util.Input;
@@ -93,7 +93,7 @@ public final class Inventory  {
 		
 		int indicadorFavorito = monstroCarregado.isMonstroFavorito() ? 3 : 0;
 		
-		Grapchics.desenhaCentroTTF("Detalhes",0, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaCentroTTF("Detalhes - Inventário",0, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF("E: Voltar", 0, 1, Grapchics.PRETO_CLARO);
 		Grapchics.desenhaTTF("Enter: Marcar/Desmarcar favorito",0,2, Grapchics.PRETO_CLARO);
 		Grapchics.desenhaTTF("Shift: Ver habilidades",0,3, Grapchics.PRETO_CLARO);
@@ -254,7 +254,7 @@ public final class Inventory  {
                 todasSkills.addAll(listaSkills);
             }
         }
-
+		
         todasSkills.sort(Comparator.comparingInt(Skills::getNivelNecessario));
 
         for (Skills skill : todasSkills){
@@ -362,7 +362,7 @@ public final class Inventory  {
 			if (selecionado){
 				nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
 				
-				Grapchics.desenhaHibrido(nomeMonstroExibido, indicadorEquipado, indicadorFavorito, 0, posiçãoLinhaInventário++,
+				Grapchics.desenhaHibrido(nomeMonstroExibido, indicadorEquipado, indicadorFavorito, 1, posiçãoLinhaInventário++,
 				Grapchics.AMARELO_CLARO);
 				
 			}else{

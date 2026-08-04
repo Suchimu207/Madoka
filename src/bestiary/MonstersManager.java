@@ -107,6 +107,7 @@ public final class MonstersManager {
 						monstroCarregado.adicionarHabilidadeArvore(nivelAprendivel, skillAtual);
 					}
 				}
+				monstroCarregado.desbloquearHabilidades();
 				
 				monstrosExistentes.put(monstroCarregado.getIdMonstro(), monstroCarregado);
 			}
@@ -118,9 +119,11 @@ public final class MonstersManager {
 	}
 	
 	public static Monsters getMonstro(int idMonstro){
-		monstroCarregado = monstrosExistentes.get(idMonstro);
+		if (monstrosExistentes.get(idMonstro) == null){
+			return monstrosExistentes.get(1);
+		}
 		
-		return monstroCarregado;
+		return monstrosExistentes.get(idMonstro);
 	}
 	
 	//===

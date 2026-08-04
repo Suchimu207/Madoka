@@ -32,6 +32,7 @@ public final class Terminal implements KeyListener {
 		MONSTRO_DETALHES("Monstro_Detalhes"),
 		MONSTRO_HABILIDADES("Monstro_Habilidades"),
 		LOJA("Loja"),
+		LOJA_DETALHES("Loja_Detalhes"),
 		LOJA_RECIBO("Loja_Recibo");
 		
 		private final String nome;
@@ -44,7 +45,7 @@ public final class Terminal implements KeyListener {
 			return nome;
 		}
 	}
-
+	
     private final JFrame frame;
 	private EstadosJogo estadoAtual;
 	private final String TITLE;
@@ -145,6 +146,9 @@ public final class Terminal implements KeyListener {
 			case LOJA:
 				Shop.desenhaLoja();
 				break;
+			case LOJA_DETALHES:
+				Shop.desenhaItemDetalhes();
+				break;
 			case LOJA_RECIBO:
 				Shop.desenhaLojaRecibo();
 				break;
@@ -238,9 +242,11 @@ public final class Terminal implements KeyListener {
             Inventory.alternarPagina(false);
             break;
         case LOJA:
-		case LOJA_RECIBO:
             Shop.alternarPagina(false);
             break;
+		case LOJA_RECIBO:
+			Input.decrementarCursorX();
+			break;
 		}
 	}
 	
@@ -259,8 +265,10 @@ public final class Terminal implements KeyListener {
             Inventory.alternarPagina(true);
             break;
         case LOJA:
+			Shop.alternarPagina(true);
+			break;
 		case LOJA_RECIBO:
-            Shop.alternarPagina(true);
+            Input.incrementarCursorX();
             break;
 		}
 	}
@@ -317,7 +325,7 @@ public final class Terminal implements KeyListener {
 	}
 	
 	private void teclaEnter(){
-		switch (estadoAtual) {
+		switch (estadoAtual){
         case TITULO:
             if (Input.getCursorY() == 1 || Input.getCursorY() == 2){
                 Grapchics.limpaTela();
@@ -347,6 +355,7 @@ public final class Terminal implements KeyListener {
             }
             break;
         case LOJA:
+		case LOJA_DETALHES:
 			Shop.alternarItemCarrinho();
             break;
 		}
@@ -367,6 +376,10 @@ public final class Terminal implements KeyListener {
 			Grapchics.limpaTela();
 			Input.setCursorAnteriorY(Input.getCursorY());
 			estadoAtual = EstadosJogo.MONSTRO_HABILIDADES;
+			break;
+		case LOJA:
+			Grapchics.limpaTela();
+			estadoAtual = EstadosJogo.LOJA_DETALHES;
 			break;
 		}
 	}
@@ -397,14 +410,20 @@ public final class Terminal implements KeyListener {
 			break;
         case LOJA:
             Grapchics.limpaTela();
+			Input.resetarCursor();
             estadoAtual = EstadosJogo.MAPA;
             break;
+		case LOJA_DETALHES:
+			Grapchics.limpaTela();
+			estadoAtual = EstadosJogo.LOJA;
+			break;
 		}
 	}
 	
 	private void teclaComprar(){
 		switch (estadoAtual){
         case LOJA:
+		case LOJA_DETALHES:
             if (Shop.comprarMonstro()){
 				Grapchics.limpaTela();
 				Input.resetarCursor();

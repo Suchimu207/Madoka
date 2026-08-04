@@ -153,6 +153,10 @@ public class Skills {
 		return alvoHabilidade.toString();
 	}
 	
+	public TipoAlvo getAlvoHabilidadeValor(){
+		return alvoHabilidade;
+	}
+	
 	public void adicionarEfeito(Effects efeito){
 		if (efeito != null) this.efeitos.add(efeito);
 	}

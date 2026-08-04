@@ -65,26 +65,34 @@ public final class BattleAction {
 			return new BattleActionResult(danoResultado, false);
 		}			
 		
-		aplicarEfeitos(usuario, alvos, habilidade);
-		
         if (habilidade.getPoderHabilidade() > 0) danoResultado = calcularDano(usuario, alvos, habilidade);
 		
-		usuario.carregarEspecial(5);
-		for (Monsters monstro : alvos){
-			monstro.carregarEspecial(2); 
-			/* habilidade.getTipoHabilidade() != Skills.TipoHabilidade.DEFENSIVA &&
-			habilidade.getTipoHabilidade() != Skills.TipoHabilidade.ESPECIAL */
-		}
+		aplicarEfeitos(usuario, alvos, habilidade);
 		
-		if (habilidade.isTipoEspecial(habilidade.getTipoHabilidade())){
-			usuario.zerarEspecial();
-		}
+		carregarEspecialMonstros(usuario, alvos, habilidade);
 		
 		habilidade.ativarRecarga();
 		return new BattleActionResult(danoResultado, true);
     }
 	
-	private static void carregarEspecialMonstros(){
+	private static void carregarEspecialMonstros(Monsters usuario, List<Monsters> alvos, Skills habilidade){
+		Skills.TipoAlvo alvo = habilidade.getAlvoHabilidadeValor();
+		
+		switch(alvo){
+			case Skills.TipoAlvo.USUARIO:
+				usuario.carregarEspecial(2);
+			break;
+			default:
+				usuario.carregarEspecial(5);
+				for (Monsters monstro : alvos){
+					monstro.carregarEspecial(2);
+				}
+			break;
+		}
+		
+		if (habilidade.isTipoEspecial(habilidade.getTipoHabilidade())){
+			usuario.zerarEspecial();
+		}
 	}
 	
 	private static int calcularDano(Monsters usuario, List<Monsters> alvos, Skills habilidade){
@@ -137,6 +145,8 @@ public final class BattleAction {
 			}
 		}
 	}
+	
+	// ==================== MÉTODOS AUXILIARES ====================
 	
 	private static List<Monsters> determinarAlvosEfeito(Monsters usuario, List<Monsters> alvosHabilidade, int alvoEfeito){
 		List<Monsters> alvos = new ArrayList<>();

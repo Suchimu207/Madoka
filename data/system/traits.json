@@ -90,7 +90,7 @@
   },
   {
     "id": 9,
-	"nome": "Reforcado",
+	"nome": "Reforçado",
     "descricao": "Status tem 20% a menos de precisão contra o usuário.",
 	"efeitos": [
     {

@@ -4,6 +4,8 @@ import bestiary.Monsters;
 import bestiary.Skills;
 import bestiary.Troop;
 
+import combat.description.SkillDescription;
+
 import combat.effects.Effects;
 
 import combat.status.StatusBase;
@@ -979,6 +981,7 @@ public final class BattleField {
 		this.resultadoAção = null;
 		
 		BattleAI.setUltimaSkill(null);
+		BattleAI.setResultadoAção(null);
 		
 		BattleTurn.finalizarTurno(); 
 	}
