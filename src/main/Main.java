@@ -5,6 +5,8 @@ import combat.Battle;
 import util.Debug;
 import util.Utils;
 
+import world.Maps;
+
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
 

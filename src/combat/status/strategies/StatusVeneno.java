@@ -5,11 +5,11 @@ import bestiary.Monsters;
 import combat.status.StatusBase;
 import combat.status.StatusData;
 
-public class StatusPes extends StatusBase {
+public class StatusVeneno extends StatusBase {
 	private int duraçãoBase, duraçãoAtual;
 	private boolean isAtivo;
 	
-    public StatusPes(StatusData dados){
+    public StatusVeneno(StatusData dados){
         super(dados);
 		this.duraçãoBase = 0;
 		this.duraçãoAtual = 0;
@@ -24,25 +24,30 @@ public class StatusPes extends StatusBase {
 		this.duraçãoAtual = this.duraçãoBase;
 		this.isAtivo = true;
 		
+		int forçaAtualCombate = alvo.getForcaAtualCombate();
+		int forçaNerfada = (int) Math.ceil(forçaAtualCombate * 0.80);
+		
+		alvo.setForcaAtualCombate(forçaNerfada);
+		
 		alvo.receberStatus(this);
     }
-
+	
     @Override
     public void checar(Monsters alvo){
 		if (duraçãoAtual <= 0) return;
 		
 		int dano = (int) Math.ceil(alvo.getVidaAtualCombateMaxima() * (10 / 100.0));
 		alvo.perderVidaSemEscudo(dano);
-		
-		int perda = (int) Math.ceil(alvo.getEstaminaAtual() * (10 / 100.0));
-		alvo.perderEstamina(perda);
     }
 	
 	@Override
 	public void reduzirDuração(Monsters alvo){
 		duraçãoAtual -= 1;
 		
-		if (duraçãoAtual <= 0) isAtivo = false;
+		if (duraçãoAtual <= 0){
+			isAtivo = false;
+			alvo.setForcaAtualCombate(alvo.getForcaAtual());
+		}			
 	}
 	
 	@Override
@@ -71,7 +76,7 @@ public class StatusPes extends StatusBase {
     public String getNome(){
         return this.dados.getNome();
     }
-
+	
     @Override
     public String getSubtipo(){
         return "..."; 

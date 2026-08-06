@@ -234,9 +234,9 @@ public final class BattleField {
 		int tamanhoNomeHabilidade = nomeHabilidade.length();
 		Color corHabilidade = skillUsada.getCorHabilidade();
 		
-		Grapchics.desenhaTTF(mensagem, 1, linhaAtual, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF(nomeHabilidade, tamanhoMensagem+1, linhaAtual, corHabilidade);
-		Grapchics.desenhaTela((char)19, tamanhoNomeHabilidade+tamanhoMensagem+1, linhaAtual++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF(mensagem, 1, linhaAtual++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF(nomeHabilidade, 0, linhaAtual, corHabilidade);
+		Grapchics.desenhaTela((char)19, tamanhoNomeHabilidade, linhaAtual++, Grapchics.BRANCO_CLARO);
 	}
 	
 	private void desenhaHabilidadeUsadaAliado(){
@@ -255,9 +255,9 @@ public final class BattleField {
 		int tamanhoNomeHabilidade = nomeHabilidade.length();
 		Color corHabilidade = skillUsada.getCorHabilidade();
 		
-		Grapchics.desenhaTTF(mensagem, 1, linhaAtual, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF(nomeHabilidade, tamanhoMensagem+1, linhaAtual, corHabilidade);
-		Grapchics.desenhaTela((char)19, tamanhoNomeHabilidade+tamanhoMensagem+1, linhaAtual++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF(mensagem, 1, linhaAtual++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF(nomeHabilidade, 0, linhaAtual, corHabilidade);
+		Grapchics.desenhaTela((char)19, tamanhoNomeHabilidade, linhaAtual++, Grapchics.BRANCO_CLARO);
 	}
 	
 	private void desenhaAliados(){

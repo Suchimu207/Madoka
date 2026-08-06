@@ -11,6 +11,7 @@ public final class EffectsManager {
     static{
 		efeitos.put("HEALING", new EffectsHealing());
 		efeitos.put("GAIN_STA", new EffectsGainSta());
+		efeitos.put("CHARGE_ESP", new EffectsChargeEsp());
 		efeitos.put("APPLY_STATUS", new EffectsApplyStatus());
 		efeitos.put("APPLY_SHIELD", new EffectsApplyShield());
 		efeitos.put("REMOVE_STA", new EffectsRemoveSta());

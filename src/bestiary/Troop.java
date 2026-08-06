@@ -10,6 +10,8 @@ public class Troop {
 
         protected Inimigo(Monsters monstro, int nivel){
             this.monstro = monstro;
+			
+			if (nivel <= 0) nivel = 1;
             this.nivel = nivel;
 			
 			this.monstro.subirNivel(this.nivel-1);

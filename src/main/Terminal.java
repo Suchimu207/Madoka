@@ -7,6 +7,8 @@ import util.Grapchics;
 import util.Input;
 import util.Utils;
 
+import world.Maps;
+
 import asciiPanel.AsciiTTFFont;
 
 import javax.swing.*;
@@ -170,7 +172,7 @@ public final class Terminal implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e){
 		int tecla = e.getKeyCode();
-		teclasPressionadas.add(tecla);	
+		teclasPressionadas.add(tecla);
 		if (estadoAtual == EstadosJogo.BATALHA){
 			if(Battle.recebeComandosBatalha(tecla, teclasPressionadas)){
 				Grapchics.limpaTela();
@@ -344,14 +346,16 @@ public final class Terminal implements KeyListener {
 			Inventory.alternarHabilidadeAtiva();
 			break;
         case MAPA:
-            if (Maps.ehEvento(mapaAtual, Player.getJogadorX(), Player.getJogadorY()) == '$'){
+            if (Maps.ehEvento(mapaAtual, Player.getJogadorX(), Player.getJogadorY()) == Maps.LOJA){
                 Input.resetarCursor();
                 Shop.limparCarrinho();
                 estadoAtual = EstadosJogo.LOJA;
             }
-			if (Maps.ehEvento(mapaAtual, Player.getJogadorX(), Player.getJogadorY()) == '!'){
+			if (Maps.ehEvento(mapaAtual, Player.getJogadorX(), Player.getJogadorY()) == Maps.BATALHA){
 				Battle.setarBatalha();
 				estadoAtual = EstadosJogo.BATALHA;
+            }
+			if (Maps.ehEvento(mapaAtual, Player.getJogadorX(), Player.getJogadorY()) == Maps.ARENA){
             }
             break;
         case LOJA:
@@ -448,6 +452,7 @@ public final class Terminal implements KeyListener {
 		switch (estadoAtual){
         case MAPA:
             Grapchics.limpaTela();
+			Input.setCursorY(1);
             estadoAtual = EstadosJogo.TITULO;
             break;
         case LOJA_RECIBO:

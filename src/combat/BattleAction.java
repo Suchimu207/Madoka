@@ -119,6 +119,8 @@ public final class BattleAction {
 				}
 			}
 			
+			// Bônus de stab aqui.
+			
 			int danoFinal = (int) (danoBase * multiplicadorElemental);
 			danoSomado += danoFinal;
 			monstro.perderVida(danoFinal);

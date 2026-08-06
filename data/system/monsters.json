@@ -24,7 +24,8 @@
     "vidaBase": 28,
     "velocidadeBase": 10,
     "estaminaBase": 100,
-    "tracos": [1]
+    "tracos": [1],
+	"energia": 90
   },
   {
     "id": 2,
@@ -34,15 +35,25 @@
     "raridade": "COMUM",
     "nivelBase": 1,
     "habilidades": [
-      { "id": 1, "nivel": 1 },
+      { "id": 115, "nivel": 1 },
       { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 3, "nivel": 1 },
+	  { "id": 116, "nivel": 4 },
+	  { "id": 4, "nivel": 7 },
+	  { "id": 117, "nivel": 10 },
+	  { "id": 7, "nivel": 15 },
+	  { "id": 119, "nivel": 20 },
+	  { "id": 118, "nivel": 25 },
+	  { "id": 10, "nivel": 30 },
+	  { "id": 40, "nivel": 35 },
+	  { "id": 120, "nivel": 40 }
     ],
     "forcaBase": 9,
-    "vidaBase": 20,
+    "vidaBase": 25,
     "velocidadeBase": 15,
     "estaminaBase": 100,
-    "tracos": [1]
+    "tracos": [1],
+	"energia": 50
   },
   {
     "id": 3,
@@ -79,12 +90,21 @@
     "raridade": "COMUM",
     "nivelBase": 1,
     "habilidades": [
-      { "id": 1, "nivel": 1 },
-      { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 13, "nivel": 1 },
+      { "id": 59, "nivel": 1 },
+      { "id": 15, "nivel": 1 },
+	  { "id": 63, "nivel": 4 },
+	  { "id": 16, "nivel": 7 },
+	  { "id": 40, "nivel": 10 },
+	  { "id": 18, "nivel": 15 },
+	  { "id": 43, "nivel": 20 },
+	  { "id": 21, "nivel": 25 },
+	  { "id": 57, "nivel": 30 },
+	  { "id": 46, "nivel": 35 },
+	  { "id": 19, "nivel": 40 }
     ],
     "forcaBase": 12,
-    "vidaBase": 20,
+    "vidaBase": 25,
     "velocidadeBase": 12,
     "estaminaBase": 100,
     "tracos": [2]
@@ -124,15 +144,25 @@
     "raridade": "COMUM",
     "nivelBase": 1,
     "habilidades": [
-      { "id": 1, "nivel": 1 },
-      { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 121, "nivel": 1 },
+      { "id": 50, "nivel": 1 },
+      { "id": 55, "nivel": 1 },
+	  { "id": 29, "nivel": 4 },
+	  { "id": 33, "nivel": 7 },
+	  { "id": 107, "nivel": 10 },
+	  { "id": 32, "nivel": 15 },
+	  { "id": 43, "nivel": 20 },
+	  { "id": 122, "nivel": 25 },
+	  { "id": 35, "nivel": 30 },
+	  { "id": 123, "nivel": 35 },
+	  { "id": 124, "nivel": 40 },
     ],
-    "forcaBase": 7,
-    "vidaBase": 15,
-    "velocidadeBase": 20,
-    "estaminaBase": 120,
-    "tracos": [8]
+    "forcaBase": 9,
+    "vidaBase": 27,
+    "velocidadeBase": 16,
+    "estaminaBase": 100,
+    "tracos": [8],
+	"energia": 60
   },
   {
     "id": 7,
@@ -169,9 +199,18 @@
     "raridade": "COMUM",
     "nivelBase": 1,
     "habilidades": [
-      { "id": 1, "nivel": 1 },
-      { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 60, "nivel": 1 },
+      { "id": 79, "nivel": 1 },
+      { "id": 62, "nivel": 1 },
+	  { "id": 65, "nivel": 4 },
+	  { "id": 64, "nivel": 7 },
+	  { "id": 67, "nivel": 10 },
+	  { "id": 122, "nivel": 15 },
+	  { "id": 68, "nivel": 20 },
+	  { "id": 125, "nivel": 25 },
+	  { "id": 126, "nivel": 30 },
+	  { "id": 69, "nivel": 35 },
+	  { "id": 127, "nivel": 40 },
     ],
     "forcaBase": 16,
     "vidaBase": 25,
@@ -204,7 +243,8 @@
     "vidaBase": 28,
     "velocidadeBase": 10,
     "estaminaBase": 100,
-    "tracos": [1]
+    "tracos": [1],
+	"energia": 90
   },
   {
     "id": 10,
@@ -214,13 +254,22 @@
     "raridade": "COMUM",
     "nivelBase": 1,
     "habilidades": [
-      { "id": 1, "nivel": 1 },
-      { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 128, "nivel": 1 },
+      { "id": 39, "nivel": 1 },
+      { "id": 62, "nivel": 1 },
+	  { "id": 42, "nivel": 4 },
+	  { "id": 65, "nivel": 7 },
+	  { "id": 41, "nivel": 10 },
+	  { "id": 47, "nivel": 15 },
+	  { "id": 44, "nivel": 20 },
+	  { "id": 103, "nivel": 25 },
+	  { "id": 130, "nivel": 30 },
+	  { "id": 129, "nivel": 35 },
+	  { "id": 48, "nivel": 40 },
     ],
     "forcaBase": 10,
     "vidaBase": 25,
-    "velocidadeBase": 10,
+    "velocidadeBase": 12,
     "estaminaBase": 100,
     "tracos": [5]
   },
@@ -243,7 +292,7 @@
 	  { "id": 56, "nivel": 25 },
 	  { "id": 58, "nivel": 30 },
 	  { "id": 76, "nivel": 35 },
-	  { "id": 98, "nivel": 40 },
+	  { "id": 98, "nivel": 40 }
     ],
     "forcaBase": 9,
     "vidaBase": 35,
@@ -254,20 +303,30 @@
   {
     "id": 12,
     "nome": "Gem Idol",
-    "classe": "GENERALISTA",
+    "classe": "SUPORTE",
     "elementos": ["LUZ"],
     "raridade": "COMUM",
     "nivelBase": 1,
     "habilidades": [
-      { "id": 1, "nivel": 1 },
-      { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 146, "nivel": 1 },
+      { "id": 59, "nivel": 1 },
+      { "id": 51, "nivel": 1 },
+	  { "id": 56, "nivel": 4 },
+	  { "id": 104, "nivel": 7 },
+	  { "id": 144, "nivel": 10 },
+	  { "id": 145, "nivel": 15 },
+	  { "id": 52, "nivel": 20 },
+	  { "id": 54, "nivel": 25 },
+	  { "id": 58, "nivel": 30 },
+	  { "id": 143, "nivel": 35 },
+	  { "id": 98, "nivel": 40 },
     ],
-    "forcaBase": 8,
-    "vidaBase": 20,
-    "velocidadeBase": 10,
+    "forcaBase": 12,
+    "vidaBase": 27,
+    "velocidadeBase": 12,
     "estaminaBase": 100,
-    "tracos": [6]
+    "tracos": [6],
+	"energia": 95
   },
   {
     "id": 13,
@@ -294,25 +353,36 @@
     "vidaBase": 25,
     "velocidadeBase": 12,
     "estaminaBase": 100,
-    "tracos": [4]
+    "tracos": [4],
+	"energia": 120
   },
   {
     "id": 14,
     "nome": "Bloom Fairy",
     "classe": "ATACANTE",
-    "elementos": ["MAGIA"],
+    "elementos": ["MAGIA", "FOGO"],
     "raridade": "RARO",
     "nivelBase": 1,
     "habilidades": [
-      { "id": 1, "nivel": 1 },
-      { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 109, "nivel": 1 },
+      { "id": 59, "nivel": 1 },
+      { "id": 77, "nivel": 1 },
+	  { "id": 63, "nivel": 4 },
+	  { "id": 16, "nivel": 7 },
+	  { "id": 74, "nivel": 10 },
+	  { "id": 18, "nivel": 15 },
+	  { "id": 110, "nivel": 20 },
+	  { "id": 112, "nivel": 25 },
+	  { "id": 111, "nivel": 30 },
+	  { "id": 114, "nivel": 35 },
+	  { "id": 113, "nivel": 40 },
     ],
     "forcaBase": 16,
     "vidaBase": 25,
     "velocidadeBase": 10,
     "estaminaBase": 100,
-    "tracos": [8]
+    "tracos": [8],
+	"energia": 150
   },
   {
     "id": 15,
@@ -335,11 +405,12 @@
 	  { "id": 101, "nivel": 35 },
 	  { "id": 97, "nivel": 40 },
     ],
-    "forcaBase": 10,
+    "forcaBase": 12,
     "vidaBase": 30,
     "velocidadeBase": 12,
     "estaminaBase": 100,
-    "tracos": [4]
+    "tracos": [4],
+	"energia": 90
   },
   {
     "id": 16,
@@ -349,15 +420,25 @@
     "raridade": "COMUM",
     "nivelBase": 1,
     "habilidades": [
-      { "id": 1, "nivel": 1 },
-      { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 137, "nivel": 1 },
+      { "id": 14, "nivel": 1 }, 
+      { "id": 133, "nivel": 1 }, 
+	  { "id": 63, "nivel": 4 },
+	  { "id": 93, "nivel": 7 },
+	  { "id": 135, "nivel": 10 },
+	  { "id": 94, "nivel": 15 }, 
+	  { "id": 134, "nivel": 20 },
+	  { "id": 136, "nivel": 25 },
+	  { "id": 96, "nivel": 30 },
+	  { "id": 101, "nivel": 35 },
+	  { "id": 97, "nivel": 40 },
     ],
-    "forcaBase": 9,
-    "vidaBase": 20,
+    "forcaBase": 10,
+    "vidaBase": 25,
     "velocidadeBase": 14,
     "estaminaBase": 100,
-    "tracos": [5]
+    "tracos": [5],
+	"energia": 90
   },
   {
     "id": 17,
@@ -394,15 +475,24 @@
     "raridade": "COMUM",
     "nivelBase": 1,
     "habilidades": [
-      { "id": 1, "nivel": 1 },
-      { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 139, "nivel": 1 },
+      { "id": 79, "nivel": 1 },
+      { "id": 80, "nivel": 1 },
+	  { "id": 67, "nivel": 4 },
+	  { "id": 141, "nivel": 7 },
+	  { "id": 142, "nivel": 10 },
+	  { "id": 68, "nivel": 15 },
+	  { "id": 138, "nivel": 20 },
+	  { "id": 140, "nivel": 25 },
+	  { "id": 69, "nivel": 30 },
+	  { "id": 89, "nivel": 35 }, 
+	  { "id": 127, "nivel": 40 },
     ],
-    "forcaBase": 9,
-    "vidaBase": 25,
-    "velocidadeBase": 9,
+    "forcaBase": 12,
+    "vidaBase": 28,
+    "velocidadeBase": 12,
     "estaminaBase": 100,
-    "tracos": [1]
+    "tracos": [4]
   },
   {
     "id": 19,
@@ -413,32 +503,51 @@
     "nivelBase": 1,
     "habilidades": [
       { "id": 1, "nivel": 1 },
-      { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 59, "nivel": 1 },
+      { "id": 102, "nivel": 1 },
+	  { "id": 103, "nivel": 4 },
+	  { "id": 104, "nivel": 7 },
+	  { "id": 105, "nivel": 10 },
+	  { "id": 106, "nivel": 15 },
+	  { "id": 107, "nivel": 20 },
+	  { "id": 55, "nivel": 25 },
+	  { "id": 76, "nivel": 30 },
+	  { "id": 12, "nivel": 35 },
+	  { "id": 108, "nivel": 40 }
     ],
     "forcaBase": 12,
-    "vidaBase": 25,
-    "velocidadeBase": 9,
+    "vidaBase": 28,
+    "velocidadeBase": 10,
     "estaminaBase": 100,
     "tracos": [3]
   },
   {
     "id": 20,
-    "nome": "Fluffy Bat",
+    "nome": "Fluffy Eagle",
     "classe": "GENERALISTA",
     "elementos": ["VENTO"],
     "raridade": "COMUM",
     "nivelBase": 1,
     "habilidades": [
       { "id": 1, "nivel": 1 },
-      { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 61, "nivel": 1 },
+      { "id": 102, "nivel": 1 },
+	  { "id": 104, "nivel": 4 },
+	  { "id": 55, "nivel": 7 },
+	  { "id": 105, "nivel": 10 },
+	  { "id": 122, "nivel": 15 },
+	  { "id": 57, "nivel": 20 },
+	  { "id": 106, "nivel": 25 },
+	  { "id": 143, "nivel": 30 },
+	  { "id": 12, "nivel": 35 },
+	  { "id": 108, "nivel": 40 },
     ],
-    "forcaBase": 9,
-    "vidaBase": 20,
+    "forcaBase": 12,
+    "vidaBase": 25,
     "velocidadeBase": 14,
     "estaminaBase": 100,
-    "tracos": [5]
+    "tracos": [5],
+	"energia": 90
   },
   {
     "id": 21,
@@ -448,14 +557,23 @@
     "raridade": "INCOMUM",
     "nivelBase": 1,
     "habilidades": [
-      { "id": 1, "nivel": 1 },
+      { "id": 131, "nivel": 1 },
       { "id": 2, "nivel": 1 },
-      { "id": 3, "nivel": 1 }
+      { "id": 3, "nivel": 1 },
+	  { "id": 116, "nivel": 4 },
+	  { "id": 4, "nivel": 7 },
+	  { "id": 117, "nivel": 10 },
+	  { "id": 7, "nivel": 15 },
+	  { "id": 8, "nivel": 20 },
+	  { "id": 118, "nivel": 25 },
+	  { "id": 53, "nivel": 30 },
+	  { "id": 10, "nivel": 35 }, 
+	  { "id": 132, "nivel": 40 }
     ],
-    "forcaBase": 7,
-    "vidaBase": 30,
+    "forcaBase": 10,
+    "vidaBase": 34,
     "velocidadeBase": 9,
     "estaminaBase": 100,
-    "tracos": [4]
+    "tracos": [1]
   }
 ]

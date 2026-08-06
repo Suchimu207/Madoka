@@ -10,6 +10,7 @@ import combat.status.StatusManager;
 import combat.status.StatusBase;
 
 public class EffectsApplyShield implements EffectsStrategy {
+	private static final int LIMITE_ESCUDO = Integer.MAX_VALUE;	
 	private StatusBase status;
 	
     @Override
@@ -19,9 +20,8 @@ public class EffectsApplyShield implements EffectsStrategy {
         int efeitoValor = efeito.getValor();
 		
 		int vidaAtual = usuario.getVidaAtualCombateMaxima();
-		int limiteEscudo = vidaAtual * 2;
 		
-		if (alvo.getEscudoAtual() >= limiteEscudo) return;
+		if (alvo.getEscudoAtual() == LIMITE_ESCUDO) return;
 		
 		status = StatusManager.getStatusPorId(0);
 		if (status == null) return;
@@ -35,7 +35,7 @@ public class EffectsApplyShield implements EffectsStrategy {
 		
         int valorEscudo = (int) Math.ceil(vidaAtual * (efeitoValor / 100.0));
 		
-		int novoEscudo = Math.min(limiteEscudo, alvo.getEscudoAtual()+valorEscudo);
+		int novoEscudo = Math.min(LIMITE_ESCUDO, alvo.getEscudoAtual()+valorEscudo);
 		
 		alvo.setEscudoAtual(novoEscudo);
     }

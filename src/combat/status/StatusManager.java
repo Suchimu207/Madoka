@@ -57,6 +57,7 @@ public final class StatusManager {
 		
         switch (id){
             case 0: return new StatusShield(dados);
+			case 1: return new StatusVeneno(dados);
             case 2: return new StatusCombus(dados);
             case 3: return new StatusTont(dados);
             case 4: return new StatusAtord(dados);
@@ -80,6 +81,7 @@ public final class StatusManager {
 			case 22: return new StatusFraquezaElemental(dados, Monsters.Elementos.TROVAO);
 			case 23: return new StatusFraquezaElemental(dados, Monsters.Elementos.AGUA);
 			case 24: return new StatusFraquezaElemental(dados, Monsters.Elementos.FISICO);
+			case 25: return new StatusRap(dados);
             default: return null;
         }
 	}

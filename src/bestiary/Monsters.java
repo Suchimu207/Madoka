@@ -126,7 +126,7 @@ public class Monsters {
 	private int vidaBase, vidaAtual, vidaAtualCombate, vidaAtualCombateMaxima;
 	private int speedBase, speedAtual, speedAtualCombate;
 	private int estaminaBase, estaminaAtual, estaminaAtualCombate;
-	private int barraEspecialAtual;
+	private int barraEspecialAtual, barraEspecialMaximo;
 	private int escudoAtual;
 	private int attunedPercent;
 	private int statusArmor;
@@ -138,7 +138,6 @@ public class Monsters {
 	private Raridades raridadeMonstro;
 	
 	private final int NIVEL_MAXIMO = 40;
-	private final int BARRA_ESPECIAL_MAXIMO = 100;
 	
 	private final int MIN_PROVOCATION_RATE = 100;
 	private final int MAX_PROVOCATION_RATE = 999;
@@ -156,7 +155,7 @@ public class Monsters {
 	// ==================== CONSTRUTORES ==================== 
 	
 	public Monsters(int idMonstro, String nomeMonstro, Classes classeAtual, Elementos[] elementosAtuais,
-	Raridades raridadeMonstro, int nivelBase, int forçaBase, int vidaBase, int speedBase, int estaminaBase, int[] traçosIds){
+	Raridades raridadeMonstro, int nivelBase, int forçaBase, int vidaBase, int speedBase, int estaminaBase, int[] traçosIds, int barraEspecialMaximo){
 		try{
 			if (idMonstro <= 0){
 				throw new IllegalArgumentException("ID deve ser maior do que 0.");
@@ -196,15 +195,11 @@ public class Monsters {
 			this.estaminaAtual = this.estaminaBase;
 			
 			this.barraEspecialAtual = 0;
+			this.barraEspecialMaximo = barraEspecialMaximo;
+			
 			this.escudoAtual = 0;
 			
 			this.traçosIds = traçosIds;
-			if (this.traçosIds != null){
-			for (int traçoId : this.traçosIds){
-				Traits traço = TraitsManager.getTraço(traçoId);
-				if (traço != null) this.adicionarTraço(traço);
-				}
-			}
 			
 			this.monstroEquipado = false;
 			this.monstroFavorito = false;
@@ -232,6 +227,7 @@ public class Monsters {
 	   this.estaminaBase = monstroRequerido.getEstaminaBase();
 	   this.estaminaAtual = monstroRequerido.getEstaminaAtual();
 	   this.barraEspecialAtual = monstroRequerido.getBarraEspecialAtual();
+	   this.barraEspecialMaximo = monstroRequerido.getBarraEspecialMaximo();
 	   this.escudoAtual = monstroRequerido.getEscudoAtual();
 	   this.provocationRate = monstroRequerido.getProvocationRate();
 	   
@@ -404,8 +400,8 @@ public class Monsters {
 	}
 	
 	public void carregarEspecial(int carga){
-		if (carga > this.BARRA_ESPECIAL_MAXIMO || carga <= 0) return;
-		this.barraEspecialAtual = Math.min(this.BARRA_ESPECIAL_MAXIMO, carga+this.barraEspecialAtual);
+		if (carga > this.barraEspecialMaximo || carga <= 0) return;
+		this.barraEspecialAtual = Math.min(this.barraEspecialMaximo, carga+this.barraEspecialAtual);
 	}
 	
 	public void zerarEspecial(){
@@ -413,7 +409,7 @@ public class Monsters {
 	}
 	
 	public boolean isEspecialCarregado(){
-		if (this.barraEspecialAtual == this.BARRA_ESPECIAL_MAXIMO) return true;
+		if (this.barraEspecialAtual == this.barraEspecialMaximo) return true;
 		return false;
 	}
 	
@@ -422,7 +418,7 @@ public class Monsters {
 	}
 
 	public int getBarraEspecialMaximo(){
-		return BARRA_ESPECIAL_MAXIMO;
+		return barraEspecialMaximo;
 	}
 	
 	public int getQuantidadeSlotsOcupados(){
@@ -519,6 +515,13 @@ public class Monsters {
 			int vidaRestante = this.getVidaAtualCombate() - danoRestante;
 			this.setVidaAtualCombate(vidaRestante);
 		}
+	}
+	
+	public void perderVidaSemEscudo(int dano){
+		if (this.getVidaAtualCombate() <= 0 || dano <= 0) return;
+		
+		int vidaRestante = this.getVidaAtualCombate() - dano;
+		this.setVidaAtualCombate(vidaRestante);
 	}
 	
 	public void ganharEstamina(int regen){
@@ -752,6 +755,26 @@ public class Monsters {
 	
 	public int[] getTracosIds(){
 		return traçosIds;
+	}
+	
+	public String getNomesTracosPorIds(){
+		if (this.traçosIds == null || this.traçosIds.length == 0){
+			return "Nenhum";
+		}
+		
+		List<String> nomes = new ArrayList<>();
+		for (int id : this.traçosIds){
+			Traits traco = TraitsManager.getTraço(id);
+			if (traco != null){
+				nomes.add(traco.getNomeTraço());
+			}
+		}
+
+		if (nomes.isEmpty()){
+			return "Nenhum";
+		}
+
+		return String.join(", ", nomes);
 	}
 	
 	public int getStatusArmor(){

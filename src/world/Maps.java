@@ -1,6 +1,4 @@
-package main;
-
-import world.*;
+package world;
 
 import util.Grapchics;
 
@@ -8,6 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class Maps {
+	public static final char PAREDE = '#';
+	public static final char BATALHA = '!';
+	public static final char LOJA = '$';
+	public static final char ARENA = 'A';
+	public static final char PORTAL = '-';
+	
 	private static Map<String, String> mapasExistentes; 
 	private static String mapaAtual, mapaVerificado;
 	private static int iLinha, jColuna = 0;
@@ -16,12 +20,12 @@ public final class Maps {
 	private Maps(){
 	}
 	
-	protected static void carregarMapas(){
+	public static void carregarMapas(){
 		MapsManager.carregarMapas();
 		mapasExistentes = MapsManager.getMapasExistentes();
 	}
 	
-	protected static void desenhaMapa(String mapaNome, int jogadorX, int jogadorY){	
+	public static void desenhaMapa(String mapaNome, int jogadorX, int jogadorY){	
 		mapaAtual = mapasExistentes.get(mapaNome+".txt");
 		
 		if (mapaAtual == null){
@@ -38,13 +42,13 @@ public final class Maps {
 					Grapchics.desenhaTela('@', jogadorX, jogadorY, Grapchics.BRANCO_CLARO);
 				}else{
 					switch(tile){
-					case '#':
+					case Maps.PAREDE:
 					Grapchics.desenhaTela('#', jColuna, iLinha, Grapchics.PRETO_CLARO);
 					break;
 					case '.':
 					Grapchics.desenhaTela('.', jColuna, iLinha, Grapchics.PRETO_CLARO);
 					break;
-					case '$':
+					case Maps.LOJA:
 					Grapchics.desenhaTela('$', jColuna, iLinha, Grapchics.AMARELO_CLARO);
 					break;
 					case ']':
@@ -53,13 +57,13 @@ public final class Maps {
 					case '[':
 					Grapchics.desenhaTela('[', jColuna, iLinha, Grapchics.BRANCO_CLARO);
 					break;
-					case '-':
+					case Maps.PORTAL:
 					Grapchics.desenhaTela('-', jColuna, iLinha, Grapchics.CIANO_CLARO);
 					break;
-					case 'A':
+					case Maps.ARENA:
 					Grapchics.desenhaTela('A', jColuna, iLinha, Grapchics.AMARELO_CLARO);
 					break;
-					case '!':
+					case Maps.BATALHA:
 					Grapchics.desenhaTela('!', jColuna, iLinha, Grapchics.AMARELO_CLARO);
 					break;
 					case '?':
@@ -72,7 +76,7 @@ public final class Maps {
 		Grapchics.atualizarTela();
 	}
 	
-	protected static boolean ehParede(String mapaNome, int jogadorX, int jogadorY){
+	public static boolean ehParede(String mapaNome, int jogadorX, int jogadorY){
 		mapaVerificado = mapasExistentes.get(mapaNome + ".txt");
 		if (mapaVerificado == null){
 			return true;
@@ -88,10 +92,10 @@ public final class Maps {
 			return true;
 		}
 		
-		return linhaAlvo.charAt(jogadorX) == '#';
+		return linhaAlvo.charAt(jogadorX) == Maps.PAREDE;
 	}
 	
-	protected static char ehEvento(String mapaNome, int jogadorX, int jogadorY){
+	public static char ehEvento(String mapaNome, int jogadorX, int jogadorY){
 		mapaVerificado = mapasExistentes.get(mapaNome + ".txt");
 		if (mapaVerificado == null){
 			return '.';
@@ -107,10 +111,12 @@ public final class Maps {
 			return '.';
 		}
 		
-		if (linhaAlvo.charAt(jogadorX) == '$'){
-			return '$';
-		}else if (linhaAlvo.charAt(jogadorX) == '!'){
-			return '!';
+		if (linhaAlvo.charAt(jogadorX) == Maps.LOJA){
+			return Maps.LOJA;
+		}else if (linhaAlvo.charAt(jogadorX) == Maps.BATALHA){
+			return Maps.BATALHA;
+		}else if (linhaAlvo.charAt(jogadorX) == Maps.ARENA){
+			return Maps.ARENA;
 		}
 		return '.';
 	}

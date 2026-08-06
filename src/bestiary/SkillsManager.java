@@ -51,7 +51,7 @@ public final class SkillsManager {
 					alvoConvertido,
 					skills.getInt("poder"),
 					skills.getInt("precisaoBase"),
-					skills.getInt("energia"),
+					skills.getInt("estamina"),
 					skills.getInt("recarga"),
 					skills.optDouble("lifeSteal", 0.0)
 				);
@@ -64,7 +64,7 @@ public final class SkillsManager {
 						String tipo = efeitoObj.getString("efeito");
 						int alvo = efeitoObj.getInt("alvo");
 						int valor = efeitoObj.getInt("valor");
-						int chance = efeitoObj.getInt("chance");
+						int chance = efeitoObj.optInt("chance",0);
 						int turnos = efeitoObj.optInt("turnos", 0);
 						
 						Effects efeito = new Effects(tipo, alvo, valor, chance, turnos);

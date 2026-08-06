@@ -32,9 +32,9 @@ public class StatusCombus extends StatusBase {
 		if (duraçãoAtual <= 0) return;
 		
 		int dano = (int) Math.ceil(alvo.getVidaAtualCombateMaxima() * (15 / 100.0));
-		alvo.perderVida(dano);
+		alvo.perderVidaSemEscudo(dano);
     }
-
+	
 	@Override
 	public void reduzirDuração(Monsters alvo){
 		duraçãoAtual -= 1;

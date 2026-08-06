@@ -149,4 +149,10 @@
     "tipo": "NEGATIVE",
     "subtipo": "DEBUFF"
   },
+  {
+    "id": 25,
+    "nome": "Rapidez",
+    "tipo": "POSITIVE",
+    "subtipo": "BUFF"
+  }
 ]

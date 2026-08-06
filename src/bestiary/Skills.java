@@ -53,7 +53,7 @@ public class Skills {
 	private int poderHabilidade;
 	private int precisãoBase;
 	private int precisãoAtual;
-	private int energiaHabilidade;
+	private int estaminaHabilidade;
 	
 	private TipoHabilidade tipoHabilidade;
 	private TipoAlvo alvoHabilidade;
@@ -69,7 +69,7 @@ public class Skills {
 	
 	public Skills(int idHabilidade, String nomeHabilidade, Monsters.Elementos elementoHabilidade,
 	TipoHabilidade tipoHabilidade, TipoAlvo alvoHabilidade, int poderHabilidade, int precisãoBase,
-	int energiaHabilidade, int recargaHabilidade, double lifeSteal){
+	int estaminaHabilidade, int recargaHabilidade, double lifeSteal){
 		try{
 			if (idHabilidade <= 0){
 				throw new IllegalArgumentException("ID deve ser maior do que 0.");
@@ -81,13 +81,13 @@ public class Skills {
 		this.tipoHabilidade = tipoHabilidade;
 		this.alvoHabilidade = alvoHabilidade;
 		
-			if (poderHabilidade < 0 || precisãoBase < 0 || energiaHabilidade < 0 || recargaHabilidade < 0){
+			if (poderHabilidade < 0 || precisãoBase < 0 || estaminaHabilidade < 0 || recargaHabilidade < 0){
 				throw new IllegalArgumentException("Valores precisam ser iguais ou maiores do que zero.");
 			}
 		this.poderHabilidade = poderHabilidade;
 		this.precisãoBase = precisãoBase;
 		this.precisãoAtual = this.precisãoBase;
-		this.energiaHabilidade = energiaHabilidade;
+		this.estaminaHabilidade = estaminaHabilidade;
 		this.recargaHabilidade = recargaHabilidade;
 		this.recargaAtual = 0;
 		this.recargaPendente = false;
@@ -109,7 +109,7 @@ public class Skills {
 		this.poderHabilidade = skillRequerida.getPoderHabilidade();
 		this.precisãoBase = skillRequerida.getPrecisaoBase();
 		this.precisãoAtual = skillRequerida.getPrecisaoAtual();
-		this.energiaHabilidade = skillRequerida.getEnergiaHabilidade();
+		this.estaminaHabilidade = skillRequerida.getEnergiaHabilidade();
 		this.recargaHabilidade = skillRequerida.getRecargaHabilidade();
 		this.recargaAtual = skillRequerida.getRecargaAtual();
 		this.recargaPendente = skillRequerida.isRecargaPendente();
@@ -217,7 +217,7 @@ public class Skills {
 	}
 
 	public int getEnergiaHabilidade(){
-		return energiaHabilidade;
+		return estaminaHabilidade;
 	}
 
 	public int getRecargaHabilidade(){

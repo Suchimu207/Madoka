@@ -21,7 +21,7 @@
     ],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 0,
+    "estamina": 0,
     "recarga": 0
   },
   {
@@ -33,7 +33,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 10,
+    "estamina": 10,
     "recarga": 0
   },
   {
@@ -45,7 +45,7 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 100,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -57,7 +57,7 @@
     "efeitos": [],
     "poder": 35,
     "precisaoBase": 95,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -76,7 +76,7 @@
     ],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -95,7 +95,7 @@
     ],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 1
   },
   {
@@ -107,7 +107,7 @@
     "efeitos": [],
     "poder": 40,
     "precisaoBase": 90,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -132,7 +132,7 @@
     ],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 1
   },
   {
@@ -151,7 +151,7 @@
     ],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 2
   },
   {
@@ -163,7 +163,7 @@
     "efeitos": [],
     "poder": 50,
     "precisaoBase": 95,
-    "energia": 25,
+    "estamina": 25,
     "recarga": 0
   },
   {
@@ -189,7 +189,7 @@
     ],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 1
   },
   {
@@ -214,7 +214,7 @@
     ],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 40,
+    "estamina": 40,
     "recarga": 2
   },
   {
@@ -241,7 +241,7 @@
 	],
     "poder": 70,
     "precisaoBase": 0,
-    "energia": 0,
+    "estamina": 0,
     "recarga": 0
   },
   {
@@ -253,7 +253,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 10,
+    "estamina": 10,
     "recarga": 0
   },
   {
@@ -265,7 +265,7 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 100,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -285,7 +285,7 @@
 	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -305,7 +305,7 @@
 	],
     "poder": 30,
     "precisaoBase": 100,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 0
   },
   {
@@ -325,7 +325,7 @@
 	],
     "poder": 40,
     "precisaoBase": 95,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 1
   },
   {
@@ -345,7 +345,7 @@
 	],
     "poder": 50,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 0
   },
   {
@@ -365,7 +365,7 @@
 	],
     "poder": 40,
     "precisaoBase": 90,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -385,7 +385,7 @@
 	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 35,
+    "estamina": 35,
     "recarga": 2
   },
   {
@@ -397,7 +397,7 @@
     "efeitos": [],
     "poder": 60,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 1
   },
   {
@@ -417,7 +417,7 @@
 	],
     "poder": 30,
     "precisaoBase": 90,
-    "energia": 40,
+    "estamina": 40,
     "recarga": 2
   },
   {
@@ -437,7 +437,7 @@
 	],
     "poder": 70,
     "precisaoBase": 95,
-    "energia": 50,
+    "estamina": 50,
     "recarga": 3
   },
   {
@@ -464,7 +464,7 @@
 	],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 0,
+    "estamina": 0,
     "recarga": 0
   },
   {
@@ -476,7 +476,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 10,
+    "estamina": 10,
     "recarga": 0
   },
   {
@@ -488,7 +488,7 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 100,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -508,7 +508,7 @@
 	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 0
   },
   {
@@ -528,7 +528,7 @@
 	],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -540,7 +540,7 @@
     "efeitos": [],
     "poder": 35,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 0
   },
   {
@@ -560,7 +560,7 @@
 	],
     "poder": 30,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 1
   },
   {
@@ -572,7 +572,7 @@
     "efeitos": [],
     "poder": 40,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 0
   },
   {
@@ -606,8 +606,8 @@
 	],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 25,
-    "recarga": 0
+    "estamina": 35,
+    "recarga": 1
   },
   {
     "id": 34,
@@ -618,7 +618,7 @@
     "efeitos": [],
     "poder": 60,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 1
   },
   {
@@ -638,7 +638,7 @@
 	],
     "poder": 50,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 1
   },
   {
@@ -658,7 +658,7 @@
 	],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
   {
@@ -685,7 +685,7 @@
 	],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 0,
+    "estamina": 0,
     "recarga": 0
   },
   {
@@ -697,7 +697,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 10,
+    "estamina": 10,
     "recarga": 0
   },
   {
@@ -709,7 +709,7 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 100,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -729,7 +729,7 @@
 	],
     "poder": 35,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 1
   },
   {
@@ -749,7 +749,7 @@
 	],
     "poder": 35,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 0
   },
   {
@@ -761,7 +761,7 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 95,
-    "energia": 10,
+    "estamina": 10,
     "recarga": 0
   },
   {
@@ -781,7 +781,7 @@
 	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
    {
@@ -801,7 +801,7 @@
 	],
     "poder": 20,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
   {
@@ -821,7 +821,7 @@
 	],
     "poder": 20,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 3
   },
   {
@@ -841,7 +841,7 @@
 	],
     "poder": 30,
     "precisaoBase": 95,
-    "energia": 35,
+    "estamina": 35,
     "recarga": 1
   },
   {
@@ -861,7 +861,7 @@
 	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 1
   },
   {
@@ -873,7 +873,7 @@
     "efeitos": [],
     "poder": 60,
     "precisaoBase": 95,
-    "energia": 40,
+    "estamina": 40,
     "recarga": 2
   },
   {
@@ -905,7 +905,7 @@
 	],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 0,
+    "estamina": 0,
     "recarga": 0
   },
   {
@@ -917,7 +917,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 10,
+    "estamina": 10,
     "recarga": 0
   },
   {
@@ -929,7 +929,7 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 100,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -948,7 +948,7 @@
 	],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 1
   },
   {
@@ -960,7 +960,7 @@
     "efeitos": [],
     "poder": 45,
     "precisaoBase": 95,
-    "energia": 25,
+    "estamina": 25,
     "recarga": 2
   },
   {
@@ -972,7 +972,7 @@
     "efeitos": [],
     "poder": 40,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 0
   },
   {
@@ -991,7 +991,7 @@
 	],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 1
   },
   {
@@ -1003,7 +1003,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 1
   },
   {
@@ -1023,7 +1023,7 @@
 	],
     "poder": 40,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 1
   },
   {
@@ -1042,20 +1042,20 @@
 	],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
   {
     "id": 59,
-    "nome": "Punch With Life Back",
+    "nome": "Slight Attack",
     "elemento": "FISICO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
     "efeitos": [],
-    "poder": 55,
-    "precisaoBase": 95,
-    "energia": 30,
-    "recarga": 2
+    "poder": 25,
+    "precisaoBase": 100,
+    "estamina": 10,
+    "recarga": 0
   },
   {
     "id": 60,
@@ -1066,7 +1066,7 @@
     "efeitos": [],
     "poder": 70,
     "precisaoBase": 0,
-    "energia": 0,
+    "estamina": 0,
     "recarga": 0
   },
   {
@@ -1078,7 +1078,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 10,
+    "estamina": 10,
     "recarga": 0
   },
   {
@@ -1090,7 +1090,7 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 90,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -1109,13 +1109,13 @@
 	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 2
   },
   {
     "id": 64,
     "nome": "Blitzer Charge",
-    "elemento": "FISICO",
+    "elemento": "TROVAO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
     "efeitos": [
@@ -1128,7 +1128,7 @@
 	],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 2
   },
   {
@@ -1140,7 +1140,7 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 100,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -1160,7 +1160,7 @@
 	],
     "poder": 40,
     "precisaoBase": 90,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 2
   },
   {
@@ -1172,7 +1172,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
   {
@@ -1184,19 +1184,19 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
   {
     "id": 69,
-    "nome": "Thunder God",
+    "nome": "Thunder",
     "elemento": "TROVAO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
     "efeitos": [],
     "poder": 60,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
   {
@@ -1223,19 +1223,19 @@
 	],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 0,
+    "estamina": 0,
     "recarga": 0
   },
   {
     "id": 71,
-    "nome": "Magical Punch",
+    "nome": "Arcane Strike",
     "elemento": "FISICO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_UNICO",
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 10,
+    "estamina": 10,
     "recarga": 0
   },
   {
@@ -1247,7 +1247,7 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 100,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
    {
@@ -1259,7 +1259,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
   {
@@ -1271,7 +1271,7 @@
     "efeitos": [],
     "poder": 40,
     "precisaoBase": 95,
-    "energia": 25,
+    "estamina": 25,
     "recarga": 2
   },
   {
@@ -1290,7 +1290,7 @@
 	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
   {
@@ -1309,7 +1309,7 @@
 	],
     "poder": 0,
     "precisaoBase": 0,
-    "energia": 40,
+    "estamina": 40,
     "recarga": 3
   },
   {
@@ -1328,7 +1328,7 @@
 	],
     "poder": 35,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 1
   },
   {
@@ -1340,7 +1340,7 @@
     "efeitos": [],
     "poder": 70,
     "precisaoBase": 0,
-    "energia": 0,
+    "estamina": 0,
     "recarga": 0
   },
   {
@@ -1352,7 +1352,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 10,
+    "estamina": 10,
     "recarga": 0
   },
   {
@@ -1364,7 +1364,7 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 100,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -1384,7 +1384,7 @@
 	],
     "poder": 30,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 0
   },
   {
@@ -1404,7 +1404,7 @@
 	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 0
   },
   {
@@ -1424,7 +1424,7 @@
 	],
     "poder": 35,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 1
   },
   {
@@ -1444,7 +1444,7 @@
 	],
     "poder": 35,
     "precisaoBase": 95,
-    "energia": 40,
+    "estamina": 40,
     "recarga": 0
   },
   {
@@ -1464,7 +1464,7 @@
 	],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 45,
+    "estamina": 45,
     "recarga": 3
   },
   {
@@ -1484,7 +1484,7 @@
 	],
     "poder": 40,
     "precisaoBase": 95,
-    "energia": 40,
+    "estamina": 40,
     "recarga": 2
   },
   {
@@ -1511,7 +1511,7 @@
 	],
     "poder": 30,
     "precisaoBase": 95,
-    "energia": 45,
+    "estamina": 45,
     "recarga": 0
   },
   {
@@ -1531,7 +1531,7 @@
 	],
     "poder": 35,
     "precisaoBase": 90,
-    "energia": 50,
+    "estamina": 50,
     "recarga": 2
   },
   {
@@ -1551,7 +1551,7 @@
 	],
     "poder": 45,
     "precisaoBase": 95,
-    "energia": 40,
+    "estamina": 40,
     "recarga": 3
   },
   {
@@ -1576,9 +1576,9 @@
 		"turnos": 3
     }
 	],
-    "poder": 70,
+    "poder": 50,
     "precisaoBase": 0,
-    "energia": 0,
+    "estamina": 0,
     "recarga": 0
   },
   {
@@ -1590,7 +1590,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 100,
-    "energia": 10,
+    "estamina": 10,
     "recarga": 0
   },
   {
@@ -1602,7 +1602,7 @@
     "efeitos": [],
     "poder": 30,
     "precisaoBase": 100,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 0
   },
   {
@@ -1622,7 +1622,7 @@
 	],
     "poder": 30,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 0
   },
   {
@@ -1642,7 +1642,7 @@
 	],
     "poder": 30,
     "precisaoBase": 95,
-    "energia": 20,
+    "estamina": 20,
     "recarga": 0
   },
   {
@@ -1662,7 +1662,7 @@
 	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
   {
@@ -1682,7 +1682,7 @@
 	],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
   {
@@ -1702,7 +1702,7 @@
 	],
     "poder": 60,
     "precisaoBase": 100,
-    "energia": 40,
+    "estamina": 40,
     "recarga": 2
   },
   {
@@ -1714,7 +1714,7 @@
     "efeitos": [],
     "poder": 60,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
   {
@@ -1733,7 +1733,7 @@
 	],
     "poder": 0,
     "precisaoBase": 100,
-    "energia": 15,
+    "estamina": 15,
     "recarga": 2
   },
   {
@@ -1745,7 +1745,7 @@
     "efeitos": [],
     "poder": 25,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 2
   },
   {
@@ -1757,8 +1757,859 @@
     "efeitos": [],
     "poder": 45,
     "precisaoBase": 95,
-    "energia": 30,
+    "estamina": 30,
     "recarga": 3,
 	"lifeSteal": 60
+  },
+  {
+    "id": 102,
+    "nome": "Floral Breeze",
+    "elemento": "VENTO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 30,
+    "precisaoBase": 100,
+    "estamina": 15,
+    "recarga": 0
+  },
+  {
+    "id": 103,
+    "nome": "Ocean Breeze",
+    "elemento": "AGUA",
+    "tipo": "DEFENSIVA",
+    "alvo": "ALIADO_UNICO",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 13,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 20,
+    "recarga": 1
+  },
+  {
+    "id": 104,
+    "nome": "Wind Path",
+    "elemento": "VENTO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [],
+    "poder": 25,
+    "precisaoBase": 100,
+    "estamina": 20,
+    "recarga": 1
+  },
+  {
+    "id": 105,
+    "nome": "Wind Breake",
+    "elemento": "VENTO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 40,
+    "precisaoBase": 100,
+    "estamina": 25,
+    "recarga": 2
+  },
+  {
+    "id": 106,
+    "nome": "Leaf Breeze",
+    "elemento": "NATUREZA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+        "efeito": "HEALING",
+        "alvo": 1,
+        "valor": 10,
+        "chance": 0
+    }
+	],
+    "poder": 25,
+    "precisaoBase": 95,
+    "estamina": 30,
+    "recarga": 2
+  },
+  {
+    "id": 107,
+    "nome": "Sand Wind",
+    "elemento": "TERRA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+		"efeito": "APPLY_SHIELD",
+		"alvo": 1,
+		"valor": 10,
+		"chance": 0,
+		"turnos": 0
+    }
+	],
+    "poder": 25,
+    "precisaoBase": 95,
+    "estamina": 30,
+    "recarga": 2
+  },
+  {
+    "id": 108,
+    "nome": "Come Along With Me",
+    "elemento": "VENTO",
+    "tipo": "DEFENSIVA",
+    "alvo": "ALIADO_AREA",
+    "efeitos": [
+	{
+        "efeito": "HEALING",
+        "alvo": -1,
+        "valor": 40,
+        "chance": 0
+    },
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 8,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 45,
+    "recarga": 5
+  },
+  {
+    "id": 109,
+    "nome": "The Flame of Dragon",
+    "elemento": "FOGO",
+    "tipo": "ESPECIAL",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [],
+    "poder": 100,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 0
+  },
+  {
+    "id": 110,
+    "nome": "Latent Power",
+    "elemento": "FOGO",
+    "tipo": "DEFENSIVA",
+    "alvo": "USUARIO",
+    "efeitos": [
+	{
+        "efeito": "CHARGE_ESP",
+        "alvo": 4,
+        "valor": 23,
+        "chance": 0
+    },
+	{
+        "efeito": "ACTION_ADVANCE",
+        "alvo": 4,
+        "valor": 100,
+        "chance": 0
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 10,
+    "recarga": 3
+  },
+  {
+    "id": 111,
+    "nome": "Force Push",
+    "elemento": "MAGIA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 50,
+    "precisaoBase": 95,
+    "estamina": 30,
+    "recarga": 0
+  },
+  {
+    "id": 112,
+    "nome": "Magic Rush",
+    "elemento": "MAGIA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [],
+    "poder": 30,
+    "precisaoBase": 95,
+    "estamina": 40,
+    "recarga": 1
+  },
+  {
+    "id": 113,
+    "nome": "Concentrated Orb",
+    "elemento": "MAGIA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 60,
+    "precisaoBase": 100,
+    "estamina": 40,
+    "recarga": 3
+  },
+  {
+    "id": 114,
+    "nome": "Super Overload",
+    "elemento": "MAGIA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [],
+    "poder": 35,
+    "precisaoBase": 95,
+    "estamina": 50,
+    "recarga": 3
+  },
+  {
+    "id": 115,
+    "nome": "Forest Seed",
+    "elemento": "NATUREZA",
+    "tipo": "ESPECIAL",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 1,
+        "chance": 100,
+		"turnos": 3
+    },
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": 4,
+        "valor": 8,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 0
+  },
+  {
+    "id": 116,
+    "nome": "Poison Leaf",
+    "elemento": "NATUREZA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 1,
+        "chance": 65,
+		"turnos": 3
+    }
+	],
+    "poder": 25,
+    "precisaoBase": 100,
+    "estamina": 15,
+    "recarga": 0
+  },
+  {
+    "id": 117,
+    "nome": "Double Poison Leaf",
+    "elemento": "NATUREZA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 1,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 30,
+    "precisaoBase": 95,
+    "estamina": 20,
+    "recarga": 2
+  },
+  {
+    "id": 118,
+    "nome": "Poison Storm Leaf",
+    "elemento": "NATUREZA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 1,
+        "chance": 65,
+		"turnos": 3
+    }
+	],
+    "poder": 20,
+    "precisaoBase": 95,
+    "estamina": 20,
+    "recarga": 0
+  },
+  {
+    "id": 119,
+    "nome": "My Biomass",
+    "elemento": "NATUREZA",
+    "tipo": "DEFENSIVA",
+    "alvo": "USUARIO",
+    "efeitos": [
+	{
+        "efeito": "HEALING",
+        "alvo": -1,
+        "valor": 30,
+        "chance": 0
+    },
+    {
+        "efeito": "REMOVE_CONTINUOUS_DAMAGE",
+        "alvo": -1,
+        "valor": 0,
+        "chance": 0
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 25,
+    "recarga": 1
+  },
+  {
+    "id": 120,
+    "nome": "Creature of the Forest",
+    "elemento": "NATUREZA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 1,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 30,
+    "precisaoBase": 95,
+    "estamina": 25,
+    "recarga": 3
+  },
+  {
+    "id": 121,
+    "nome": "Sand Castle",
+    "elemento": "TERRA",
+    "tipo": "ESPECIAL",
+    "alvo": "ALIADO_AREA",
+    "efeitos": [
+	{
+		"efeito": "APPLY_SHIELD",
+		"alvo": -1,
+		"valor": 35,
+		"chance": 0,
+		"turnos": 0
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 0
+  },
+  {
+    "id": 122,
+    "nome": "Sand Attack",
+    "elemento": "TERRA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 5,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 40,
+    "precisaoBase": 95,
+    "estamina": 20,
+    "recarga": 1
+  },
+  {
+    "id": 123,
+    "nome": "Bulldoze",
+    "elemento": "TERRA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 12,
+        "chance": 100,
+		"turnos": 2
+    }
+	],
+    "poder": 30,
+    "precisaoBase": 95,
+    "estamina": 25,
+    "recarga": 3
+  },
+  {
+    "id": 124,
+    "nome": "Earthquake",
+    "elemento": "TERRA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [],
+    "poder": 50,
+    "precisaoBase": 100,
+    "estamina": 40,
+    "recarga": 3
+  },
+  {
+    "id": 125,
+    "nome": "Charge Battery",
+    "elemento": "TROVAO",
+    "tipo": "DEFENSIVA",
+    "alvo": "USUARIO",
+    "efeitos": [
+	{
+        "efeito": "CHARGE_ESP",
+        "alvo": -1,
+        "valor": 8,
+        "chance": 0
+    },
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 13,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 5
+  },
+  {
+    "id": 126,
+    "nome": "Thunder Storm",
+    "elemento": "TROVAO",
+    "tipo": "DEFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [],
+    "poder": 35,
+    "precisaoBase": 95,
+    "estamina": 40,
+    "recarga": 3
+  },
+  {
+    "id": 127,
+    "nome": "Thunder God",
+    "elemento": "TROVAO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 70,
+    "precisaoBase": 100,
+    "estamina": 45,
+    "recarga": 3
+  },
+  {
+    "id": 128,
+    "nome": "Ocean Renovation",
+    "elemento": "AGUA",
+    "tipo": "ESPECIAL",
+    "alvo": "USUARIO",
+    "efeitos": [
+	{
+        "efeito": "REMOVE_NEGATIVE_STATUS",
+        "alvo": -1,
+        "valor": 0,
+        "chance": 0
+    },
+    {
+        "efeito": "HEALING",
+        "alvo": -1,
+        "valor": 100,
+        "chance": 0
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 0
+  },
+  {
+    "id": 129,
+    "nome": "Clean Up",
+    "elemento": "AGUA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+        "efeito": "REMOVE_NEGATIVE_STATUS",
+        "alvo": 4,
+        "valor": 0,
+        "chance": 0
+    },
+	{
+        "efeito": "REMOVE_POSITIVE_STATUS",
+        "alvo": -1,
+        "valor": 0,
+        "chance": 0
+    }
+	],
+    "poder": 20,
+    "precisaoBase": 95,
+    "estamina": 35,
+    "recarga": 2
+  },
+  {
+    "id": 130,
+    "nome": "High Tide",
+    "elemento": "AGUA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [],
+    "poder": 30,
+    "precisaoBase": 95,
+    "estamina": 40,
+    "recarga": 1
+  },
+  {
+    "id": 131,
+    "nome": "Forest Root",
+    "elemento": "NATUREZA",
+    "tipo": "ESPECIAL",
+    "alvo": "ALIADO_AREA",
+    "efeitos": [
+	{
+		"efeito": "HEALING",
+		"alvo": -1,
+		"valor": 50
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 8,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 0
+  },
+  {
+    "id": 132,
+    "nome": "Protector of the Forest",
+    "elemento": "NATUREZA",
+    "tipo": "DEFENSIVA",
+    "alvo": "USUARIO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 8,
+		"chance": 100,
+		"turnos": 3
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 11,
+		"chance": 100,
+		"turnos": 1
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 40,
+    "recarga": 2
+  },
+  {
+    "id": 133,
+    "nome": "Inattentive Prey",
+    "elemento": "TREVAS",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 1,
+        "chance": 65,
+		"turnos": 3
+    }
+	],
+    "poder": 25,
+    "precisaoBase": 100,
+    "estamina": 15,
+    "recarga": 0
+  },
+  {
+    "id": 134,
+    "nome": "Easy Prey",
+    "elemento": "TREVAS",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 1,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 30,
+    "precisaoBase": 100,
+    "estamina": 20,
+    "recarga": 1
+  },
+  {
+    "id": 135,
+    "nome": "Litte Life Steal",
+    "elemento": "TREVAS",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 30,
+    "precisaoBase": 100,
+    "estamina": 15,
+    "recarga": 1,
+	"lifeSteal": 10
+  },
+  {
+    "id": 136,
+    "nome": "Life Steal",
+    "elemento": "TREVAS",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 35,
+    "precisaoBase": 95,
+    "estamina": 20,
+    "recarga": 1,
+	"lifeSteal": 30
+  },
+  {
+    "id": 137,
+    "nome": "Hunter Night",
+    "elemento": "TREVAS",
+    "tipo": "ESPECIAL",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 1,
+        "chance": 100,
+		"turnos": 3
+    },
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 5,
+        "chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 50,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 0
+  },
+  {
+    "id": 138,
+    "nome": "Copper Will",
+    "elemento": "METAL",
+    "tipo": "DEFENSIVA",
+    "alvo": "ALIADO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_SHIELD",
+		"alvo": -1,
+		"valor": 25,
+		"chance": 0,
+		"turnos": 0
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 9,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 20,
+    "recarga": 1
+  },
+  {
+    "id": 139,
+    "nome": "Lightning rod",
+    "elemento": "TROVAO",
+    "tipo": "ESPECIAL",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": 4,
+		"valor": 13,
+		"chance": 100,
+		"turnos": 3
+    },
+	],
+    "poder": 70,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 0
+  },
+  {
+    "id": 140,
+    "nome": "Copper Force",
+    "elemento": "METAL",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 22,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 30,
+    "precisaoBase": 95,
+    "estamina": 45,
+    "recarga": 0
+  },
+  {
+    "id": 141,
+    "nome": "Cooper Block",
+    "elemento": "METAL",
+    "tipo": "DEFENSIVA",
+    "alvo": "ALIADO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_SHIELD",
+		"alvo": -1,
+		"valor": 35,
+		"chance": 0,
+		"turnos": 0
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 20,
+    "recarga": 1
+  },
+  {
+    "id": 142,
+    "nome": "Copper Ore",
+    "elemento": "METAL",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 35,
+    "precisaoBase": 100,
+    "estamina": 20,
+    "recarga": 0
+  },
+  {
+    "id": 143,
+    "nome": "Tailwind",
+    "elemento": "VENTO",
+    "tipo": "DEFENSIVA",
+    "alvo": "ALIADO_AREA",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 25,
+		"chance": 100,
+		"turnos": 4
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 25,
+    "recarga": 2
+  },
+  {
+    "id": 144,
+    "nome": "Aqua Benedicta",
+    "elemento": "AGUA",
+    "tipo": "DEFENSIVA",
+    "alvo": "USUARIO",
+    "efeitos": [
+	{
+        "efeito": "REMOVE_NEGATIVE_STATUS",
+        "alvo": -1,
+        "valor": 0,
+        "chance": 0
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 30,
+    "recarga": 2
+  },
+  {
+    "id": 145,
+    "nome": "Blessing",
+    "elemento": "LUZ",
+    "tipo": "DEFENSIVA",
+    "alvo": "ALIADO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 25,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 20,
+    "recarga": 1
+  },
+  {
+    "id": 146,
+    "nome": "Angelus",
+    "elemento": "LUZ",
+    "tipo": "ESPECIAL",
+    "alvo": "ALIADO_AREA",
+    "efeitos": [
+	{
+        "efeito": "REMOVE_NEGATIVE_STATUS",
+        "alvo": -1,
+        "valor": 0,
+        "chance": 0
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 25,
+		"chance": 100,
+		"turnos": 4
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 0
   }
 ]

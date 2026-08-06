@@ -152,8 +152,9 @@ public final class Shop {
 		Grapchics.desenhaTTF("Vida: "+monstroVisualizado.getVidaAtual(),0,linhaItem++, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF("Velocidade: "+monstroVisualizado.getSpeedAtual(),0,linhaItem++, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF("Estamina: "+monstroVisualizado.getEstaminaAtual(),0,linhaItem++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Energia: "+monstroVisualizado.getBarraEspecialMaximo(),0,linhaItem++, Grapchics.BRANCO_CLARO);
 		
-		Grapchics.desenhaTTF("Traços: "+monstroVisualizado.getNomesTraços(),0,linhaItem++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Traços: "+monstroVisualizado.getNomesTracosPorIds(),0,linhaItem++, Grapchics.BRANCO_CLARO);
 		
 		Grapchics.desenhaTela("____________________",0,linhaItem++,Grapchics.PRETO_CLARO);
 		linhaItem++;

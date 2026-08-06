@@ -18,6 +18,8 @@ import java.util.Map;
 
 import java.util.Comparator;
 
+import java.awt.Color;
+
 public final class Inventory  {
 	protected static enum SlotEquipe {
         SLOT_1,
@@ -110,18 +112,19 @@ public final class Inventory  {
 		Grapchics.desenhaTTF("Vida: "+monstroCarregado.getVidaAtual(),0,11, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF("Velocidade: "+monstroCarregado.getSpeedAtual(),0,12, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF("Estamina: "+monstroCarregado.getEstaminaAtual(),0,13, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Energia: "+monstroCarregado.getBarraEspecialMaximo(),0,14, Grapchics.BRANCO_CLARO);
 		
-		Grapchics.desenhaTTF("Traços: "+monstroCarregado.getNomesTraços(),0,14, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Traços: "+monstroCarregado.getNomesTraços(),0,15, Grapchics.BRANCO_CLARO);
 		
-		Grapchics.desenhaTela("____________________",0,15,Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("____________________",0,16,Grapchics.PRETO_CLARO);
 		
-		Grapchics.desenhaTela("____________________",0,17,Grapchics.PRETO_CLARO);
-		desenhaExp(18);
-		Grapchics.desenhaTela("____________________",0,19,Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("____________________",0,18,Grapchics.PRETO_CLARO);
+		desenhaExp(19);
+		Grapchics.desenhaTela("____________________",0,20,Grapchics.PRETO_CLARO);
 		
-		Grapchics.desenhaTTF("Habilidades:",0,21,Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTela("____________________",0,22,Grapchics.PRETO_CLARO);
-		posiçãoLinhaSkillsAtivas = 23;
+		Grapchics.desenhaTTF("Habilidades:",0,22,Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("____________________",0,23,Grapchics.PRETO_CLARO);
+		posiçãoLinhaSkillsAtivas = 24;
 		desenhaListaHabilidade();
 		
 		Grapchics.atualizarTela();
@@ -141,9 +144,28 @@ public final class Inventory  {
 	}
 	
 	private static void desenhaElementoMonstro(int linha){
-		Grapchics.desenhaTTF("Elementos: ",0,linha, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF(monstroCarregado.getElementosAtuais(), 11, linha, 
-		monstroCarregado.getCorDoElemento(monstroCarregado.getElementosAtuais()));
+		Grapchics.desenhaTTF("Elementos: ", 0, linha, Grapchics.BRANCO_CLARO);
+
+		Monsters.Elementos[] elementos = monstroCarregado.getElementosAtuaisValores();
+		if (elementos == null || elementos.length == 0) return;
+
+		int colunaX = 11;
+
+		for (int i = 0; i < elementos.length; i++){
+			Monsters.Elementos elemento = elementos[i];
+			if (elemento == null) continue;
+
+			String nomeElemento = elemento.getElementoNome();
+			Color corElemento = monstroCarregado.getCorDoElemento(elemento.name());
+			
+			Grapchics.desenhaTTF(nomeElemento, colunaX, linha, corElemento);
+			colunaX += nomeElemento.length();
+			
+			if (i < elementos.length - 1){
+				Grapchics.desenhaTela((char)47, colunaX, linha, Grapchics.BRANCO_CLARO);
+				colunaX += 1;
+			}
+		}
 	}
 	
 	private static void desenhaListaHabilidade(){

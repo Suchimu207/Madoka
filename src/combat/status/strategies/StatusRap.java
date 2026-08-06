@@ -1,15 +1,16 @@
 package combat.status.strategies;
 
 import bestiary.Monsters;
+import bestiary.Skills;
 
 import combat.status.StatusBase;
 import combat.status.StatusData;
 
-public class StatusPes extends StatusBase {
+public class StatusRap extends StatusBase {
 	private int duraçãoBase, duraçãoAtual;
 	private boolean isAtivo;
 	
-    public StatusPes(StatusData dados){
+    public StatusRap(StatusData dados){
         super(dados);
 		this.duraçãoBase = 0;
 		this.duraçãoAtual = 0;
@@ -24,25 +25,27 @@ public class StatusPes extends StatusBase {
 		this.duraçãoAtual = this.duraçãoBase;
 		this.isAtivo = true;
 		
+		int speedAtualCombate = alvo.getSpeedAtualCombate();
+		int speedBuffada = (int) Math.ceil(speedAtualCombate * 0.20);
+		
+		alvo.setSpeedAtualCombate(speedAtualCombate + speedBuffada);
+		
 		alvo.receberStatus(this);
     }
-
+	
     @Override
     public void checar(Monsters alvo){
 		if (duraçãoAtual <= 0) return;
-		
-		int dano = (int) Math.ceil(alvo.getVidaAtualCombateMaxima() * (10 / 100.0));
-		alvo.perderVidaSemEscudo(dano);
-		
-		int perda = (int) Math.ceil(alvo.getEstaminaAtual() * (10 / 100.0));
-		alvo.perderEstamina(perda);
     }
-	
+
 	@Override
 	public void reduzirDuração(Monsters alvo){
 		duraçãoAtual -= 1;
 		
-		if (duraçãoAtual <= 0) isAtivo = false;
+		if (duraçãoAtual <= 0){
+			isAtivo = false;
+			alvo.setSpeedAtualCombate(alvo.getSpeedAtual());
+		}
 	}
 	
 	@Override
@@ -64,9 +67,9 @@ public class StatusPes extends StatusBase {
 
     @Override
     public boolean isPositivo(){
-        return false; 
+        return true; 
     }
-
+	
     @Override
     public String getNome(){
         return this.dados.getNome();

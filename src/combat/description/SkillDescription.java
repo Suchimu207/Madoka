@@ -31,7 +31,7 @@ public class SkillDescription {
                 Grapchics.desenhaTTF("Precisão: " + skillMostrada.getPrecisaoBase(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
             }
             if (skillMostrada.getEnergiaHabilidade() > 0){
-                Grapchics.desenhaTTF("Energia: " + skillMostrada.getEnergiaHabilidade(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
+                Grapchics.desenhaTTF("Estamina: " + skillMostrada.getEnergiaHabilidade(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
             }
             if (skillMostrada.getRecargaHabilidade() > 0){
                 Grapchics.desenhaTTF("Recarga: " + skillMostrada.getRecargaHabilidade(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);

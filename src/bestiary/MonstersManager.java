@@ -67,7 +67,8 @@ public final class MonstersManager {
 					monstros.getInt("vidaBase"),
 					monstros.getInt("velocidadeBase"),
 					monstros.getInt("estaminaBase"),
-					traçosIds
+					traçosIds,
+					monstros.optInt("energia", 100)
 				);
 				
 				switch(classeConvertida){
