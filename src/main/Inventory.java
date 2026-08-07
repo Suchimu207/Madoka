@@ -1,13 +1,18 @@
 package main;
 
+import static main.Terminal.mudarEstado;
+
 import bestiary.Monsters;
 import bestiary.MonstersManager;
 import bestiary.Skills;
 
 import combat.description.SkillDescription;
 
+import util.GameState;
 import util.Grapchics;
 import util.Input;
+
+import world.Maps;
 
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -18,10 +23,14 @@ import java.util.Map;
 
 import java.util.Comparator;
 
+import java.util.Set;
+
+import java.awt.event.KeyEvent;
+
 import java.awt.Color;
 
-public final class Inventory  {
-	protected static enum SlotEquipe {
+public final class Inventory implements GameState{
+	protected static enum SlotEquipe{
         SLOT_1,
         SLOT_2,
         SLOT_3,
@@ -29,22 +38,41 @@ public final class Inventory  {
         SLOT_5,
         SLOT_6;
     }
+	private enum SubEstadosInventário{
+		DETALHES("Detalhes"),
+		HABILIDADES("Habilidades");
+		
+		private final String nome;
+		
+		SubEstadosInventário(String nome){
+			this.nome = nome;
+		}
+		
+		public String getSubEstadoNome(){
+			return nome;
+		}
+	}
+	
 	// ==================== ATRIBUTOS ====================
 	
 	private static Map<Integer, Monsters> monstrosInventario;
     private static List<Monsters> monstrosOrdenados;
     private static List<Skills> skillsTree, skillsDesbloqueadas;
 	private static EnumMap<SlotEquipe, Monsters> equipeTabela;
-    private static SlotEquipe slotEncontrado;
+    private static SubEstadosInventário subEstadoAtual = null;
+	private static SlotEquipe slotEncontrado;
 
     private static Monsters monstroCarregado;
 	private static Skills skillCarregada, skillMostrada;
+	
+	private static int idMonstroSelecionado = 1;
 	
     private static int idInventario, tamanhoInventario, linhaAtual, paginaAtual, totalPaginas,
     inicioLista, fimLista, posiçãoLinhaInventário, posiçãoLinhaEquipe, posiçãoLinhaSkillsAtivas;
     private static String nomeMonstroExibido;
 	
-	private Inventory(){
+	public Inventory(){
+		Inventory.subEstadoAtual = null;
 	}
 	
 	// ==================== INICIALIZAÇÃO ====================
@@ -65,26 +93,200 @@ public final class Inventory  {
 		System.out.println("");
     }
 	
-	// ==================== DESENHO ====================
+	// ==================== ESTADO ====================
 	
-	protected static void desenhaInfoEquipe(){
-		int coordenadaY = 21;
+	@Override
+	public void desenhaEstado(){
+		Grapchics.limpaTela();
 		
-		for (Map.Entry<SlotEquipe, Monsters> entry : equipeTabela.entrySet()){
-			Monsters monstro = entry.getValue();
-			Grapchics.desenhaTela("||||||||||",0,coordenadaY, Grapchics.BRANCO_CLARO, Grapchics.BRANCO);
-			Grapchics.desenhaTela(monstro.getNomeMonstro(), 10, coordenadaY, Grapchics.BRANCO);
-			Grapchics.desenhaTela("||||||||||", 0, coordenadaY + 1, Grapchics.VERMELHO_CLARO, Grapchics.VERMELHO_CLARO);
-			coordenadaY += 3;
+		if (subEstadoAtual == null){
+			Inventory.desenhaInventário();
+		}else if (subEstadoAtual == SubEstadosInventário.DETALHES){
+			Inventory.desenhaMonstroDetalhes();
+		}else if (subEstadoAtual == SubEstadosInventário.HABILIDADES){
+			Inventory.desenhaHabilidadeDetalhes();
 		}
-		Grapchics.desenhaTTF("Shift: Esconder equipe",0,39, Grapchics.PRETO_CLARO);
 		
 		Grapchics.atualizarTela();
 	}
 	
-	protected static void desenhaMonstroDetalhes(){
-		Grapchics.limpaTela();
+	@Override
+    public void recebeComando(int tecla, Set<Integer> teclasPressionadas){
+		switch (tecla){
+			case KeyEvent.VK_A:
+			case KeyEvent.VK_LEFT:
+				teclaEsquerda();
+				break;
+			case KeyEvent.VK_D:
+			case KeyEvent.VK_RIGHT:
+				teclaDireita();
+				break;
+			case KeyEvent.VK_W:
+			case KeyEvent.VK_UP:
+				teclaCima();
+				break;
+			case KeyEvent.VK_S:
+			case KeyEvent.VK_DOWN:
+				teclaBaixo();
+				break;
+			case KeyEvent.VK_ENTER:
+				teclaEnter();
+				break;
+			case KeyEvent.VK_SHIFT:
+				teclaShift();
+				break;
+			case KeyEvent.VK_E:
+				teclaInventário();
+				break;
+		}
+	}
+	
+	// ==================== TECLAS ====================
+	
+	private void teclaEsquerda(){
+		if (subEstadoAtual == null){
+			Inventory.alternarPagina(false);
+		}else if (subEstadoAtual == SubEstadosInventário.DETALHES){
+			Input.decrementarCursorX();
+			idMonstroSelecionado = Input.getCursorX();
+		}else if (subEstadoAtual == SubEstadosInventário.HABILIDADES){
+			Input.decrementarCursorX();
+		}
+	}
+	
+	private void teclaDireita(){
+		if (subEstadoAtual == null){
+			Inventory.alternarPagina(true);
+		}else if (subEstadoAtual == SubEstadosInventário.DETALHES){
+			Input.incrementarCursorX();
+			idMonstroSelecionado = Input.getCursorX();
+		}else if (subEstadoAtual == SubEstadosInventário.HABILIDADES){
+			Input.incrementarCursorX();
+		}
+	}
+	
+	private void teclaCima(){
+		Input.decrementarCursorY();
+	}
+	
+	private void teclaBaixo(){
+		Input.incrementarCursorY();
+	}
+	
+	private void teclaEnter(){
+		if (subEstadoAtual == null){
+			Inventory.alternarMonstroTabela(idMonstroSelecionado);
+		}else if (subEstadoAtual == SubEstadosInventário.DETALHES){
+			Inventory.alternarMonstroFavorito(idMonstroSelecionado);
+		}else if (subEstadoAtual == SubEstadosInventário.HABILIDADES){
+			Inventory.alternarHabilidadeAtiva();
+		}
+	}
+	
+	private void teclaShift(){
+		if (subEstadoAtual == null){
+			Input.setCursorX(idMonstroSelecionado);
+			subEstadoAtual = SubEstadosInventário.DETALHES;
+		}else if (subEstadoAtual == SubEstadosInventário.DETALHES){
+			Input.setCursorAnteriorY(Input.getCursorY());
+			subEstadoAtual = SubEstadosInventário.HABILIDADES;
+		}
+	}
+	
+	private void teclaInventário(){
+		if (subEstadoAtual == null){
+			subEstadoAtual = null;
+			mudarEstado(new Maps());
+		}else if (subEstadoAtual == SubEstadosInventário.DETALHES){
+			subEstadoAtual = null;
+		}else if (subEstadoAtual == SubEstadosInventário.HABILIDADES){
+			Input.setCursorY(Input.getCursorAnteriorY());
+			subEstadoAtual = SubEstadosInventário.DETALHES;
+		}
+	}
+	
+	// ==================== DESENHO ====================
+	
+	private static void desenhaInventário(){
+		reordenarListaInventario();
+		if (monstrosInventario.isEmpty()){
+			Grapchics.desenhaCentroTTF("Inventario vazio.", 10, Grapchics.BRANCO_CLARO);
+			Grapchics.atualizarTela();
+			return;
+		}
 		
+		tamanhoInventario = monstrosInventario.size();
+		totalPaginas = (int) Math.ceil(tamanhoInventario / 24.0);
+		
+		
+		String indicadorPagina = "Página "+paginaAtual+(char)45+totalPaginas;
+		
+		Grapchics.desenhaCentroTTF("Inventário - "+indicadorPagina,0, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("E: Voltar", 0, 1, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Enter: Equipar/Desequipar", 0, 2, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Shift: Ver detalhes", 0, 3, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("____________________",0,4, Grapchics.PRETO_CLARO);
+		desenhaListaInventário();
+		Grapchics.desenhaTela("____________________",0,posiçãoLinhaInventário, Grapchics.PRETO_CLARO);
+		
+		posiçãoLinhaEquipe = 33;
+		Grapchics.desenhaCentroTTF("Equipe:",31, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("____________________",0,32, Grapchics.PRETO_CLARO);
+		for (SlotEquipe slot : SlotEquipe.values()){
+			Monsters monstroEquipe = equipeTabela.get(slot);
+			
+			if (monstroEquipe != null){
+				nomeMonstroExibido = monstroEquipe.getNomeMonstro()+" Nv"+monstroEquipe.getNivelAtual();
+				Grapchics.desenhaTTF(nomeMonstroExibido, 0, posiçãoLinhaEquipe++, Grapchics.BRANCO_CLARO);
+			}else{
+				Grapchics.desenhaTTF("[Vazio]", 0, posiçãoLinhaEquipe++, Grapchics.PRETO_CLARO);
+			}
+		}
+		Grapchics.desenhaTela("____________________",0,posiçãoLinhaEquipe, Grapchics.PRETO_CLARO);
+	}
+	
+	private static void desenhaListaInventário(){
+		inicioLista = (paginaAtual - 1) * 24;
+		fimLista = Math.min(inicioLista + 24, monstrosOrdenados.size());
+		
+		if (Input.getCursorY() < inicioLista + 1) Input.setCursorY(fimLista);
+		if (Input.getCursorY() > fimLista) Input.setCursorY(inicioLista+1);
+		
+		posiçãoLinhaInventário = 5;
+		for (int i = inicioLista+1; i <= fimLista; i++){
+			Monsters monstro = monstrosInventario.get(i);
+			if (monstro == null) continue;
+
+			boolean selecionado = (i == Input.getCursorY());
+			int indicadorEquipado = monstro.isMonstroEquipado() ? 69 : 0; 
+			int indicadorFavorito = monstro.isMonstroFavorito() ? 3 : 0;
+		
+			if (selecionado){
+				idMonstroSelecionado = i;
+				
+				nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
+			
+				Grapchics.desenhaHibrido(nomeMonstroExibido, indicadorEquipado, indicadorFavorito, 1, posiçãoLinhaInventário++,
+				Grapchics.AMARELO_CLARO);
+				
+			}else{
+				if (monstro.isMonstroEquipado() || monstro.isMonstroFavorito()){
+					nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
+					
+					Grapchics.desenhaHibrido(nomeMonstroExibido, indicadorEquipado, indicadorFavorito, 0, posiçãoLinhaInventário++, 
+					Grapchics.BRANCO_CLARO);
+					
+				}else{
+					nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
+					
+					Grapchics.desenhaHibrido(nomeMonstroExibido, indicadorEquipado, indicadorFavorito, 0, posiçãoLinhaInventário++, 
+					Grapchics.PRETO_CLARO);
+				}
+			}
+		}
+	}
+	
+	private static void desenhaMonstroDetalhes(){	
 		if (Input.getCursorX() <= 0) Input.setCursorX(1);
 		
 		int tamanho = getTamanhoInventario();
@@ -126,8 +328,6 @@ public final class Inventory  {
 		Grapchics.desenhaTela("____________________",0,23,Grapchics.PRETO_CLARO);
 		posiçãoLinhaSkillsAtivas = 24;
 		desenhaListaHabilidade();
-		
-		Grapchics.atualizarTela();
 	}
 	
 	private static void desenhaExp(int linha){
@@ -189,9 +389,7 @@ public final class Inventory  {
 		}
 	}
 	
-	protected static void desenhaHabilidadeDetalhes(){
-		Grapchics.limpaTela();
-		
+	private static void desenhaHabilidadeDetalhes(){		
 		if (Input.getCursorX() <= 0){
 			Input.setCursorX(1);
 		}else if (Input.getCursorX() >= getTamanhoInventario()) Input.setCursorX(getTamanhoInventario());
@@ -261,8 +459,6 @@ public final class Inventory  {
 		
 		linhaAtual++;
 		posiçãoLinhaSkillsAtivas = linhaAtual;
-		
-		Grapchics.atualizarTela();
 	}
 	
 	private static void listaArvoreHabilidades(){
@@ -323,90 +519,9 @@ public final class Inventory  {
 		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
 	}
 	
-    protected static void desenhaInventário(){
-		Grapchics.limpaTela();
-		
-		reordenarListaInventario();
-		if (monstrosInventario.isEmpty()){
-			Grapchics.desenhaCentroTTF("Inventario vazio.", 10, Grapchics.BRANCO_CLARO);
-			Grapchics.atualizarTela();
-			return;
-		}
-		
-		tamanhoInventario = monstrosInventario.size();
-		totalPaginas = (int) Math.ceil(tamanhoInventario / 24.0);
-		
-		
-		String indicadorPagina = "Página "+paginaAtual+(char)45+totalPaginas;
-		
-		Grapchics.desenhaCentroTTF("Inventário - "+indicadorPagina,0, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF("E: Voltar", 0, 1, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTTF("Enter: Equipar/Desequipar", 0, 2, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTTF("Shift: Ver detalhes", 0, 3, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTela("____________________",0,4, Grapchics.PRETO_CLARO);
-		desenhaListaInventário();
-		Grapchics.desenhaTela("____________________",0,posiçãoLinhaInventário, Grapchics.PRETO_CLARO);
-		
-		posiçãoLinhaEquipe = 33;
-		Grapchics.desenhaCentroTTF("Equipe:",31, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTela("____________________",0,32, Grapchics.PRETO_CLARO);
-		for (SlotEquipe slot : SlotEquipe.values()){
-			Monsters monstroEquipe = equipeTabela.get(slot);
-			
-			if (monstroEquipe != null){
-				nomeMonstroExibido = monstroEquipe.getNomeMonstro()+" Nv"+monstroEquipe.getNivelAtual();
-				Grapchics.desenhaTTF(nomeMonstroExibido, 0, posiçãoLinhaEquipe++, Grapchics.BRANCO_CLARO);
-			}else{
-				Grapchics.desenhaTTF("[Vazio]", 0, posiçãoLinhaEquipe++, Grapchics.PRETO_CLARO);
-			}
-		}
-		Grapchics.desenhaTela("____________________",0,posiçãoLinhaEquipe, Grapchics.PRETO_CLARO);
-		
-		Grapchics.atualizarTela();
-	}
-	
-	private static void desenhaListaInventário(){
-		inicioLista = (paginaAtual - 1) * 24;
-		fimLista = Math.min(inicioLista + 24, monstrosOrdenados.size());
-		
-		if (Input.getCursorY() < inicioLista + 1) Input.setCursorY(fimLista);
-		if (Input.getCursorY() > fimLista) Input.setCursorY(inicioLista+1);
-		
-		posiçãoLinhaInventário = 5;
-		for (int i = inicioLista+1; i <= fimLista; i++){
-		Monsters monstro = monstrosInventario.get(i);
-		if (monstro == null) continue;
-
-		boolean selecionado = (i == Input.getCursorY());
-		int indicadorEquipado = monstro.isMonstroEquipado() ? 69 : 0; 
-		int indicadorFavorito = monstro.isMonstroFavorito() ? 3 : 0;
-		
-			if (selecionado){
-				nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
-				
-				Grapchics.desenhaHibrido(nomeMonstroExibido, indicadorEquipado, indicadorFavorito, 1, posiçãoLinhaInventário++,
-				Grapchics.AMARELO_CLARO);
-				
-			}else{
-				if (monstro.isMonstroEquipado() || monstro.isMonstroFavorito()){
-					nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
-					
-					Grapchics.desenhaHibrido(nomeMonstroExibido, indicadorEquipado, indicadorFavorito, 0, posiçãoLinhaInventário++, 
-					Grapchics.BRANCO_CLARO);
-					
-				}else{
-					nomeMonstroExibido = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
-					
-					Grapchics.desenhaHibrido(nomeMonstroExibido, indicadorEquipado, indicadorFavorito, 0, posiçãoLinhaInventário++, 
-					Grapchics.PRETO_CLARO);
-				}
-			}
-		}
-	}
-	
 	// ==================== AÇÕES DO JOGADOR ====================
 	
-	protected static void alternarHabilidadeAtiva(){
+	private static void alternarHabilidadeAtiva(){
 		if (monstroCarregado == null || skillMostrada == null) return;
 		
 		int maxSlots = monstroCarregado.getQuantidadeMaxSlotsHabilidade();
@@ -428,7 +543,7 @@ public final class Inventory  {
 		}
 	}
 	
-    protected static void alternarMonstroTabela(int id){
+    private static void alternarMonstroTabela(int id){
         Monsters monstro = monstrosInventario.get(id);
         if (monstro == null)
             return;
@@ -458,14 +573,14 @@ public final class Inventory  {
         }
     }
 
-    protected static void alternarMonstroFavorito(int id){
+    private static void alternarMonstroFavorito(int id){
         Monsters monstro = monstrosInventario.get(id);
         if (monstro == null) return;
 
         monstro.setMonstroFavorito(!monstro.isMonstroFavorito());
     }
 	
-    protected static void alternarPagina(boolean avancar){
+    private static void alternarPagina(boolean avancar){
         if (avancar){
             paginaAtual++;
             if (paginaAtual > totalPaginas) paginaAtual = 1;
@@ -554,6 +669,8 @@ public final class Inventory  {
         }
     }
 	
+	// ==================== OUTROS ====================
+	
 	public static Map<Integer, Monsters> getMonstrosInventario(){
         return monstrosInventario;
     }
@@ -577,7 +694,7 @@ public final class Inventory  {
 		}
 		return lista;
 	}
-
+	
 	public static int getTamanhoEquipe(){
 		return equipeTabela.size();
 	}

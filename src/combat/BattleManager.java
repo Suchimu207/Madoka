@@ -10,6 +10,7 @@ public final class BattleManager {
 	private BattleManager(){
 	}
 	
+	// OBS: Separar todos os managers, inclusive estes daqui, num pacote próprio e rodar na Main.
 	public final static void carregarDadosBatalha(){
 		System.out.println("");
 		SkillsManager.carregarHabilidades();

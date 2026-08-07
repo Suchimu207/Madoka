@@ -68,6 +68,12 @@ public final class Battle {
 		tropaCarregada = TroopManager.getTroop(1);
 	}
 	
+	public static void atualizarEstadoBatalha(){
+		if (subEstadoAtual == SubEstadosBatalha.CAMPO && campoBatalha != null){
+			campoBatalha.processarTurno();
+		}
+    }
+	
 	public static void desenhaEstadoBatalha(){	
 		switch (subEstadoAtual){
 			case PREPARO:
@@ -147,11 +153,7 @@ public final class Battle {
 		return false;
 	}
 	
-	public static void atualizarEstadoBatalha(){
-		if (subEstadoAtual == SubEstadosBatalha.CAMPO && campoBatalha != null){
-			campoBatalha.processarTurno();
-		}
-    }
+	// ==================== TECLAS ====================
 	
 	private static void teclaEsquerda(){
 		if (campoBatalha != null && subEstadoAtual == SubEstadosBatalha.CAMPO_DETALHES){

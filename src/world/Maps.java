@@ -1,11 +1,24 @@
 package world;
 
+import static main.Terminal.mudarEstado;
+
+import main.Inventory;
+import main.Player;
+import main.Shop;
+import main.Title;
+
+import util.GameState;
 import util.Grapchics;
+import util.Input;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public final class Maps {
+import java.awt.event.KeyEvent;
+
+import java.util.Set;
+
+public final class Maps implements GameState{
 	public static final char PAREDE = '#';
 	public static final char BATALHA = '!';
 	public static final char LOJA = '$';
@@ -13,26 +26,132 @@ public final class Maps {
 	public static final char PORTAL = '-';
 	
 	private static Map<String, String> mapasExistentes; 
-	private static String mapaAtual, mapaVerificado;
+	private static String mapaAtual, mapaInicial, mapaVerificado;
 	private static int iLinha, jColuna = 0;
-	private static boolean bloqueioJogador;
+	private static boolean bloqueioJogador, mostraEquipe;
 	
-	private Maps(){
+	public Maps(){
+		if (Maps.mapaAtual == null && Maps.mapaInicial != null){
+			Maps.mapaAtual = Maps.mapaInicial;
+		}
 	}
+	
+	// ==================== INICIALIZAÇÃO ====================
 	
 	public static void carregarMapas(){
-		MapsManager.carregarMapas();
-		mapasExistentes = MapsManager.getMapasExistentes();
+		if (mapasExistentes == null){
+			MapsManager.carregarMapas();
+			mapasExistentes = MapsManager.getMapasExistentes();
+		}
 	}
 	
-	public static void desenhaMapa(String mapaNome, int jogadorX, int jogadorY){	
-		mapaAtual = mapasExistentes.get(mapaNome+".txt");
+	// ==================== ESTADO ====================
+	
+	@Override
+	public void desenhaEstado(){
+		Grapchics.limpaTela();
 		
-		if (mapaAtual == null){
-			System.out.println("Nenhum mapa para desenhar: "+mapaAtual);
+		Maps.desenhaMapa(Maps.mapaAtual, Player.getJogadorX(), Player.getJogadorY());
+		
+		if (!mostraEquipe){
+			Maps.desenhaInfo();
+		}else Maps.desenhaInfoEquipe();
+		
+		Grapchics.atualizarTela();
+	}
+	
+	@Override
+    public void recebeComando(int tecla, Set<Integer> teclasPressionadas){
+		switch (tecla){
+			case KeyEvent.VK_A:
+			case KeyEvent.VK_LEFT:
+				teclaEsquerda();
+				break;
+			case KeyEvent.VK_D:
+			case KeyEvent.VK_RIGHT:
+				teclaDireita();
+				break;
+			case KeyEvent.VK_W:
+			case KeyEvent.VK_UP:
+				teclaCima();
+				break;
+			case KeyEvent.VK_S:
+			case KeyEvent.VK_DOWN:
+				teclaBaixo();
+				break;
+			case KeyEvent.VK_ENTER:
+				teclaEnter();
+				break;
+			case KeyEvent.VK_SHIFT:
+				teclaShift();
+				break;
+			case KeyEvent.VK_E:
+				teclaInventário();
+				break;
+			case KeyEvent.VK_ESCAPE:
+				teclaEsc();
+				break;
+		}
+	}
+	
+	// ==================== TECLAS ====================
+	
+	private void teclaEsquerda(){
+		if (!Maps.ehParede(Maps.mapaAtual, Player.getJogadorX() - 1, Player.getJogadorY())){
+			Player.setJogadorX(Player.getJogadorX()-1);
+        }
+	}
+	
+	private void teclaDireita(){
+		if (!Maps.ehParede(Maps.mapaAtual, Player.getJogadorX() + 1, Player.getJogadorY())){
+			Player.setJogadorX(Player.getJogadorX()+1);
+		}
+	}
+	
+	private void teclaCima(){
+		if (!Maps.ehParede(Maps.mapaAtual, Player.getJogadorX(), Player.getJogadorY() - 1)){
+			Player.setJogadorY(Player.getJogadorY()-1);
+        }
+	}
+	
+	private void teclaBaixo(){
+		if (!Maps.ehParede(Maps.mapaAtual, Player.getJogadorX(), Player.getJogadorY() + 1)){
+            Player.setJogadorY(Player.getJogadorY()+1);
+        }
+	}
+	
+	private void teclaEnter(){
+		if (Maps.ehEvento(Maps.mapaAtual, Player.getJogadorX(), Player.getJogadorY()) == Maps.LOJA){
+			mudarEstado(new Shop());
+		}
+		if (Maps.ehEvento(Maps.mapaAtual, Player.getJogadorX(), Player.getJogadorY()) == Maps.ARENA){
+			// estadoAtual = EstadosJogo.ARENA;
+		}
+	}
+	
+	private void teclaShift(){
+        mostraEquipe = !mostraEquipe;
+	}
+	
+	private void teclaInventário(){
+		mudarEstado(new Inventory());
+	}
+	
+	private void teclaEsc(){
+		mudarEstado(new Title());
+	}
+	
+	// ==================== DESENHO ====================
+	
+	private static void desenhaMapa(String mapaNome, int jogadorX, int jogadorY){	
+		String mapaDesenhado = mapasExistentes.get(mapaNome+".txt");
+		
+		if (mapaDesenhado == null){
+			System.out.println("Nenhum mapa para desenhar.");
+			return;
 		}
 		
-		String[] linhas = mapaAtual.split("\\R");
+		String[] linhas = mapaDesenhado.split("\\R");
 		
 		for (iLinha = 0; iLinha < linhas.length; iLinha++){
 			char[] caracteres = linhas[iLinha].toCharArray();
@@ -73,10 +192,35 @@ public final class Maps {
 				}
 			}
 		}
-		Grapchics.atualizarTela();
+		//===
 	}
 	
-	public static boolean ehParede(String mapaNome, int jogadorX, int jogadorY){
+	private static void desenhaInfo(){		
+		Grapchics.desenhaTTF("ESC: Título",0,35, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("E: Inventário",0,36, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Shift: Mostrar equipe",0,37, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Enter: Interagir",0,38, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Ouro: "+Player.getOuro(),0,39, Grapchics.BRANCO_CLARO);
+	}
+	
+	protected static void desenhaInfoEquipe(){
+		/*
+		int coordenadaY = 21;
+		
+		for (Map.Entry<SlotEquipe, Monsters> entry : equipeTabela.entrySet()){
+			Monsters monstro = entry.getValue();
+			Grapchics.desenhaTela("||||||||||",0,coordenadaY, Grapchics.BRANCO_CLARO, Grapchics.BRANCO);
+			Grapchics.desenhaTela(monstro.getNomeMonstro(), 10, coordenadaY, Grapchics.BRANCO);
+			Grapchics.desenhaTela("||||||||||", 0, coordenadaY + 1, Grapchics.VERMELHO_CLARO, Grapchics.VERMELHO_CLARO);
+			coordenadaY += 3;
+		}
+		*/
+		Grapchics.desenhaTTF("Shift: Esconder equipe",0,39, Grapchics.PRETO_CLARO);
+	}
+	
+	// ==================== MÉTODOS AUXILIARES ====================
+	
+	private static boolean ehParede(String mapaNome, int jogadorX, int jogadorY){
 		mapaVerificado = mapasExistentes.get(mapaNome + ".txt");
 		if (mapaVerificado == null){
 			return true;
@@ -95,7 +239,7 @@ public final class Maps {
 		return linhaAlvo.charAt(jogadorX) == Maps.PAREDE;
 	}
 	
-	public static char ehEvento(String mapaNome, int jogadorX, int jogadorY){
+	private static char ehEvento(String mapaNome, int jogadorX, int jogadorY){
 		mapaVerificado = mapasExistentes.get(mapaNome + ".txt");
 		if (mapaVerificado == null){
 			return '.';
@@ -119,6 +263,12 @@ public final class Maps {
 			return Maps.ARENA;
 		}
 		return '.';
+	}
+	
+	// ==================== OUTROS ====================
+	
+	public static void setMapaInicial(String mapaInicial){
+		Maps.mapaInicial = mapaInicial;
 	}
 	
 	//===

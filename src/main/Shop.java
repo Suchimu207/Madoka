@@ -1,12 +1,17 @@
 package main;
 
+import static main.Terminal.mudarEstado;
+
 import bestiary.Monsters;
 import bestiary.MonstersManager;
 import bestiary.Skills;
 import bestiary.SkillsManager;
 
+import util.GameState;
 import util.Grapchics;
 import util.Input;
+
+import world.Maps;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +19,11 @@ import java.util.Map;
 
 import java.util.Comparator;
 
-public final class Shop {
+import java.util.Set;
+
+import java.awt.event.KeyEvent;
+
+public final class Shop implements GameState{
     private static class ItemLoja {
         private final int idMonstro;
         private final int preco;
@@ -46,6 +55,22 @@ public final class Shop {
             this.carrinhoItem = carrinhoAtivo;
         }
     }
+	
+	private enum SubEstadosLoja{
+		DETALHES("Detalhes"),
+		RECIBO("Recibo");
+		
+		private final String nome;
+		
+		SubEstadosLoja(String nome){
+			this.nome = nome;
+		}
+		
+		public String getEstadoNome(){
+			return nome;
+		}
+	}
+	
     // ==================== ATRIBUTOS ====================
 	
 	private static ArrayList<ItemLoja> estoque, carrinho;
@@ -57,7 +82,10 @@ public final class Shop {
 	
 	private static Monsters monstroVisualizado = null;
 	
-    private Shop(){
+	private static SubEstadosLoja subEstadoAtual = null;
+	
+    public Shop(){
+		Shop.limparCarrinho();
     }
     
 	// ==================== INICIALIZAÇÃO ====================
@@ -75,11 +103,140 @@ public final class Shop {
         }
     }
 	
+	// ==================== ESTADO ====================
+	
+	@Override
+	public void desenhaEstado(){
+		Grapchics.limpaTela();
+		
+		if (subEstadoAtual == null){
+			Shop.desenhaLoja();
+		}else if (subEstadoAtual == SubEstadosLoja.DETALHES){
+			Shop.desenhaItemDetalhes();
+		}else if (subEstadoAtual == SubEstadosLoja.RECIBO){
+			Shop.desenhaLojaRecibo();
+		}
+		
+		Grapchics.atualizarTela();
+	}
+	
+	@Override
+    public void recebeComando(int tecla, Set<Integer> teclasPressionadas){
+		switch (tecla){
+			case KeyEvent.VK_A:
+			case KeyEvent.VK_LEFT:
+				teclaEsquerda();
+				break;
+			case KeyEvent.VK_D:
+			case KeyEvent.VK_RIGHT:
+				teclaDireita();
+				break;
+			case KeyEvent.VK_W:
+			case KeyEvent.VK_UP:
+				teclaCima();
+				break;
+			case KeyEvent.VK_S:
+			case KeyEvent.VK_DOWN:
+				teclaBaixo();
+				break;
+			case KeyEvent.VK_ENTER:
+				teclaEnter();
+				break;
+			case KeyEvent.VK_SHIFT:
+				teclaShift();
+				break;
+			case KeyEvent.VK_E:
+				teclaInventário();
+				break;
+			case KeyEvent.VK_Q:
+				teclaComprar();
+				break;
+			case KeyEvent.VK_ESCAPE:
+				teclaEsc();
+				break;
+		}
+	}
+	
+	// ==================== TECLAS ====================
+	
+	private void teclaEsquerda(){
+		if (subEstadoAtual == null){
+			Shop.alternarPagina(false);
+		}else if (subEstadoAtual == SubEstadosLoja.RECIBO){
+			Input.decrementarCursorX();
+		}
+	}
+	
+	private void teclaDireita(){
+		if (subEstadoAtual == null){
+			Shop.alternarPagina(true);
+		}else if (subEstadoAtual == SubEstadosLoja.RECIBO){
+			Input.incrementarCursorX();
+		}
+	}
+	
+	private void teclaCima(){
+		if (subEstadoAtual == null){
+			Input.decrementarCursorY();
+		}
+	}
+	
+	private void teclaBaixo(){
+		if (subEstadoAtual == null){
+			Input.incrementarCursorY();
+		}
+	}
+	
+	private void teclaEnter(){
+		if (subEstadoAtual == null || subEstadoAtual == SubEstadosLoja.DETALHES){
+			Shop.alternarItemCarrinho();
+		}
+	}
+	
+	private void teclaShift(){
+		if (subEstadoAtual == null){
+			subEstadoAtual = SubEstadosLoja.DETALHES;
+		}else if (subEstadoAtual == SubEstadosLoja.DETALHES){
+			subEstadoAtual = null;
+		}
+	}
+	
+	private void teclaInventário(){
+		if (subEstadoAtual == null){
+			mudarEstado(new Maps());
+		}else if (subEstadoAtual == SubEstadosLoja.DETALHES){
+			subEstadoAtual = null;
+		}else if (subEstadoAtual == SubEstadosLoja.RECIBO){
+			Shop.limparCarrinho();
+			subEstadoAtual = null;
+			mudarEstado(new Inventory());
+		}
+	}
+	
+	private void teclaComprar(){
+		if (subEstadoAtual == null || subEstadoAtual == SubEstadosLoja.DETALHES){
+			if (Shop.comprarMonstro()){
+				Input.resetarCursor();
+				subEstadoAtual = SubEstadosLoja.RECIBO;
+			}
+		}else if (subEstadoAtual == SubEstadosLoja.RECIBO){
+			Shop.limparCarrinho();
+			Input.resetarCursor();
+			subEstadoAtual = null;
+		}
+	}
+	
+	private void teclaEsc(){
+		if (subEstadoAtual == SubEstadosLoja.RECIBO){
+			Shop.limparCarrinho();
+			subEstadoAtual = null;
+			mudarEstado(new Maps());
+		}
+	}
+	
 	// ==================== DESENHO ====================
 	
-    protected static void desenhaLoja(){
-        Grapchics.limpaTela();
-		
+    private static void desenhaLoja(){
 		linhaItem = 0;
 		tamanhoLoja = estoque.size();
         inicioLista = (paginaAtual - 1) * 24;
@@ -120,9 +277,7 @@ public final class Shop {
         }
 	}
 	
-	protected static void desenhaItemDetalhes(){
-		Grapchics.limpaTela();
-		
+	private static void desenhaItemDetalhes(){
 		if (monstroVisualizado == null || estoque == null) return;
 		
 		Skills especial = monstroVisualizado.getHabilidadeEspecial();
@@ -177,8 +332,6 @@ public final class Shop {
 		Grapchics.desenhaTela("____________________",0,linhaItem++,Grapchics.PRETO_CLARO);
 		Grapchics.desenhaTTF(especial.getNomeHabilidade(),0,linhaItem++,especial.getCorHabilidade());
 		Grapchics.desenhaTela("____________________",0,linhaItem++,Grapchics.PRETO_CLARO);
-		
-		Grapchics.atualizarTela();
 	}
 	
 	private static void desenhaElementoMonstro(int linha){
@@ -189,9 +342,7 @@ public final class Shop {
 		monstroVisualizado.getCorDoElemento(monstroVisualizado.getElementosAtuais()));
 	}
 	
-	protected static void desenhaLojaRecibo(){
-        Grapchics.limpaTela();
-        
+	private static void desenhaLojaRecibo(){        
         tamanhoRecibo = carrinho.size();
 		inicioLista = (paginaAtual - 1) * 24;
         fimLista = Math.min(inicioLista + 24, tamanhoRecibo);
@@ -211,8 +362,6 @@ public final class Shop {
         
         desenhaListaRecibo();
         Grapchics.desenhaTela("____________________", 0, linhaItem, Grapchics.PRETO_CLARO);
-        
-        Grapchics.atualizarTela();
     }
 	
     private static void desenhaListaRecibo(){
@@ -331,7 +480,7 @@ public final class Shop {
 		return null;
 	}
 	
-	protected static void limparCarrinho(){
+	private static void limparCarrinho(){
         if (carrinho != null){
             for (ItemLoja item : carrinho){
                 item.setItemCarrinho(false);

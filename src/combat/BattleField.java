@@ -14,7 +14,7 @@ import main.Player;
 
 import util.Grapchics;
 import util.Input;
-import util.Utils;
+import util.Debug;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +93,7 @@ public final class BattleField {
 	// ==================== PREPARAÇÃO ====================
 	
 	private void prepararMonstros(){
-		Utils.limpaPrompt();
+		Debug.limpaPrompt();
 		System.out.println("");
 		
 		for (int i = 0; i <= maxAliados-1; i++){
@@ -709,6 +709,17 @@ public final class BattleField {
 		Grapchics.desenhaTTF(STA,0,linhaAtual, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTela((char)47,tamanhoSTA,linhaAtual, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF(""+monstroVisualizado.getEstaminaAtual(),tamanhoSTA+1,linhaAtual++, Grapchics.BRANCO_CLARO);
+		
+		/*
+		if (isAliado){
+			String energia = "Energia: "+monstroVisualizado.getBarraEspecialAtual()
+			int tamanhoEnergia = energia.length();
+			
+			Grapchics.desenhaTTF(energia,0,linhaAtual, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTela((char)47,tamanhoEnergia,linhaAtual, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTTF(""+monstroVisualizado.getBarraEspecialMaximo(),tamanhoEnergia+1,linhaAtual++, Grapchics.BRANCO_CLARO);
+		}
+		*/
 		
 		if (monstroVisualizado.getForcaAtualCombate() == monstroVisualizado.getForcaAtual()){
 			Grapchics.desenhaTTF("Força: "+monstroVisualizado.getForcaAtualCombate(),0,linhaAtual++, Grapchics.BRANCO_CLARO);

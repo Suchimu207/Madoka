@@ -3,7 +3,6 @@ package main;
 import combat.Battle;
 
 import util.Debug;
-import util.Utils;
 
 import world.Maps;
 
@@ -42,7 +41,7 @@ public final class Main {
 		}
 	}
     public static void main(String[] args) {
-		Utils.limpaPrompt();
+		Debug.limpaPrompt();
 		
 		Game.carregarGameJson();
 		
@@ -52,14 +51,10 @@ public final class Main {
 		final String TITLE = Game.gameJson.getString("title");
 		final String FULL_TITLE = TITLE+" - "+VERSION;
 		
-		Terminal terminal = new Terminal(FULL_TITLE, mapaInicial);
-		
 		Maps.carregarMapas();
 		Battle.carregarDadosJogatina();
 		
-		terminal.setarFonte();
-		terminal.setarJogo();
-		terminal.setarJanela();
+		Terminal terminal = new Terminal(FULL_TITLE, mapaInicial);
 		
 		Thread jogo = new Thread(new Runnable(){
 			public void run(){
@@ -80,7 +75,7 @@ public final class Main {
 						//Contador de FPS.
 						contadorFrames++;
 						if (System.nanoTime() - tempoUltimoCalculoFPS >= 1000000000){
-							Debug.mostrarDebug(contadorFrames, terminal.getEstadoAtual());
+							Debug.mostrarDebug(contadorFrames);
 							contadorFrames = 0;
 							tempoUltimoCalculoFPS = System.nanoTime();
 						}
