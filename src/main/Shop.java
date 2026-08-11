@@ -3,9 +3,9 @@ package main;
 import static main.Terminal.mudarEstado;
 
 import bestiary.Monsters;
-import bestiary.MonstersManager;
+import manager.MonstersManager;
 import bestiary.Skills;
-import bestiary.SkillsManager;
+import manager.SkillsManager;
 
 import util.GameState;
 import util.Grapchics;
@@ -22,6 +22,8 @@ import java.util.Comparator;
 import java.util.Set;
 
 import java.awt.event.KeyEvent;
+
+import java.awt.Color;
 
 public final class Shop implements GameState{
     private static class ItemLoja {
@@ -244,7 +246,7 @@ public final class Shop implements GameState{
 		totalPaginas = Math.max(1, (int) Math.ceil(tamanhoLoja / 24.0));
 		indicadorPagina = "Página " + paginaAtual+(char)45+totalPaginas;
 		
-		if (Input.getCursorY() < inicioLista) Input.setCursorY(fimLista-1);
+		if (Input.getCursorY() < inicioLista) Input.setCursorY(fimLista);
 		if (Input.getCursorY() >= fimLista) Input.setCursorY(inicioLista);
 		
         Grapchics.desenhaCentroTTF("Loja - "+indicadorPagina, linhaItem++, Grapchics.BRANCO_CLARO);
@@ -337,9 +339,28 @@ public final class Shop implements GameState{
 	private static void desenhaElementoMonstro(int linha){
 		if (monstroVisualizado == null) return;
 		
-		Grapchics.desenhaTTF("Elementos: ",0,linha, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF(monstroVisualizado.getElementosAtuais(), 11, linha, 
-		monstroVisualizado.getCorDoElemento(monstroVisualizado.getElementosAtuais()));
+		Grapchics.desenhaTTF("Elementos: ", 0, linha, Grapchics.BRANCO_CLARO);
+
+		Monsters.Elementos[] elementos = monstroVisualizado.getElementosAtuaisValores();
+		if (elementos == null || elementos.length == 0) return;
+
+		int colunaX = 11;
+
+		for (int i = 0; i < elementos.length; i++){
+			Monsters.Elementos elemento = elementos[i];
+			if (elemento == null) continue;
+
+			String nomeElemento = elemento.getElementoNome();
+			Color corElemento = monstroVisualizado.getCorDoElemento(elemento.name());
+			
+			Grapchics.desenhaTTF(nomeElemento, colunaX, linha, corElemento);
+			colunaX += nomeElemento.length();
+			
+			if (i < elementos.length - 1){
+				Grapchics.desenhaTela((char)47, colunaX, linha, Grapchics.BRANCO_CLARO);
+				colunaX += 1;
+			}
+		}
 	}
 	
 	private static void desenhaLojaRecibo(){        

@@ -366,8 +366,9 @@
     "habilidades": [
       { "id": 109, "nivel": 1 },
       { "id": 59, "nivel": 1 },
-      { "id": 77, "nivel": 1 },
+      { "id": 147, "nivel": 1 },
 	  { "id": 63, "nivel": 4 },
+	  { "id": 77, "nivel": 4 },
 	  { "id": 16, "nivel": 7 },
 	  { "id": 74, "nivel": 10 },
 	  { "id": 18, "nivel": 15 },
@@ -519,7 +520,8 @@
     "vidaBase": 28,
     "velocidadeBase": 10,
     "estaminaBase": 100,
-    "tracos": [3]
+    "tracos": [3],
+	"energia": 90
   },
   {
     "id": 20,

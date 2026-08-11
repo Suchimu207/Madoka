@@ -41,6 +41,7 @@ public final class Debug {
 	}
 
 	public static void setAtivaDebug(boolean ativaDebug){
+		if (ativaDebug == false) limpaPrompt();
 		Debug.ativaDebug = ativaDebug;
 	}
 	

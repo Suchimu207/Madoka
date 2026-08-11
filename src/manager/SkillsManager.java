@@ -1,4 +1,7 @@
-package bestiary;
+package manager;
+
+import bestiary.Monsters;
+import bestiary.Skills;
 
 import combat.effects.Effects;
 
@@ -28,7 +31,7 @@ public final class SkillsManager {
 	private SkillsManager(){
 	}
 	
-	public final static void carregarHabilidades(){
+	protected final static void carregarHabilidades(){
 		try{
 			caminho = Paths.get("data", "system", "skills.json");
 			conteudoJson = Files.readString(caminho);

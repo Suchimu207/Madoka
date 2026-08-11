@@ -2,8 +2,13 @@ package combat;
 
 import bestiary.*;
 import combat.*;
+
 import main.Player;
 import main.Inventory;
+
+import manager.TroopManager;
+
+import util.GameState;
 import util.Input;
 
 import java.util.ArrayList;
@@ -12,7 +17,7 @@ import java.util.Set;
 
 import java.awt.event.KeyEvent;
 
-public final class Battle {
+public final class Battle implements GameState{
 	protected enum SubEstadosBatalha{
 		PREPARO("Preparo"),
 		CAMPO("Campo"),
@@ -34,17 +39,22 @@ public final class Battle {
 	private static SubEstadosBatalha subEstadoAtual;
 	private static Monsters[] monstroSlotsAtivos;
 	private static Troop tropaCarregada;
+	
 	private static BattlePreparation menu;
 	private static BattleField campoBatalha;
 
 	private static Monsters monstroMostrado;
 	private static Skills skillMostrada;
 	
-	private Battle(){
+	public Battle(){
+		Battle.subEstadoAtual = SubEstadosBatalha.PREPARO;
+		Battle.menu = new BattlePreparation();
+		Battle.monstroSlotsAtivos = new Monsters[3];
+		
+		tropaCarregada = TroopManager.getTroop(1);
 	}
 	
 	public static void carregarDadosJogatina(){
-		BattleManager.carregarDadosBatalha();
 		Inventory.inicializarInventario();
 		Player.setarJogador();
 		
@@ -58,23 +68,16 @@ public final class Battle {
 		// monstro.carregarEspecial(95);
 	}
 	
-	public static void setarBatalha(){
-		subEstadoAtual = SubEstadosBatalha.PREPARO;
-		
-		Input.resetarCursor();
-		menu = new BattlePreparation();
-		
-		monstroSlotsAtivos = new Monsters[3];
-		tropaCarregada = TroopManager.getTroop(1);
-	}
-	
 	public static void atualizarEstadoBatalha(){
 		if (subEstadoAtual == SubEstadosBatalha.CAMPO && campoBatalha != null){
 			campoBatalha.processarTurno();
 		}
     }
 	
-	public static void desenhaEstadoBatalha(){	
+	// ==================== ESTADO ====================
+	
+	@Override
+	public void desenhaEstado(){	
 		switch (subEstadoAtual){
 			case PREPARO:
 				menu.desenhaTelaPreparo();
@@ -98,14 +101,15 @@ public final class Battle {
 		}
 	}
 	
-	public static boolean recebeComandosBatalha(int tecla, Set<Integer> teclasPressionadas){
+	@Override
+	public void recebeComando(int tecla, Set<Integer> teclasPressionadas){
 		if (teclasPressionadas != null && 
 			teclasPressionadas.contains(KeyEvent.VK_E) &&
 			teclasPressionadas.contains(KeyEvent.VK_Q)){
 			
 			if (subEstadoAtual == SubEstadosBatalha.CAMPO && campoBatalha != null){
 				campoBatalha.ativarEspecial();
-				return false;
+				return;
 			}
 		}
 		
@@ -131,11 +135,11 @@ public final class Battle {
 			case KeyEvent.VK_ENTER:
 				if (subEstadoAtual == SubEstadosBatalha.VITORIA){
 					subEstadoAtual = null;
-					return true;
+					return;
 				}
 				if (subEstadoAtual == SubEstadosBatalha.DERROTA){
 					subEstadoAtual = null;
-					return true;
+					return;
 				}
 				teclaEnter();
 				break;
@@ -149,8 +153,6 @@ public final class Battle {
 				teclaQ();
 				break;
 		}
-		if (subEstadoAtual == null) return true;
-		return false;
 	}
 	
 	// ==================== TECLAS ====================
@@ -222,6 +224,8 @@ public final class Battle {
 		}
 	}
 	
+	// ==================== AÇÕES DO JOGADOR ====================
+	
 	private static void alternarMonstroSlotsAtivos(){
 		if (monstroMostrado == null) return;
 		
@@ -248,6 +252,8 @@ public final class Battle {
 		}
 		
 	}
+	
+	// ==================== MÉTODOS AUXILIARES ====================
 	
 	private static void reordenarMonstroSlotsAtivos(){
 		int writeIndex = 0;
@@ -283,6 +289,8 @@ public final class Battle {
 			campoBatalha.setMensagemAliado(mensagem, habilidadeUsada, dano);
 		}
 	}
+	
+	// ==================== OUTROS ====================
 	
 	protected static Monsters[] getMonstroSlotsAtivos(){
 		return monstroSlotsAtivos;

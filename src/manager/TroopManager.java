@@ -1,8 +1,12 @@
-package bestiary;
+package manager;
+
+import bestiary.Monsters;
+import bestiary.Troop;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -26,7 +30,7 @@ public final class TroopManager {
     private TroopManager(){
     }
 
-    public final static void carregarTropas(){
+    protected final static void carregarTropas(){
         try {
             caminho = Paths.get("data", "system", "troop.json");
             conteudoJson = Files.readString(caminho);
@@ -42,7 +46,7 @@ public final class TroopManager {
                 int ouro = troop.getInt("ouro");
 
                 inimigosArray = troop.getJSONArray("inimigos");
-                java.util.List<Troop.Inimigo> listaInimigos = new java.util.ArrayList<>();
+                List<Troop.Inimigo> listaInimigos = new java.util.ArrayList<>();
 
                 for (int j = 0; j < inimigosArray.length(); j++){
                     JSONObject inimigoObj = inimigosArray.getJSONObject(j);
@@ -67,7 +71,7 @@ public final class TroopManager {
         }
     }
 
-    protected static Map<Integer, Troop> getTropasExistentes(){
+    public static Map<Integer, Troop> getTropasExistentes(){
         return tropasExistentes;
     }
 

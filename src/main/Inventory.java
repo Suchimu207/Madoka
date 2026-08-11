@@ -3,7 +3,7 @@ package main;
 import static main.Terminal.mudarEstado;
 
 import bestiary.Monsters;
-import bestiary.MonstersManager;
+import manager.MonstersManager;
 import bestiary.Skills;
 
 import combat.description.SkillDescription;
@@ -514,9 +514,11 @@ public final class Inventory implements GameState{
 	}
 	
 	private static void infoHabilidade(){
-		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
-		posiçãoLinhaSkillsAtivas = SkillDescription.infoHabilidade(skillMostrada, posiçãoLinhaSkillsAtivas, false);
-		Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
+		if (skillMostrada != null){
+			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
+			posiçãoLinhaSkillsAtivas = SkillDescription.infoHabilidade(skillMostrada, posiçãoLinhaSkillsAtivas, false);
+			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas++,Grapchics.PRETO_CLARO);
+		}
 	}
 	
 	// ==================== AÇÕES DO JOGADOR ====================

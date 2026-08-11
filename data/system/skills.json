@@ -2611,5 +2611,17 @@
     "precisaoBase": 0,
     "estamina": 0,
     "recarga": 0
+  },
+  {
+    "id": 147,
+    "nome": "Magical Spark",
+    "elemento": "MAGIA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 30,
+    "precisaoBase": 100,
+    "estamina": 15,
+    "recarga": 0
   }
 ]

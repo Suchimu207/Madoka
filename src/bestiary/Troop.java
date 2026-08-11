@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Troop {
-    protected static class Inimigo {
+    public static class Inimigo {
         private final Monsters monstro;
         private final int nivel;
-
-        protected Inimigo(Monsters monstro, int nivel){
+		
+        public Inimigo(Monsters monstro, int nivel){
             this.monstro = monstro;
 			
 			if (nivel <= 0) nivel = 1;

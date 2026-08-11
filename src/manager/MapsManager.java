@@ -1,4 +1,4 @@
-package world;
+package manager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ public final class MapsManager {
 	private MapsManager(){
 	}
 	
-	public static void carregarMapas(){
+	protected static void carregarMapas(){
 		Path diretorioMapas = Paths.get("data", "maps");
 		
 		if (Files.exists(diretorioMapas) && Files.isDirectory(diretorioMapas)){

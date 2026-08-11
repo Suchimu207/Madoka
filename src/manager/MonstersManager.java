@@ -1,7 +1,9 @@
-package bestiary;
+package manager;
+
+import bestiary.Monsters;
+import bestiary.Skills;
 
 import bestiary.traits.Traits;
-import bestiary.traits.TraitsManager;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,7 +32,7 @@ public final class MonstersManager {
 	private MonstersManager(){
 	}
 	
-	public final static void carregarMonstros(){
+	protected final static void carregarMonstros(){
 		try{
 			caminho = Paths.get("data", "system", "monsters.json");
 			conteudoJson = Files.readString(caminho);

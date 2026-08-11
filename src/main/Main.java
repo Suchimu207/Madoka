@@ -2,6 +2,8 @@ package main;
 
 import combat.Battle;
 
+import manager.*;
+
 import util.Debug;
 
 import world.Maps;
@@ -51,7 +53,7 @@ public final class Main {
 		final String TITLE = Game.gameJson.getString("title");
 		final String FULL_TITLE = TITLE+" - "+VERSION;
 		
-		Maps.carregarMapas();
+		DataManager.carregarDados();
 		Battle.carregarDadosJogatina();
 		
 		Terminal terminal = new Terminal(FULL_TITLE, mapaInicial);

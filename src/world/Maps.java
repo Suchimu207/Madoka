@@ -7,6 +7,10 @@ import main.Player;
 import main.Shop;
 import main.Title;
 
+import manager.MapsManager;
+
+import modes.arena.ArenaMode;
+
 import util.GameState;
 import util.Grapchics;
 import util.Input;
@@ -31,17 +35,12 @@ public final class Maps implements GameState{
 	private static boolean bloqueioJogador, mostraEquipe;
 	
 	public Maps(){
+		if (mapasExistentes == null){
+			mapasExistentes = MapsManager.getMapasExistentes();
+		}
+		
 		if (Maps.mapaAtual == null && Maps.mapaInicial != null){
 			Maps.mapaAtual = Maps.mapaInicial;
-		}
-	}
-	
-	// ==================== INICIALIZAÇÃO ====================
-	
-	public static void carregarMapas(){
-		if (mapasExistentes == null){
-			MapsManager.carregarMapas();
-			mapasExistentes = MapsManager.getMapasExistentes();
 		}
 	}
 	
@@ -125,7 +124,7 @@ public final class Maps implements GameState{
 			mudarEstado(new Shop());
 		}
 		if (Maps.ehEvento(Maps.mapaAtual, Player.getJogadorX(), Player.getJogadorY()) == Maps.ARENA){
-			// estadoAtual = EstadosJogo.ARENA;
+			mudarEstado(new ArenaMode());
 		}
 	}
 	

@@ -101,7 +101,7 @@ public final class Terminal implements KeyListener {
 	
 	// ==================== DESENHO ====================
 	
-	protected void desenhaEstado(){
+	protected void desenhaEstado(){	
 		if (estadoAtual != null){
 			estadoAtual.desenhaEstado();
 		}
@@ -113,6 +113,12 @@ public final class Terminal implements KeyListener {
 	public void keyPressed(KeyEvent e){
 		int tecla = e.getKeyCode();
 		teclasPressionadas.add(tecla);
+		
+		switch (tecla){
+			case KeyEvent.VK_ALT:
+			Debug.setAtivaDebug(!Debug.isAtivaDebug());
+			break;
+		}
 		
 		if (estadoAtual != null){
 			estadoAtual.recebeComando(tecla, teclasPressionadas);

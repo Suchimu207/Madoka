@@ -9,5 +9,111 @@
     ],
     "exp": 150,
     "ouro": 10
+  },
+  {
+	"id": 2,
+    "inimigos": [
+	  {
+        "idMonstro": 15,
+        "nivel": 2
+      },
+	  {
+        "idMonstro": 16,
+        "nivel": 2
+      }
+    ],
+    "exp": 150,
+    "ouro": 10
+  },
+  {
+	"id": 3,
+    "inimigos": [
+	  {
+        "idMonstro": 12,
+        "nivel": 2
+      },
+	  {
+        "idMonstro": 4,
+        "nivel": 2
+      }
+    ],
+    "exp": 150,
+    "ouro": 10
+  },
+  {
+	"id": 4,
+    "inimigos": [
+	  {
+        "idMonstro": 18,
+        "nivel": 3
+      },
+	  {
+        "idMonstro": 17,
+        "nivel": 3
+      },
+	  {
+        "idMonstro": 6,
+        "nivel": 3
+      }
+    ],
+    "exp": 150,
+    "ouro": 10
+  },
+  {
+	"id": 5,
+    "inimigos": [
+	  {
+        "idMonstro": 11,
+        "nivel": 3
+      },
+	  {
+        "idMonstro": 3,
+        "nivel": 3
+      },
+	  {
+        "idMonstro": 1,
+        "nivel": 3
+      }
+    ],
+    "exp": 150,
+    "ouro": 10
+  },
+  {
+	"id": 6,
+    "inimigos": [
+	  {
+        "idMonstro": 19,
+        "nivel": 3
+      },
+	  {
+        "idMonstro": 9,
+        "nivel": 4
+      },
+	  {
+        "idMonstro": 5,
+        "nivel": 3
+      }
+    ],
+    "exp": 150,
+    "ouro": 10
+  },
+  {
+	"id": 7,
+    "inimigos": [
+	  {
+        "idMonstro": 21,
+        "nivel": 4
+      },
+	  {
+        "idMonstro": 14,
+        "nivel": 5
+      },
+	  {
+        "idMonstro": 21,
+        "nivel": 4
+      }
+    ],
+    "exp": 150,
+    "ouro": 10
   }
 ]
