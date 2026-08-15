@@ -39,7 +39,7 @@ public final class BattleField {
 	
 	// ==================== ATRIBUTOS ====================
 	
-	private Monsters[] aliados;
+	private Monsters[] aliados, aliadosDerrotados;
 	private int maxAliados;
 	private List<Integer> posiçõesAliadosX;
 	private List<Integer> posiçõesAliadosY; 
@@ -55,11 +55,13 @@ public final class BattleField {
 	private int maxInimigos;
 	private List<Integer> posiçõesInimigosX;
 	private List<Integer> posiçõesInimigosY;
+	private BattleAI inimigoAI;
 	
 	private boolean selecionarAlvo;
 	private boolean aguardandoInimigo = false;
 	private boolean aguardandoAliado = false; 
 	private boolean especialAtivo = false;
+	private boolean vitóriaBatalha = false;
 	
 	private String mensagemTurnoInimigo = null;
 	private String danoTurnoInimigo = null;
@@ -74,6 +76,7 @@ public final class BattleField {
 	
 	protected BattleField(Monsters[] aliados, Troop tropa){
 		this.aliados = aliados;
+		this.aliadosDerrotados = new Monsters[3];
 		this.maxAliados = aliados.length;
 		this.posiçõesAliadosX = new ArrayList<Integer>();
 		this.posiçõesAliadosY = new ArrayList<Integer>();
@@ -85,6 +88,7 @@ public final class BattleField {
 		this.maxInimigos = tropa.getMonstros().size();
 		this.posiçõesInimigosX = new ArrayList<Integer>();
 		this.posiçõesInimigosY = new ArrayList<Integer>();
+		this.inimigoAI = new BattleAI();
 		
 		prepararMonstros();
 		inicializarActionValue();
@@ -200,7 +204,7 @@ public final class BattleField {
 			Grapchics.desenhaTela((char)6, 0, linhaAtual, Grapchics.VERMELHO_CLARO);
 			desenhaHabilidadeUsadaInimigo();
 			if (danoTurnoInimigo != "" && danoTurnoInimigo != null) Grapchics.desenhaTTF(danoTurnoInimigo, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
-			resultadoAção = BattleAI.getResultadoAção();
+			this.resultadoAção = inimigoAI.getResultadoAção();
 			
 			if (resultadoAção != null && !resultadoAção.isAcerto()) Grapchics.desenhaTTF(">>Errou!", 0, linhaAtual++, Grapchics.BRANCO_CLARO);
 			Grapchics.desenhaTTF("[ENTER]  ", 0, linhaAtual++, Grapchics.AMARELO_CLARO);
@@ -297,7 +301,7 @@ public final class BattleField {
 			posiçõesInimigosY.add(linhaAtual-4);
 		}
 		
-		if (maxInimigos >= 2){
+		if (inimigos.size() >= 2){
 			if(inimigos.get(1) != null){
 				desenhaMonstroBatalha(inimigos.get(1), 22, linhaAtual+1);
 				posiçõesInimigosX.add(22);
@@ -305,7 +309,7 @@ public final class BattleField {
 			}
 		}
 		
-		if (maxInimigos >= 3){
+		if (inimigos.size() >= 3){
 			if(inimigos.get(2) != null){
 				desenhaMonstroBatalha(inimigos.get(2), 24, linhaAtual+6);
 				posiçõesInimigosX.add(24);
@@ -422,7 +426,7 @@ public final class BattleField {
 			x = posiçõesInimigosX.get(Input.getCursorX());
 			y = posiçõesInimigosY.get(Input.getCursorX());
 			
-			monstroSelecionado = tropa.getMonstros().get(Input.getCursorX());
+			monstroSelecionado = inimigos.get(Input.getCursorX());
 			if (monstroSelecionado == null) return;
 			
 			monstrosAlvos.add(monstroSelecionado);
@@ -600,8 +604,8 @@ public final class BattleField {
 		if (skillSelecionada == null) return;
 		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTTF(">> ",0,linhaAtual, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF(skillSelecionada.getNomeHabilidade(),3,linhaAtual++, skillSelecionada.getCorHabilidade());
+		Grapchics.desenhaTela(">>",0,linhaAtual, Grapchics.BRANCO_CLARO, Grapchics.FUNDO);
+		Grapchics.desenhaTTF(skillSelecionada.getNomeHabilidade(),2,linhaAtual++, skillSelecionada.getCorHabilidade(), Grapchics.FUNDO);
 		
 		linhaAtual = SkillDescription.infoHabilidade(skillSelecionada, linhaAtual, true);
 		
@@ -613,6 +617,7 @@ public final class BattleField {
 		
 		linhaInicial = 0;
 		linhaAtual = linhaInicial;
+		boolean isAliado = false;
 		
 		if (detalheAtual == TipoDetalhe.ALIADO.getValor()){
 			Grapchics.desenhaCentroTTF("Detalhes - Aliados",linhaAtual++, Grapchics.BRANCO_CLARO);
@@ -629,15 +634,17 @@ public final class BattleField {
 		
 		if (detalheAtual == TipoDetalhe.ALIADO.getValor()){
 			desenhaDetalhesAliados();
+			isAliado = true;
 		}else if (detalheAtual == TipoDetalhe.INIMIGO.getValor()){
 			desenhaDetalhesInimigos();
+			isAliado = false;
 		}
 		
 		linhaMáxima = linhaAtual-1;
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 		linhaAtual++;
 		
-		desenhaMonstroDetalhes();
+		desenhaMonstroDetalhes(isAliado);
 		
 		if (Input.getCursorY() == 0){
 			Input.setCursorY(linhaInicial);
@@ -671,7 +678,7 @@ public final class BattleField {
 	private void desenhaMonstroNome(Monsters monstro){
 		if (monstro == null) return;
 		
-		String texto = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual()+" ";		
+		String texto = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();		
 		int tamanhoTexto = texto.length();
 		int tamanhoElemento = monstro.getElementosAtuais().length();
 		
@@ -682,13 +689,43 @@ public final class BattleField {
 			Grapchics.desenhaTTF(texto,0,linhaAtual, Grapchics.BRANCO_CLARO);
 		}
 		
-		Grapchics.desenhaTTF("(",tamanhoTexto,linhaAtual, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF(monstro.getElementosAtuais(),tamanhoTexto+1,linhaAtual, 
-		monstro.getCorDoElemento(monstro.getElementosAtuais()));
-		Grapchics.desenhaTTF(")",tamanhoTexto+tamanhoElemento+1,linhaAtual++, Grapchics.BRANCO_CLARO);
+		desenhaMonstroElementos(monstro, linhaAtual, texto);
+		linhaAtual++;
 	}
 	
-	private void desenhaMonstroDetalhes(){
+	private void desenhaMonstroElementos(Monsters monstro, int linhaAtual, String nomeMonstro){
+		int tamanhoTexto = nomeMonstro.length();
+		
+		Monsters.Elementos[] elementos = monstro.getElementosAtuaisValores();
+		if (elementos == null || elementos.length == 0) return;
+		
+		Grapchics.desenhaTTF("(", tamanhoTexto+1, linhaAtual, Grapchics.BRANCO_CLARO);
+		
+		int colunaX = tamanhoTexto+2;
+		int tamanhoElementos = 0;
+		
+		for (int i = 0; i < elementos.length; i++){
+			Monsters.Elementos elemento = elementos[i];
+			if (elemento == null) continue;
+
+			String nomeElemento = elemento.getElementoNome();
+			tamanhoElementos += nomeElemento.length();
+			
+			Color corElemento = monstro.getCorDoElemento(elemento.name());
+			
+			Grapchics.desenhaTTF(nomeElemento, colunaX, linhaAtual, corElemento);
+			colunaX += nomeElemento.length();
+			
+			if (i < elementos.length - 1){
+				Grapchics.desenhaTela((char)47, colunaX, linhaAtual, Grapchics.BRANCO_CLARO);
+				colunaX += 1;
+				tamanhoElementos += 1;
+			}
+		}
+		Grapchics.desenhaTTF(")",tamanhoTexto+tamanhoElementos+2,linhaAtual,Grapchics.BRANCO_CLARO);
+	}
+	
+	private void desenhaMonstroDetalhes(boolean isAliado){
 		if (monstroVisualizado == null) return;
 		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
@@ -710,16 +747,14 @@ public final class BattleField {
 		Grapchics.desenhaTela((char)47,tamanhoSTA,linhaAtual, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF(""+monstroVisualizado.getEstaminaAtual(),tamanhoSTA+1,linhaAtual++, Grapchics.BRANCO_CLARO);
 		
-		/*
 		if (isAliado){
-			String energia = "Energia: "+monstroVisualizado.getBarraEspecialAtual()
+			String energia = "Energia: "+monstroVisualizado.getBarraEspecialAtual();
 			int tamanhoEnergia = energia.length();
 			
 			Grapchics.desenhaTTF(energia,0,linhaAtual, Grapchics.BRANCO_CLARO);
 			Grapchics.desenhaTela((char)47,tamanhoEnergia,linhaAtual, Grapchics.BRANCO_CLARO);
 			Grapchics.desenhaTTF(""+monstroVisualizado.getBarraEspecialMaximo(),tamanhoEnergia+1,linhaAtual++, Grapchics.BRANCO_CLARO);
 		}
-		*/
 		
 		if (monstroVisualizado.getForcaAtualCombate() == monstroVisualizado.getForcaAtual()){
 			Grapchics.desenhaTTF("Força: "+monstroVisualizado.getForcaAtualCombate(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
@@ -873,15 +908,15 @@ public final class BattleField {
 	// ==================== MÉTODOS AUXILIARES ====================
 	
 	private void verificarMonstros(){
-		maxInimigos = tropa.getMonstros().size();
+		maxInimigos = inimigos.size();
 		maxAliados = aliados.length;
 		
-		for (int i = 0; i <= maxInimigos-1; i++){
+		for (int i = inimigos.size() - 1; i >= 0; i--){
 			Monsters monstro = inimigos.get(i);
-			if(monstro == null) continue;
+			if (monstro == null) continue;
 			
 			if (monstro.getVidaAtualCombate() <= 0){
-				inimigos.set(i, null);
+				inimigos.remove(i);
 			}
 		}
 		
@@ -889,6 +924,7 @@ public final class BattleField {
 			if(aliados[i] == null) continue;
 			
 			if (aliados[i].getVidaAtualCombate() <= 0){
+				aliadosDerrotados[i] = aliados[i];
 				aliados[i] = null;
 			}
 		}
@@ -907,11 +943,14 @@ public final class BattleField {
 				aliados[i].ganharExp(exp);
 			}
 			Player.ganharOuro(ouro);
+			
+			vitóriaBatalha = true;
 			return true;
 		}
 		
 		if (todosAliadosDerrotados()){
             Battle.setSubEstadoAtual(Battle.SubEstadosBatalha.DERROTA);
+			vitóriaBatalha = false;
             return true;
         }
 		
@@ -991,9 +1030,6 @@ public final class BattleField {
 		this.aguardandoInimigo = false;
 		this.resultadoAção = null;
 		
-		BattleAI.setUltimaSkill(null);
-		BattleAI.setResultadoAção(null);
-		
 		BattleTurn.finalizarTurno(); 
 	}
 	
@@ -1016,7 +1052,7 @@ public final class BattleField {
 		
 		if (!BattleTurn.isAguardandoTurno() && !BattleTurn.isTurnoJogador()){
 			if (!isAguardandoConfirmação()){
-				BattleAI.turnoInimigo();
+				inimigoAI.turnoInimigo();
 			}
 		}
 		verificarFimBatalha();
@@ -1040,6 +1076,10 @@ public final class BattleField {
 	protected boolean isAguardandoAliado(){
 		return aguardandoAliado;
 	}
-		
+	
+	protected boolean isVitóriaBatalha(){
+		return vitóriaBatalha;
+	}
+	
 	//===
 }

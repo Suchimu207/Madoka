@@ -488,6 +488,17 @@ public final class Shop implements GameState{
 	
 	// ==================== MÉTODOS AUXILIARES ====================
 	
+	public static void adicionarItemEstoque(int idMonstro, int preco){
+        if (estoque == null) inicializarLoja();
+        
+        for (ItemLoja item : estoque){
+			if (item.idMonstro == idMonstro) return;
+        }
+        
+        int novoIdEstante = estoque.size()+1;
+        estoque.add(new ItemLoja(idMonstro, preco, novoIdEstante));
+    }
+	
 	public static ItemLoja getItemPorMonstroId(int idMonstro){
 		if (estoque == null || idMonstro <= 0){
 			return null;

@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.awt.Color;
+
 public final class BattlePreparation {
 	private Skills skillMostrada;
 	private Monsters[] monstroSlotsAtivos;
@@ -39,20 +41,16 @@ public final class BattlePreparation {
 		Grapchics.desenhaTTF("E: Voltar", 0,linhaAtual++, Grapchics.PRETO_CLARO);
 		Grapchics.desenhaTTF("Q: Iniciar batalha",0,linhaAtual++, Grapchics.PRETO_CLARO);
 		Grapchics.desenhaTTF("Enter: Escolher integrante",0,linhaAtual++, Grapchics.PRETO_CLARO);		
-		Grapchics.desenhaTTF("Oponente: ",0,linhaAtual++, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Oponente: "+tropaCarregada.getNomeTropa(),0,linhaAtual++, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 		
 		for (Monsters monstro : tropaCarregada.getMonstros()){
 			String nomeMonstro = monstro.getNomeMonstro()+" Nv"+monstro.getNivelAtual();
-			int tamanhoTexto = nomeMonstro.length();
-			int tamanhoElementos = monstro.getElementosAtuais().length();
 			
 			Grapchics.desenhaTTF(nomeMonstro,0,linhaAtual,Grapchics.BRANCO_CLARO);
 			
-			Grapchics.desenhaTela("(",tamanhoTexto+1,linhaAtual,Grapchics.BRANCO_CLARO);
-			Grapchics.desenhaTTF(monstro.getElementosAtuais(),tamanhoTexto+2,linhaAtual,
-			monstro.getCorDoElemento(monstro.getElementosAtuais()));
-			Grapchics.desenhaTela(")",tamanhoElementos+tamanhoTexto+2,linhaAtual++,Grapchics.BRANCO_CLARO);
+			desenhaMonstroElementos(monstro, linhaAtual, nomeMonstro);
+			linhaAtual++;
 		}
 		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
@@ -118,6 +116,38 @@ public final class BattlePreparation {
 		}
 		
 		Grapchics.atualizarTela();
+	}
+	
+	private void desenhaMonstroElementos(Monsters monstro, int linhaAtual, String nomeMonstro){
+		int tamanhoTexto = nomeMonstro.length();
+		
+		Monsters.Elementos[] elementos = monstro.getElementosAtuaisValores();
+		if (elementos == null || elementos.length == 0) return;
+		
+		Grapchics.desenhaTTF("(", tamanhoTexto+1, linhaAtual, Grapchics.BRANCO_CLARO);
+		
+		int colunaX = tamanhoTexto+2;
+		int tamanhoElementos = 0;
+		
+		for (int i = 0; i < elementos.length; i++){
+			Monsters.Elementos elemento = elementos[i];
+			if (elemento == null) continue;
+
+			String nomeElemento = elemento.getElementoNome();
+			tamanhoElementos += nomeElemento.length();
+			
+			Color corElemento = monstro.getCorDoElemento(elemento.name());
+			
+			Grapchics.desenhaTTF(nomeElemento, colunaX, linhaAtual, corElemento);
+			colunaX += nomeElemento.length();
+			
+			if (i < elementos.length - 1){
+				Grapchics.desenhaTela((char)47, colunaX, linhaAtual, Grapchics.BRANCO_CLARO);
+				colunaX += 1;
+				tamanhoElementos += 1;
+			}
+		}
+		Grapchics.desenhaTTF(")",tamanhoTexto+tamanhoElementos+2,linhaAtual,Grapchics.BRANCO_CLARO);
 	}
 	
 	//===

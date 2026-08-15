@@ -8,15 +8,15 @@ public class Troop {
         private final Monsters monstro;
         private final int nivel;
 		
-        public Inimigo(Monsters monstro, int nivel){
+        public Inimigo(Monsters monstro, int nivel, boolean isCopia){
             this.monstro = monstro;
 			
 			if (nivel <= 0) nivel = 1;
             this.nivel = nivel;
 			
-			this.monstro.subirNivel(this.nivel-1);
+			if (!isCopia) this.monstro.subirNivel(this.nivel-1);
         }
-
+		
         public Monsters getMonstroTropa(){ 
 			return monstro; 
 		}
@@ -25,13 +25,15 @@ public class Troop {
 		}
     }
 
-    private static int id;
-    private static List<Inimigo> inimigos;
-    private static int exp;
-    private static int ouro;
-
-    public Troop(int id, List<Inimigo> inimigos, int exp, int ouro){
+    private int id;
+	private String nomeTropa;
+    private List<Inimigo> inimigos;
+    private int exp;
+    private int ouro;
+	
+    public Troop(int id, String nomeTropa, List<Inimigo> inimigos, int exp, int ouro){
         this.id = id;
+		this.nomeTropa = nomeTropa;
         this.inimigos = new ArrayList<>(inimigos);
         this.exp = exp;
         this.ouro = ouro;
@@ -39,16 +41,21 @@ public class Troop {
 
     public Troop(Troop troopRequerida){
         this.id = troopRequerida.getId();
+		this.nomeTropa = troopRequerida.getNomeTropa();
         this.inimigos = new ArrayList<>();
         for (Inimigo i : troopRequerida.getInimigos()){
-            this.inimigos.add(new Inimigo(i.getMonstroTropa(), i.getNivel()));
+            this.inimigos.add(new Inimigo(i.getMonstroTropa(), i.getNivel(), true));
         }
         this.exp = troopRequerida.getExp();
         this.ouro = troopRequerida.getOuro();
     }
-
+	
     public int getId(){ 
 		return id; 
+	}
+	
+	public String getNomeTropa(){
+		return nomeTropa;
 	}
 	
     private List<Inimigo> getInimigos(){

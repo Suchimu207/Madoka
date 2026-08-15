@@ -25,7 +25,7 @@ import java.io.IOException;
 
 public final class Terminal implements KeyListener {	
     private final JFrame frame;
-	private static GameState estadoAtual;
+	private static GameState estadoAtual, estadoAnterior;
 	
 	private final String TITLE;
 	
@@ -41,11 +41,21 @@ public final class Terminal implements KeyListener {
 		setarJanela();
 	}
 	
-	public static void mudarEstado(GameState novoEstado){
+	public static void mudarEstado(GameState novoEstado){		
         Grapchics.limpaTela();
 		Input.resetarCursor();
         estadoAtual = novoEstado;
     }
+	
+	public static void setEstadoAnterior(GameState novoEstado){
+		estadoAnterior = novoEstado;
+	}
+	
+	public static GameState getEstadoAnterior(){
+		GameState estado = Terminal.estadoAnterior;
+		Terminal.estadoAnterior = null;
+		return estado;
+	}
 	
 	// ==================== INICIALIZAÇÃO ====================
 	

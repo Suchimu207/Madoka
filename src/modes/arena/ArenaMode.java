@@ -1,12 +1,13 @@
 package modes.arena;
 
-import static main.Terminal.mudarEstado;
+import main.Terminal;
 
 import bestiary.*;
-import combat.*;
+import combat.Battle;
 
-import main.Player;
 import main.Inventory;
+import main.Player;
+import main.Shop;
 
 import util.GameState;
 import util.Grapchics;
@@ -14,9 +15,11 @@ import util.Input;
 
 import world.Maps;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import java.awt.event.KeyEvent;
 
@@ -36,16 +39,43 @@ public class ArenaMode implements GameState{
 	}
 	
 	private static SubEstadosArena subEstadoAtual = null;
+	private static Map<Integer, Tournament> torneios;
+	private static Tournament torneioAtual;
+	
+	private static int torneioSelecionado = 0;
+	private static int rodadaAtual;
 	
     public ArenaMode(){
-		subEstadoAtual = null;
+		setarTorneios();
     }
+	
+	// ==================== INICIALIZAÇÃO ====================
+	
+	private void setarTorneios(){
+		if (torneios == null){
+			torneios = new LinkedHashMap<>();
+			
+			torneios.put(1, 
+			new Tournament("Newbies´s Tournament", new int[]{1, 2, 3, 4, 5, 6, 7}, 
+			14)
+			);
+			
+			System.out.println(">>Torneios setados: "+torneios.size());
+		}
+	}
 	
 	// ==================== ESTADO ====================
 	
 	@Override
 	public void desenhaEstado(){
 		Grapchics.limpaTela();
+		
+		if (!Battle.verificarVitória()){
+			subEstadoAtual = null;
+			torneioAtual = null;
+		}else if (subEstadoAtual == SubEstadosArena.TORNEIO){
+			torneioVencido();
+		}
 		
 		if (subEstadoAtual == null){
 			desenhaTorneios();
@@ -112,43 +142,71 @@ public class ArenaMode implements GameState{
 	
 	private void teclaEnter(){
 		if (subEstadoAtual == null){
-			subEstadoAtual = SubEstadosArena.TORNEIO;
-		}
+            if (torneioSelecionado > 0 && torneios.containsKey(torneioSelecionado)){
+                this.torneioAtual = torneios.get(torneioSelecionado);
+                subEstadoAtual = SubEstadosArena.TORNEIO;
+				Input.resetarCursor();
+				ArenaMode.rodadaAtual = 1;
+            }
+        }else if (subEstadoAtual == SubEstadosArena.TORNEIO){
+			Terminal.setEstadoAnterior(new ArenaMode());
+			if (Battle.verificarVitória()){
+				Terminal.mudarEstado(new Battle(torneioAtual.getBatalha(rodadaAtual++)));
+			}
+        }
 	}
 	
 	private void teclaShift(){
 	}
 	
 	private void teclaInventário(){
+		if (subEstadoAtual == SubEstadosArena.TORNEIO){
+            subEstadoAtual = null;
+            Input.resetarCursor();
+            Input.setCursorY(4);
+        }else{
+			subEstadoAtual = null;
+			torneioSelecionado = -1;
+            Terminal.mudarEstado(new Maps());
+        }
 	}
 	
 	private void teclaEsc(){
-		mudarEstado(new Maps());
 	}
 	
 	// ==================== DESENHO ====================
 	
 	private static void desenhaTorneios(){
-		int linhaAtual = 0;
+		if (torneios == null || torneios.size() <= 0) return;
 		
-		if (Input.getCursorY() != 4){
-			Input.setCursorY(4);
-		}
+		int linhaAtual = 0;
+		int linhaInicio = 0;
+		int linhaFim = 0;
 		
 		Grapchics.desenhaCentroTTF("Arena - Torneios", linhaAtual++, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF("ESC: Sair", 0, linhaAtual++, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("E: Sair", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 		Grapchics.desenhaTTF("Enter: Selecionar torneio", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
 		
-		if (Input.getCursorY() == linhaAtual){
-			Grapchics.desenhaTTF("Newbies Cup", 1, linhaAtual++, Grapchics.AMARELO_CLARO);
-		}else{
-			Grapchics.desenhaTTF("Newbies Cup", 0, linhaAtual++, Grapchics.BRANCO_CLARO);
-		}
+		linhaInicio = linhaAtual;
+		
+		for (Map.Entry<Integer, Tournament> entry : torneios.entrySet()){
+            int indice = entry.getKey();
+            Tournament torneio = entry.getValue();
+			
+            if (Input.getCursorY() == linhaAtual){
+                Grapchics.desenhaTTF(torneio.getNomeTorneio(), 1, linhaAtual++, Grapchics.AMARELO_CLARO);
+				torneioSelecionado = indice;
+            }else{
+                Grapchics.desenhaTTF(torneio.getNomeTorneio(), 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+            }
+        }
+		
+		linhaFim = linhaAtual;
 		
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
-		linhaAtual+=25;
+		linhaAtual += 25;
 		
 		Grapchics.desenhaCentroTTF("Equipe:",linhaAtual++, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
@@ -165,20 +223,63 @@ public class ArenaMode implements GameState{
 			}
 		}
 		
-		Grapchics.desenhaTela("____________________",0,linhaAtual, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
+		
+		if (Input.getCursorY() < linhaInicio){
+			Input.setCursorY(linhaFim);
+		}else if (Input.getCursorY() > linhaFim){
+			Input.setCursorY(linhaInicio);
+		}else if (Input.getCursorY() == 0) Input.setCursorY(linhaInicio);
 	}
 	
 	private static void desenhaTorneioAtual(){
-		int linhaAtual = 0;
+		if (torneioAtual == null) return;
 		
-		Grapchics.desenhaCentroTTF("Arena - Newbies Cup", linhaAtual++, Grapchics.BRANCO_CLARO);
+        int linhaAtual = 0;
 		
-		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
+        Grapchics.desenhaCentroTTF(torneioAtual.getNomeTorneio(), linhaAtual++, Grapchics.BRANCO_CLARO);
 		
-		Grapchics.desenhaTela("____________________",0,linhaAtual++, Grapchics.PRETO_CLARO);
+        Grapchics.desenhaTTF("E: Voltar", 0, linhaAtual++, Grapchics.PRETO_CLARO);
+        Grapchics.desenhaTTF("Enter: Iniciar Rodada", 0, linhaAtual++, Grapchics.PRETO_CLARO);
+		
+        Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
+		
+		int totalBatalhas = torneioAtual.getTotalBatalhas();
+		
+        for (int i = totalBatalhas; i >= 1; i--){
+            Troop tropaInimiga = torneioAtual.getBatalha(i);
+            String infoTropa = "Rodada "+i+":"+tropaInimiga.getNomeTropa();
+			int tamanhoTexto = infoTropa.length();
+			
+			if (rodadaAtual == i){
+				Grapchics.desenhaTTF(infoTropa, 0, linhaAtual, Grapchics.AMARELO_CLARO);
+				Grapchics.desenhaTela((char)17, tamanhoTexto+1, linhaAtual++, Grapchics.AMARELO_CLARO);
+			}else{
+				Grapchics.desenhaTTF(infoTropa, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+			}
+        }
+		
+        Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 	}
 	
 	// ==================== MÉTODOS AUXILIARES ====================
+	
+	private static void torneioVencido(){
+		if (torneioAtual != null && rodadaAtual > torneioAtual.getTotalBatalhas()){
+				if (!torneioAtual.isConcluido()){
+					int idRecompensa = torneioAtual.getRecompensaMonstro();
+					
+					Inventory.adicionarMonstroInventário(idRecompensa);
+					Shop.adicionarItemEstoque(idRecompensa, 500);
+					
+					torneioAtual.setConcluido(true);
+				}
+			
+			subEstadoAtual = null;
+			torneioAtual = null;
+			Input.resetarCursor();
+		}
+	}
 	
 	// ==================== OUTROS ====================
 	

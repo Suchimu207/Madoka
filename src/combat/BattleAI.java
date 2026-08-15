@@ -12,16 +12,19 @@ public final class BattleAI {
 	// ==================== ATRIBUTOS ====================
 	
 	private static final Random random = new Random();
-	private static BattleUnit unidadeAlvo;
-	private static Skills ultimaSkill = null;
-	private static BattleActionResult resultadoAção = null;
 	
-	private BattleAI(){
+	private BattleUnit unidadeAlvo;
+	private Skills ultimaSkill = null;
+	private BattleActionResult resultadoAção = null;
+	
+	protected BattleAI(){
 	}
 	
 	// ==================== AÇÕES DO INIMIGO ====================
 	
-	protected static void turnoInimigo(){
+	protected void turnoInimigo(){
+		limparEstadoAnterior();
+		
 		BattleUnit unidadeAtual = BattleTurn.getUnidadeAtual();
         if (unidadeAtual == null) return;
         
@@ -40,15 +43,15 @@ public final class BattleAI {
 			
 			if (!alvos.isEmpty()){
 				for (Monsters alvo : alvos){
-					unidadeAlvo = BattleTurn.getUnidadePorMonstro(alvo);
+					this.unidadeAlvo = BattleTurn.getUnidadePorMonstro(alvo);
 					if (unidadeAlvo != null) unidadeAlvo.setAlvo(true);
 				}
 				
-				resultadoAção = BattleAction.executarHabilidade(monstroInimigo, alvos, habilidade);
+				this.resultadoAção = BattleAction.executarHabilidade(monstroInimigo, alvos, habilidade);
 				
 				int danoRealizado = resultadoAção.getDanoRealizado();
 				String nomeMonstro = monstroInimigo.getNomeMonstro()+" usou ";
-				ultimaSkill = habilidade;
+				this.ultimaSkill = habilidade;
 				
 				String dano = null;
 				if (danoRealizado > 0) dano = ">>Causou "+danoRealizado+" de dano.";
@@ -62,7 +65,7 @@ public final class BattleAI {
 		recarregarEnergiaUsuário(monstroInimigo);
     }
 	
-	private static void recarregarEnergiaUsuário(Monsters monstro){
+	private void recarregarEnergiaUsuário(Monsters monstro){
 		BattleAction.recarregarEnergia(monstro);
 		String frase = monstro.getNomeMonstro()+ " recarrega.";
 		Battle.exibirMensagemInimigo(frase,null,null);
@@ -70,7 +73,13 @@ public final class BattleAI {
 	
 	// ==================== MÉTODOS AUXILIARES ====================
 	
-	private static Skills getHabilidades(Monsters monstro){
+	private void limparEstadoAnterior(){
+        this.ultimaSkill = null;
+        this.resultadoAção = null;
+        this.unidadeAlvo = null;
+    }
+	
+	private Skills getHabilidades(Monsters monstro){
         List<Skills> habilidadesValidas = new ArrayList<>();
         
         for (int i = 0; i < monstro.getQuantidadeMaxSlotsHabilidade(); i++){
@@ -86,7 +95,7 @@ public final class BattleAI {
         return habilidadesValidas.get(random.nextInt(habilidadesValidas.size()));
     }
 	
-	private static List<Monsters> getAlvosHabilidade(Monsters usuario, Skills habilidade){
+	private List<Monsters> getAlvosHabilidade(Monsters usuario, Skills habilidade){
 		List<Monsters> alvos = new ArrayList<>();
 		
 		List<Monsters> timeJogador = new ArrayList<>();
@@ -160,16 +169,16 @@ public final class BattleAI {
 	
 	// ==================== OUTROS ====================
 	
-	protected static BattleActionResult getResultadoAção(){
-		return BattleAI.resultadoAção;
+	protected BattleActionResult getResultadoAção(){
+		return this.resultadoAção;
 	}
 	
-	protected static void setUltimaSkill(Skills ultimaSkill){
-		BattleAI.ultimaSkill = ultimaSkill;
+	protected void setUltimaSkill(Skills ultimaSkill){
+		this.ultimaSkill = ultimaSkill;
 	}
 	
-	protected static void setResultadoAção(BattleActionResult resultadoAção){
-		BattleAI.resultadoAção = resultadoAção;
+	protected void setResultadoAção(BattleActionResult resultadoAção){
+		this.resultadoAção = resultadoAção;
 	}
 	
     //===

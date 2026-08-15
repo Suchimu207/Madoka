@@ -1,55 +1,59 @@
 [
   {
 	"id": 1,
+	"nome": "MangaSelvagem",
     "inimigos": [
 	  {
         "idMonstro": 2,
         "nivel": 1
       }
     ],
-    "exp": 150,
+    "exp": 50,
     "ouro": 10
   },
   {
 	"id": 2,
+	"nome": "Capitão_Funeral",
     "inimigos": [
 	  {
         "idMonstro": 15,
-        "nivel": 2
+        "nivel": 1
       },
 	  {
         "idMonstro": 16,
-        "nivel": 2
+        "nivel": 1
       }
     ],
-    "exp": 150,
+    "exp": 50,
     "ouro": 10
   },
   {
 	"id": 3,
+	"nome": "The_Rogui",
     "inimigos": [
 	  {
         "idMonstro": 12,
-        "nivel": 2
+        "nivel": 1
       },
 	  {
         "idMonstro": 4,
         "nivel": 2
       }
     ],
-    "exp": 150,
-    "ouro": 10
+    "exp": 100,
+    "ouro": 15
   },
   {
 	"id": 4,
+	"nome": "Silvestre_Estaladone",
     "inimigos": [
 	  {
         "idMonstro": 18,
-        "nivel": 3
+        "nivel": 2
       },
 	  {
         "idMonstro": 17,
-        "nivel": 3
+        "nivel": 2
       },
 	  {
         "idMonstro": 6,
@@ -57,10 +61,11 @@
       }
     ],
     "exp": 150,
-    "ouro": 10
+    "ouro": 20
   },
   {
 	"id": 5,
+	"nome": "Jony_Senna",
     "inimigos": [
 	  {
         "idMonstro": 11,
@@ -76,10 +81,11 @@
       }
     ],
     "exp": 150,
-    "ouro": 10
+    "ouro": 20
   },
   {
 	"id": 6,
+	"nome": "SusieIdea",
     "inimigos": [
 	  {
         "idMonstro": 19,
@@ -94,11 +100,12 @@
         "nivel": 3
       }
     ],
-    "exp": 150,
-    "ouro": 10
+    "exp": 250,
+    "ouro": 50
   },
   {
 	"id": 7,
+	"nome": "EXX_NoobMaster_EXX",
     "inimigos": [
 	  {
         "idMonstro": 21,
@@ -113,7 +120,7 @@
         "nivel": 4
       }
     ],
-    "exp": 150,
-    "ouro": 10
+    "exp": 300,
+    "ouro": 100
   }
 ]

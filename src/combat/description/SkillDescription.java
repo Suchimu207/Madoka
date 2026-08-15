@@ -21,20 +21,21 @@ public class SkillDescription {
         
         if (skillMostrada != null){
 			if (!isBatalha){
-				Grapchics.desenhaTTF("Alvo: " + skillMostrada.getAlvoHabilidade(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
+				Grapchics.desenhaTTF("Alvo: " + skillMostrada.getAlvoHabilidade(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO, Grapchics.FUNDO);
 			}
 			
             if (skillMostrada.getPoderHabilidade() > 0){
-                Grapchics.desenhaTTF("Poder: " + skillMostrada.getPoderHabilidade(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
+                Grapchics.desenhaTTF("Poder: " + skillMostrada.getPoderHabilidade(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO, Grapchics.FUNDO);
             }
             if (skillMostrada.getPrecisaoBase() > 0){
-                Grapchics.desenhaTTF("Precisão: " + skillMostrada.getPrecisaoBase(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
+                Grapchics.desenhaTTF("Precisão: " + skillMostrada.getPrecisaoBase(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO, Grapchics.FUNDO);
             }
             if (skillMostrada.getEnergiaHabilidade() > 0){
-                Grapchics.desenhaTTF("Estamina: " + skillMostrada.getEnergiaHabilidade(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
+                Grapchics.desenhaTTF("Estamina: ", 0, posiçãoLinhaSkillsAtivas, Grapchics.BRANCO_CLARO, Grapchics.FUNDO);
+				Grapchics.desenhaTTF(""+skillMostrada.getEnergiaHabilidade(), 10, posiçãoLinhaSkillsAtivas++, Grapchics.AZUL_CLARO, Grapchics.FUNDO);
             }
             if (skillMostrada.getRecargaHabilidade() > 0){
-                Grapchics.desenhaTTF("Recarga: " + skillMostrada.getRecargaHabilidade(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
+                Grapchics.desenhaTTF("Recarga: " + skillMostrada.getRecargaHabilidade(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO, Grapchics.FUNDO);
             }
             
             List<Effects> efeitos = skillMostrada.getEfeitos();
@@ -46,7 +47,7 @@ public class SkillDescription {
                         formatarAplicarStatus(efeito);
                     }else{
                         textoEfeito = formatarEfeitoPadrão(efeito);
-						Grapchics.desenhaTTF(textoEfeito, 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
+						Grapchics.desenhaTTF(textoEfeito, 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO, Grapchics.FUNDO);
                     }
                 }
             }
@@ -63,7 +64,7 @@ public class SkillDescription {
             corStatus = status.isPositivo() ? Grapchics.VERDE_CLARO : Grapchics.VERMELHO_CLARO;
         }
         
-        Grapchics.desenhaTTF(nomeStatus, 0, posiçãoLinhaSkillsAtivas, corStatus);
+        Grapchics.desenhaTTF(nomeStatus, 0, posiçãoLinhaSkillsAtivas, corStatus, Grapchics.FUNDO);
         
         StringBuilder complemento = new StringBuilder(" (");
         int infoQuant = 0;
@@ -88,7 +89,7 @@ public class SkillDescription {
         complemento.append(")");
         
         int posXComplemento = nomeStatus.length();
-        Grapchics.desenhaTTF(complemento.toString(), posXComplemento, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO);
+        Grapchics.desenhaTTF(complemento.toString(), posXComplemento, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO, Grapchics.FUNDO);
     }
 	
 	private static String formatarEfeitoPadrão(Effects efeito){

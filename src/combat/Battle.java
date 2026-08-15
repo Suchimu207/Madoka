@@ -1,5 +1,7 @@
 package combat;
 
+import main.Terminal;
+
 import bestiary.*;
 import combat.*;
 
@@ -46,13 +48,21 @@ public final class Battle implements GameState{
 	private static Monsters monstroMostrado;
 	private static Skills skillMostrada;
 	
-	public Battle(){
+	public Battle(Troop tropaCarregada){
 		Battle.subEstadoAtual = SubEstadosBatalha.PREPARO;
 		Battle.menu = new BattlePreparation();
 		Battle.monstroSlotsAtivos = new Monsters[3];
 		
-		tropaCarregada = TroopManager.getTroop(1);
+		Battle.tropaCarregada = tropaCarregada;
 	}
+	
+	public static void atualizarEstadoBatalha(){
+		if (subEstadoAtual == SubEstadosBatalha.CAMPO && campoBatalha != null){
+			campoBatalha.processarTurno();
+		}
+    }
+	
+	// ==================== INICIALIZAÇÃO ====================
 	
 	public static void carregarDadosJogatina(){
 		Inventory.inicializarInventario();
@@ -68,16 +78,10 @@ public final class Battle implements GameState{
 		// monstro.carregarEspecial(95);
 	}
 	
-	public static void atualizarEstadoBatalha(){
-		if (subEstadoAtual == SubEstadosBatalha.CAMPO && campoBatalha != null){
-			campoBatalha.processarTurno();
-		}
-    }
-	
 	// ==================== ESTADO ====================
 	
 	@Override
-	public void desenhaEstado(){	
+	public void desenhaEstado(){
 		switch (subEstadoAtual){
 			case PREPARO:
 				menu.desenhaTelaPreparo();
@@ -134,11 +138,11 @@ public final class Battle implements GameState{
 				break;
 			case KeyEvent.VK_ENTER:
 				if (subEstadoAtual == SubEstadosBatalha.VITORIA){
-					subEstadoAtual = null;
+					Terminal.mudarEstado(Terminal.getEstadoAnterior());
 					return;
 				}
 				if (subEstadoAtual == SubEstadosBatalha.DERROTA){
-					subEstadoAtual = null;
+					Terminal.mudarEstado(Terminal.getEstadoAnterior());
 					return;
 				}
 				teclaEnter();
@@ -190,8 +194,8 @@ public final class Battle implements GameState{
 	
 	private static void teclaE(){
 		if (subEstadoAtual == SubEstadosBatalha.PREPARO){
-			Input.resetarCursor();
 			subEstadoAtual = null;
+			Terminal.mudarEstado(Terminal.getEstadoAnterior());
 		}
 		if (subEstadoAtual == SubEstadosBatalha.CAMPO){
 			if (campoBatalha != null){
@@ -213,7 +217,7 @@ public final class Battle implements GameState{
 	private static void teclaQ(){
 		if (subEstadoAtual == SubEstadosBatalha.PREPARO){
 			if (isEquipeSetada() && tropaCarregada != null){				
-				campoBatalha = new BattleField(monstroSlotsAtivos, tropaCarregada);
+				campoBatalha = new BattleField(Battle.monstroSlotsAtivos, Battle.tropaCarregada);
 				subEstadoAtual = SubEstadosBatalha.CAMPO;
 			}
 		}
@@ -297,7 +301,7 @@ public final class Battle implements GameState{
 	}
 	
 	protected static Troop getTropaCarregada(){
-		return tropaCarregada;
+		return Battle.tropaCarregada;
 	}
 	
 	protected SubEstadosBatalha getSubEstadoAtual(){
@@ -312,11 +316,12 @@ public final class Battle implements GameState{
 		Battle.subEstadoAtual = subEstadoAtual;
 	}
 	
-	public static String getSubEstadoAtualTexto(){
-		if (Battle.subEstadoAtual == null){
-			return null;
+	public static boolean verificarVitória(){
+		boolean vitória = true;
+		if (campoBatalha != null){
+			vitória = campoBatalha.isVitóriaBatalha();
 		}
-		return Battle.subEstadoAtual.getSubEstadoNome();
+		return vitória;
 	}
 	
 	//===

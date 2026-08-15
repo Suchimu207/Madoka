@@ -101,6 +101,15 @@ public final class BattleAction {
 		
 		Monsters.Elementos elementoAtaque = habilidade.getElementoHabilidadeTipo();
 		
+		if (elementoAtaque != null && usuario.getElementosAtuaisValores() != null){
+			for (Monsters.Elementos elementoUsuario : usuario.getElementosAtuaisValores()){
+				if (elementoUsuario == elementoAtaque){
+					poderHabilidade += 5;
+					break;
+				}
+			}
+		}
+		
         double danoBase = Math.ceil((forçaMonstro / 1000.0) * (poderHabilidade) * CONSTANTE);
 		int danoSomado = 0;
 		
@@ -118,8 +127,6 @@ public final class BattleAction {
 					}
 				}
 			}
-			
-			// Bônus de stab aqui.
 			
 			int danoFinal = (int) (danoBase * multiplicadorElemental);
 			danoSomado += danoFinal;

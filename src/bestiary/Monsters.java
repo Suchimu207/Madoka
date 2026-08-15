@@ -64,9 +64,9 @@ public class Monsters {
 
 			switch (this){
 				case FOGO:     return outro == NATUREZA;
-				case NATUREZA: return outro == MAGIA;
-				case MAGIA:    return outro == METAL;
-				case METAL:    return outro == VENTO;
+				case NATUREZA: return outro == METAL;
+				case METAL:    return outro == MAGIA;
+				case MAGIA:    return outro == VENTO;
 				case VENTO:    return outro == LUZ;
 				case LUZ:      return outro == TREVAS;
 				case TREVAS:   return outro == TERRA;

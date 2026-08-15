@@ -33,6 +33,8 @@ public final class Grapchics {
 	public final static Color CIANO_CLARO = new Color(154, 254, 254);
 	public final static Color BRANCO_CLARO = new Color(247, 250, 250);
 	
+	public final static Color FUNDO = new Color(26, 30, 30);
+	
 	public final static Color ELEMENTO_NATUREZA = new Color(100, 247, 100);
 	public final static Color ELEMENTO_FOGO = new Color(235, 71, 71);
 	public final static Color ELEMENTO_TERRA = new Color(197, 170, 150);
@@ -119,6 +121,10 @@ public final class Grapchics {
 	
 	public static void desenhaTTF(String desenho, int posX, int posY, Color corFonte){
 		tela.writeTTF(desenho, posX, posY, corFonte, fontePadrão);
+	}
+	
+	public static void desenhaTTF(String desenho, int posX, int posY, Color corFonte, Color corFundo){
+		tela.writeTTF(desenho, posX, posY, corFonte, corFundo, fontePadrão);
 	}
 	
 	public static void desenhaTTF(String desenho, int posX, int posY, Color corFonte, Font fonte){
