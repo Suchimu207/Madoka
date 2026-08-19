@@ -9,6 +9,8 @@ import main.Inventory;
 import main.Player;
 import main.Shop;
 
+import manager.MonstersManager;
+
 import util.GameState;
 import util.Grapchics;
 import util.Input;
@@ -25,7 +27,8 @@ import java.awt.event.KeyEvent;
 
 public class ArenaMode implements GameState{
 	private enum SubEstadosArena{
-		TORNEIO("Torneio");
+		TORNEIO("Torneio"),
+		RECOMPENSA("Recompensa");
 		
 		private final String nome;
 		
@@ -45,7 +48,10 @@ public class ArenaMode implements GameState{
 	private static int torneioSelecionado = 0;
 	private static int rodadaAtual;
 	
+	private static Monsters monstroDesbloqueado = null;
+	
     public ArenaMode(){
+		monstroDesbloqueado = null;
 		setarTorneios();
     }
 	
@@ -81,8 +87,10 @@ public class ArenaMode implements GameState{
 			desenhaTorneios();
 		}else if (subEstadoAtual == SubEstadosArena.TORNEIO){
 			desenhaTorneioAtual();
+		}else if (subEstadoAtual == SubEstadosArena.RECOMPENSA){
+			desenhaRecompensa();
 		}
-		
+			
 		Grapchics.atualizarTela();
 	}
 	
@@ -153,7 +161,11 @@ public class ArenaMode implements GameState{
 			if (Battle.verificarVitória()){
 				Terminal.mudarEstado(new Battle(torneioAtual.getBatalha(rodadaAtual++)));
 			}
-        }
+        }else if (subEstadoAtual == SubEstadosArena.RECOMPENSA){
+			subEstadoAtual = null;
+			torneioAtual = null;
+			Input.resetarCursor();
+		}
 	}
 	
 	private void teclaShift(){
@@ -195,11 +207,13 @@ public class ArenaMode implements GameState{
             int indice = entry.getKey();
             Tournament torneio = entry.getValue();
 			
+			int torneioFinalizado = torneio.isConcluido() ? 15 : 0;
+			
             if (Input.getCursorY() == linhaAtual){
-                Grapchics.desenhaTTF(torneio.getNomeTorneio(), 1, linhaAtual++, Grapchics.AMARELO_CLARO);
+                Grapchics.desenhaHibrido(torneio.getNomeTorneio(), torneioFinalizado, 1, linhaAtual++, Grapchics.AMARELO_CLARO);
 				torneioSelecionado = indice;
             }else{
-                Grapchics.desenhaTTF(torneio.getNomeTorneio(), 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+				Grapchics.desenhaHibrido(torneio.getNomeTorneio(), torneioFinalizado, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
             }
         }
 		
@@ -262,22 +276,27 @@ public class ArenaMode implements GameState{
         Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 	}
 	
+	private static void desenhaRecompensa(){
+		if (monstroDesbloqueado == null) return;
+		Grapchics.desenhaCentroTTF("Monstro desbloqueado: "+monstroDesbloqueado.getNomeMonstro(), 10, Grapchics.BRANCO_CLARO);
+	}
+	
 	// ==================== MÉTODOS AUXILIARES ====================
 	
 	private static void torneioVencido(){
 		if (torneioAtual != null && rodadaAtual > torneioAtual.getTotalBatalhas()){
-				if (!torneioAtual.isConcluido()){
-					int idRecompensa = torneioAtual.getRecompensaMonstro();
-					
-					Inventory.adicionarMonstroInventário(idRecompensa);
-					Shop.adicionarItemEstoque(idRecompensa, 500);
-					
-					torneioAtual.setConcluido(true);
-				}
-			
-			subEstadoAtual = null;
-			torneioAtual = null;
-			Input.resetarCursor();
+			if (!torneioAtual.isConcluido()){
+				subEstadoAtual = SubEstadosArena.RECOMPENSA;
+				
+				int idRecompensa = torneioAtual.getRecompensaMonstro();
+				
+				Inventory.adicionarMonstroInventário(idRecompensa);
+				Shop.adicionarItemEstoque(idRecompensa, 500);
+				
+				monstroDesbloqueado = MonstersManager.getMonstro(idRecompensa);
+				
+				torneioAtual.setConcluido(true);
+			}
 		}
 	}
 	

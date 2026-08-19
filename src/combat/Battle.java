@@ -10,6 +10,7 @@ import main.Inventory;
 
 import manager.TroopManager;
 
+import util.Audio;
 import util.GameState;
 import util.Input;
 
@@ -216,7 +217,7 @@ public final class Battle implements GameState{
 	
 	private static void teclaQ(){
 		if (subEstadoAtual == SubEstadosBatalha.PREPARO){
-			if (isEquipeSetada() && tropaCarregada != null){				
+			if (isEquipeSetada() && tropaCarregada != null){
 				campoBatalha = new BattleField(Battle.monstroSlotsAtivos, Battle.tropaCarregada);
 				subEstadoAtual = SubEstadosBatalha.CAMPO;
 			}
