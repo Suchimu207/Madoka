@@ -404,6 +404,11 @@ public class Monsters {
 		this.barraEspecialAtual = Math.min(this.barraEspecialMaximo, carga+this.barraEspecialAtual);
 	}
 	
+	public void carregarEspecialCompleto(){
+		this.zerarEspecial();
+		this.barraEspecialAtual = this.barraEspecialMaximo;
+	}
+	
 	public void zerarEspecial(){
 		this.barraEspecialAtual = 0;
 	}

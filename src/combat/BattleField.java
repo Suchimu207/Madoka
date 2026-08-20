@@ -12,6 +12,7 @@ import combat.status.StatusBase;
 
 import main.Player;
 
+import util.Audio;
 import util.Grapchics;
 import util.Input;
 import util.Debug;
@@ -833,12 +834,14 @@ public final class BattleField {
 		if (aguardandoInimigo){
 			confirmarMensagemInimigo();
 			Input.resetarCursor();
+			Audio.tocarSom("Confirm", 0.3f);
 			return;
 		}
 		
 		if (aguardandoAliado){
 			confirmarMensagemAliado();
 			Input.resetarCursor();
+			Audio.tocarSom("Confirm", 0.3f);
 			return;
 		}
 		
@@ -848,6 +851,7 @@ public final class BattleField {
         
         if (!selecionarAlvo){
             selecionarAlvo = true;
+			Audio.tocarSom("Confirm", 0.3f);
             return;
         }
         
@@ -861,6 +865,9 @@ public final class BattleField {
 				}
 				
 				resultadoAção = BattleAction.executarHabilidade(usuario, monstrosAlvos, skillSelecionada);
+				
+				if (!resultadoAção.isAcerto()) Audio.tocarSom("Miss", 0.3f);
+				if (resultadoAção.isAcerto() && resultadoAção.getDanoRealizado() > 0) Audio.tocarSom("Damage", 0.3f);
 				
                 int danoRealizado = resultadoAção.getDanoRealizado();
 				String nomeMonstro = usuario.getNomeMonstro() + " usou ";

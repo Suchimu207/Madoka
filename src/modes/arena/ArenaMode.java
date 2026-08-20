@@ -11,6 +11,7 @@ import main.Shop;
 
 import manager.MonstersManager;
 
+import util.Audio;
 import util.GameState;
 import util.Grapchics;
 import util.Input;
@@ -46,9 +47,11 @@ public class ArenaMode implements GameState{
 	private static Tournament torneioAtual;
 	
 	private static int torneioSelecionado = 0;
-	private static int rodadaAtual;
+	private static int rodadaAtual = -1;
 	
 	private static Monsters monstroDesbloqueado = null;
+	
+	private static boolean batalha = false;
 	
     public ArenaMode(){
 		monstroDesbloqueado = null;
@@ -76,12 +79,7 @@ public class ArenaMode implements GameState{
 	public void desenhaEstado(){
 		Grapchics.limpaTela();
 		
-		if (!Battle.verificarVitória()){
-			subEstadoAtual = null;
-			torneioAtual = null;
-		}else if (subEstadoAtual == SubEstadosArena.TORNEIO){
-			torneioVencido();
-		}
+		verificarResultadoBatalha();
 		
 		if (subEstadoAtual == null){
 			desenhaTorneios();
@@ -90,7 +88,7 @@ public class ArenaMode implements GameState{
 		}else if (subEstadoAtual == SubEstadosArena.RECOMPENSA){
 			desenhaRecompensa();
 		}
-			
+	
 		Grapchics.atualizarTela();
 	}
 	
@@ -157,10 +155,9 @@ public class ArenaMode implements GameState{
 				ArenaMode.rodadaAtual = 1;
             }
         }else if (subEstadoAtual == SubEstadosArena.TORNEIO){
-			Terminal.setEstadoAnterior(new ArenaMode());
-			if (Battle.verificarVitória()){
-				Terminal.mudarEstado(new Battle(torneioAtual.getBatalha(rodadaAtual++)));
-			}
+			ArenaMode.batalha = true;
+			Terminal.setEstadoAnterior(this);
+			Terminal.mudarEstado(new Battle(torneioAtual.getBatalha(rodadaAtual)));
         }else if (subEstadoAtual == SubEstadosArena.RECOMPENSA){
 			subEstadoAtual = null;
 			torneioAtual = null;
@@ -293,6 +290,8 @@ public class ArenaMode implements GameState{
 				Inventory.adicionarMonstroInventário(idRecompensa);
 				Shop.adicionarItemEstoque(idRecompensa, 500);
 				
+				Audio.tocarSom("Item", 0.2f);
+				
 				monstroDesbloqueado = MonstersManager.getMonstro(idRecompensa);
 				
 				torneioAtual.setConcluido(true);
@@ -300,6 +299,24 @@ public class ArenaMode implements GameState{
 		}
 	}
 	
+	private static void verificarResultadoBatalha(){
+		if (ArenaMode.batalha){
+			if (Battle.verificarVitória()){
+				ArenaMode.rodadaAtual++;
+            
+				if (subEstadoAtual == SubEstadosArena.TORNEIO){
+					torneioVencido();
+				}
+            
+				Battle.resetarVitória();
+			}else{
+				ArenaMode.rodadaAtual = 1;
+				subEstadoAtual = null;
+				Input.resetarCursor();
+			}
+		}
+		ArenaMode.batalha = false;
+	}
 	// ==================== OUTROS ====================
 	
    //===

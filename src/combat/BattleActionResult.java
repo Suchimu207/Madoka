@@ -12,7 +12,7 @@ public class BattleActionResult {
 	public int getDanoRealizado(){
 		return danoRealizado;
 	}
-
+	
 	public void setDanoRealizado(int danoRealizado){
 		if (danoRealizado < 0) danoRealizado = 0;
 		this.danoRealizado = danoRealizado;

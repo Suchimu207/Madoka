@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import util.Audio;
+
 public final class BattleAI {
 	// ==================== ATRIBUTOS ====================
 	
@@ -48,6 +50,9 @@ public final class BattleAI {
 				}
 				
 				this.resultadoAção = BattleAction.executarHabilidade(monstroInimigo, alvos, habilidade);
+				
+				if (!this.resultadoAção.isAcerto()) Audio.tocarSom("Miss", 0.3f);
+				if (this.resultadoAção.isAcerto() && this.resultadoAção.getDanoRealizado() > 0) Audio.tocarSom("Damage", 0.3f);
 				
 				int danoRealizado = resultadoAção.getDanoRealizado();
 				String nomeMonstro = monstroInimigo.getNomeMonstro()+" usou ";

@@ -9,7 +9,7 @@ public final class BattleResult {
     
     public static void desenhaTelaVitoria(){
         Grapchics.limpaTela();
-        Grapchics.desenhaCentroTTF("Vitoria", 10, Grapchics.BRANCO_CLARO);
+        Grapchics.desenhaCentroTTF("Vitória", 10, Grapchics.BRANCO_CLARO);
         Grapchics.atualizarTela();
     }
     

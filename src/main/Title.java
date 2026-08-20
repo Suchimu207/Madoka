@@ -2,6 +2,7 @@ package main;
 
 import static main.Terminal.mudarEstado;
 
+import util.Audio;
 import util.GameState;
 import util.Grapchics;
 import util.Input;
@@ -66,6 +67,7 @@ public final class Title implements GameState{
 	
 	private void teclaEnter(){
 		if (Input.getCursorY() == 1 || Input.getCursorY() == 2){
+			Audio.tocarSom("Confirm", 0.3f);
 			Grapchics.limpaTela();
 			mudarEstado(new Maps());
         }

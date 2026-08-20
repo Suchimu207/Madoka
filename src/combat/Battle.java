@@ -49,12 +49,16 @@ public final class Battle implements GameState{
 	private static Monsters monstroMostrado;
 	private static Skills skillMostrada;
 	
+	private static boolean vitória;
+	
 	public Battle(Troop tropaCarregada){
 		Battle.subEstadoAtual = SubEstadosBatalha.PREPARO;
 		Battle.menu = new BattlePreparation();
 		Battle.monstroSlotsAtivos = new Monsters[3];
-		
 		Battle.tropaCarregada = tropaCarregada;
+		
+		Battle.campoBatalha = null;
+		Battle.vitória = false;
 	}
 	
 	public static void atualizarEstadoBatalha(){
@@ -76,7 +80,7 @@ public final class Battle implements GameState{
 		Inventory.adicionarMonstroInventário(1);
 		Monsters monstro = Inventory.getMonstroInventario(1);
 		// monstro.subirNivel(39);
-		// monstro.carregarEspecial(95);
+		// monstro.carregarEspecialCompleto();
 	}
 	
 	// ==================== ESTADO ====================
@@ -131,11 +135,11 @@ public final class Battle implements GameState{
 				break;
 			case KeyEvent.VK_W:
 			case KeyEvent.VK_UP:
-				Input.decrementarCursorY();
+				teclaCima();
 				break;
 			case KeyEvent.VK_S:
 			case KeyEvent.VK_DOWN:
-				Input.incrementarCursorY();
+				teclaBaixo();
 				break;
 			case KeyEvent.VK_ENTER:
 				if (subEstadoAtual == SubEstadosBatalha.VITORIA){
@@ -174,6 +178,14 @@ public final class Battle implements GameState{
 		}
 	}
 	
+	private static void teclaCima(){
+		Input.decrementarCursorY();
+	}
+	
+	private static void teclaBaixo(){
+		Input.incrementarCursorY();
+	}
+	
 	private static void teclaEnter(){
 		if (subEstadoAtual == SubEstadosBatalha.PREPARO){
 			alternarMonstroSlotsAtivos();
@@ -198,6 +210,7 @@ public final class Battle implements GameState{
 			subEstadoAtual = null;
 			Terminal.mudarEstado(Terminal.getEstadoAnterior());
 		}
+		
 		if (subEstadoAtual == SubEstadosBatalha.CAMPO){
 			if (campoBatalha != null){
 				if (BattleTurn.isTurnoJogador()){
@@ -318,11 +331,14 @@ public final class Battle implements GameState{
 	}
 	
 	public static boolean verificarVitória(){
-		boolean vitória = true;
 		if (campoBatalha != null){
-			vitória = campoBatalha.isVitóriaBatalha();
+			Battle.vitória = campoBatalha.isVitóriaBatalha();
 		}
-		return vitória;
+		return Battle.vitória;
+	}
+	
+	public static void resetarVitória(){
+		Battle.vitória = false;
 	}
 	
 	//===
