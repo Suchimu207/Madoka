@@ -7,15 +7,15 @@
     "alvo": "ALIADO_AREA",
     "efeitos": [
       {
-        "efeito": "REMOVE_NEGATIVE_STATUS",
-        "alvo": -1,
-        "valor": 0,
-        "chance": 0
-      },
-      {
         "efeito": "HEALING",
         "alvo": -1,
         "valor": 50,
+        "chance": 0
+      },
+	  {
+        "efeito": "REMOVE_NEGATIVE_STATUS",
+        "alvo": -1,
+        "valor": 0,
         "chance": 0
       }
     ],

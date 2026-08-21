@@ -72,6 +72,8 @@ public final class BattleAI {
 	
 	private void recarregarEnergiaUsuário(Monsters monstro){
 		BattleAction.recarregarEnergia(monstro);
+		Audio.tocarSom("Charge", 0.3f);
+		
 		String frase = monstro.getNomeMonstro()+ " recarrega.";
 		Battle.exibirMensagemInimigo(frase,null,null);
 	}

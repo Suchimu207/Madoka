@@ -57,7 +57,7 @@ public final class Main {
 		Battle.carregarDadosJogatina();
 		
 		Terminal terminal = new Terminal(FULL_TITLE, mapaInicial);
-		
+			
 		Thread jogo = new Thread(new Runnable(){
 			public void run(){
 				// 60 FPS == 16.66666 MS.

@@ -37,9 +37,11 @@ public class SkillDescription {
             if (skillMostrada.getRecargaHabilidade() > 0){
                 Grapchics.desenhaTTF("Recarga: " + skillMostrada.getRecargaHabilidade(), 0, posiçãoLinhaSkillsAtivas++, Grapchics.BRANCO_CLARO, Grapchics.FUNDO);
             }
-            
+			
             List<Effects> efeitos = skillMostrada.getEfeitos();
             if (efeitos != null && !efeitos.isEmpty()){
+				posiçãoLinhaSkillsAtivas++;
+				Grapchics.desenhaTela("---", 0, posiçãoLinhaSkillsAtivas++, Grapchics.PRETO_CLARO);
                 for (Effects efeito : efeitos){
                     String textoEfeito;
                     
@@ -54,6 +56,8 @@ public class SkillDescription {
         }
 		return posiçãoLinhaSkillsAtivas;
     }
+	
+	// ==================== MÉTODOS AUXILIARES ====================
 	
 	private static void formatarAplicarStatus(Effects efeito){
         StatusBase status = StatusManager.getStatusPorId(efeito.getValor());
@@ -93,7 +97,14 @@ public class SkillDescription {
     }
 	
 	private static String formatarEfeitoPadrão(Effects efeito){
-        StringBuilder info = new StringBuilder(efeito.getTipo());
+		String tipoRaw = efeito.getTipo();
+		String tipoFormatado = "";
+		
+		if (tipoRaw != null && !tipoRaw.isEmpty()){
+			tipoFormatado = tipoRaw.substring(0, 1).toUpperCase()+tipoRaw.substring(1).toLowerCase().replace("_", " ");;
+		}
+		
+        StringBuilder info = new StringBuilder(tipoFormatado);
         int infoQuant = 0;
         
         info.append(" (");

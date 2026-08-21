@@ -79,8 +79,6 @@ public final class Battle implements GameState{
 	private static void montarEquipeInicial(){
 		Inventory.adicionarMonstroInventário(1);
 		Monsters monstro = Inventory.getMonstroInventario(1);
-		// monstro.subirNivel(39);
-		// monstro.carregarEspecialCompleto();
 	}
 	
 	// ==================== ESTADO ====================
@@ -142,14 +140,6 @@ public final class Battle implements GameState{
 				teclaBaixo();
 				break;
 			case KeyEvent.VK_ENTER:
-				if (subEstadoAtual == SubEstadosBatalha.VITORIA){
-					Terminal.mudarEstado(Terminal.getEstadoAnterior());
-					return;
-				}
-				if (subEstadoAtual == SubEstadosBatalha.DERROTA){
-					Terminal.mudarEstado(Terminal.getEstadoAnterior());
-					return;
-				}
 				teclaEnter();
 				break;
 			case KeyEvent.VK_SHIFT:
@@ -187,6 +177,13 @@ public final class Battle implements GameState{
 	}
 	
 	private static void teclaEnter(){
+		if (subEstadoAtual == SubEstadosBatalha.VITORIA){
+			Terminal.mudarEstado(Terminal.getEstadoAnterior());
+		}
+		if (subEstadoAtual == SubEstadosBatalha.DERROTA){
+			Terminal.mudarEstado(Terminal.getEstadoAnterior());
+		}
+		
 		if (subEstadoAtual == SubEstadosBatalha.PREPARO){
 			alternarMonstroSlotsAtivos();
 		}
@@ -237,7 +234,10 @@ public final class Battle implements GameState{
 		}
 		if (subEstadoAtual == SubEstadosBatalha.CAMPO){
 			if (campoBatalha != null){
-				campoBatalha.setSelecionarAlvo(false);
+				if (campoBatalha.isSelecionarAlvo()){
+					Audio.tocarSom("Cancel", 0.3f);
+					campoBatalha.setSelecionarAlvo(false);
+				}
 			}
 		}
 	}

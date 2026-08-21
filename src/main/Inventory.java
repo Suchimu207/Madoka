@@ -218,10 +218,13 @@ public final class Inventory implements GameState{
 		tamanhoInventario = monstrosInventario.size();
 		totalPaginas = (int) Math.ceil(tamanhoInventario / 24.0);
 		
+		String pag = "Inventário - Página";
+		String barra = (char)47+"";
+		int tamanhoPag = pag.length();
 		
-		String indicadorPagina = "Página "+paginaAtual+(char)45+totalPaginas;
+		Grapchics.desenhaCentroTTF(pag,0, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela(" "+paginaAtual+barra+totalPaginas,tamanhoPag+10, 0, Grapchics.BRANCO_CLARO);
 		
-		Grapchics.desenhaCentroTTF("Inventário - "+indicadorPagina,0, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF("E: Voltar", 0, 1, Grapchics.PRETO_CLARO);
 		Grapchics.desenhaTTF("Enter: Equipar/Desequipar", 0, 2, Grapchics.PRETO_CLARO);
 		Grapchics.desenhaTTF("Shift: Ver detalhes", 0, 3, Grapchics.PRETO_CLARO);

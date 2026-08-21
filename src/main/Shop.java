@@ -100,8 +100,21 @@ public final class Shop implements GameState{
         ouroGasto = 0;
 		indicadorPagina = "";
         
-        for (int i = 1; i <= 20; i++){
-            estoque.add(new ItemLoja(i++, 150, idEstanteAtual++));
+		int monstrosExistentes = MonstersManager.getMonstrosExistentesTamanho();
+		
+        for (int i = 1; i <= monstrosExistentes; i++){
+			int preco = 150;
+			
+			Monsters infoMonstro = MonstersManager.getMonstro(i);
+			if (infoMonstro == null) continue;
+			
+			if (infoMonstro.getRaridadeMonstro() == Monsters.Raridades.INCOMUM){
+				preco = 300;
+			}else if (infoMonstro.getRaridadeMonstro() == Monsters.Raridades.RARO){
+				continue;
+			}
+			
+            estoque.add(new ItemLoja(i, preco, idEstanteAtual++));
         }
     }
 	
@@ -244,12 +257,17 @@ public final class Shop implements GameState{
         inicioLista = (paginaAtual - 1) * 24;
         fimLista = Math.min(inicioLista + 24, tamanhoLoja);
 		totalPaginas = Math.max(1, (int) Math.ceil(tamanhoLoja / 24.0));
-		indicadorPagina = "Página " + paginaAtual+(char)45+totalPaginas;
 		
 		if (Input.getCursorY() < inicioLista) Input.setCursorY(fimLista);
 		if (Input.getCursorY() >= fimLista) Input.setCursorY(inicioLista);
 		
-        Grapchics.desenhaCentroTTF("Loja - "+indicadorPagina, linhaItem++, Grapchics.BRANCO_CLARO);
+		String pag = "Loja - Página";
+		String barra = (char)47+"";
+		int tamanhoPag = pag.length();
+		
+		Grapchics.desenhaCentroTTF(pag,linhaItem, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela(" "+paginaAtual+barra+totalPaginas,tamanhoPag+13, linhaItem++, Grapchics.BRANCO_CLARO);
+		
         desenhaOpçõesLoja(false);
 		
 		Grapchics.desenhaTela("____________________", 0, linhaItem++, Grapchics.PRETO_CLARO);

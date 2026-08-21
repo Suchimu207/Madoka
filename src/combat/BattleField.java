@@ -872,6 +872,7 @@ public final class BattleField {
                 int danoRealizado = resultadoAção.getDanoRealizado();
 				String nomeMonstro = usuario.getNomeMonstro() + " usou ";
 				Skills ultimaSkill = skillSelecionada;
+				skillSelecionada = null;
 				
 				String dano = null;
 				if (danoRealizado > 0) dano = ">>Causou " + danoRealizado + " de dano.";
@@ -891,6 +892,8 @@ public final class BattleField {
 		if (selecionarAlvo) selecionarAlvo = false;
 		skillUsada = null;
 		
+		Audio.tocarSom("Charge", 0.3f);
+		
 		String frase = usuario.getNomeMonstro()+" recarrega.";
 		Battle.exibirMensagemAliado(frase, null, null);
     }
@@ -898,6 +901,7 @@ public final class BattleField {
 	protected void ativarEspecial(){
 		if (aguardandoAliado){
 			confirmarMensagemAliado();
+			Audio.tocarSom("Confirm", 0.3f);
 			return;
 		}
 		
@@ -906,6 +910,8 @@ public final class BattleField {
 		if (BattleTurn.getUnidadeJogadorAtual() == null) return;
 		
 		skillSelecionada = skillEspecial;
+		
+		Audio.tocarSom("Special", 0.3f);
 		
 		if (!selecionarAlvo && especialAtivo){
             selecionarAlvo = true;
@@ -1074,6 +1080,10 @@ public final class BattleField {
 	protected void setDetalheAtual(int detalheAtual){
 		if (detalheAtual < 0) detalheAtual = 0;
 		this.detalheAtual = detalheAtual;
+	}
+	
+	protected boolean isSelecionarAlvo(){
+		return this.selecionarAlvo;
 	}
 	
 	protected boolean isAguardandoInimigo(){

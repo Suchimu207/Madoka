@@ -129,5 +129,10 @@ public final class MonstersManager {
 		return monstrosExistentes.get(idMonstro);
 	}
 	
+	public static int getMonstrosExistentesTamanho(){
+		if (monstrosExistentes == null) return 0;
+		return monstrosExistentes.size();
+	}
+	
 	//===
 }

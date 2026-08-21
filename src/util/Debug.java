@@ -45,5 +45,8 @@ public final class Debug {
 		Debug.ativaDebug = ativaDebug;
 	}
 	
+	// monstro.subirNivel(39);
+	// monstro.carregarEspecialCompleto();
+	
 	//===
 }
