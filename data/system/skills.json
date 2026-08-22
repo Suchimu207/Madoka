@@ -2623,5 +2623,96 @@
     "precisaoBase": 100,
     "estamina": 15,
     "recarga": 0
+  },
+  {
+    "id": 148,
+    "nome": "Fire Wall",
+    "elemento": "FOGO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [],
+    "poder": 25,
+    "precisaoBase": 95,
+    "estamina": 30,
+    "recarga": 1
+  },
+  {
+    "id": 149,
+    "nome": "Fire Trap",
+    "elemento": "FOGO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 40,
+    "precisaoBase": 100,
+    "estamina": 25,
+    "recarga": 0
+  },
+  {
+    "id": 150,
+    "nome": "Nuclear Heat",
+    "elemento": "FOGO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 100,
+		"turnos": 3
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 3,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 25,
+    "precisaoBase": 95,
+    "estamina": 20,
+    "recarga": 1
+  },
+  {
+    "id": 151,
+    "nome": "Burning Cinders",
+    "elemento": "FOGO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 100,
+		"turnos": 5
+    }
+	],
+    "poder": 20,
+    "precisaoBase": 95,
+    "estamina": 30,
+    "recarga": 2
+  },
+  {
+    "id": 152,
+    "nome": "Burning Stick",
+    "elemento": "FOGO",
+    "tipo": "ESPECIAL",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 100,
+		"turnos": 5
+    }
+	],
+    "poder": 80,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 0
   }
 ]

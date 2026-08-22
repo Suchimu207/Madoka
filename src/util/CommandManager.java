@@ -1,20 +1,19 @@
 package util;
 
+import util.commands.*;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public final class CommandManager {
-	/*
     private static final Map<String, Command> comandos = new HashMap<>();
     private static boolean ativo = false;
     private static Thread threadComandos;
-    */
-	
+    
     private CommandManager() {}
     
     public static void iniciar(){
-		/*
         if (ativo) return;
         ativo = true;
         
@@ -40,24 +39,19 @@ public final class CommandManager {
         threadComandos.setDaemon(true);
         threadComandos.start();
         System.out.println(">>Sistema de comandos iniciado. Digite 'help' para ajuda.");
-		*/
     }
     
-    private static void registrarComandos() {
+    private static void registrarComandos(){
         // comandos.put("help", new HelpCommand());
-        // comandos.put("player", new PlayerCommand());
+        comandos.put("player", new PlayerCommand());
+		comandos.put("monster", new MonsterCommand());
         // comandos.put("battle", new BattleCommand());
-        // comandos.put("monster", new MonsterCommand());
         // comandos.put("troop", new TroopCommand());
-        // comandos.put("status", new StatusCommand());
-        // comandos.put("kill", new KillCommand());
-        // comandos.put("heal", new HealCommand());
-        // comandos.put("clear", new ClearCommand());
-        // comandos.put("exit", new ExitCommand());
     }
     
     private static void executarComando(String comando, String[] args){
-		/*
+		if (comandosUtilidade(comando)) return;
+		
         Command cmd = comandos.get(comando);
         if (cmd == null){
             System.out.println("Comando desconhecido. Digite 'help' para ver a lista.");
@@ -68,17 +62,28 @@ public final class CommandManager {
             cmd.executar(args);
         }catch (Exception e){
             System.out.println("Erro ao executar comando: "+e.getMessage());
+			System.out.println("Uso: "+cmd.getUso());
         }
-		*/
     }
     
+	private static boolean comandosUtilidade(String comando){
+		boolean retorno = false;
+		
+		switch (comando){
+			case "cls":
+            case "clear":
+				Debug.limpaPrompt();
+				retorno = true;
+            break;
+        }
+		return retorno;
+	}
+	
     public static void parar(){
-		/*
         ativo = false;
         if (threadComandos != null){
             threadComandos.interrupt();
         }
-		*/
     }
 	
 	//===

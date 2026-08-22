@@ -126,7 +126,7 @@ public final class Terminal implements KeyListener {
 		
 		switch (tecla){
 			case KeyEvent.VK_ALT:
-			Debug.setAtivaDebug(!Debug.isAtivaDebug());
+			Debug.setAtivaTelaDebug(!Debug.isAtivaTelaDebug());
 			break;
 		}
 		

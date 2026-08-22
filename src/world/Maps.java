@@ -32,7 +32,7 @@ public final class Maps implements GameState{
 	private static Map<String, String> mapasExistentes; 
 	private static String mapaAtual, mapaInicial, mapaVerificado;
 	private static int iLinha, jColuna = 0;
-	private static boolean bloqueioJogador, mostraEquipe;
+	private static boolean bloqueioJogador;
 	
 	public Maps(){
 		if (mapasExistentes == null){
@@ -51,10 +51,7 @@ public final class Maps implements GameState{
 		Grapchics.limpaTela();
 		
 		Maps.desenhaMapa(Maps.mapaAtual, Player.getJogadorX(), Player.getJogadorY());
-		
-		if (!mostraEquipe){
-			Maps.desenhaInfo();
-		}else Maps.desenhaInfoEquipe();
+		Maps.desenhaInfo();
 		
 		Grapchics.atualizarTela();
 	}
@@ -128,9 +125,7 @@ public final class Maps implements GameState{
 		}
 	}
 	
-	private void teclaShift(){
-        mostraEquipe = !mostraEquipe;
-	}
+	private void teclaShift(){}
 	
 	private void teclaInventário(){
 		mudarEstado(new Inventory());
@@ -194,27 +189,21 @@ public final class Maps implements GameState{
 		//===
 	}
 	
-	private static void desenhaInfo(){		
-		Grapchics.desenhaTTF("ESC: Título",0,35, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTTF("E: Inventário",0,36, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTTF("Shift: Mostrar equipe",0,37, Grapchics.PRETO_CLARO);
+	private static void desenhaInfo(){
+		desenhaMapaNome();
+		
+		Grapchics.desenhaTTF("ESC: Título",0,36, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("E: Inventário",0,37, Grapchics.PRETO_CLARO);
 		Grapchics.desenhaTTF("Enter: Interagir",0,38, Grapchics.PRETO_CLARO);
 		Grapchics.desenhaTTF("Ouro: "+Player.getOuro(),0,39, Grapchics.BRANCO_CLARO);
 	}
 	
-	protected static void desenhaInfoEquipe(){
-		/*
-		int coordenadaY = 21;
-		
-		for (Map.Entry<SlotEquipe, Monsters> entry : equipeTabela.entrySet()){
-			Monsters monstro = entry.getValue();
-			Grapchics.desenhaTela("||||||||||",0,coordenadaY, Grapchics.BRANCO_CLARO, Grapchics.BRANCO);
-			Grapchics.desenhaTela(monstro.getNomeMonstro(), 10, coordenadaY, Grapchics.BRANCO);
-			Grapchics.desenhaTela("||||||||||", 0, coordenadaY + 1, Grapchics.VERMELHO_CLARO, Grapchics.VERMELHO_CLARO);
-			coordenadaY += 3;
+	private static void desenhaMapaNome(){
+		if (mapaAtual == null) return;
+			
+		if (mapaAtual.equalsIgnoreCase("lobby")){
+			Grapchics.desenhaCentroTTF("Instituto da Guerra: Lobby",21, Grapchics.BRANCO_CLARO);
 		}
-		*/
-		Grapchics.desenhaTTF("Shift: Esconder equipe",0,39, Grapchics.PRETO_CLARO);
 	}
 	
 	// ==================== MÉTODOS AUXILIARES ====================

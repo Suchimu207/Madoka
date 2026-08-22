@@ -122,10 +122,6 @@ public final class MonstersManager {
 	}
 	
 	public static Monsters getMonstro(int idMonstro){
-		if (monstrosExistentes.get(idMonstro) == null){
-			return monstrosExistentes.get(1);
-		}
-		
 		return monstrosExistentes.get(idMonstro);
 	}
 	

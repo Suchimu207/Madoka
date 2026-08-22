@@ -109,7 +109,7 @@ public final class Shop implements GameState{
 			if (infoMonstro == null) continue;
 			
 			if (infoMonstro.getRaridadeMonstro() == Monsters.Raridades.INCOMUM){
-				preco = 300;
+				preco = 350;
 			}else if (infoMonstro.getRaridadeMonstro() == Monsters.Raridades.RARO){
 				continue;
 			}

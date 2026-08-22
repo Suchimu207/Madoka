@@ -3,6 +3,7 @@ package main;
 import static main.Terminal.mudarEstado;
 
 import util.Audio;
+import util.CommandManager;
 import util.GameState;
 import util.Grapchics;
 import util.Input;
@@ -71,7 +72,10 @@ public final class Title implements GameState{
 			Grapchics.limpaTela();
 			mudarEstado(new Maps());
         }
-		if (Input.getCursorY() == 3) System.exit(0); // Provisório.
+		if (Input.getCursorY() == 3){
+			CommandManager.parar();
+			System.exit(0); // Provisório.
+		}
 	}
 	
 	// ==================== DESENHO ====================

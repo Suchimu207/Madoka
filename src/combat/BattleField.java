@@ -877,6 +877,7 @@ public final class BattleField {
 				String dano = null;
 				if (danoRealizado > 0) dano = ">>Causou " + danoRealizado + " de dano.";
 				
+				if (especialAtivo) especialAtivo = false;
 				selecionarAlvo = false;
 				Battle.exibirMensagemAliado(nomeMonstro, ultimaSkill, dano);
             }

@@ -98,6 +98,7 @@ public final class BattleAction {
 	private static int calcularDano(Monsters usuario, List<Monsters> alvos, Skills habilidade){
 		int forçaMonstro = usuario.getForcaAtualCombate();
 		int poderHabilidade = habilidade.getPoderHabilidade();
+		int nivelMonstro = usuario.getNivelAtual();
 		
 		Monsters.Elementos elementoAtaque = habilidade.getElementoHabilidadeTipo();
 		
@@ -110,7 +111,8 @@ public final class BattleAction {
 			}
 		}
 		
-        double danoBase = Math.ceil((forçaMonstro / 1000.0) * (poderHabilidade) * CONSTANTE);
+		double multiplicadorNivel = 1.0 + (nivelMonstro / 100.0);
+        double danoBase = Math.ceil((forçaMonstro / 1000.0) * (poderHabilidade) * CONSTANTE * multiplicadorNivel);
 		int danoSomado = 0;
 		
 		for (Monsters monstro : alvos){

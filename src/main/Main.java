@@ -4,6 +4,7 @@ import combat.Battle;
 
 import manager.*;
 
+import util.CommandManager;
 import util.Debug;
 
 import world.Maps;
@@ -49,6 +50,7 @@ public final class Main {
 		
 		String mapaInicial = "Lobby";
 		boolean rodandoJogo = true;
+		boolean modoDebug = false;
 		final String VERSION = Game.gameJson.getString("version");
 		final String TITLE = Game.gameJson.getString("title");
 		final String FULL_TITLE = TITLE+" - "+VERSION;
@@ -57,7 +59,19 @@ public final class Main {
 		Battle.carregarDadosJogatina();
 		
 		Terminal terminal = new Terminal(FULL_TITLE, mapaInicial);
-			
+		
+		// =======================================
+		
+        for (String arg : args){
+            if (arg.equalsIgnoreCase("--debug") || arg.equalsIgnoreCase("-d")){
+                modoDebug = true;
+                break;
+            }
+        }
+		if (modoDebug) CommandManager.iniciar();	
+		
+		// =======================================
+		
 		Thread jogo = new Thread(new Runnable(){
 			public void run(){
 				// 60 FPS == 16.66666 MS.
@@ -77,7 +91,7 @@ public final class Main {
 						//Contador de FPS.
 						contadorFrames++;
 						if (System.nanoTime() - tempoUltimoCalculoFPS >= 1000000000){
-							Debug.mostrarDebug(contadorFrames);
+							Debug.mostrarTelaDebug(contadorFrames);
 							contadorFrames = 0;
 							tempoUltimoCalculoFPS = System.nanoTime();
 						}

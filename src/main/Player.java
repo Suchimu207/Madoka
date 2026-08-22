@@ -2,7 +2,7 @@ package main;
 
 public final class Player {
     private static int ouro;
-	private static final int OURO_INICIAL = 3000;
+	private static final int OURO_INICIAL = 300;
 	private static int jogadorX, jogadorY;
 	
 	private Player(){
@@ -49,6 +49,7 @@ public final class Player {
 	public static void perderOuro(int ouroPerdido){
 		if (ouroPerdido <= 0) ouroPerdido = 0;
 		ouro -= ouroPerdido;
+		if (ouro < 0) ouro = 0;
 	}
 	
 	//===

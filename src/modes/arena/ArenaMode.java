@@ -256,16 +256,29 @@ public class ArenaMode implements GameState{
         Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 		
 		int totalBatalhas = torneioAtual.getTotalBatalhas();
+		int rodadaBônus = 1;
 		
         for (int i = totalBatalhas; i >= 1; i--){
+			rodadaBônus++;
+			
             Troop tropaInimiga = torneioAtual.getBatalha(i);
             String infoTropa = "Rodada "+i+":"+tropaInimiga.getNomeTropa();
 			int tamanhoTexto = infoTropa.length();
 			
 			if (rodadaAtual == i){
-				Grapchics.desenhaTTF(infoTropa, 0, linhaAtual, Grapchics.AMARELO_CLARO);
-				Grapchics.desenhaTela((char)17, tamanhoTexto+1, linhaAtual++, Grapchics.AMARELO_CLARO);
+				if (rodadaBônus == 3){
+					Grapchics.desenhaTTF("[???]", 0, linhaAtual++, Grapchics.AMARELO_CLARO);
+					rodadaBônus = 0;
+				}else{
+					Grapchics.desenhaTTF(infoTropa, 0, linhaAtual, Grapchics.AMARELO_CLARO);
+					Grapchics.desenhaTela((char)17, tamanhoTexto+1, linhaAtual++, Grapchics.AMARELO_CLARO);
+				}
 			}else{
+				if (rodadaBônus == 3){
+					Grapchics.desenhaTTF("[???]", 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+					rodadaBônus = 0;
+				}
+				
 				Grapchics.desenhaTTF(infoTropa, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
 			}
         }
@@ -275,7 +288,8 @@ public class ArenaMode implements GameState{
 	
 	private static void desenhaRecompensa(){
 		if (monstroDesbloqueado == null) return;
-		Grapchics.desenhaCentroTTF("Monstro desbloqueado: "+monstroDesbloqueado.getNomeMonstro(), 10, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaCentroTTF("Monstro desbloqueado: ", 10, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaCentroTTF(monstroDesbloqueado.getNomeMonstro(), 11, Grapchics.BRANCO_CLARO);
 	}
 	
 	// ==================== MÉTODOS AUXILIARES ====================

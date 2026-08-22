@@ -484,6 +484,10 @@ public class Monsters {
 		return expAtual;
 	}
 	
+	public int getNivelMaximo(){
+		return NIVEL_MAXIMO;
+	}
+	
 	public void setNivelAtual(int nivelAtual){
 		if (nivelAtual < 1) nivelAtual = 1;
 		this.nivelAtual = nivelAtual;

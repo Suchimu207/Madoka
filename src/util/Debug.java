@@ -4,14 +4,14 @@ import combat.Battle;
 import main.Player;
 
 public final class Debug {
-	private static boolean ativaDebug;
+	private static boolean ativaTelaDebug;
 	private static String os;
 	
 	private Debug(){
 	}
 	
-	public static void mostrarDebug(int contadorFrames){
-		if (Debug.ativaDebug){
+	public static void mostrarTelaDebug(int contadorFrames){
+		if (Debug.ativaTelaDebug){
 			limpaPrompt();
 			System.out.println("FPS Atual: " + contadorFrames);
 			System.out.println("Jogador_X: "+Player.getJogadorX());
@@ -36,17 +36,14 @@ public final class Debug {
       //===
     }
 	
-	public static boolean isAtivaDebug(){
-		return Debug.ativaDebug;
+	public static boolean isAtivaTelaDebug(){
+		return Debug.ativaTelaDebug;
 	}
 
-	public static void setAtivaDebug(boolean ativaDebug){
-		if (ativaDebug == false) limpaPrompt();
-		Debug.ativaDebug = ativaDebug;
+	public static void setAtivaTelaDebug(boolean ativaTelaDebug){
+		if (ativaTelaDebug == false) limpaPrompt();
+		Debug.ativaTelaDebug = ativaTelaDebug;
 	}
-	
-	// monstro.subirNivel(39);
-	// monstro.carregarEspecialCompleto();
 	
 	//===
 }

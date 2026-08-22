@@ -210,7 +210,7 @@ public final class Inventory implements GameState{
 	private static void desenhaInventário(){
 		reordenarListaInventario();
 		if (monstrosInventario.isEmpty()){
-			Grapchics.desenhaCentroTTF("Inventario vazio.", 10, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaCentroTTF("Inventário vazio.", 10, Grapchics.BRANCO_CLARO);
 			Grapchics.atualizarTela();
 			return;
 		}
@@ -598,10 +598,12 @@ public final class Inventory implements GameState{
 	// ==================== MÉTODOS AUXILIARES ====================
 	
 	public static void adicionarMonstroInventário(int id){
+		if (monstrosInventario == null) return;
+		
         Monsters monstroRequerido = MonstersManager.getMonstro(id);
         monstroCarregado = new Monsters(monstroRequerido);
         monstrosInventario.put(idInventario++, monstroCarregado);
-
+		
         for (SlotEquipe slot : SlotEquipe.values()){
             if (!equipeTabela.containsKey(slot)){
                 equipeTabela.put(slot, monstroCarregado);
@@ -611,35 +613,53 @@ public final class Inventory implements GameState{
         }
     }
 	
-    public static void removerMonstroInventario(int id){
+    public static void removerMonstroInventário(int id){
         monstroCarregado = monstrosInventario.get(id);
-        if (monstroCarregado == null)
-            return;
-
+        if (monstroCarregado == null) return;
+		
         monstrosInventario.remove(id);
         monstroCarregado.setMonstroEquipado(false);
 
         slotEncontrado = null;
-        for (Map.Entry<SlotEquipe, Monsters> entry : equipeTabela.entrySet()) {
-            if (entry.getValue() == monstroCarregado) {
+        for (Map.Entry<SlotEquipe, Monsters> entry : equipeTabela.entrySet()){
+            if (entry.getValue() == monstroCarregado){
                 slotEncontrado = entry.getKey();
                 break;
             }
         }
-        if (slotEncontrado != null) {
+        if (slotEncontrado != null){
             equipeTabela.remove(slotEncontrado);
             reordenarEquipe();
         }
 
-        // Reordena inventário
+        // Reordena inventário.
         Monsters[] monstrosAtuais = monstrosInventario.values().toArray(new Monsters[0]);
         monstrosInventario.clear();
         idInventario = 1;
-        for (int i = 0; i < monstrosAtuais.length; i++) {
+        for (int i = 0; i < monstrosAtuais.length; i++){
             monstrosInventario.put(idInventario++, monstrosAtuais[i]);
         }
     }
+	
+	private static void removerTodosMonstrosInventário(int id){
+        monstroCarregado = monstrosInventario.get(id);
+        if (monstroCarregado == null) return;
+		
+        monstrosInventario.remove(id);
+        monstroCarregado.setMonstroEquipado(false);
 
+        slotEncontrado = null;
+        for (Map.Entry<SlotEquipe, Monsters> entry : equipeTabela.entrySet()){
+            if (entry.getValue() == monstroCarregado){
+                slotEncontrado = entry.getKey();
+                break;
+            }
+        }
+        if (slotEncontrado != null){
+            equipeTabela.remove(slotEncontrado);
+        }
+    }
+	
 	private static void reordenarEquipe(){
 		Monsters[] monstrosAtuais = equipeTabela.values().toArray(new Monsters[0]);
 		equipeTabela.clear();
@@ -676,10 +696,10 @@ public final class Inventory implements GameState{
 	
 	// ==================== OUTROS ====================
 	
-	public static Map<Integer, Monsters> getMonstrosInventario(){
+	protected static Map<Integer, Monsters> getMonstrosInventario(){
         return monstrosInventario;
     }
-
+	
     protected static EnumMap<SlotEquipe, Monsters> getEquipeTabela(){
         return equipeTabela;
     }
@@ -690,6 +710,24 @@ public final class Inventory implements GameState{
 
     public static Monsters getMonstroInventario(int id){
         return monstrosInventario != null ? monstrosInventario.get(id) : null;
+    }
+	
+	public static void preencherInventario(){
+        if (monstrosInventario == null) return;
+		
+		int monstrosExistentes = MonstersManager.getMonstrosExistentesTamanho();
+		for (int i = 1; i <= monstrosExistentes; i++){
+			adicionarMonstroInventário(i);
+		}
+    }
+	
+	public static void limparInventario(){
+        if (monstrosInventario == null) return;
+		
+		int tamanhoInventárioAtual = getTamanhoInventario();
+		for (int i = 1; i <= tamanhoInventárioAtual; i++){
+			removerTodosMonstrosInventário(i);
+		}
     }
 	
 	public static List<Monsters> getEquipeLista(){
