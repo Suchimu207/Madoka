@@ -10,6 +10,9 @@ public class StatusTont extends StatusBase {
 	private int duraçãoBase, duraçãoAtual;
 	private boolean isAtivo;
 	
+	private int forcaRemovida;
+    private int[] precisaoRemovida;
+	
     public StatusTont(StatusData dados){
         super(dados);
 		this.duraçãoBase = 0;
@@ -25,22 +28,32 @@ public class StatusTont extends StatusBase {
 		this.duraçãoAtual = this.duraçãoBase;
 		this.isAtivo = true;
 		
-		int forçaAtualCombate = alvo.getForcaAtualCombate();
-		int forçaNerfada = (int) Math.ceil(forçaAtualCombate * 0.75);
-		
-		alvo.setForcaAtualCombate(forçaNerfada);
-		
-		for (int i = 0; i < alvo.getQuantidadeMaxSlotsHabilidade(); i++){
+        int forçaAtual = alvo.getForcaAtualCombate();
+        int novaForca = (int) Math.ceil(forçaAtual * 0.25);
+        this.forcaRemovida = novaForca;
+        alvo.setForcaAtualCombate(forçaAtual - novaForca);
+        
+        int maxSlots = alvo.getQuantidadeMaxSlotsHabilidade();
+        this.precisaoRemovida = new int[maxSlots];
+        
+        for (int i = 0; i < maxSlots; i++){
             Skills skill = alvo.getHabilidadeAtiva(i);
-            if (skill != null) {
-                int precisaoNerfada = (int) Math.ceil(skill.getPrecisaoAtual() * 0.75);
-                skill.setPrecisaoAtual(precisaoNerfada);
+            if (skill != null){
+                int precisaoAtual = skill.getPrecisaoAtual();
+			
+                int valorRemovido = (int) Math.ceil(precisaoAtual * 0.25);
+                
+                this.precisaoRemovida[i] = valorRemovido;
+                
+				skill.setPrecisaoAtual(precisaoAtual - valorRemovido);
+            }else{
+                this.precisaoRemovida[i] = 0;
             }
         }
 		
 		alvo.receberStatus(this);
     }
-
+	
     @Override
     public void checar(Monsters alvo){
 		if (duraçãoAtual <= 0) return;
@@ -52,13 +65,16 @@ public class StatusTont extends StatusBase {
 		
 		if (duraçãoAtual <= 0){
 			isAtivo = false;
-			alvo.setForcaAtualCombate(alvo.getForcaAtual());
 			
-			for (int i = 0; i < alvo.getQuantidadeMaxSlotsHabilidade(); i++){
+			int forcaAtual = alvo.getForcaAtualCombate();
+            alvo.setForcaAtualCombate(forcaAtual+this.forcaRemovida);
+            
+            for (int i = 0; i < alvo.getQuantidadeMaxSlotsHabilidade(); i++){
                 Skills skill = alvo.getHabilidadeAtiva(i);
-                if (skill != null){
-                    skill.setPrecisaoAtual(skill.getPrecisaoBase());
-                }
+				if (skill != null && this.precisaoRemovida != null){
+					int precisaoAtual = skill.getPrecisaoAtual();
+					skill.setPrecisaoAtual(precisaoAtual + this.precisaoRemovida[i]);
+				}
             }
 			
 		}

@@ -5,6 +5,8 @@ import main.Terminal;
 import bestiary.*;
 import combat.*;
 
+import combat.effects.Effects;
+
 import main.Player;
 import main.Inventory;
 
@@ -49,6 +51,8 @@ public final class Battle implements GameState{
 	private static Monsters monstroMostrado;
 	private static Skills skillMostrada;
 	
+	private static List<Effects> efeitos;
+	
 	private static boolean vitória;
 	
 	public Battle(Troop tropaCarregada){
@@ -61,7 +65,14 @@ public final class Battle implements GameState{
 		Battle.vitória = false;
 	}
 	
-	public static void atualizarEstadoBatalha(){
+	public Battle(Troop tropaCarregada, List<Effects> efeitos){
+		new Battle(tropaCarregada);
+		if (efeitos == null || efeitos.size() <= 0) return;
+		
+		Battle.efeitos = efeitos;
+	}
+	
+	private static void atualizarEstadoBatalha(){
 		if (subEstadoAtual == SubEstadosBatalha.CAMPO && campoBatalha != null){
 			campoBatalha.processarTurno();
 		}
@@ -82,6 +93,11 @@ public final class Battle implements GameState{
 	}
 	
 	// ==================== ESTADO ====================
+	
+	@Override
+	public void atualizaEstado(){
+		Battle.atualizarEstadoBatalha();
+	}
 	
 	@Override
 	public void desenhaEstado(){
@@ -228,7 +244,7 @@ public final class Battle implements GameState{
 	private static void teclaQ(){
 		if (subEstadoAtual == SubEstadosBatalha.PREPARO){
 			if (isEquipeSetada() && tropaCarregada != null){
-				campoBatalha = new BattleField(Battle.monstroSlotsAtivos, Battle.tropaCarregada);
+				campoBatalha = new BattleField(Battle.monstroSlotsAtivos, Battle.tropaCarregada, Battle.efeitos);
 				subEstadoAtual = SubEstadosBatalha.CAMPO;
 			}
 		}

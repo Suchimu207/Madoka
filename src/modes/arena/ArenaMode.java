@@ -4,6 +4,7 @@ import main.Terminal;
 
 import bestiary.*;
 import combat.Battle;
+import combat.effects.Effects;
 
 import main.Inventory;
 import main.Player;
@@ -18,11 +19,14 @@ import util.Input;
 
 import world.Maps;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import java.util.Random;
 
 import java.awt.event.KeyEvent;
 
@@ -42,20 +46,29 @@ public class ArenaMode implements GameState{
 		}
 	}
 	
+	private static final Random random = new Random();
+	
 	private static SubEstadosArena subEstadoAtual = null;
 	private static Map<Integer, Tournament> torneios;
+	private static List<Effects> buffs;
+	private static List<Effects> buffsAtuais;
 	private static Tournament torneioAtual;
 	
 	private static int torneioSelecionado = 0;
 	private static int rodadaAtual = -1;
+	private static int rodadaBuff = 0;
 	
 	private static Monsters monstroDesbloqueado = null;
 	
 	private static boolean batalha = false;
 	
+	
     public ArenaMode(){
 		monstroDesbloqueado = null;
+		buffsAtuais = new ArrayList<Effects>();
+		rodadaBuff = 0;
 		setarTorneios();
+		setarBônus();
     }
 	
 	// ==================== INICIALIZAÇÃO ====================
@@ -73,13 +86,40 @@ public class ArenaMode implements GameState{
 		}
 	}
 	
+	private void setarBônus(){
+		if (buffs != null) return;
+		
+		buffs = new ArrayList<Effects>();
+		
+		Effects statusRegen = new Effects("APPLY_STATUS", 1, 8, 100, 3);
+		buffs.add(statusRegen);
+		
+		Effects statusRegenSta = new Effects("APPLY_STATUS", 1, 13, 100, 3);
+		buffs.add(statusRegenSta);
+		
+		Effects statusRapidez = new Effects("APPLY_STATUS", 1, 25, 100, 3);
+		buffs.add(statusRapidez);
+		
+		Effects statusDano25 = new Effects("APPLY_STATUS", 1, 26, 100, 3);
+		buffs.add(statusDano25);
+		
+		Effects statusDano50 = new Effects("APPLY_STATUS", 1, 27, 100, 2);
+		buffs.add(statusDano50);
+		
+		Effects statusDano100 = new Effects("APPLY_STATUS", 1, 28, 100, 1);
+		buffs.add(statusDano100);
+	}
+	
 	// ==================== ESTADO ====================
+	
+	@Override
+	public void atualizaEstado(){
+		verificarResultadoBatalha();
+	}
 	
 	@Override
 	public void desenhaEstado(){
 		Grapchics.limpaTela();
-		
-		verificarResultadoBatalha();
 		
 		if (subEstadoAtual == null){
 			desenhaTorneios();
@@ -153,11 +193,17 @@ public class ArenaMode implements GameState{
                 subEstadoAtual = SubEstadosArena.TORNEIO;
 				Input.resetarCursor();
 				ArenaMode.rodadaAtual = 1;
+				Input.setCursorY(rodadaAtual);
             }
         }else if (subEstadoAtual == SubEstadosArena.TORNEIO){
+			if (rodadaBuff == 3){
+				adicionarBuff();
+				rodadaBuff = 0;
+			}
 			ArenaMode.batalha = true;
 			Terminal.setEstadoAnterior(this);
-			Terminal.mudarEstado(new Battle(torneioAtual.getBatalha(rodadaAtual)));
+			Terminal.mudarEstado(new Battle(torneioAtual.getBatalha(rodadaAtual), buffsAtuais
+			));
         }else if (subEstadoAtual == SubEstadosArena.RECOMPENSA){
 			subEstadoAtual = null;
 			torneioAtual = null;
@@ -171,6 +217,7 @@ public class ArenaMode implements GameState{
 	private void teclaInventário(){
 		if (subEstadoAtual == SubEstadosArena.TORNEIO){
             subEstadoAtual = null;
+			buffsAtuais.clear();
             Input.resetarCursor();
             Input.setCursorY(4);
         }else{
@@ -265,14 +312,20 @@ public class ArenaMode implements GameState{
             String infoTropa = "Rodada "+i+":"+tropaInimiga.getNomeTropa();
 			int tamanhoTexto = infoTropa.length();
 			
-			if (rodadaAtual == i){
-				if (rodadaBônus == 3){
+			if (Input.getCursorY() == i){
+				if (rodadaBônus == 3 && rodadaBuff == 3){
 					Grapchics.desenhaTTF("[???]", 0, linhaAtual++, Grapchics.AMARELO_CLARO);
+					Grapchics.desenhaTTF(infoTropa, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
 					rodadaBônus = 0;
-				}else{
-					Grapchics.desenhaTTF(infoTropa, 0, linhaAtual, Grapchics.AMARELO_CLARO);
-					Grapchics.desenhaTela((char)17, tamanhoTexto+1, linhaAtual++, Grapchics.AMARELO_CLARO);
+					continue;
 				}
+				
+				if (rodadaBônus == 3 && rodadaBuff != 3){
+					Grapchics.desenhaTTF("[???]", 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+					rodadaBônus = 0;
+				}
+				Grapchics.desenhaTTF(infoTropa, 0, linhaAtual, Grapchics.AMARELO_CLARO);
+				Grapchics.desenhaTela((char)17, tamanhoTexto+1, linhaAtual++, Grapchics.AMARELO_CLARO);
 			}else{
 				if (rodadaBônus == 3){
 					Grapchics.desenhaTTF("[???]", 0, linhaAtual++, Grapchics.BRANCO_CLARO);
@@ -294,6 +347,19 @@ public class ArenaMode implements GameState{
 	
 	// ==================== MÉTODOS AUXILIARES ====================
 	
+	private static void adicionarBuff(){
+		if (buffs == null || buffs.size() <= 0) return;
+		
+		for (int i = 0; i <= buffs.size(); i++){
+			int id = random.nextInt(buffs.size()-1);
+			Effects efeito = buffs.get(id);
+			if (!buffsAtuais.contains(efeito)){
+				buffsAtuais.add(efeito);
+				break;
+			}
+		}
+	}
+	
 	private static void torneioVencido(){
 		if (torneioAtual != null && rodadaAtual > torneioAtual.getTotalBatalhas()){
 			if (!torneioAtual.isConcluido()){
@@ -310,14 +376,21 @@ public class ArenaMode implements GameState{
 				
 				torneioAtual.setConcluido(true);
 			}
+			if (buffsAtuais != null) buffsAtuais.clear();
 		}
 	}
 	
 	private static void verificarResultadoBatalha(){
 		if (ArenaMode.batalha){
 			if (Battle.verificarVitória()){
+				int cursor = 0;
+				
 				ArenaMode.rodadaAtual++;
-            
+				ArenaMode.rodadaBuff++;
+				
+				cursor = ArenaMode.rodadaAtual + Input.getCursorY();
+				Input.setCursorY(cursor);
+				
 				if (subEstadoAtual == SubEstadosArena.TORNEIO){
 					torneioVencido();
 				}
@@ -325,12 +398,15 @@ public class ArenaMode implements GameState{
 				Battle.resetarVitória();
 			}else{
 				ArenaMode.rodadaAtual = 1;
+				rodadaBuff = 0;
 				subEstadoAtual = null;
+				if (buffsAtuais != null) buffsAtuais.clear();
 				Input.resetarCursor();
 			}
 		}
 		ArenaMode.batalha = false;
 	}
+	
 	// ==================== OUTROS ====================
 	
    //===

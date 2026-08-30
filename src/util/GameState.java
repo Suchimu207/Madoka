@@ -8,6 +8,8 @@ public interface GameState {
     */
     void desenhaEstado();
 	
+	void atualizaEstado();
+	
     /**
     * Processa a entrada de teclado específica deste estado.
     */

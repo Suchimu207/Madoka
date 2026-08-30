@@ -10,6 +10,8 @@ public class StatusCeg extends StatusBase {
 	private int duraçãoBase, duraçãoAtual;
 	private boolean isAtivo;
 	
+	private int[] precisaoRemovida;
+	
     public StatusCeg(StatusData dados){
         super(dados);
 		this.duraçãoBase = 0;
@@ -25,17 +27,27 @@ public class StatusCeg extends StatusBase {
 		this.duraçãoAtual = this.duraçãoBase;
 		this.isAtivo = true;
 		
-		for (int i = 0; i < alvo.getQuantidadeMaxSlotsHabilidade(); i++){
+		int maxSlots = alvo.getQuantidadeMaxSlotsHabilidade();
+        this.precisaoRemovida = new int[maxSlots];
+        
+        for (int i = 0; i < maxSlots; i++){
             Skills skill = alvo.getHabilidadeAtiva(i);
-            if (skill != null) {
-                int precisaoNerfada = (int) Math.ceil(skill.getPrecisaoAtual() * 0.50);
-                skill.setPrecisaoAtual(precisaoNerfada);
+            if (skill != null){
+                int precisaoAtual = skill.getPrecisaoAtual();
+                
+                int valorRemovido = (int) Math.ceil(precisaoAtual * 0.50);
+                
+                this.precisaoRemovida[i] = valorRemovido;
+                
+                skill.setPrecisaoAtual(precisaoAtual - valorRemovido);
+            }else{
+                this.precisaoRemovida[i] = 0;
             }
         }
 		
 		alvo.receberStatus(this);
     }
-
+	
     @Override
     public void checar(Monsters alvo){
 		if (duraçãoAtual <= 0) return;
@@ -50,8 +62,9 @@ public class StatusCeg extends StatusBase {
 			
 			for (int i = 0; i < alvo.getQuantidadeMaxSlotsHabilidade(); i++){
                 Skills skill = alvo.getHabilidadeAtiva(i);
-                if (skill != null){
-                    skill.setPrecisaoAtual(skill.getPrecisaoBase());
+                if (skill != null && this.precisaoRemovida != null){
+                    int precisaoAtual = skill.getPrecisaoAtual();
+                    skill.setPrecisaoAtual(precisaoAtual + this.precisaoRemovida[i]);
                 }
             }
 			

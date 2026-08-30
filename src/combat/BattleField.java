@@ -7,8 +7,12 @@ import bestiary.Troop;
 import combat.description.SkillDescription;
 
 import combat.effects.Effects;
+import combat.effects.EffectsManager;
+import combat.effects.EffectsStrategy;
 
 import combat.status.StatusBase;
+
+import combat.effects.strategies.EffectsApplyStatus;
 
 import main.Player;
 
@@ -44,6 +48,7 @@ public final class BattleField {
 	private int maxAliados;
 	private List<Integer> posiçõesAliadosX;
 	private List<Integer> posiçõesAliadosY; 
+	private List<Effects> efeitosIniciais = null; 
 	
 	private Troop tropa;
 	private Monsters monstroSelecionado, monstroVisualizado;
@@ -76,6 +81,22 @@ public final class BattleField {
 	// ==================== CONSTRUTOR ====================
 	
 	protected BattleField(Monsters[] aliados, Troop tropa){
+		setarCampo(aliados, tropa);
+		prepararMonstros();
+		inicializarActionValue();
+	}
+	
+	protected BattleField(Monsters[] aliados, Troop tropa, List<Effects> efeitosIniciais){
+		setarCampo(aliados, tropa);
+		this.efeitosIniciais = efeitosIniciais;	
+		
+		prepararMonstros();
+		inicializarActionValue();
+	}
+	
+	// ==================== PREPARAÇÃO ====================
+	
+	private void setarCampo(Monsters[] aliados, Troop tropa){
 		this.aliados = aliados;
 		this.aliadosDerrotados = new Monsters[3];
 		this.maxAliados = aliados.length;
@@ -89,13 +110,8 @@ public final class BattleField {
 		this.maxInimigos = tropa.getMonstros().size();
 		this.posiçõesInimigosX = new ArrayList<Integer>();
 		this.posiçõesInimigosY = new ArrayList<Integer>();
-		this.inimigoAI = new BattleAI();
-		
-		prepararMonstros();
-		inicializarActionValue();
+		this.inimigoAI = new BattleAI();	
 	}
-	
-	// ==================== PREPARAÇÃO ====================
 	
 	private void prepararMonstros(){
 		Debug.limpaPrompt();
@@ -113,6 +129,16 @@ public final class BattleField {
 			monstro.desativarRecargas();
 			monstro.limparStatus();
 			monstro.zerarEscudoAtual();
+			
+			if (this.efeitosIniciais == null || this.efeitosIniciais.size() <= 0) continue;
+			
+			for (Effects efeitoAtual : efeitosIniciais){
+				EffectsStrategy efeito = EffectsManager.getEfeito(efeitoAtual.getTipo());
+				
+				if (efeito != null){
+					efeito.aplicar(monstro, monstro, null, efeitoAtual);
+				}
+			}
 		}
 		System.out.println(">>Aliados inicializados.");
         System.out.println("");

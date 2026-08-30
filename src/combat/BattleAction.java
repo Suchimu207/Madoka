@@ -99,6 +99,7 @@ public final class BattleAction {
 		int forçaMonstro = usuario.getForcaAtualCombate();
 		int poderHabilidade = habilidade.getPoderHabilidade();
 		int nivelMonstro = usuario.getNivelAtual();
+		double danoAumentado = usuario.getDamageBonus();
 		
 		Monsters.Elementos elementoAtaque = habilidade.getElementoHabilidadeTipo();
 		
@@ -116,21 +117,11 @@ public final class BattleAction {
 		int danoSomado = 0;
 		
 		for (Monsters monstro : alvos){
-			double multiplicadorElemental = 1.0;
+			regenerarEstamina(monstro, elementoAtaque);
 			
-			for (Monsters.Elementos elementoDefensor : monstro.getElementosAtuaisValores()){
-				multiplicadorElemental *= elementoAtaque.getMultiplicadorDano(elementoDefensor);
-			}
+			double multiplicadorElemental = calcularMultiplicadorElemental(monstro, elementoAtaque);
 			
-			for (StatusBase status : monstro.getStatusAtuais()){
-				if (status instanceof StatusFraquezaElemental fraq && fraq.isAtivo()){
-					if (fraq.getElementoFraqueza() == elementoAtaque){
-						multiplicadorElemental += 0.5;
-					}
-				}
-			}
-			
-			int danoFinal = (int) (danoBase * multiplicadorElemental);
+			int danoFinal = (int) ((danoBase * danoAumentado) * multiplicadorElemental);
 			danoSomado += danoFinal;
 			monstro.perderVida(danoFinal);
 			
@@ -138,9 +129,41 @@ public final class BattleAction {
 				int cura = (int) Math.ceil(danoFinal * (habilidade.getLifeSteal() / 100));
 				usuario.ganharVida(cura);
 			}
+			
 		}
 		return danoSomado;
     }
+	
+	private static double calcularMultiplicadorElemental(Monsters monstro, Monsters.Elementos elementoAtaque){
+		double multiplicadorElemental = 1.0;
+		
+		for (Monsters.Elementos elementoDefensor : monstro.getElementosAtuaisValores()){
+			multiplicadorElemental *= elementoAtaque.getMultiplicadorDano(elementoDefensor);
+		}
+		
+		for (StatusBase status : monstro.getStatusAtuais()){
+			if (status instanceof StatusFraquezaElemental fraq && fraq.isAtivo()){
+				if (fraq.getElementoFraqueza() == elementoAtaque){
+					multiplicadorElemental += 0.5;
+				}
+			}
+		}
+		
+		return multiplicadorElemental;
+	}
+	
+	private static void regenerarEstamina(Monsters monstro, Monsters.Elementos elementoAtaque){
+		if (monstro.getHarmonizado() <= 0) return;
+		
+		int harmonizado = monstro.getHarmonizado();
+		
+		for (Monsters.Elementos elementoDefensor : monstro.getElementosAtuaisValores()){
+			if (elementoAtaque.temFraquezaContra(elementoDefensor) || elementoDefensor == elementoAtaque){
+				int novaEstamina = (int) Math.ceil(monstro.getEstaminaAtual() * (harmonizado / 100.0));
+				monstro.ganharEstamina(novaEstamina);
+			}
+		}
+	}
 	
 	private static void aplicarEfeitos(Monsters usuario, List<Monsters> alvosHabilidade, Skills habilidade){
 		for (Effects dados : habilidade.getEfeitos()){
@@ -191,6 +214,6 @@ public final class BattleAction {
 		}		
 		return alvos;
 	}
-
+	
 	//===
 }

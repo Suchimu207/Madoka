@@ -21,9 +21,11 @@ public class EffectsApplyStatus implements EffectsStrategy {
 	private Effects efeito;
 	private StatusBase status;
 	
+	public EffectsApplyStatus(){}
+	
     @Override
     public void aplicar(Monsters usuario, Monsters alvo, Skills habilidade, Effects efeito){
-        if (alvo == null || usuario == null || habilidade == null || efeito == null) return;
+        if (usuario == null || alvo == null || efeito == null) return;
 		
 		this.usuario = usuario;
 		this.alvo = alvo;

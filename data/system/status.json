@@ -154,5 +154,23 @@
     "nome": "Rapidez",
     "tipo": "POSITIVE",
     "subtipo": "BUFF"
+  },
+  {
+    "id": 26,
+    "nome": "Dano aumentado (25%)",
+    "tipo": "POSITIVE",
+    "subtipo": "BUFF"
+  },
+  {
+    "id": 27,
+    "nome": "Dano aumentado (50%)",
+    "tipo": "POSITIVE",
+    "subtipo": "BUFF"
+  },
+  {
+    "id": 28,
+    "nome": "Dano aumentado (100%)",
+    "tipo": "POSITIVE",
+    "subtipo": "BUFF"
   }
 ]

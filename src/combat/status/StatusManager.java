@@ -82,6 +82,9 @@ public final class StatusManager {
 			case 23: return new StatusFraquezaElemental(dados, Monsters.Elementos.AGUA);
 			case 24: return new StatusFraquezaElemental(dados, Monsters.Elementos.FISICO);
 			case 25: return new StatusRap(dados);
+			case 26: return new StatusDamageIncreased(dados, 1.25);
+			case 27: return new StatusDamageIncreased(dados, 1.5);
+			case 28: return new StatusDamageIncreased(dados, 2.0);
             default: return null;
         }
 	}

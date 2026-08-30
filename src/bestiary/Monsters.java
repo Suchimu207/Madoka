@@ -131,6 +131,7 @@ public class Monsters {
 	private int attunedPercent;
 	private int statusArmor;
 	private int provocationRate;
+	private double damageBonus;
 	private int[] traçosIds;
 	
 	private Classes classeAtual;
@@ -198,6 +199,7 @@ public class Monsters {
 			this.barraEspecialMaximo = barraEspecialMaximo;
 			
 			this.escudoAtual = 0;
+			this.damageBonus = 1.0;
 			
 			this.traçosIds = traçosIds;
 			
@@ -229,6 +231,7 @@ public class Monsters {
 	   this.barraEspecialAtual = monstroRequerido.getBarraEspecialAtual();
 	   this.barraEspecialMaximo = monstroRequerido.getBarraEspecialMaximo();
 	   this.escudoAtual = monstroRequerido.getEscudoAtual();
+	   this.damageBonus = monstroRequerido.getDamageBonus();
 	   this.provocationRate = monstroRequerido.getProvocationRate();
 	   
 	   this.traçosIds = monstroRequerido.getTracosIds();	   
@@ -571,6 +574,10 @@ public class Monsters {
 		return escudoAtual;
 	}
 	
+	public double getDamageBonus(){
+		return damageBonus;
+	}
+	
 	public int getVidaAtualCombate(){
 		return vidaAtualCombate;
 	}
@@ -594,6 +601,11 @@ public class Monsters {
 	public void setEscudoAtual(int escudoAtual){
 		if (escudoAtual < 0) escudoAtual = 0;
 		this.escudoAtual = escudoAtual;
+	}
+	
+	public void setDamageBonus(double damageBonus){
+		if (damageBonus <= 0.0) damageBonus = 1.0;
+		this.damageBonus = damageBonus;
 	}
 	
 	public void setVidaAtualCombate(int vidaAtualCombate){
@@ -788,6 +800,10 @@ public class Monsters {
 	
 	public int getStatusArmor(){
 		return statusArmor;
+	}
+	
+	public int getHarmonizado(){
+		return attunedPercent;
 	}
 	
 	public List<Traits> getTraçosAtuais(){

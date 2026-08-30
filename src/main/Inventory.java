@@ -96,6 +96,10 @@ public final class Inventory implements GameState{
 	// ==================== ESTADO ====================
 	
 	@Override
+	public void atualizaEstado(){
+	}
+	
+	@Override
 	public void desenhaEstado(){
 		Grapchics.limpaTela();
 		

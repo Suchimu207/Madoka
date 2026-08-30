@@ -109,11 +109,17 @@ public final class Terminal implements KeyListener {
 		frame.setVisible(true);
 	}
 	
-	// ==================== DESENHO ====================
+	// ==================== ESTADO ====================
 	
 	protected void desenhaEstado(){	
 		if (estadoAtual != null){
 			estadoAtual.desenhaEstado();
+		}
+	}
+	
+	protected void atualizaEstado(){	
+		if (estadoAtual != null){
+			estadoAtual.atualizaEstado();
 		}
 	}
 	

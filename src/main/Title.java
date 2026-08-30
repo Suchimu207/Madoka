@@ -20,6 +20,12 @@ public final class Title implements GameState{
 	public Title(){
 	}
 	
+	// ==================== ESTADO ====================
+	
+	@Override
+	public void atualizaEstado(){
+	}
+	
 	@Override
 	public void desenhaEstado(){
 		Title.desenhaTítulo();

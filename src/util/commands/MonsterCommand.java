@@ -37,13 +37,37 @@ public class MonsterCommand implements Command {
 					}
 				}
                 break;
+				
+			case "levelUpAll":
+                if (args.length < 2){
+                    System.out.println("Uso: monster levelUpAll <nível>");
+                    return;
+                }
+				valor = Integer.parseInt(args[1]);
+				int tamanhoInventário = Inventory.getTamanhoInventario();
+				
+				for (int m = 1; m <= tamanhoInventário; m++){
+					monstro = Inventory.getMonstroInventario(m);
+					if (monstro == null) continue;
+					
+					if (monstro.isNivelMaximo()){
+						System.out.println(monstro.getNomeMonstro()+" (ID_Inventário:"+ m+")"+
+						" está no nível máximo ("+monstro.getNivelMaximo()+").");
+					}else{
+						monstro.subirNivel(valor);
+						System.out.println(monstro.getNomeMonstro()+" (ID_Inventário:"+ m+")"+
+						" subiu para o nível "+monstro.getNivelAtual()+".");
+					}
+				}
+                break;
         }
     }
     
     @Override
     public String getUso(){
 		String uso = "Subcomandos: \n"+
-		"levelUp <id_Inventário> <nível>";
+		"levelUp <id_Inventário> <nível> \n"+
+		"levelUpAll <nível>";
 		
         return uso;
     }

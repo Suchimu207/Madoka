@@ -889,18 +889,25 @@
         "valor": 40,
         "chance": 0
     },
-    {
-		"efeito": "REMOVE_NEGATIVE_STATUS",
-        "alvo": -1,
-        "valor": 0,
-        "chance": 0
-    },
 	{
         "efeito": "APPLY_STATUS",
         "alvo": -1,
         "valor": 8,
         "chance": 100,
         "turnos": 3
+    },
+	{
+        "efeito": "APPLY_STATUS",
+        "alvo": -1,
+        "valor": 28,
+        "chance": 100,
+        "turnos": 2
+    },
+    {
+		"efeito": "REMOVE_NEGATIVE_STATUS",
+        "alvo": -1,
+        "valor": 0,
+        "chance": 0
     }
 	],
     "poder": 0,
@@ -1759,7 +1766,7 @@
     "precisaoBase": 95,
     "estamina": 30,
     "recarga": 3,
-	"lifeSteal": 60
+	"lifeSteal": 90
   },
   {
     "id": 102,
@@ -2386,7 +2393,7 @@
     "precisaoBase": 100,
     "estamina": 15,
     "recarga": 1,
-	"lifeSteal": 10
+	"lifeSteal": 20
   },
   {
     "id": 136,
@@ -2399,7 +2406,7 @@
     "precisaoBase": 95,
     "estamina": 20,
     "recarga": 1,
-	"lifeSteal": 30
+	"lifeSteal": 50
   },
   {
     "id": 137,
@@ -2714,5 +2721,296 @@
     "precisaoBase": 0,
     "estamina": 0,
     "recarga": 0
+  },
+  {
+    "id": 153,
+    "nome": "Shutdown",
+    "elemento": "FISICO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 4,
+		"chance": 100,
+		"turnos": 1
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 95,
+    "estamina": 40,
+    "recarga": 3
+  },
+  {
+    "id": 154,
+    "nome": "Overgrown Jungle",
+    "elemento": "NATUREZA",
+    "tipo": "ESPECIAL",
+    "alvo": "ALIADO_AREA",
+    "efeitos": [
+	{
+        "efeito": "HEALING",
+        "alvo": -1,
+        "valor": 20,
+        "chance": 0
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 27,
+		"chance": 100,
+		"turnos": 3
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 8,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 0
+  },
+  {
+    "id": 155,
+    "nome": "Fur Punch",
+    "elemento": "TERRA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 3,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 20,
+    "precisaoBase": 95,
+    "estamina": 15,
+    "recarga": 1
+  },
+  {
+    "id": 156,
+    "nome": "Photosynthesis",
+    "elemento": "NATUREZA",
+    "tipo": "DEFENSIVA",
+    "alvo": "USUARIO",
+    "efeitos": [
+	{
+        "efeito": "HEALING",
+        "alvo": -1,
+        "valor": 20,
+        "chance": 0
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 8,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 30,
+    "recarga": 1
+  },
+  {
+    "id": 157,
+    "nome": "Sand Choke",
+    "elemento": "TERRA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 3,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 30,
+    "precisaoBase": 90,
+    "estamina": 10,
+    "recarga": 0
+  },
+  {
+    "id": 158,
+    "nome": "Super Plant Bros.",
+    "elemento": "NATUREZA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 60,
+    "precisaoBase": 95,
+    "estamina": 30,
+    "recarga": 1
+  },
+  {
+    "id": 159,
+    "nome": "Mushroom Barrage",
+    "elemento": "NATUREZA",
+    "tipo": "ESPECIAL",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 3,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 50,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 0
+  },
+  {
+    "id": 160,
+    "nome": "Rotten Moss",
+    "elemento": "NATUREZA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 1,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 40,
+    "precisaoBase": 95,
+    "estamina": 25,
+    "recarga": 1
+  },
+  {
+    "id": 161,
+    "nome": "Old Ruins",
+    "elemento": "TERRA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 50,
+    "precisaoBase": 95,
+    "estamina": 20,
+    "recarga": 1
+  },
+  {
+    "id": 162,
+    "nome": "Moss Spores",
+    "elemento": "NATUREZA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 1,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 25,
+    "precisaoBase": 100,
+    "estamina": 30,
+    "recarga": 1
+  },
+  {
+    "id": 163,
+    "nome": "Relic Demolisher",
+    "elemento": "TERRA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 4,
+		"chance": 65,
+		"turnos": 1
+    }
+	],
+    "poder": 30,
+    "precisaoBase": 100,
+    "estamina": 40,
+    "recarga": 1
+  },
+  {
+    "id": 164,
+    "nome": "Fire Rock",
+    "elemento": "FOGO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 50,
+    "precisaoBase": 95,
+    "estamina": 25,
+    "recarga": 2
+  },
+  {
+    "id": 165,
+    "nome": "Fire Ball",
+    "elemento": "FOGO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 60,
+    "precisaoBase": 90,
+    "estamina": 20,
+    "recarga": 0
+  },
+  {
+    "id": 166,
+    "nome": "Extinguisher Punch",
+    "elemento": "FOGO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 75,
+    "precisaoBase": 90,
+    "estamina": 20,
+    "recarga": 1
+  },
+  {
+    "id": 167,
+    "nome": "Bonfire",
+    "elemento": "FOGO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 2,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 40,
+    "precisaoBase": 95,
+    "estamina": 20,
+    "recarga": 0
+  },
+  {
+    "id": 168,
+    "nome": "Lava Splash",
+    "elemento": "FOGO",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 80,
+    "precisaoBase": 90,
+    "estamina": 30,
+    "recarga": 2
   }
 ]
