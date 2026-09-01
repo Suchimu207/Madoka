@@ -28,12 +28,8 @@ public final class TroopManager {
 
     private TroopManager(){
     }
-
-    protected final static void carregarTropas(){
-		if (tropasExistentes != null){
-			return;
-		}
-		
+	
+    protected final static void carregarTropas(){		
         try {
             caminho = Paths.get("data", "system", "troop.json");
             conteudoJson = Files.readString(caminho);

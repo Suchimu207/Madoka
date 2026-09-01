@@ -1,5 +1,6 @@
 package util;
 
+import manager.DataManager;
 import util.commands.*;
 
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public final class CommandManager {
         
         threadComandos = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
-            while (ativo) {
+            while (ativo){
                 System.out.print("\n> ");
                 String input = scanner.nextLine().trim();
                 
@@ -73,6 +74,11 @@ public final class CommandManager {
 			case "cls":
             case "clear":
 				Debug.limpaPrompt();
+				retorno = true;
+            break;
+			case "reload":
+				Debug.limpaPrompt();
+				DataManager.carregarDados();
 				retorno = true;
             break;
         }

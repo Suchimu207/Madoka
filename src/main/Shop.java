@@ -112,6 +112,10 @@ public final class Shop implements GameState{
 				preco = 350;
 			}else if (infoMonstro.getRaridadeMonstro() == Monsters.Raridades.RARO){
 				continue;
+			}else if (infoMonstro.getRaridadeMonstro() == Monsters.Raridades.EPICO){
+				continue;
+			}else if (infoMonstro.getRaridadeMonstro() == Monsters.Raridades.LENDARIO){
+				continue;
 			}
 			
             estoque.add(new ItemLoja(i, preco, idEstanteAtual++));
@@ -180,7 +184,7 @@ public final class Shop implements GameState{
 	
 	private void teclaEsquerda(){
 		if (subEstadoAtual == null){
-			Shop.alternarPagina(false);
+			Shop.alternarPagina(true);
 		}else if (subEstadoAtual == SubEstadosLoja.RECIBO){
 			Input.decrementarCursorX();
 		}
@@ -188,7 +192,7 @@ public final class Shop implements GameState{
 	
 	private void teclaDireita(){
 		if (subEstadoAtual == null){
-			Shop.alternarPagina(true);
+			Shop.alternarPagina(false);
 		}else if (subEstadoAtual == SubEstadosLoja.RECIBO){
 			Input.incrementarCursorX();
 		}
@@ -258,9 +262,9 @@ public final class Shop implements GameState{
     private static void desenhaLoja(){
 		linhaItem = 0;
 		tamanhoLoja = estoque.size();
-        inicioLista = (paginaAtual - 1) * 24;
-        fimLista = Math.min(inicioLista + 24, tamanhoLoja);
-		totalPaginas = Math.max(1, (int) Math.ceil(tamanhoLoja / 24.0));
+        inicioLista = (paginaAtual - 1) * 28;
+        fimLista = Math.min(inicioLista + 28, tamanhoLoja);
+		totalPaginas = Math.max(1, (int) Math.ceil(tamanhoLoja / 28.0));
 		
 		if (Input.getCursorY() < inicioLista) Input.setCursorY(fimLista);
 		if (Input.getCursorY() >= fimLista) Input.setCursorY(inicioLista);
@@ -391,9 +395,12 @@ public final class Shop implements GameState{
         fimLista = Math.min(inicioLista + 24, tamanhoRecibo);
         totalPaginas = Math.max(1, (int) Math.ceil(tamanhoRecibo / 24.0));
 		
-        indicadorPagina = "Página " + paginaAtual+(char)45+totalPaginas;
+		String pag = "Recibo - Página";
+		String barra = (char)47+"";
+		int tamanhoPag = pag.length();
 		
-        Grapchics.desenhaCentroTTF("Recibo - " + indicadorPagina, 0, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaCentroTTF(pag,0, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela(" "+paginaAtual+barra+totalPaginas,tamanhoPag+12, 0, Grapchics.BRANCO_CLARO);
         Grapchics.desenhaTTF("ESC: Sair", 0, 1, Grapchics.PRETO_CLARO);
 		Grapchics.desenhaTTF("E: Abrir inventário", 0, 2, Grapchics.PRETO_CLARO);
         Grapchics.desenhaTTF("Q: Continuar comprando", 0, 3, Grapchics.PRETO_CLARO);

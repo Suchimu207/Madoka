@@ -64,11 +64,11 @@ public final class MonstersManager {
 					classeConvertida,
 					elementosConvertidos,
 					raridadeConvertida,
-					monstros.getInt("nivelBase"),
+					monstros.optInt("nivelBase", 1),
 					monstros.getInt("forcaBase"),
 					monstros.getInt("vidaBase"),
 					monstros.getInt("velocidadeBase"),
-					monstros.getInt("estaminaBase"),
+					monstros.optInt("estaminaBase", 100),
 					traçosIds,
 					monstros.optInt("energia", 100)
 				);
@@ -84,14 +84,11 @@ public final class MonstersManager {
 					monstroCarregado.setProvocationRate(200);
 					break;
 					case Monsters.Classes.SABOTADOR:
-					monstroCarregado.setProvocationRate(100);
+					monstroCarregado.setProvocationRate(90);
 					break;
 					case Monsters.Classes.GENERALISTA:
 					monstroCarregado.setProvocationRate(100);
 					break;
-				}
-				
-				if (monstroCarregado.getClasseAtual() == Monsters.Classes.ATACANTE){
 				}
 				
 				Map<Integer, Skills> skillsTree = new HashMap<Integer, Skills>();

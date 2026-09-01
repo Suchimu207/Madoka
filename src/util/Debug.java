@@ -11,6 +11,7 @@ public final class Debug {
 	}
 	
 	public static void mostrarTelaDebug(int contadorFrames){
+		/*
 		if (Debug.ativaTelaDebug){
 			limpaPrompt();
 			System.out.println("FPS Atual: " + contadorFrames);
@@ -19,6 +20,7 @@ public final class Debug {
 			System.out.println("Cursor_X: "+Input.getCursorX());
 			System.out.println("Cursor_Y: "+Input.getCursorY());
 		}
+		*/
 	}
 	
 	public static void limpaPrompt(){

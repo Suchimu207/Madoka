@@ -8,6 +8,7 @@ import main.Shop;
 import main.Title;
 
 import manager.MapsManager;
+import manager.NPCManager;
 
 import modes.arena.ArenaMode;
 
@@ -20,11 +21,13 @@ import java.util.Map;
 
 import java.awt.event.KeyEvent;
 
+import java.util.List;
 import java.util.Set;
 
 public final class Maps implements GameState{
 	public static final char PAREDE = '#';
 	public static final char BATALHA = '!';
+	public static final char OCORRÊNCIA = '?';
 	public static final char LOJA = '$';
 	public static final char ARENA = 'A';
 	public static final char PORTAL = '-';
@@ -49,7 +52,7 @@ public final class Maps implements GameState{
 	@Override
 	public void atualizaEstado(){
 	}
-
+	
 	@Override
 	public void desenhaEstado(){
 		Grapchics.limpaTela();
@@ -145,9 +148,11 @@ public final class Maps implements GameState{
 		String mapaDesenhado = mapasExistentes.get(mapaNome+".txt");
 		
 		if (mapaDesenhado == null){
-			System.out.println("Nenhum mapa para desenhar.");
+			System.out.println(">>Nenhum mapa para desenhar.");
 			return;
 		}
+		
+		List<NPC> npcsDoMapa = NPCManager.getNPCs(mapaNome);
 		
 		String[] linhas = mapaDesenhado.split("\\R");
 		
@@ -155,8 +160,19 @@ public final class Maps implements GameState{
 			char[] caracteres = linhas[iLinha].toCharArray();
 			for (jColuna = 0; jColuna < caracteres.length; jColuna++){
 				char tile = linhas[iLinha].charAt(jColuna);
+				
+				boolean temNpcAqui = false;
+				for (NPC npc : npcsDoMapa){
+					if (npc.getNpcX() == jColuna && npc.getNpcY() == iLinha){
+						temNpcAqui = true;
+						break;
+					}
+				}
+				
 				if (jColuna == jogadorX && iLinha == jogadorY){
 					Grapchics.desenhaTela('@', jogadorX, jogadorY, Grapchics.BRANCO_CLARO);
+				}else if(temNpcAqui){
+					Grapchics.desenhaTela((char)2, jColuna, iLinha, Grapchics.BRANCO_CLARO);
 				}else{
 					switch(tile){
 					case Maps.PAREDE:
@@ -183,7 +199,7 @@ public final class Maps implements GameState{
 					case Maps.BATALHA:
 					Grapchics.desenhaTela('!', jColuna, iLinha, Grapchics.AMARELO_CLARO);
 					break;
-					case '?':
+					case Maps.OCORRÊNCIA:
 					Grapchics.desenhaTela('?', jColuna, iLinha, Grapchics.AMARELO_CLARO);
 					break;
 					}

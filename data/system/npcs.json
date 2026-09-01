@@ -1,0 +1,15 @@
+[
+  {
+    "nomeMapa": "Lobby",
+    "npcs": [
+      {
+        "nome": "Instrutor",
+        "npcX": -1,
+        "npcY": -1,
+        "dialogo": [],
+        "batalha": false,
+        "idBatalha": -1
+      }
+    ]
+  }
+]

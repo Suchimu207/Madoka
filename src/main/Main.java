@@ -34,7 +34,7 @@ public final class Main {
 		
 		private static void carregarGameJson(){
 			try{
-				Path caminho = Paths.get("data", "system", "game.json");
+				caminho = Paths.get("data", "system", "game.json");
 				conteudoJson = Files.readString(caminho);
 				gameJson = new JSONObject(conteudoJson);
 			}catch(IOException e){
@@ -82,7 +82,7 @@ public final class Main {
 				int contadorFrames = 0;
 
 				try {
-					while(rodandoJogo == true){
+					while(rodandoJogo){
 						tempoInicioFrame = System.nanoTime();
 						
 						terminal.atualizaEstado();

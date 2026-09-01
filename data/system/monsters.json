@@ -5,7 +5,6 @@
     "classe": "SUPORTE",
     "elementos": ["NATUREZA"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
     { "id": 1, "nivel": 1 },
     { "id": 2, "nivel": 1 },
@@ -23,7 +22,6 @@
     "forcaBase": 12,
     "vidaBase": 28,
     "velocidadeBase": 10,
-    "estaminaBase": 100,
     "tracos": [1],
 	"energia": 90
   },
@@ -33,7 +31,6 @@
     "classe": "GENERALISTA",
     "elementos": ["NATUREZA"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 115, "nivel": 1 },
       { "id": 2, "nivel": 1 },
@@ -51,7 +48,6 @@
     "forcaBase": 9,
     "vidaBase": 25,
     "velocidadeBase": 15,
-    "estaminaBase": 100,
     "tracos": [1],
 	"energia": 50
   },
@@ -61,7 +57,6 @@
     "classe": "ATACANTE",
     "elementos": ["FOGO"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 13, "nivel": 1 },
       { "id": 14, "nivel": 1 },
@@ -79,7 +74,6 @@
     "forcaBase": 16,
     "vidaBase": 25,
     "velocidadeBase": 9,
-    "estaminaBase": 100,
     "tracos": [2]
   },
   {
@@ -88,7 +82,6 @@
     "classe": "GENERALISTA",
     "elementos": ["FOGO"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 152, "nivel": 1 },
       { "id": 59, "nivel": 1 },
@@ -106,7 +99,6 @@
     "forcaBase": 12,
     "vidaBase": 25,
     "velocidadeBase": 12,
-    "estaminaBase": 100,
     "tracos": [2]
   },
   {
@@ -115,7 +107,6 @@
     "classe": "TANQUE",
     "elementos": ["TERRA"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 25, "nivel": 1 },
       { "id": 26, "nivel": 1 },
@@ -133,7 +124,6 @@
     "forcaBase": 9,
     "vidaBase": 36,
     "velocidadeBase": 9,
-    "estaminaBase": 100,
     "tracos": [7]
   },
   {
@@ -142,7 +132,6 @@
     "classe": "GENERALISTA",
     "elementos": ["TERRA"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 121, "nivel": 1 },
       { "id": 50, "nivel": 1 },
@@ -160,7 +149,6 @@
     "forcaBase": 9,
     "vidaBase": 27,
     "velocidadeBase": 16,
-    "estaminaBase": 100,
     "tracos": [8],
 	"energia": 60
   },
@@ -170,7 +158,6 @@
     "classe": "GENERALISTA",
     "elementos": ["TROVAO"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 60, "nivel": 1 },
       { "id": 61, "nivel": 1 },
@@ -188,7 +175,6 @@
     "forcaBase": 9,
     "vidaBase": 25,
     "velocidadeBase": 13,
-    "estaminaBase": 100,
     "tracos": [3]
   },
   {
@@ -197,7 +183,6 @@
     "classe": "ATACANTE",
     "elementos": ["TROVAO"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 60, "nivel": 1 },
       { "id": 79, "nivel": 1 },
@@ -215,7 +200,6 @@
     "forcaBase": 16,
     "vidaBase": 25,
     "velocidadeBase": 9,
-    "estaminaBase": 100,
     "tracos": [6]
   },
   {
@@ -224,7 +208,6 @@
     "classe": "GENERALISTA",
     "elementos": ["AGUA"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 37, "nivel": 1 },
       { "id": 38, "nivel": 1 },
@@ -242,7 +225,6 @@
     "forcaBase": 13,
     "vidaBase": 28,
     "velocidadeBase": 10,
-    "estaminaBase": 100,
     "tracos": [1],
 	"energia": 90
   },
@@ -252,7 +234,6 @@
     "classe": "GENERALISTA",
     "elementos": ["AGUA"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 128, "nivel": 1 },
       { "id": 39, "nivel": 1 },
@@ -270,7 +251,6 @@
     "forcaBase": 10,
     "vidaBase": 25,
     "velocidadeBase": 12,
-    "estaminaBase": 100,
     "tracos": [5]
   },
   {
@@ -279,7 +259,6 @@
     "classe": "GENERALISTA",
     "elementos": ["LUZ"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 49, "nivel": 1 },
       { "id": 50, "nivel": 1 },
@@ -297,7 +276,6 @@
     "forcaBase": 9,
     "vidaBase": 35,
     "velocidadeBase": 9,
-    "estaminaBase": 100,
     "tracos": [7]
   },
   {
@@ -306,7 +284,6 @@
     "classe": "SUPORTE",
     "elementos": ["LUZ"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 146, "nivel": 1 },
       { "id": 59, "nivel": 1 },
@@ -324,7 +301,6 @@
     "forcaBase": 12,
     "vidaBase": 27,
     "velocidadeBase": 12,
-    "estaminaBase": 100,
     "tracos": [6],
 	"energia": 95
   },
@@ -334,7 +310,6 @@
     "classe": "SUPORTE",
     "elementos": ["MAGIA"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 70, "nivel": 1 },
       { "id": 71, "nivel": 1 },
@@ -352,7 +327,6 @@
     "forcaBase": 10,
     "vidaBase": 25,
     "velocidadeBase": 12,
-    "estaminaBase": 100,
     "tracos": [4],
 	"energia": 120
   },
@@ -362,7 +336,6 @@
     "classe": "ATACANTE",
     "elementos": ["MAGIA", "FOGO"],
     "raridade": "RARO",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 109, "nivel": 1 },
       { "id": 59, "nivel": 1 },
@@ -381,7 +354,6 @@
     "forcaBase": 16,
     "vidaBase": 25,
     "velocidadeBase": 10,
-    "estaminaBase": 100,
     "tracos": [8],
 	"energia": 150
   },
@@ -391,7 +363,6 @@
     "classe": "SABOTADOR",
     "elementos": ["TREVAS"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 90, "nivel": 1 },
       { "id": 91, "nivel": 1 },
@@ -409,7 +380,6 @@
     "forcaBase": 12,
     "vidaBase": 30,
     "velocidadeBase": 12,
-    "estaminaBase": 100,
     "tracos": [4],
 	"energia": 90
   },
@@ -419,7 +389,6 @@
     "classe": "SABOTADOR",
     "elementos": ["TREVAS"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 137, "nivel": 1 },
       { "id": 14, "nivel": 1 }, 
@@ -437,7 +406,6 @@
     "forcaBase": 10,
     "vidaBase": 25,
     "velocidadeBase": 14,
-    "estaminaBase": 100,
     "tracos": [5],
 	"energia": 90
   },
@@ -447,7 +415,6 @@
     "classe": "GENERALISTA",
     "elementos": ["METAL"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 78, "nivel": 1 },
       { "id": 79, "nivel": 1 },
@@ -465,7 +432,6 @@
     "forcaBase": 12,
     "vidaBase": 30,
     "velocidadeBase": 10,
-    "estaminaBase": 100,
     "tracos": [9]
   },
   {
@@ -474,7 +440,6 @@
     "classe": "GENERALISTA",
     "elementos": ["METAL"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 139, "nivel": 1 },
       { "id": 79, "nivel": 1 },
@@ -492,7 +457,6 @@
     "forcaBase": 12,
     "vidaBase": 28,
     "velocidadeBase": 12,
-    "estaminaBase": 100,
     "tracos": [4]
   },
   {
@@ -501,7 +465,6 @@
     "classe": "GENERALISTA",
     "elementos": ["VENTO"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 1, "nivel": 1 },
       { "id": 59, "nivel": 1 },
@@ -519,7 +482,6 @@
     "forcaBase": 12,
     "vidaBase": 28,
     "velocidadeBase": 10,
-    "estaminaBase": 100,
     "tracos": [3],
 	"energia": 90
   },
@@ -529,7 +491,6 @@
     "classe": "GENERALISTA",
     "elementos": ["VENTO"],
     "raridade": "COMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 1, "nivel": 1 },
       { "id": 61, "nivel": 1 },
@@ -547,7 +508,6 @@
     "forcaBase": 12,
     "vidaBase": 25,
     "velocidadeBase": 14,
-    "estaminaBase": 100,
     "tracos": [5],
 	"energia": 90
   },
@@ -557,7 +517,6 @@
     "classe": "TANQUE",
     "elementos": ["NATUREZA", "VENTO"],
     "raridade": "INCOMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 131, "nivel": 1 },
       { "id": 2, "nivel": 1 },
@@ -576,7 +535,6 @@
     "forcaBase": 10,
     "vidaBase": 34,
     "velocidadeBase": 9,
-    "estaminaBase": 100,
     "tracos": [1]
   },
   {
@@ -585,7 +543,6 @@
     "classe": "SUPORTE",
     "elementos": ["FOGO", "AGUA"],
     "raridade": "RARO",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 13, "nivel": 1 },
       { "id": 59, "nivel": 1 },
@@ -603,7 +560,6 @@
     "forcaBase": 12,
     "vidaBase": 28,
     "velocidadeBase": 13,
-    "estaminaBase": 100,
     "tracos": [2]
   },
   {
@@ -612,7 +568,6 @@
     "classe": "GENERALISTA",
     "elementos": ["NATUREZA", "TERRA"],
     "raridade": "RARO",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 154, "nivel": 1 },
       { "id": 26, "nivel": 1 },
@@ -630,7 +585,6 @@
     "forcaBase": 12,
     "vidaBase": 30,
     "velocidadeBase": 10,
-    "estaminaBase": 100,
     "tracos": [9]
   },
   {
@@ -639,7 +593,6 @@
     "classe": "TANQUE",
     "elementos": ["NATUREZA", "TERRA"],
     "raridade": "RARO",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 159, "nivel": 1 },
       { "id": 79, "nivel": 1 },
@@ -658,7 +611,6 @@
     "forcaBase": 14,
     "vidaBase": 32,
     "velocidadeBase": 9,
-    "estaminaBase": 100,
     "tracos": [3],
 	"energia": 80
   },
@@ -668,7 +620,6 @@
     "classe": "ATACANTE",
     "elementos": ["FOGO", "TERRA"],
     "raridade": "INCOMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 152, "nivel": 1 },
       { "id": 26, "nivel": 1 },
@@ -686,7 +637,6 @@
     "forcaBase": 16,
     "vidaBase": 26,
     "velocidadeBase": 10,
-    "estaminaBase": 100,
     "tracos": [4]
   },
   {
@@ -695,7 +645,6 @@
     "classe": "TANQUE",
     "elementos": ["TREVAS", "METAL"],
     "raridade": "INCOMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 152, "nivel": 1 },
       { "id": 26, "nivel": 1 },
@@ -713,7 +662,6 @@
     "forcaBase": 16,
     "vidaBase": 32,
     "velocidadeBase": 9,
-    "estaminaBase": 100,
     "tracos": [9]
   },
   {
@@ -722,7 +670,6 @@
     "classe": "TANQUE",
     "elementos": ["TERRA", "TREVAS"],
     "raridade": "INCOMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 152, "nivel": 1 },
       { "id": 26, "nivel": 1 },
@@ -740,7 +687,6 @@
     "forcaBase": 10,
     "vidaBase": 32,
     "velocidadeBase": 10,
-    "estaminaBase": 100,
     "tracos": [3]
   },
   {
@@ -749,7 +695,6 @@
     "classe": "SABOTADOR",
     "elementos": ["AGUA", "MAGIA"],
     "raridade": "RARO",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 152, "nivel": 1 },
       { "id": 26, "nivel": 1 },
@@ -767,7 +712,6 @@
     "forcaBase": 14,
     "vidaBase": 28,
     "velocidadeBase": 12,
-    "estaminaBase": 100,
     "tracos": [4]
   },
   {
@@ -776,7 +720,6 @@
     "classe": "SABOTADOR",
     "elementos": ["FOGO", "METAL"],
     "raridade": "INCOMUM",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 152, "nivel": 1 },
       { "id": 26, "nivel": 1 },
@@ -794,7 +737,6 @@
     "forcaBase": 10,
     "vidaBase": 28,
     "velocidadeBase": 12,
-    "estaminaBase": 100,
     "tracos": [2]
   },
   {
@@ -803,7 +745,6 @@
     "classe": "ATACANTE",
     "elementos": ["TREVAS", "LUZ"],
     "raridade": "EPICO",
-    "nivelBase": 1,
     "habilidades": [
       { "id": 152, "nivel": 1 },
       { "id": 26, "nivel": 1 },
@@ -821,7 +762,6 @@
     "forcaBase": 16,
     "vidaBase": 28,
     "velocidadeBase": 12,
-    "estaminaBase": 100,
     "tracos": [5]
   },
 ]
