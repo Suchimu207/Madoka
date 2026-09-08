@@ -4,7 +4,7 @@ import bestiary.Monsters;
 import bestiary.Skills;
 import bestiary.Troop;
 
-import combat.description.SkillDescription;
+import util.description.SkillDescription;
 
 import combat.effects.Effects;
 import combat.effects.EffectsManager;

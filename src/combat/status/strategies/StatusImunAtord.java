@@ -4,7 +4,7 @@ import bestiary.Monsters;
 
 import combat.status.StatusBase;
 import combat.status.StatusData;
-import combat.status.StatusManager;
+import manager.StatusManager;
 
 public class StatusImunAtord extends StatusBase {
 	private int duraçãoBase, duraçãoAtual;

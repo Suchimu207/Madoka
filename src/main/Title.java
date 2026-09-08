@@ -73,12 +73,17 @@ public final class Title implements GameState{
 	}
 	
 	private void teclaEnter(){
-		if (Input.getCursorY() == 1 || Input.getCursorY() == 2){
+		if (Input.getCursorY() == 1){
 			Audio.tocarSom("NewGame", 0.3f);
+			Player.setarJogador();
+			Inventory.inicializarInventario();
 			Grapchics.limpaTela();
 			mudarEstado(new Maps());
-        }
-		if (Input.getCursorY() == 3){
+        }else if (Input.getCursorY() == 2){
+			Audio.tocarSom("Confirm", 0.3f);
+			Grapchics.limpaTela();
+			mudarEstado(new Maps());
+		}else if (Input.getCursorY() == 3){
 			CommandManager.parar();
 			System.exit(0); // Provisório.
 		}

@@ -1,5 +1,6 @@
-package bestiary.traits;
+package manager;
 
+import bestiary.traits.*;
 import bestiary.traits.strategies.*;
 
 import java.util.HashMap;

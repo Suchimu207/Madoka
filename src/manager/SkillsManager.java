@@ -55,7 +55,7 @@ public final class SkillsManager {
 					skills.getInt("poder"),
 					skills.getInt("precisaoBase"),
 					skills.getInt("estamina"),
-					skills.getInt("recarga"),
+					skills.optInt("recarga", 0),
 					skills.optDouble("lifeSteal", 0.0)
 				);
 				

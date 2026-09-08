@@ -4,7 +4,7 @@ import bestiary.Monsters;
 
 import bestiary.traits.TraitEffect;
 
-import combat.status.StatusManager;
+import manager.StatusManager;
 import combat.status.StatusBase;
 
 public class TraitImmunity implements TraitEffect {

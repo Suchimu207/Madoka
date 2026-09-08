@@ -34,6 +34,7 @@ public final class Grapchics {
 	public final static Color BRANCO_CLARO = new Color(247, 250, 250);
 	
 	public final static Color FUNDO = new Color(26, 30, 30);
+	public final static Color TRANSPARENTE = AsciiPanel.transparent;
 	
 	public final static Color ELEMENTO_NATUREZA = new Color(100, 247, 100);
 	public final static Color ELEMENTO_FOGO = new Color(235, 71, 71);
@@ -147,6 +148,10 @@ public final class Grapchics {
 		tela.writeCenterTTF(desenho, linha, corFonte, fonte);
 	}
 	
+	public static void desenhaCentroTTF(String desenho, int linha, Color corFonte, Color corFundo){
+		tela.writeCenterTTF(desenho, linha, corFonte, corFundo, fontePadrão);
+	}
+	
 	public static void desenhaCentroTTF(String desenho, int linha, Color corFonte, Color corFundo, Font fonte){
 		tela.writeCenterTTF(desenho, linha, corFonte, corFundo, fonte);
 	}
@@ -183,6 +188,10 @@ public final class Grapchics {
 	
 	public static void atualizarTela(){
 		tela.repaint();
+	}
+	
+	public static void setarCamada(int camada){
+		tela.setActiveLayer(camada);
 	}
 	
 	public static Font getFonteFallback(){

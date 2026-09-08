@@ -78,20 +78,6 @@ public final class Battle implements GameState{
 		}
     }
 	
-	// ==================== INICIALIZAÇÃO ====================
-	
-	public static void carregarDadosJogatina(){
-		Inventory.inicializarInventario();
-		Player.setarJogador();
-		
-		montarEquipeInicial();
-	}
-	
-	private static void montarEquipeInicial(){
-		Inventory.adicionarMonstroInventário(1);
-		Monsters monstro = Inventory.getMonstroInventario(1);
-	}
-	
 	// ==================== ESTADO ====================
 	
 	@Override

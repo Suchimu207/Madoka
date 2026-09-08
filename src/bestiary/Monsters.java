@@ -2,7 +2,7 @@ package bestiary;
 
 import bestiary.traits.Traits;
 import bestiary.traits.TraitEffect;
-import bestiary.traits.TraitsManager;
+import manager.TraitsManager;
 
 import combat.status.StatusBase;
 

@@ -1184,7 +1184,7 @@
   },
   {
     "id": 68,
-    "nome": "Wrath of Thor",
+    "nome": "Wrath of Thorder",
     "elemento": "TROVAO",
     "tipo": "OFENSIVA",
     "alvo": "INIMIGO_AREA",
@@ -2230,7 +2230,7 @@
   },
   {
     "id": 128,
-    "nome": "Ocean Renovation",
+    "nome": "River Travel",
     "elemento": "AGUA",
     "tipo": "ESPECIAL",
     "alvo": "USUARIO",
@@ -3012,5 +3012,162 @@
     "precisaoBase": 90,
     "estamina": 30,
     "recarga": 2
-  }
+  },
+  {
+    "id": 169,
+    "nome": "Water Shield",
+    "elemento": "AGUA",
+    "tipo": "DEFENSIVA",
+    "alvo": "ALIADO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "APPLY_SHIELD",
+		"alvo": -1,
+		"valor": 25,
+		"chance": 0
+    },
+	{
+        "efeito": "REMOVE_NEGATIVE_STATUS",
+        "alvo": -1,
+        "valor": 0,
+        "chance": 0
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 40,
+    "recarga": 2
+  },
+  {
+    "id": 170,
+    "nome": "Chaos",
+    "elemento": "TREVAS",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 35,
+    "precisaoBase": 95,
+    "estamina": 15,
+  },
+  {
+    "id": 171,
+    "nome": "Holy Nova",
+    "elemento": "LUZ",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_AREA",
+    "efeitos": [],
+    "poder": 30,
+    "precisaoBase": 100,
+    "estamina": 25,
+    "recarga": 2
+  },
+  {
+    "id": 172,
+    "nome": "Dark Shade",
+    "elemento": "TREVAS",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 40,
+    "precisaoBase": 95,
+    "estamina": 20,
+    "recarga": 2
+  },
+  {
+    "id": 173,
+    "nome": "Mass Haste",
+    "elemento": "FISICO",
+    "tipo": "DEFENSIVA",
+    "alvo": "ALIADO_AREA",
+    "efeitos": [
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 25,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 25,
+    "recarga": 3
+  },
+  {
+    "id": 174,
+    "nome": "Light Surge",
+    "elemento": "LUZ",
+    "tipo": "ESPECIAL",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [
+	{
+		"efeito": "REMOVE_STA",
+		"alvo": -1,
+		"valor": 50,
+		"chance": 0,
+		"turnos": 0
+    },
+	{
+		"efeito": "GAIN_STA",
+		"alvo": 4,
+		"valor": 100,
+		"chance": 0,
+		"turnos": 0
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 0,
+    "recarga": 0
+  },
+  {
+    "id": 175,
+    "nome": "Dark Cloud",
+    "elemento": "TREVAS",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 30,
+    "precisaoBase": 95,
+    "estamina": 15,
+    "recarga": 0
+  },
+  {
+    "id": 176,
+    "nome": "Great Metabolism",
+    "elemento": "NATUREZA",
+    "tipo": "DEFENSIVA",
+    "alvo": "ALIADO_UNICO",
+    "efeitos": [
+	{
+        "efeito": "HEALING",
+        "alvo": -1,
+        "valor": 25,
+        "chance": 0
+    },
+	{
+		"efeito": "APPLY_STATUS",
+		"alvo": -1,
+		"valor": 8,
+		"chance": 100,
+		"turnos": 3
+    }
+	],
+    "poder": 0,
+    "precisaoBase": 0,
+    "estamina": 15,
+    "recarga": 1
+  },
+  {
+    "id": 177,
+    "nome": "Rocks Shower",
+    "elemento": "TERRA",
+    "tipo": "OFENSIVA",
+    "alvo": "INIMIGO_UNICO",
+    "efeitos": [],
+    "poder": 70,
+    "precisaoBase": 90,
+    "estamina": 35,
+    "recarga": 1
+  },
 ]

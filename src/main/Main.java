@@ -56,7 +56,6 @@ public final class Main {
 		final String FULL_TITLE = TITLE+" - "+VERSION;
 		
 		DataManager.carregarDados();
-		Battle.carregarDadosJogatina();
 		
 		Terminal terminal = new Terminal(FULL_TITLE, mapaInicial);
 		

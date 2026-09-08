@@ -8,7 +8,25 @@ public final class DataManager {
     public static void carregarDados(){
 		MapsManager.carregarMapas();
 		NPCManager.carregarNPCs();
-		BattleManager.carregarDadosBatalha();
+		System.out.println("");
+		
+		SkillsManager.carregarHabilidades();
+		System.out.println("");
+		
+		StatusManager.carregarStatus();
+		System.out.println("");
+		
+		TraitsManager.carregarTraços();
+		System.out.println("");
+		
+		MonstersManager.carregarMonstros();
+		System.out.println("");
+		
+		MonstersDescriptionManager.carregarDescrições();
+		System.out.println("");
+		
+		TroopManager.carregarTropas();
+		System.out.println("");
     }
 	
 	//===

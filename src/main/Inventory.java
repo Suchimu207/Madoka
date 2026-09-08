@@ -4,9 +4,10 @@ import static main.Terminal.mudarEstado;
 
 import bestiary.Monsters;
 import manager.MonstersManager;
+import manager.MonstersDescriptionManager;
 import bestiary.Skills;
 
-import combat.description.SkillDescription;
+import util.description.SkillDescription;
 
 import util.GameState;
 import util.Grapchics;
@@ -40,7 +41,8 @@ public final class Inventory implements GameState{
     }
 	private enum SubEstadosInventário{
 		DETALHES("Detalhes"),
-		HABILIDADES("Habilidades");
+		HABILIDADES("Habilidades"),
+		BIOGRAFIA("Biografia");
 		
 		private final String nome;
 		
@@ -65,6 +67,7 @@ public final class Inventory implements GameState{
     private static Monsters monstroCarregado;
 	private static Skills skillCarregada, skillMostrada;
 	
+	private static int offsetBiografia = 0;
 	private static int idMonstroSelecionado = 1;
 	
     private static int idInventario, tamanhoInventario, linhaAtual, paginaAtual, totalPaginas,
@@ -88,10 +91,13 @@ public final class Inventory implements GameState{
         paginaAtual = 1;
         inicioLista = 1;
         fimLista = 1;
-		
-		System.out.println(">>Inventário inicializado.");
-		System.out.println("");
+		montarEquipeInicial();
     }
+	
+	private static void montarEquipeInicial(){
+		Inventory.adicionarMonstroInventário(1);
+		Monsters monstro = Inventory.getMonstroInventario(1);
+	}
 	
 	// ==================== ESTADO ====================
 	
@@ -109,6 +115,8 @@ public final class Inventory implements GameState{
 			Inventory.desenhaMonstroDetalhes();
 		}else if (subEstadoAtual == SubEstadosInventário.HABILIDADES){
 			Inventory.desenhaHabilidadeDetalhes();
+		}else if (subEstadoAtual == SubEstadosInventário.BIOGRAFIA){
+			Inventory.desenhaBiografiaDetalhes();
 		}
 		
 		Grapchics.atualizarTela();
@@ -142,6 +150,9 @@ public final class Inventory implements GameState{
 			case KeyEvent.VK_E:
 				teclaInventário();
 				break;
+			case KeyEvent.VK_Q:
+				teclaQ();
+				break;
 		}
 	}
 	
@@ -155,6 +166,10 @@ public final class Inventory implements GameState{
 			idMonstroSelecionado = Input.getCursorX();
 		}else if (subEstadoAtual == SubEstadosInventário.HABILIDADES){
 			Input.decrementarCursorX();
+		}else if (subEstadoAtual == SubEstadosInventário.BIOGRAFIA){
+			Input.decrementarCursorX();
+			idMonstroSelecionado = Input.getCursorX();
+			offsetBiografia = 0;
 		}
 	}
 	
@@ -166,15 +181,34 @@ public final class Inventory implements GameState{
 			idMonstroSelecionado = Input.getCursorX();
 		}else if (subEstadoAtual == SubEstadosInventário.HABILIDADES){
 			Input.incrementarCursorX();
+		}else if (subEstadoAtual == SubEstadosInventário.BIOGRAFIA){
+			Input.incrementarCursorX();
+			idMonstroSelecionado = Input.getCursorX();
+			offsetBiografia = 0;
 		}
 	}
 	
 	private void teclaCima(){
-		Input.decrementarCursorY();
+		if (subEstadoAtual == SubEstadosInventário.BIOGRAFIA){
+			if (offsetBiografia > 0) offsetBiografia--;
+		}else{
+			Input.decrementarCursorY();
+		}
 	}
 	
 	private void teclaBaixo(){
-		Input.incrementarCursorY();
+		if (subEstadoAtual == SubEstadosInventário.BIOGRAFIA){
+			if (monstroCarregado != null){
+				String desc = MonstersDescriptionManager.getDescrição(monstroCarregado.getIdMonstro());
+				if (desc != null){
+					List<String> linhas = quebrarTexto(desc, 38);
+					int maxLinhasVisiveis = 32;
+					if (offsetBiografia < linhas.size() - maxLinhasVisiveis) offsetBiografia++;
+				}
+			}
+		}else{
+			Input.incrementarCursorY();
+		}
 	}
 	
 	private void teclaEnter(){
@@ -206,6 +240,15 @@ public final class Inventory implements GameState{
 		}else if (subEstadoAtual == SubEstadosInventário.HABILIDADES){
 			Input.setCursorY(Input.getCursorAnteriorY());
 			subEstadoAtual = SubEstadosInventário.DETALHES;
+		}else if (subEstadoAtual == SubEstadosInventário.BIOGRAFIA){
+			subEstadoAtual = SubEstadosInventário.DETALHES;
+		}
+	}
+	
+	private void teclaQ(){
+		if (subEstadoAtual == SubEstadosInventário.DETALHES){
+			offsetBiografia = 0;
+			subEstadoAtual = SubEstadosInventário.BIOGRAFIA;
 		}
 	}
 	
@@ -306,34 +349,35 @@ public final class Inventory implements GameState{
 		
 		Grapchics.desenhaCentroTTF("Detalhes - Inventário",0, Grapchics.BRANCO_CLARO);
 		Grapchics.desenhaTTF("E: Voltar", 0, 1, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTTF("Enter: Marcar/Desmarcar favorito",0,2, Grapchics.PRETO_CLARO);
-		Grapchics.desenhaTTF("Shift: Ver habilidades",0,3, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Q: Biografia", 0, 2, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Enter: Marcar/Desmarcar favorito",0,3, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Shift: Ver habilidades",0,4, Grapchics.PRETO_CLARO);
 		
-		Grapchics.desenhaTela("____________________",0,4, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("____________________",0,5, Grapchics.PRETO_CLARO);
 		
-		Grapchics.desenhaHibrido("Nome: "+monstroCarregado.getNomeMonstro(),indicadorFavorito,0,5, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaHibrido("Nome: "+monstroCarregado.getNomeMonstro(),indicadorFavorito,0,6, Grapchics.BRANCO_CLARO);
 		
-		Grapchics.desenhaTTF("Nível: "+monstroCarregado.getNivelAtual(),0,6, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF("Classe: "+monstroCarregado.getClasseAtualTexto(),0,7, Grapchics.BRANCO_CLARO);
-		desenhaElementoMonstro(8);
-		Grapchics.desenhaTTF("Raridade: "+monstroCarregado.getRaridadeMonstroTexto(),0,9, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF("Força: "+monstroCarregado.getForcaAtual(),0,10, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF("Vida: "+monstroCarregado.getVidaAtual(),0,11, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF("Velocidade: "+monstroCarregado.getSpeedAtual(),0,12, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF("Estamina: "+monstroCarregado.getEstaminaAtual(),0,13, Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTTF("Energia: "+monstroCarregado.getBarraEspecialMaximo(),0,14, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Nível: "+monstroCarregado.getNivelAtual(),0,7, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Classe: "+monstroCarregado.getClasseAtualTexto(),0,8, Grapchics.BRANCO_CLARO);
+		desenhaElementoMonstro(9);
+		Grapchics.desenhaTTF("Raridade: "+monstroCarregado.getRaridadeMonstroTexto(),0,10, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Força: "+monstroCarregado.getForcaAtual(),0,11, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Vida: "+monstroCarregado.getVidaAtual(),0,12, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Velocidade: "+monstroCarregado.getSpeedAtual(),0,13, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Estamina: "+monstroCarregado.getEstaminaAtual(),0,14, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Energia: "+monstroCarregado.getBarraEspecialMaximo(),0,15, Grapchics.BRANCO_CLARO);
 		
-		Grapchics.desenhaTTF("Traços: "+monstroCarregado.getNomesTraços(),0,15, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("Traços: "+monstroCarregado.getNomesTraços(),0,16, Grapchics.BRANCO_CLARO);
 		
-		Grapchics.desenhaTela("____________________",0,16,Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("____________________",0,17,Grapchics.PRETO_CLARO);
 		
-		Grapchics.desenhaTela("____________________",0,18,Grapchics.PRETO_CLARO);
-		desenhaExp(19);
-		Grapchics.desenhaTela("____________________",0,20,Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTela("____________________",0,19,Grapchics.PRETO_CLARO);
+		desenhaExp(20);
+		Grapchics.desenhaTela("____________________",0,21,Grapchics.PRETO_CLARO);
 		
-		Grapchics.desenhaTTF("Habilidades:",0,22,Grapchics.BRANCO_CLARO);
-		Grapchics.desenhaTela("____________________",0,23,Grapchics.PRETO_CLARO);
-		posiçãoLinhaSkillsAtivas = 24;
+		Grapchics.desenhaTTF("Habilidades:",0,23,Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("____________________",0,24,Grapchics.PRETO_CLARO);
+		posiçãoLinhaSkillsAtivas = 25;
 		desenhaListaHabilidade();
 	}
 	
@@ -394,6 +438,61 @@ public final class Inventory implements GameState{
 			Grapchics.desenhaTTF(skillCarregada.getNomeHabilidade(),0,posiçãoLinhaSkillsAtivas+4,skillCarregada.getCorHabilidade());
 			Grapchics.desenhaTela("____________________",0,posiçãoLinhaSkillsAtivas+5,Grapchics.PRETO_CLARO);
 		}
+	}
+	
+	private static void desenhaBiografiaDetalhes(){
+		if (Input.getCursorX() <= 0) Input.setCursorX(1);
+		int tamanho = getTamanhoInventario();
+		if (Input.getCursorX() > tamanho) Input.setCursorX(tamanho);
+
+		monstroCarregado = getMonstroInventario(Input.getCursorX());
+		if (monstroCarregado == null) return;
+
+		Grapchics.desenhaCentroTTF("Biografia - Inventário", 0, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTTF("E: Voltar", 0, 1, Grapchics.PRETO_CLARO);
+		Grapchics.desenhaTTF("Monstro: "+monstroCarregado.getNomeMonstro(), 0, 2, Grapchics.BRANCO_CLARO);
+		Grapchics.desenhaTela("____________________", 0, 3, Grapchics.PRETO_CLARO);
+		int linhaY = 4;
+		
+		String descricao = MonstersDescriptionManager.getDescrição(monstroCarregado.getIdMonstro());
+		if (descricao != null && !descricao.isEmpty()){
+			List<String> linhasFormatadas = quebrarTexto(descricao, 38);
+			
+			int maxLinhasVisiveis = 33;
+
+			for (int i = offsetBiografia; i < linhasFormatadas.size() && (linhaY - 5) < maxLinhasVisiveis; i++){
+				Grapchics.desenhaTTF(linhasFormatadas.get(i), 0, linhaY++, Grapchics.BRANCO_CLARO);
+			}
+		}else{
+			Grapchics.desenhaTTF("[PLACEHOLDER].", 0, linhaY++, Grapchics.PRETO_CLARO);
+		}
+		Grapchics.desenhaTela("____________________", 0, linhaY, Grapchics.PRETO_CLARO);
+	}
+	
+	private static List<String> quebrarTexto(String texto, int larguraMaxima){
+		List<String> resultado = new ArrayList<>();
+		if (texto == null || texto.isEmpty()) return resultado;
+
+		String[] linhasOriginais = texto.split("\r?\n");
+
+		for (String linhaOriginal : linhasOriginais){
+			String[] palavras = linhaOriginal.split(" ");
+			StringBuilder linhaAtual = new StringBuilder();
+
+			for (String palavra : palavras){
+				if (linhaAtual.length() + palavra.length() + 1 > larguraMaxima){
+					resultado.add(linhaAtual.toString());
+					linhaAtual = new StringBuilder(palavra);
+				} else {
+					if (linhaAtual.length() > 0) linhaAtual.append(" ");
+					linhaAtual.append(palavra);
+				}
+			}
+			if (linhaAtual.length() > 0){
+				resultado.add(linhaAtual.toString());
+			}
+		}
+		return resultado;
 	}
 	
 	private static void desenhaHabilidadeDetalhes(){		

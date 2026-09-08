@@ -6,7 +6,7 @@ import bestiary.Skills;
 import combat.effects.Effects;
 import combat.effects.EffectsStrategy;
 
-import combat.status.StatusManager;
+import manager.StatusManager;
 import combat.status.StatusBase;
 
 public class EffectsApplyShield implements EffectsStrategy {

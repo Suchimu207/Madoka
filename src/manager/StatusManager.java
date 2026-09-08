@@ -1,7 +1,8 @@
-package combat.status;
+package manager;
 
 import bestiary.Monsters;
 
+import combat.status.*;
 import combat.status.strategies.*;
 
 import java.util.HashMap;

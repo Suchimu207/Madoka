@@ -1,9 +1,9 @@
-package combat.description;
+package util.description;
 
 import bestiary.Skills;
 import combat.effects.Effects;
 import combat.status.StatusBase;
-import combat.status.StatusManager;
+import manager.StatusManager;
 import util.Grapchics;
 
 import java.awt.Color;
