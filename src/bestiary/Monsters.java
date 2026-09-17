@@ -60,8 +60,8 @@ public class Monsters {
 		}
 		
 		public boolean temVantagemContra(Elementos outro){
-        if (outro == null || this == FISICO || outro == FISICO) return false;
-
+			if (outro == null || this == FISICO || outro == FISICO) return false;
+		
 			switch (this){
 				case FOGO:     return outro == NATUREZA;
 				case NATUREZA: return outro == METAL;
@@ -84,7 +84,7 @@ public class Monsters {
 		public double getMultiplicadorDano(Elementos elementoAlvo){
 			if (this.temVantagemContra(elementoAlvo)){
 				return 2;
-			}else if (this.temFraquezaContra(elementoAlvo)){
+			}else if (this.temFraquezaContra(elementoAlvo) || this == elementoAlvo){
 				return 0.5;
 			}
 			return 1.0;

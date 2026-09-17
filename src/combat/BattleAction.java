@@ -19,6 +19,8 @@ public final class BattleAction {
 	private static final int CONSTANTE = 10;
 	private static final Random random = new Random();
 	
+	private static int[] resultados = new int[3];
+	
 	private BattleAction(){
 	}
 	
@@ -29,6 +31,8 @@ public final class BattleAction {
 		
 		usuario.ganharEstamina(novaEstamina);
 	}
+	
+	// ==================== VERIFICAÇÃO ====================
 	
 	protected static boolean verificarCustoHabilidade(Monsters usuario, Skills habilidade){
 		int estaminaAtualCombate = usuario.getEstaminaAtualCombate();
@@ -54,25 +58,28 @@ public final class BattleAction {
         return roll <= precisaoAtual;
 	}
 	
+	// ==================== EXECUÇÃO ====================
+	
     protected static BattleActionResult executarHabilidade(Monsters usuario, List<Monsters> alvos, Skills habilidade){
 		int estaminaAtualCombate = usuario.getEstaminaAtualCombate();
 		int energiaHabilidade = habilidade.getEnergiaHabilidade();
-		int danoResultado = 0;
+		resultados[0] = 0;
+		resultados[1] = BattleActionResult.EFETIVO;
 		
         usuario.setEstaminaAtualCombate(estaminaAtualCombate - energiaHabilidade);
         
 		if (!verificarPrecisao(usuario, alvos, habilidade)){
-			return new BattleActionResult(danoResultado, false);
-		}			
+			return new BattleActionResult(resultados[0], resultados[1], false);
+		}
 		
-        if (habilidade.getPoderHabilidade() > 0) danoResultado = calcularDano(usuario, alvos, habilidade);
+        if (habilidade.getPoderHabilidade() > 0) resultados[0] = calcularDano(usuario, alvos, habilidade);
 		
 		aplicarEfeitos(usuario, alvos, habilidade);
 		
 		carregarEspecialMonstros(usuario, alvos, habilidade);
 		
 		habilidade.ativarRecarga();
-		return new BattleActionResult(danoResultado, true);
+		return new BattleActionResult(resultados[0], resultados[1], true);
     }
 	
 	private static void carregarEspecialMonstros(Monsters usuario, List<Monsters> alvos, Skills habilidade){
@@ -94,6 +101,8 @@ public final class BattleAction {
 			usuario.zerarEspecial();
 		}
 	}
+	
+	// ==================== CÁLCULO ====================
 	
 	private static int calcularDano(Monsters usuario, List<Monsters> alvos, Skills habilidade){
 		int forçaMonstro = usuario.getForcaAtualCombate();
@@ -120,6 +129,14 @@ public final class BattleAction {
 			regenerarEstamina(monstro, elementoAtaque);
 			
 			double multiplicadorElemental = calcularMultiplicadorElemental(monstro, elementoAtaque);
+			
+			if (multiplicadorElemental == 1.0){
+				resultados[1] = BattleActionResult.EFETIVO;
+			}else if (multiplicadorElemental < 1.0){
+				resultados[1] = BattleActionResult.NÃO_EFETIVO;
+			}else if (multiplicadorElemental > 1.0){
+				resultados[1] = BattleActionResult.SUPER_EFETIVO;
+			}
 			
 			int danoFinal = (int) ((danoBase * danoAumentado) * multiplicadorElemental);
 			danoSomado += danoFinal;
@@ -151,6 +168,8 @@ public final class BattleAction {
 		
 		return multiplicadorElemental;
 	}
+	
+	// ==================== OUTROS ====================
 	
 	private static void regenerarEstamina(Monsters monstro, Monsters.Elementos elementoAtaque){
 		if (monstro.getHarmonizado() <= 0) return;

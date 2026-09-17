@@ -230,10 +230,13 @@ public final class BattleField {
 			Grapchics.desenhaTela("____________________", 0,linhaAtual++, Grapchics.PRETO_CLARO);
 			Grapchics.desenhaTela((char)6, 0, linhaAtual, Grapchics.VERMELHO_CLARO);
 			desenhaHabilidadeUsadaInimigo();
+			
 			if (danoTurnoInimigo != "" && danoTurnoInimigo != null) Grapchics.desenhaTTF(danoTurnoInimigo, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
 			this.resultadoAção = inimigoAI.getResultadoAção();
 			
 			if (resultadoAção != null && !resultadoAção.isAcerto()) Grapchics.desenhaTTF(">>Errou!", 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+			if (resultadoAção != null && resultadoAção.isAcerto()) desenhaEfetividade();
+			
 			Grapchics.desenhaTTF("[ENTER]  ", 0, linhaAtual++, Grapchics.AMARELO_CLARO);
 			Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 		}
@@ -242,10 +245,22 @@ public final class BattleField {
 			Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
 			Grapchics.desenhaTela((char)4, 0, linhaAtual, Grapchics.AZUL_CLARO);
 			desenhaHabilidadeUsadaAliado();
+			
 			if (danoTurnoAliado != "" && danoTurnoAliado != null) Grapchics.desenhaTTF(danoTurnoAliado, 0, linhaAtual++, Grapchics.BRANCO_CLARO);
 			if (resultadoAção != null && !resultadoAção.isAcerto()) Grapchics.desenhaTTF(">>Errou!", 0, linhaAtual++, Grapchics.BRANCO_CLARO);
+			if (resultadoAção != null && resultadoAção.isAcerto()) desenhaEfetividade();
+			
 			Grapchics.desenhaTTF("[ENTER]  ", 0, linhaAtual++,  Grapchics.AMARELO_CLARO);
 			Grapchics.desenhaTela("____________________", 0, linhaAtual++, Grapchics.PRETO_CLARO);
+		}
+	}
+	
+	private void desenhaEfetividade(){
+		if (resultadoAção.getEfetividade() == BattleActionResult.NÃO_EFETIVO){
+			Grapchics.desenhaTTF(">>", 0, linhaAtual, Grapchics.BRANCO_CLARO);
+			Grapchics.desenhaTTF("Não efetivo...", 2, linhaAtual++, Grapchics.PRETO_CLARO);
+		}else if (resultadoAção.getEfetividade() == BattleActionResult.SUPER_EFETIVO){
+			Grapchics.desenhaTTF(">>Super efetivo!", 0, linhaAtual++, Grapchics.BRANCO_CLARO);
 		}
 	}
 	
