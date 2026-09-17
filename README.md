@@ -2,7 +2,8 @@
 
 Um RPG baseado em turnos.
 
-```Windows
+```
+# Windows
 # 1. Cria a pasta build
 mkdir build 2>nul
 
@@ -14,9 +15,10 @@ javac -cp "lib/*" -d build @lista_fontes.txt
 
 # 4. Executa a aplicação (modo debug -d)
 java -cp "lib/*;build" main.Main -d
-'''
+```
 
-```Linux / macOS
+```
+# Linux / macOS
 # 1. Cria a pasta build
 mkdir -p build
 
@@ -28,4 +30,4 @@ javac -cp "lib/*" -d build @lista_fontes.txt
 
 # 4. Executa a aplicação (modo debug -d)
 java -cp "lib/*:build" main.Main -d
-'''
+```
