@@ -2,7 +2,7 @@ package world;
 
 import static main.Terminal.mudarEstado;
 
-import main.Inventory;
+import main.inventory.Inventory;
 import main.Player;
 import main.Shop;
 import main.Title;

@@ -35,6 +35,8 @@ public final class BattleAction {
 	// ==================== VERIFICAÇÃO ====================
 	
 	protected static boolean verificarCustoHabilidade(Monsters usuario, Skills habilidade){
+		if (usuario == null || habilidade == null) return false;
+		
 		int estaminaAtualCombate = usuario.getEstaminaAtualCombate();
 		int energiaHabilidade = habilidade.getEnergiaHabilidade();
 		
@@ -46,6 +48,8 @@ public final class BattleAction {
 	}
 	
 	private static boolean verificarPrecisao(Monsters usuario, List<Monsters> alvos, Skills habilidade){
+		if (usuario == null || habilidade == null) return false;
+		
 		if (habilidade.getTipoHabilidade() == Skills.TipoHabilidade.ESPECIAL || 
 		habilidade.getTipoHabilidade() == Skills.TipoHabilidade.DEFENSIVA) return true;
 		
@@ -60,7 +64,7 @@ public final class BattleAction {
 	
 	// ==================== EXECUÇÃO ====================
 	
-    protected static BattleActionResult executarHabilidade(Monsters usuario, List<Monsters> alvos, Skills habilidade){
+    protected static BattleActionResult executarHabilidade(Monsters usuario, List<Monsters> alvos, Skills habilidade){		
 		int estaminaAtualCombate = usuario.getEstaminaAtualCombate();
 		int energiaHabilidade = habilidade.getEnergiaHabilidade();
 		resultados[0] = 0;

@@ -1,6 +1,6 @@
 package util.commands;
 
-import main.Inventory;
+import main.inventory.Inventory;
 import bestiary.Monsters;
 import manager.MonstersManager;
 

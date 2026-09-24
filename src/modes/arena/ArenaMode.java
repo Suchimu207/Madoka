@@ -6,7 +6,7 @@ import bestiary.*;
 import combat.Battle;
 import combat.effects.Effects;
 
-import main.Inventory;
+import main.inventory.Inventory;
 import main.Player;
 import main.Shop;
 
@@ -388,8 +388,7 @@ public class ArenaMode implements GameState{
 				ArenaMode.rodadaAtual++;
 				ArenaMode.rodadaBuff++;
 				
-				cursor = ArenaMode.rodadaAtual + Input.getCursorY();
-				Input.setCursorY(cursor);
+				Input.setCursorY(ArenaMode.rodadaAtual);
 				
 				if (subEstadoAtual == SubEstadosArena.TORNEIO){
 					torneioVencido();
@@ -402,6 +401,7 @@ public class ArenaMode implements GameState{
 				subEstadoAtual = null;
 				if (buffsAtuais != null) buffsAtuais.clear();
 				Input.resetarCursor();
+				Battle.resetarVitória();
 			}
 		}
 		ArenaMode.batalha = false;

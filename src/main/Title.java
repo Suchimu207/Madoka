@@ -2,6 +2,8 @@ package main;
 
 import static main.Terminal.mudarEstado;
 
+import main.inventory.Inventory;
+
 import util.Audio;
 import util.CommandManager;
 import util.GameState;

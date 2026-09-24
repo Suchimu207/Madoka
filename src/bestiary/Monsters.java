@@ -47,7 +47,8 @@ public class Monsters {
 		TERRA("Terra"),
 		TROVAO("Trovão"),
 		AGUA("Água"),
-		FISICO("Físico");
+		FISICO("Físico"),
+		ETER("Éter");
 		
 		private final String nomeElemento;
 		
@@ -60,19 +61,21 @@ public class Monsters {
 		}
 		
 		public boolean temVantagemContra(Elementos outro){
-			if (outro == null || this == FISICO || outro == FISICO) return false;
-		
+			if (outro == null) return false;
+			
 			switch (this){
 				case FOGO:     return outro == NATUREZA;
-				case NATUREZA: return outro == METAL;
+				case NATUREZA: return outro == VENTO;
 				case METAL:    return outro == MAGIA;
-				case MAGIA:    return outro == VENTO;
+				case MAGIA:    return outro == FISICO;
 				case VENTO:    return outro == LUZ;
 				case LUZ:      return outro == TREVAS;
 				case TREVAS:   return outro == TERRA;
 				case TERRA:    return outro == TROVAO;
 				case TROVAO:   return outro == AGUA;
 				case AGUA:     return outro == FOGO;
+				
+				case ETER:     return outro == FOGO || outro == AGUA || outro == TERRA || outro == VENTO || outro == METAL;
 				default:       return false;
 			}
 		}

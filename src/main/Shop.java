@@ -3,8 +3,9 @@ package main;
 import static main.Terminal.mudarEstado;
 
 import bestiary.Monsters;
-import manager.MonstersManager;
 import bestiary.Skills;
+import main.inventory.Inventory;
+import manager.MonstersManager;
 import manager.SkillsManager;
 
 import util.GameState;

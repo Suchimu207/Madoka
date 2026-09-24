@@ -8,7 +8,7 @@ import combat.*;
 import combat.effects.Effects;
 
 import main.Player;
-import main.Inventory;
+import main.inventory.Inventory;
 
 import manager.TroopManager;
 
@@ -66,7 +66,7 @@ public final class Battle implements GameState{
 	}
 	
 	public Battle(Troop tropaCarregada, List<Effects> efeitos){
-		new Battle(tropaCarregada);
+		this(tropaCarregada);
 		if (efeitos == null || efeitos.size() <= 0) return;
 		
 		Battle.efeitos = efeitos;

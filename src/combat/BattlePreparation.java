@@ -1,6 +1,6 @@
 package combat;
 
-import main.Inventory;
+import main.inventory.Inventory;
 import bestiary.Monsters;
 import bestiary.Skills;
 import bestiary.Troop;

@@ -183,7 +183,14 @@ public final class Grapchics {
 	// ==================== MÉTODOS AUXILIARES ====================
 	
 	public static void limpaTela(){
-		tela.clear();
+		int camadaOriginal = tela.getActiveLayer();
+		int numLayers = tela.getNumLayers();
+		for (int i = 0; i < numLayers; i++){
+			tela.setActiveLayer(i);
+			tela.clear();
+		}
+		tela.setActiveLayer(camadaOriginal); 
+		// tela.clear();
 	}
 	
 	public static void atualizarTela(){
