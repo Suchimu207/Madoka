@@ -148,36 +148,22 @@ public final class Shop implements GameState{
     public void recebeComando(int tecla, Set<Integer> teclasPressionadas){
 		switch (tecla){
 			case KeyEvent.VK_A:
-			case KeyEvent.VK_LEFT:
-				teclaEsquerda();
-				break;
+			case KeyEvent.VK_LEFT: teclaEsquerda(); break;
+				
 			case KeyEvent.VK_D:
-			case KeyEvent.VK_RIGHT:
-				teclaDireita();
-				break;
+			case KeyEvent.VK_RIGHT: teclaDireita(); break;
+				
 			case KeyEvent.VK_W:
-			case KeyEvent.VK_UP:
-				teclaCima();
-				break;
+			case KeyEvent.VK_UP: teclaCima(); break;
+				
 			case KeyEvent.VK_S:
-			case KeyEvent.VK_DOWN:
-				teclaBaixo();
-				break;
-			case KeyEvent.VK_ENTER:
-				teclaEnter();
-				break;
-			case KeyEvent.VK_SHIFT:
-				teclaShift();
-				break;
-			case KeyEvent.VK_E:
-				teclaInventário();
-				break;
-			case KeyEvent.VK_Q:
-				teclaComprar();
-				break;
-			case KeyEvent.VK_ESCAPE:
-				teclaEsc();
-				break;
+			case KeyEvent.VK_DOWN: teclaBaixo(); break;
+				
+			case KeyEvent.VK_ENTER: teclaEnter(); break;
+			case KeyEvent.VK_SHIFT: teclaShift(); break;
+			case KeyEvent.VK_E: teclaInventário(); break;
+			case KeyEvent.VK_Q: teclaComprar(); break;
+			case KeyEvent.VK_ESCAPE: teclaEsc(); break;
 		}
 	}
 	
@@ -263,9 +249,9 @@ public final class Shop implements GameState{
     private static void desenhaLoja(){
 		linhaItem = 0;
 		tamanhoLoja = estoque.size();
-        inicioLista = (paginaAtual - 1) * 28;
-        fimLista = Math.min(inicioLista + 28, tamanhoLoja);
-		totalPaginas = Math.max(1, (int) Math.ceil(tamanhoLoja / 28.0));
+        inicioLista = (paginaAtual - 1) * 29;
+        fimLista = Math.min(inicioLista + 29, tamanhoLoja);
+		totalPaginas = Math.max(1, (int) Math.ceil(tamanhoLoja / 29.0));
 		
 		if (Input.getCursorY() < inicioLista) Input.setCursorY(fimLista);
 		if (Input.getCursorY() >= fimLista) Input.setCursorY(inicioLista);
@@ -442,7 +428,9 @@ public final class Shop implements GameState{
 			Grapchics.desenhaTTF("E: Sair", 0, linhaItem++, Grapchics.PRETO_CLARO);
 		}
 		
-        Grapchics.desenhaTTF("Q: Comprar", 0, linhaItem++, Grapchics.PRETO_CLARO);
+        if (carrinho != null && carrinho.size() >= 1){
+			Grapchics.desenhaTTF("Q: Comprar", 0, linhaItem++, Grapchics.PRETO_CLARO);
+		}
         
 		if (!isLongeDoCaixa){
 			Grapchics.desenhaTTF("Shift: Ver detalhes", 0, linhaItem++, Grapchics.PRETO_CLARO);

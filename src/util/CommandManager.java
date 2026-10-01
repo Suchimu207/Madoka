@@ -43,9 +43,7 @@ public final class CommandManager {
     }
     
     private static void registrarComandos(){
-        // comandos.put("help", new HelpCommand());
         comandos.put("player", new PlayerCommand());
-		comandos.put("monster", new MonsterCommand());
         // comandos.put("battle", new BattleCommand());
         // comandos.put("troop", new TroopCommand());
     }
@@ -71,6 +69,10 @@ public final class CommandManager {
 		boolean retorno = false;
 		
 		switch (comando){
+			case "help":
+				comandoHelp();
+				retorno = true;
+			break;
 			case "cls":
             case "clear":
 				Debug.limpaPrompt();
@@ -84,6 +86,15 @@ public final class CommandManager {
         }
 		return retorno;
 	}
+	
+	private static void comandoHelp(){
+		String uso = "Comandos: \n"+
+		">>cls|clear: Limpa o prompt. \n"+
+		">>reload: Recarrega os dados do jogo. \n"+
+		">>player: "+new PlayerCommand().getDescricao();
+		
+        System.out.println(uso);
+    }
 	
     public static void parar(){
         ativo = false;

@@ -172,5 +172,29 @@
     "nome": "Dano aumentado (100%)",
     "tipo": "POSITIVE",
     "subtipo": "BUFF"
+  },
+  {
+    "id": 29,
+    "nome": "Sangramento",
+    "tipo": "NEGATIVE",
+    "subtipo": "DOT"
+  },
+  {
+    "id": 30,
+    "nome": "Dano reduzido (25%)",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 31,
+    "nome": "Dano reduzido (50%)",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
+  },
+  {
+    "id": 32,
+    "nome": "Dano reduzido (75%)",
+    "tipo": "NEGATIVE",
+    "subtipo": "DEBUFF"
   }
 ]

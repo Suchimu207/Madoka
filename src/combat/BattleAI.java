@@ -14,6 +14,7 @@ public final class BattleAI {
 	// ==================== ATRIBUTOS ====================
 	
 	private static final Random random = new Random();
+	private static final int PROVOCATION_STATUS_ID = 11;
 	
 	private BattleUnit unidadeAlvo;
 	private Skills ultimaSkill = null;
@@ -51,8 +52,8 @@ public final class BattleAI {
 				
 				this.resultadoAção = BattleAction.executarHabilidade(monstroInimigo, alvos, habilidade);
 				
-				if (!this.resultadoAção.isAcerto()) Audio.tocarSom("Miss", 0.3f);
-				if (this.resultadoAção.isAcerto() && this.resultadoAção.getDanoRealizado() > 0) Audio.tocarSom("Damage", 0.3f);
+				if (!this.resultadoAção.isAcerto()) Audio.tocarSom("Miss", 0.1f);
+				if (this.resultadoAção.isAcerto() && this.resultadoAção.getDanoRealizado() > 0) Audio.tocarSom("Damage", 0.1f);
 				
 				int danoRealizado = resultadoAção.getDanoRealizado();
 				String nomeMonstro = monstroInimigo.getNomeMonstro()+" usou ";
@@ -72,7 +73,7 @@ public final class BattleAI {
 	
 	private void recarregarEnergiaUsuário(Monsters monstro){
 		BattleAction.recarregarEnergia(monstro);
-		Audio.tocarSom("Charge", 0.3f);
+		Audio.tocarSom("Charge", 0.1f);
 		
 		String frase = monstro.getNomeMonstro()+ " recarrega.";
 		Battle.exibirMensagemInimigo(frase,null,null);
@@ -125,7 +126,7 @@ public final class BattleAI {
 				if (!timeJogador.isEmpty()){
 					List<Monsters> alvosComProvocacao = new ArrayList<>();
 					for (Monsters monstro : timeJogador){
-						if (monstro.possuiStatus(11)){
+						if (monstro.possuiStatus(PROVOCATION_STATUS_ID)){
 							alvosComProvocacao.add(monstro);
 						}
 					}

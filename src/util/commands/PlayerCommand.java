@@ -87,6 +87,59 @@ public class PlayerCommand implements Command {
                 System.out.println(">>Perdido: "+quantidade+" de ouro.");
                 System.out.println(">>Ouro atual: "+Player.getOuro());
                 break;
+				
+			case "monster":
+				if (args.length < 2){
+					System.out.println("Uso: player monster <levelUp|levelUpAll>");
+					return;
+				}
+				String comandoMonstro = args[1];
+				
+				if (comandoMonstro.equalsIgnoreCase("levelUp")){
+					if (args.length < 4){
+						System.out.println("Uso: player monster levelUp <id_Inventário> <nível>");
+						return;
+					}
+					id = Integer.parseInt(args[2]);
+					int valor = Integer.parseInt(args[3]);
+					monstro = Inventory.getMonstroInventario(id);
+					if (monstro == null){
+						System.out.println("Monstro (ID_Inventário:"+id+")"+" não encontrado.");
+					}else{
+						if (monstro.isNivelMaximo()){
+							System.out.println(monstro.getNomeMonstro()+" (ID_Inventário:"+id+")"+
+							" está no nível máximo ("+monstro.getNivelMaximo()+").");
+						}else{
+							monstro.subirNivel(valor);
+							System.out.println(monstro.getNomeMonstro()+" (ID_Inventário:"+id+")"+" subiu para o nível "+monstro.getNivelAtual()+".");
+						}
+					}
+				}
+				
+				if (comandoMonstro.equalsIgnoreCase("levelUpAll")){
+					if (args.length < 3){
+						System.out.println("Uso: player monster levelUpAll <nível>");
+						return;
+					}
+					int valor = Integer.parseInt(args[2]);
+					int tamanhoInventário = Inventory.getTamanhoInventario();
+					
+					for (int m = 1; m <= tamanhoInventário; m++){
+						monstro = Inventory.getMonstroInventario(m);
+						if (monstro == null) continue;
+						
+						if (monstro.isNivelMaximo()){
+							System.out.println(monstro.getNomeMonstro()+" (ID_Inventário:"+ m+")"+
+							" está no nível máximo ("+monstro.getNivelMaximo()+").");
+						}else{
+							monstro.subirNivel(valor);
+							System.out.println(monstro.getNomeMonstro()+" (ID_Inventário:"+ m+")"+
+							" subiu para o nível "+monstro.getNivelAtual()+".");
+						}
+					}
+				}
+				
+				break;
         }
     }
     
@@ -98,7 +151,9 @@ public class PlayerCommand implements Command {
 		"removeMonster <id_Inventário> \n"+
 		"removeAllMonsters \n"+
 		"gainGold <quantidade> \n"+
-		"loseGold <quantidade>";
+		"loseGold <quantidade> \n"+
+		"monster levelUp <id_Inventário> <nível> \n"+
+		"monster levelUpAll <nível>";
 		
         return uso;
     }

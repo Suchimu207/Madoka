@@ -25,6 +25,8 @@ public final class BattleUnit {
 	protected int calcularActionValue(){
 		if (this.monstro == null) return Integer.MAX_VALUE;
 		this.speed = this.monstro.getSpeedAtualCombate();
+		this.speed = Math.max(1, this.speed);
+		
 		return BASE_ACTION_VALUE_CONSTANT / this.speed; 
 	}
 	

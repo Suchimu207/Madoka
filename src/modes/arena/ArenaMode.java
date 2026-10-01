@@ -136,33 +136,21 @@ public class ArenaMode implements GameState{
     public void recebeComando(int tecla, Set<Integer> teclasPressionadas){
 		switch (tecla){
 			case KeyEvent.VK_A:
-			case KeyEvent.VK_LEFT:
-				teclaEsquerda();
-				break;
+			case KeyEvent.VK_LEFT: teclaEsquerda(); break;
+				
 			case KeyEvent.VK_D:
-			case KeyEvent.VK_RIGHT:
-				teclaDireita();
-				break;
+			case KeyEvent.VK_RIGHT: teclaDireita(); break;
+				
 			case KeyEvent.VK_W:
-			case KeyEvent.VK_UP:
-				teclaCima();
-				break;
+			case KeyEvent.VK_UP: teclaCima(); break;
+				
 			case KeyEvent.VK_S:
-			case KeyEvent.VK_DOWN:
-				teclaBaixo();
-				break;
-			case KeyEvent.VK_ENTER:
-				teclaEnter();
-				break;
-			case KeyEvent.VK_SHIFT:
-				teclaShift();
-				break;
-			case KeyEvent.VK_E:
-				teclaInventário();
-				break;
-			case KeyEvent.VK_ESCAPE:
-				teclaEsc();
-				break;
+			case KeyEvent.VK_DOWN: teclaBaixo(); break;
+				
+			case KeyEvent.VK_ENTER: teclaEnter(); break;
+			case KeyEvent.VK_SHIFT: teclaShift(); break;
+			case KeyEvent.VK_E: teclaInventário(); break;
+			case KeyEvent.VK_ESCAPE: teclaEsc(); break;
 		}
 	}
 	
@@ -215,13 +203,13 @@ public class ArenaMode implements GameState{
 	}
 	
 	private void teclaInventário(){
-		if (subEstadoAtual == SubEstadosArena.TORNEIO){
-            subEstadoAtual = null;
+		if (ArenaMode.subEstadoAtual == SubEstadosArena.TORNEIO){
+            ArenaMode.subEstadoAtual = null;
 			buffsAtuais.clear();
             Input.resetarCursor();
             Input.setCursorY(4);
         }else{
-			subEstadoAtual = null;
+			ArenaMode.subEstadoAtual = null;
 			torneioSelecionado = -1;
             Terminal.mudarEstado(new Maps());
         }

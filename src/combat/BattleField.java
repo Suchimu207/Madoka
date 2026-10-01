@@ -68,6 +68,7 @@ public final class BattleField {
 	private boolean aguardandoAliado = false; 
 	private boolean especialAtivo = false;
 	private boolean vitóriaBatalha = false;
+	private boolean batalhaFinalizada = false;
 	
 	private String mensagemTurnoInimigo = null;
 	private String danoTurnoInimigo = null;
@@ -110,7 +111,9 @@ public final class BattleField {
 		this.maxInimigos = tropa.getMonstros().size();
 		this.posiçõesInimigosX = new ArrayList<Integer>();
 		this.posiçõesInimigosY = new ArrayList<Integer>();
-		this.inimigoAI = new BattleAI();	
+		this.inimigoAI = new BattleAI();
+		
+		this.batalhaFinalizada = false;
 	}
 	
 	private void prepararMonstros(){
@@ -337,6 +340,8 @@ public final class BattleField {
 		posiçõesInimigosX.clear();
 		posiçõesInimigosY.clear();
 		
+		if (inimigos.size() <= 0) return;
+		
 		if(inimigos.get(0) != null){
 			desenhaMonstroBatalha(inimigos.get(0), 24, linhaAtual-4);
 			posiçõesInimigosX.add(24);
@@ -372,8 +377,9 @@ public final class BattleField {
             int av = unidade.getActionValue();
 			boolean ehAliado = unidade.isAliado();
 			Monsters monstroUnidade = BattleTurn.getUnidadeAtual().getMonstro();
+			if (monstroUnidade == null) continue; 
 			boolean unidadeAtual = (monstroUnidade == monstro);
-
+			
             String texto = nome + " (AV: " + av + ")";
             if (unidade == BattleTurn.getUnidadeAtual()){
 				texto += (char)17;
@@ -853,10 +859,10 @@ public final class BattleField {
 					.append(" (").append(status.getDuraçãoAtual()).append("t)");
 				}
 				
-				if (status.isPositivo()){
+				if (status.isPositivo() && status != null){
 					indicador = "[+] ";
 					Grapchics.desenhaTela(indicador, 0, linhaAtual, Grapchics.VERDE_CLARO);
-				}else if (!status.isPositivo()){
+				}else if (!status.isPositivo() && status != null){
 					indicador = "[-] ";
 					Grapchics.desenhaTela(indicador, 0, linhaAtual, Grapchics.VERMELHO_CLARO);
 				}
@@ -875,14 +881,14 @@ public final class BattleField {
 		if (aguardandoInimigo){
 			confirmarMensagemInimigo();
 			Input.resetarCursor();
-			Audio.tocarSom("Confirm", 0.3f);
+			Audio.tocarSom("Confirm", 0.1f);
 			return;
 		}
 		
 		if (aguardandoAliado){
 			confirmarMensagemAliado();
 			Input.resetarCursor();
-			Audio.tocarSom("Confirm", 0.3f);
+			Audio.tocarSom("Confirm", 0.1f);
 			return;
 		}
 		
@@ -892,7 +898,7 @@ public final class BattleField {
         
         if (!selecionarAlvo){
             selecionarAlvo = true;
-			Audio.tocarSom("Confirm", 0.3f);
+			Audio.tocarSom("Confirm", 0.1f);
             return;
         }
         
@@ -907,8 +913,8 @@ public final class BattleField {
 				
 				resultadoAção = BattleAction.executarHabilidade(usuario, monstrosAlvos, skillSelecionada);
 				
-				if (!resultadoAção.isAcerto()) Audio.tocarSom("Miss", 0.3f);
-				if (resultadoAção.isAcerto() && resultadoAção.getDanoRealizado() > 0) Audio.tocarSom("Damage", 0.3f);
+				if (!resultadoAção.isAcerto()) Audio.tocarSom("Miss", 0.1f);
+				if (resultadoAção.isAcerto() && resultadoAção.getDanoRealizado() > 0) Audio.tocarSom("Damage", 0.1f);
 				
                 int danoRealizado = resultadoAção.getDanoRealizado();
 				String nomeMonstro = usuario.getNomeMonstro() + " usou ";
@@ -934,7 +940,7 @@ public final class BattleField {
 		if (selecionarAlvo) selecionarAlvo = false;
 		skillUsada = null;
 		
-		Audio.tocarSom("Charge", 0.3f);
+		Audio.tocarSom("Charge", 0.1f);
 		
 		String frase = usuario.getNomeMonstro()+" recarrega.";
 		Battle.exibirMensagemAliado(frase, null, null);
@@ -943,7 +949,7 @@ public final class BattleField {
 	protected void ativarEspecial(){
 		if (aguardandoAliado){
 			confirmarMensagemAliado();
-			Audio.tocarSom("Confirm", 0.3f);
+			Audio.tocarSom("Confirm", 0.1f);
 			return;
 		}
 		
@@ -953,7 +959,7 @@ public final class BattleField {
 		
 		skillSelecionada = skillEspecial;
 		
-		Audio.tocarSom("Special", 0.3f);
+		Audio.tocarSom("Special", 0.1f);
 		
 		if (!selecionarAlvo && especialAtivo){
             selecionarAlvo = true;
@@ -987,6 +993,22 @@ public final class BattleField {
 	
 	private boolean verificarFimBatalha(){
 		if (todosInimigosDerrotados()){
+			vitóriaBatalha = true;
+			batalhaFinalizada = true;
+			return true;
+		}
+		
+		if (todosAliadosDerrotados()){
+			vitóriaBatalha = false;
+			batalhaFinalizada = true;
+            return true;
+        }
+		
+		return false;
+	}
+	
+	private void finalizarBatalha(){
+		if (vitóriaBatalha){
 			Battle.setSubEstadoAtual(Battle.SubEstadosBatalha.VITORIA);
 			
 			int exp = tropa.getExp();
@@ -998,18 +1020,9 @@ public final class BattleField {
 				aliados[i].ganharExp(exp);
 			}
 			Player.ganharOuro(ouro);
-			
-			vitóriaBatalha = true;
-			return true;
+		}else{
+			Battle.setSubEstadoAtual(Battle.SubEstadosBatalha.DERROTA);
 		}
-		
-		if (todosAliadosDerrotados()){
-            Battle.setSubEstadoAtual(Battle.SubEstadosBatalha.DERROTA);
-			vitóriaBatalha = false;
-            return true;
-        }
-		
-		return false;
 	}
 	
 	private boolean todosInimigosDerrotados(){
@@ -1085,7 +1098,8 @@ public final class BattleField {
 		this.aguardandoInimigo = false;
 		this.resultadoAção = null;
 		
-		BattleTurn.finalizarTurno(); 
+		BattleTurn.finalizarTurno();
+		if (this.batalhaFinalizada) finalizarBatalha();
 	}
 	
 	protected void confirmarMensagemAliado(){
@@ -1100,6 +1114,7 @@ public final class BattleField {
 		monstrosAlvos.clear();
 		
 		BattleTurn.finalizarTurno();
+		if (this.batalhaFinalizada) finalizarBatalha();
 	}
 	
 	protected void processarTurno(){

@@ -37,24 +37,18 @@ public final class Title implements GameState{
     public void recebeComando(int tecla, Set<Integer> teclasPressionadas){
 		switch (tecla){
 			case KeyEvent.VK_A:
-			case KeyEvent.VK_LEFT:
-				teclaEsquerda();
-			break;
+			case KeyEvent.VK_LEFT: teclaEsquerda(); break;
+			
 			case KeyEvent.VK_D:
-			case KeyEvent.VK_RIGHT:
-				teclaDireita();
-			break;
+			case KeyEvent.VK_RIGHT: teclaDireita(); break;
+			
 			case KeyEvent.VK_W:
-			case KeyEvent.VK_UP:
-				teclaCima();
-			break;
+			case KeyEvent.VK_UP: teclaCima(); break;
+			
 			case KeyEvent.VK_S:
-			case KeyEvent.VK_DOWN:
-				teclaBaixo();
-			break;
-			case KeyEvent.VK_ENTER:
-				teclaEnter();
-			break;
+			case KeyEvent.VK_DOWN: teclaBaixo(); break;
+			
+			case KeyEvent.VK_ENTER: teclaEnter(); break;
 		}
 	}
 	
@@ -76,13 +70,13 @@ public final class Title implements GameState{
 	
 	private void teclaEnter(){
 		if (Input.getCursorY() == 1){
-			Audio.tocarSom("NewGame", 0.3f);
+			Audio.tocarSom("NewGame", 0.1f);
 			Player.setarJogador();
 			Inventory.inicializarInventario();
 			Grapchics.limpaTela();
 			mudarEstado(new Maps());
         }else if (Input.getCursorY() == 2){
-			Audio.tocarSom("Confirm", 0.3f);
+			Audio.tocarSom("Confirm", 0.1f);
 			Grapchics.limpaTela();
 			mudarEstado(new Maps());
 		}else if (Input.getCursorY() == 3){

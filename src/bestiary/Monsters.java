@@ -735,6 +735,7 @@ public class Monsters {
 		if (elementos.contains(Elementos.TREVAS.toString())) return Grapchics.ELEMENTO_TREVAS;
 		if (elementos.contains(Elementos.METAL.toString())) return Grapchics.ELEMENTO_METAL;
 		if (elementos.contains(Elementos.VENTO.toString())) return Grapchics.ELEMENTO_VENTO;
+		if (elementos.contains(Elementos.FISICO.toString())) return Grapchics.ELEMENTO_FISICO;
 		return Grapchics.BRANCO_CLARO;
 	}
 	

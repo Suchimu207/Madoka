@@ -147,7 +147,7 @@ public final class BattleAction {
 			monstro.perderVida(danoFinal);
 			
 			if (habilidade.getLifeSteal() > 0){
-				int cura = (int) Math.ceil(danoFinal * (habilidade.getLifeSteal() / 100));
+				int cura = (int) Math.ceil(danoFinal * (habilidade.getLifeSteal() / 100.0));
 				usuario.ganharVida(cura);
 			}
 			

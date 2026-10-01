@@ -130,19 +130,23 @@
 
 - id: 21
   descricao: |
+    [...]
+
+- id: 22
+  descricao: |
     Diferente de seus parentes 
     Green Bush, estes grandões usam 
     a força do seu peso para proteger 
     as florestas do Overworld.
     
-- id: 22
+- id: 23
   descricao: |
     Vapwhirl é um monstro errante do Overworld que viaja em busca de
     boas batalhas. Ele pode não ser 
     o mais forte, mas tem a capacidade 
     de virar o jogo a seu favor!
     
-- id: 23
+- id: 24
   descricao: |
     Tarzape leva uma vida sossegada nas 
     selvas do Overworld, repleta de 
@@ -150,7 +154,7 @@
     bastante pacífico, ele se defenderá 
     ferozmente se estiver em perigo.
 
-- id: 24
+- id: 25
   descricao: |
     Helmantica foi destruída há muito tempo, mas os sonhos de Jack se 
     tornaram realidade. E das ruínas, do
@@ -159,7 +163,7 @@
     Agora, será difícil para qualquer
     um detê-lo.
 
-- id: 25
+- id: 26
   descricao: |
     Nascido nas profundezas de um grande vulcão do Netherworld, Firekong  
     possui uma estrutura corporal incrivelmente densa, o que lhe 
@@ -168,14 +172,14 @@
     Seu amor pelo calor às vezes o leva 
     a se aproximar um pouco demais dos dragões!
 
-- id: 26
+- id: 27
   descricao: |
     Criatura solitária das Cavernas Profundas do Overworld, Omethyst demonstra uma resistência inigualável. 
     /
     Esse monstro adamantino é difícil de derrotar, mesmo para os mais
     poderosos.
     
-- id: 27
+- id: 28
   descricao: |
     Moradores das planícies rochosas do Overworld, os Obsidias são parentes 
     próximos dos Rockillas.
@@ -183,19 +187,19 @@
     Duas vezes mais ferozes que seus irmãos, esses agentes do caos não 
     são gente com quem se brinque.
     
-- id: 28
+- id: 29
   descricao: |
     Uma famosa boxeadora polvo das Profundezas do Overworld. 
     /
     Ela é conhecida pelo seu jeito... 
     Levemente trapaceiro.
     
-- id: 29
+- id: 30
   descricao: |
     No Netherworld, Esmelters são responsáveis por derreter o
     metal nas grandes fornalhas.
 
-- id: 30
+- id: 31
   descricao: |
     Fayemelia trabalha em uma taverna na Baía Pirata e já não suporta mais
     ser paparicada todos os dias.
@@ -206,3 +210,36 @@
     por perto".
     /
     No entanto, tome cuidado com seu temperamento explosivo; se você a irritar, vai sentir na pele.
+
+- id: 32
+  descricao: |
+    The Blesstle, the Water Realm's ambassadors of light. These shy and 
+    gentle creatures swoop gently from sky to water, water to sky with ease. Their shells 
+    come with a free golden paint job. (adaptar)
+
+- id: 33
+  descricao: |
+    The Light Sphinxes were the holy guardians of the ancient pharaohs. Nowadays 
+    they watch over the tombs to keep out adventurers who seek to plunder their vast treasures! (adaptar)
+    
+- id: 34
+  descricao: |
+    Flickies are the inhabitants of the ‘dark fire’ pits, unseen by man for generations. 
+    These quirky, fast-moving gremlins are capable of causing chaos wherever they roam. (adaptar)
+    
+- id: 35
+  descricao: |
+    A young Greenasaur has little control over her flames and can be a menace in the forest, suffering exile and rejection. 
+    However, once grown, Greenasaur helps to protect everything she loves with strength and wisdom. (adaptar)
+    
+- id: 36
+  descricao: |
+    Things get very messy when Gastosquish is involved! Slick and slimy, Gastosquish 
+    is great for supporting your team and soaking up enemy attacks. (adaptar)
+    
+- id: 37
+  descricao: |
+    Manolyth has a bit of a temper. He used to announce himself as the greatest sorcerer of all time 
+    but people didn’t take him seriously so he just started hexing everyone he didn’t like. 
+    Make sure you’re nice to him!
+    (Aprendiz de Goldfield, adaptar)

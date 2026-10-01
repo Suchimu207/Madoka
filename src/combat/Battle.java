@@ -124,47 +124,35 @@ public final class Battle implements GameState{
 		
 		switch (tecla){
 			case KeyEvent.VK_A:
-			case KeyEvent.VK_LEFT:
-				Input.decrementarCursorX();
-				teclaEsquerda();
-				break;
+			case KeyEvent.VK_LEFT:teclaEsquerda(); break;
+			
 			case KeyEvent.VK_D:
-			case KeyEvent.VK_RIGHT:
-				Input.incrementarCursorX();
-				teclaDireita();
-				break;
+			case KeyEvent.VK_RIGHT: teclaDireita(); break;
+			
 			case KeyEvent.VK_W:
-			case KeyEvent.VK_UP:
-				teclaCima();
-				break;
+			case KeyEvent.VK_UP: teclaCima(); break;
+			
 			case KeyEvent.VK_S:
-			case KeyEvent.VK_DOWN:
-				teclaBaixo();
-				break;
-			case KeyEvent.VK_ENTER:
-				teclaEnter();
-				break;
-			case KeyEvent.VK_SHIFT:
-				teclaShift();
-				break;
-			case KeyEvent.VK_E:
-				teclaE();
-				break;
-			case KeyEvent.VK_Q:
-				teclaQ();
-				break;
+			case KeyEvent.VK_DOWN: teclaBaixo(); break;
+			
+			case KeyEvent.VK_ENTER: teclaEnter(); break;
+			case KeyEvent.VK_SHIFT: teclaShift(); break;
+			case KeyEvent.VK_E: teclaE(); break;
+			case KeyEvent.VK_Q: teclaQ(); break;
 		}
 	}
 	
 	// ==================== TECLAS ====================
 	
 	private static void teclaEsquerda(){
+		Input.decrementarCursorX();
 		if (campoBatalha != null && subEstadoAtual == SubEstadosBatalha.CAMPO_DETALHES){
 			campoBatalha.alternarDetalhe(false);
 		}
 	}
 	
 	private static void teclaDireita(){
+		Input.incrementarCursorX();
 		if (campoBatalha != null && subEstadoAtual == SubEstadosBatalha.CAMPO_DETALHES){
 			campoBatalha.alternarDetalhe(true);
 		}

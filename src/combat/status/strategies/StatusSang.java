@@ -5,13 +5,13 @@ import bestiary.Monsters;
 import combat.status.StatusBase;
 import combat.status.StatusData;
 
-public class StatusVeneno extends StatusBase {
+public class StatusSang extends StatusBase {
 	private int duraçãoBase, duraçãoAtual;
 	private boolean isAtivo;
 	
 	private int forcaRemovida;
 	
-    public StatusVeneno(StatusData dados){
+    public StatusSang(StatusData dados){
         super(dados);
 		this.duraçãoBase = 0;
 		this.duraçãoAtual = 0;
@@ -34,7 +34,7 @@ public class StatusVeneno extends StatusBase {
 		
 		alvo.receberStatus(this);
     }
-	
+
     @Override
     public void checar(Monsters alvo){
 		if (duraçãoAtual <= 0) return;

@@ -86,6 +86,10 @@ public final class StatusManager {
 			case 26: return new StatusDamageIncreased(dados, 1.25);
 			case 27: return new StatusDamageIncreased(dados, 1.5);
 			case 28: return new StatusDamageIncreased(dados, 2.0);
+			case 29: return new StatusSang(dados);
+			case 30: return new StatusDamageDecreased(dados, 0.25);
+			case 31: return new StatusDamageDecreased(dados, 0.50);
+			case 32: return new StatusDamageDecreased(dados, 0.75);
             default: return null;
         }
 	}

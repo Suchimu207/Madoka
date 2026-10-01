@@ -4,14 +4,14 @@ import bestiary.Monsters;
 import combat.status.StatusBase;
 import combat.status.StatusData;
 
-public class StatusDamageIncreased extends StatusBase {
+public class StatusDamageDecreased extends StatusBase {
     private final double porcentagemBônus;
 	private double bonusAplicado;
     
     private int duraçãoBase, duraçãoAtual;
     private boolean isAtivo;
 	
-    public StatusDamageIncreased(StatusData dados, double porcentagemBônus){
+    public StatusDamageDecreased(StatusData dados, double porcentagemBônus){
         super(dados);
         this.porcentagemBônus = porcentagemBônus;
         this.duraçãoBase = 0;
@@ -21,17 +21,17 @@ public class StatusDamageIncreased extends StatusBase {
 	
     @Override
     public void aplicar(Monsters alvo, int duraçãoBase){
-        if (duraçãoBase <= 0) return;
+       if (duraçãoBase <= 0) return;
 		
         this.bonusAplicado = this.porcentagemBônus;
         
         double bônusAtual = alvo.getDamageBonus();
-        alvo.setDamageBonus(bônusAtual + this.bonusAplicado);
+        alvo.setDamageBonus(bônusAtual - this.bonusAplicado);
 		
         this.duraçãoBase = duraçãoBase;
         this.duraçãoAtual = duraçãoBase;
         this.isAtivo = true;
-
+		
         alvo.receberStatus(this);
     }
 
@@ -46,7 +46,7 @@ public class StatusDamageIncreased extends StatusBase {
         if (duraçãoAtual <= 0){
             isAtivo = false;
             double bônusAtual = alvo.getDamageBonus();
-            alvo.setDamageBonus(bônusAtual - this.bonusAplicado);
+            alvo.setDamageBonus(bônusAtual + this.bonusAplicado);
         }
     }
 	
@@ -68,7 +68,7 @@ public class StatusDamageIncreased extends StatusBase {
 
     @Override
     public boolean isPositivo(){
-        return true;
+        return false;
     }
 	
     @Override
